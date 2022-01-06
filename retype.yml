@@ -1,0 +1,39 @@
+input: .
+output: .retype
+url: https://docs.slatebox.com
+branding:
+  title: Slatebox
+  label: Docs
+links:
+- text: Slatebox
+  link: https://slatebox.com
+- text: Installing
+  link: installation/getting-started
+footer:
+  copyright: "&copy; Copyright {{ year }}. All rights reserved."
+  
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Publish to the retype branch
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - uses: retypeapp/action-build
+
+      - uses: retypeapp/action-github-pages
+        with:
+          branch: retype
+          update-branch: true
