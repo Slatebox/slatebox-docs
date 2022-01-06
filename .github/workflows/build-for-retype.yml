@@ -18,9 +18,9 @@ jobs:
         with:
           dotnet-version: 5.0.x
 
-      - uses: retypeapp/action-build
+      - uses: retypeapp/action-build@v1
 
-      - uses: retypeapp/action-github-pages
+      - uses: retypeapp/action-github-pages@v1.11.2
         with:
           branch: retype
           update-branch: true
