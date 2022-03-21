@@ -3,11 +3,13 @@ label: Self Hosting Installation Guide
 icon: star
 ---
 
-## Installing Slatebox on your own server.
+### Installing Slatebox on your own server.
 
 The easiest and recommneded way to install Slatebox on your own server is to use the official Docker image and a Docker compose file.
 
-!!! Note this guide is to install Slatebox on your own server. Alternatively, [Slatebox cloud](https://app.slatebox.com) is a free for teams, is highly scalable, and requires no setup. !!!
+!!!
+Note this guide is to install Slatebox on your own server. Alternatively, [Slatebox cloud](https://app.slatebox.com) is a free for teams, is highly scalable, and requires no setup.
+!!!
 
 Ensure you have a server with [Docker](https://docs.docker.com/engine/install/) installed, then copy and paste the below into a new `docker-compose.yml` file on your server:
 
@@ -61,7 +63,9 @@ volumes:
 
 In order to use all of Slatebox's functionality, you'll have to set the following environment variables, as noted in the `docker-compose.yml` file above:
 
-!!! Note these variables are optional - you can run Slatebox with the associated functionality disabled if you do not provide these at startup.!!!
+!!!
+Note these variables are optional - you can run Slatebox with the associated functionality disabled if you do not provide these at startup.
+!!!
 
 | Env Variable Name           | Description                                                                                            | Link                                                                                                   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
