@@ -5,9 +5,9 @@ branding:
   title: Slatebox
   label: Docs
 links:
-- text: Slatebox
-  link: https://slatebox.com
-- text: Installing
-  link: installation/getting-started
+  - text: Slatebox
+    link: https://slatebox.com
+  - text: Installing
+    link: installation/getting-started
 footer:
-  copyright: "&copy; Copyright {{ year }}. All rights reserved."
+  copyright: "Hi, Slatebox was designed in Minneapolis."
