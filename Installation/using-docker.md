@@ -1,14 +1,18 @@
 ---
-label: Self Hosting Installation Guide
-icon: star
+label: Using Docker
+icon: zap
 ---
 
-### Installing Slatebox on your own server.
+### Install Slatebox on your own server.
 
 The easiest and recommneded way to install Slatebox on your own server is to use the official Docker image and a Docker compose file.
 
 !!!
 Note this guide is to install Slatebox on your own server. Alternatively, [Slatebox cloud](https://app.slatebox.com) is a free for teams, is highly scalable, and requires no setup.
+!!!
+
+!!! warning
+If you want to develop Slatebox locally instead of installing the latest version via docker, then [head over to the development guide](../Developers/app-development.md) to get started.
 !!!
 
 Ensure you have a server with [Docker](https://docs.docker.com/engine/install/) installed, then copy and paste the below into a new `docker-compose.yml` file on your server:

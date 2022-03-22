@@ -1,18 +1,23 @@
 ---
 label: Slatebox Documentation
 icon: home
+order: 1
 ---
 
-===
+Slatebox is a free and open platform for visual collaboration. Featuring an infinite canvas known as the "slate", Slatebox makes it easy to collaborate visually from wherever you are. This documentation site will help both application users and Slatebox developers understand how to use the platform.
 
-### Welcome to Slatebox's documentation site.
+Want to start using the app immediately? The quickest and easiest way to use Slatebox immediately is via [Slatebox Cloud](https://app.slatebox.com).
 
-Slatebox is a free and open platform for visual collaboration. Featuring an infinite canvas known as "the slate", Slatebox's documentation site will help both application users and Slatebox developers understand how to use the platform. The quickest and easiest way to use Slatebox immediately is via [Slatebox Cloud](https://app.slatebox.com).
+Otherwise, follow the below links to learn more:
 
-Using Slatebox and want a quick guide to using it? [Start here](./Using%20The%20Slatebox%20App/The%20Basics.md).
+!!! :zap: [Slatebox App User Guide](./Using-Slatebox/readme.md)
+Slatebox is a snap to use; get up to speed even quicker by checking out the user guide.
+!!!
 
-Want to install Slatebox on your own servers? [Here is the installation guide](./Self-Hosted%20Installation/readme.md).
+!!! :building_construction: [Self-Hosted Installation Guide](./Installation/using-docker.md)
+Do you want to install Slatebox on your own server? It's quick and easy.
+!!!
 
-Are you using the low-level MIT-licensed Slatebox.js library? [Here is the documentation](./Slatebox.js%20Developer%20Guide/readme.md).
-
-===
+!!! :gear: [Developers Guide](./Developers/readme.md)
+Slatebox's frontend can be extended and run locally. Developers can also use the slateboxjs npm module for lower level diagramming and mind-mapping.
+!!!

@@ -7,7 +7,9 @@ branding:
 links:
   - text: Slatebox
     link: https://slatebox.com
-  - text: Installing
-    link: installation/getting-started
+  - text: Community
+    link: https://community.slatebox.com
+  - text: Blog
+    link: https://blog.slatebox.com
 footer:
   copyright: "Hi, Slatebox was designed in Minneapolis."
