@@ -33,13 +33,14 @@ Under the covers, Slateboxjs uses the amazing [parcel](https://parceljs.org) lib
 
 Here is a simple codepen example of a slate with 2 connected nodes.
 
-<p class="codepen" data-height="600" data-theme-id="dark" data-default-tab="js,result" data-slug-hash="JjMNKmP" data-editable="true" data-user="timheckel" style="height: 600px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/timheckel/pen/JjMNKmP">
+<iframe height="600" style="width: 100%;" scrolling="no" title="Slatebox - 2 Nodes" src="https://codepen.io/timheckel/embed/JjMNKmP?default-tab=js%2Cresult&editable=true&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/timheckel/pen/JjMNKmP">
   Slatebox - 2 Nodes</a> by Tim Heckel (<a href="https://codepen.io/timheckel">@timheckel</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-<br/><br/>
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+<br/>
+<br/>
 
 ### Slate
 
