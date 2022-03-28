@@ -1,6 +1,7 @@
 ---
 label: Slatebox App User Guide
-icon: zap
+icon: plug
+order: 1000
 ---
 
 # Slatebox User Guide

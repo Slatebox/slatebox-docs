@@ -1,10 +1,9 @@
 ---
 label: Slatebox Documentation
 icon: home
-order: 1
 ---
 
-Slatebox is a free and open platform for visual collaboration. Featuring an infinite canvas known as the "slate", Slatebox makes it easy to collaborate visually from wherever you are. This documentation site will help both application users and Slatebox developers understand how to use the platform.
+Slatebox is a free and open platform for visual collaboration. Featuring an infinite canvas known as the "slate", Slatebox makes it easy to collaborate visually wherever you are. This documentation site will help both application users and Slatebox developers understand how to use the platform.
 
 Want to start using the app immediately? The quickest and easiest way to use Slatebox immediately is via [Slatebox Cloud](https://app.slatebox.com).
 

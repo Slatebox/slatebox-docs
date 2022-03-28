@@ -11,5 +11,9 @@ links:
     link: https://community.slatebox.com
   - text: Blog
     link: https://blog.slatebox.com
+snippets:
+  lineNumbers:
+    - js
+    - json
 footer:
   copyright: "Hi, Slatebox was designed in Minneapolis."
