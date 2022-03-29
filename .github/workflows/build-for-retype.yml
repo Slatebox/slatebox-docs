@@ -16,11 +16,11 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.x
+          dotnet-version: 6.0.x
 
-      - uses: retypeapp/action-build@v1
+      - uses: retypeapp/action-build@latest
 
-      - uses: retypeapp/action-github-pages@v1.11.2
+      - uses: retypeapp/action-github-pages@latest
         with:
           branch: retype
           update-branch: true
