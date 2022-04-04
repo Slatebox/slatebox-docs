@@ -9,21 +9,21 @@
     <meta name="generator" content="Retype 2.2">
 
     <!-- Primary Meta Tags -->
-    <title>Slatebox App Development</title>
-    <meta name="title" content="Slatebox App Development">
-    <meta name="description" content="Note this guide is to install and run Slatebox on your own development machine. If you want to host on your server, it is recommended that you" />
+    <title>Slate Properties</title>
+    <meta name="title" content="Slate Properties">
+    <meta name="description" content="The slate defines the parent canvas; the node is the individual object on the slate, and an association" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.slatebox.com/developers/development/">
-    <meta property="og:title" content="Slatebox App Development">
-    <meta property="og:description" content="Note this guide is to install and run Slatebox on your own development machine. If you want to host on your server, it is recommended that you">
+    <meta property="og:url" content="https://docs.slatebox.com/developers/slateboxjs-api/slate-properties/">
+    <meta property="og:title" content="Slate Properties">
+    <meta property="og:description" content="The slate defines the parent canvas; the node is the individual object on the slate, and an association">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.slatebox.com/developers/development/">
-    <meta property="twitter:title" content="Slatebox App Development">
-    <meta property="twitter:description" content="Note this guide is to install and run Slatebox on your own development machine. If you want to host on your server, it is recommended that you">
+    <meta property="twitter:url" content="https://docs.slatebox.com/developers/slateboxjs-api/slate-properties/">
+    <meta property="twitter:title" content="Slate Properties">
+    <meta property="twitter:description" content="The slate defines the parent canvas; the node is the individual object on the slate, and an association">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
@@ -173,119 +173,324 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="slatebox-app-development" class="break-words">
+<doc-anchor-target id="slate-properties" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#slatebox-app-development">#</doc-anchor-trigger>
-        <span>Slatebox App Development</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#slate-properties">#</doc-anchor-trigger>
+        <span>Slate Properties</span>
     </h1>
 </doc-anchor-target>
-<doc-anchor-target id="quickstart">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#quickstart">#</doc-anchor-trigger>
-        <span>Quickstart</span>
-    </h3>
-</doc-anchor-target>
+<p>The <code v-pre>slate</code> defines the parent canvas; the <code v-pre>node</code> is the individual object on the <code v-pre>slate</code>, and an <code v-pre>association</code> defines the relationship between nodes.</p>
 <div class="flex mb-6">
-    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-yellow-500"></div>
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-300"></div>
     <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
         <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-yellow-500" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-blue-300" width="22" height="22" viewBox="0 0 24 24" role="presentation">
                 <g fill="currentColor"><g>
-                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
-                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
                 </g></g>
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Note this guide is to install and run Slatebox on your own development machine. If you want to host on your server, it is recommended that you <a href="../../installation/install-with-docker/">follow the docker installation guide</a>.</p>
-        </div>
-    </div>
-</div>
-<p>Want to run Slatebox with the source code? This assumes a Linux environment - 5 easy steps:</p>
-<ol>
-<li>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">npm install -g meteor</code></pre>
-</doc-codeblock></div>
-</li>
-<li>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">git clone git@github.com:Slatebox/slatebox.git</code></pre>
-</doc-codeblock></div>
-</li>
-<li>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">cd slatebox/web/app</code></pre>
-</doc-codeblock></div>
-</li>
-<li>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">meteor npm install</code></pre>
-</doc-codeblock></div>
-</li>
-<li>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">npm run start</code></pre>
-</doc-codeblock></div>
-</li>
-</ol>
-<p>And boom, you should see <code v-pre>=&gt; App running at: http://localhost:3000/</code> in your command line. Navigate there, and you will have Slatebox running on your machine, ready for local development. <span class="docs-emoji">&#x1F4AA;</span></p>
-<doc-anchor-target id="environment-variables">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#environment-variables">#</doc-anchor-trigger>
-        <span>Environment Variables</span>
-    </h3>
-</doc-anchor-target>
-<p>Environment variables can be set to extend Slatebox&#x27;s functionality, but they are not necessary (the quickstart above does not set them). The environment variables available are the same as when <a href="../installation/using-docker.md">running Slatebox via Docker</a>:</p>
+<p>Take note of these badges:</p>
 <div class="table-wrapper scrollbar overflow-hidden">
 <table class="comfortable">
 <thead>
 <tr>
-<th>Env Variable Name</th>
+<th>Badge</th>
 <th>Description</th>
-<th>Link</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>NOUN_PROJECT_KEY</td>
-<td>Enable custom shape searching in Slatebox via the NounProject. It has access to over 3 million shapes.</td>
-<td><a href="https://thenounproject.com/developers/">https://thenounproject.com/developers/</a></td>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-yellow-900 bg-yellow-100 h-6 px-2 text-xs rounded-md">
+    <span>Experimental</span>
+</span></td>
+<td>This is an expirimental feature.</td>
 </tr>
 <tr>
-<td>NOUN_PROJECT_SECRET</td>
-<td></td>
-<td><a href="https://thenounproject.com/developers/">https://thenounproject.com/developers/</a></td>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-green-700 bg-green-100 h-6 px-2 text-xs rounded-md">
+    <span>Slatebox App Enabled</span>
+</span></td>
+<td>This property works in conjuction with the <a href="./development.md">Slatebox App</a>.</td>
 </tr>
 <tr>
-<td>CHATWOOT_TOKEN</td>
-<td>Chatwoot lets you add a drop-in support widget to the site</td>
-<td><a href="https://www.chatwoot.com/">https://www.chatwoot.com/</a></td>
-</tr>
-<tr>
-<td>MAIL_URL</td>
-<td>Provide an smtp mail server for outgoing messages</td>
-<td><a href="https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-">https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-</a></td>
-</tr>
-<tr>
-<td>GOOGLE_API_KEY</td>
-<td>Google&#x27;s API key is needed both for retrieving fonts</td>
-<td><a href="https://developers.google.com/custom-search/v1/overview?hl=ro">https://developers.google.com/custom-search/v1/overview?hl=ro</a></td>
-</tr>
-<tr>
-<td>GOOGLE_IMAGE_SEARCH_API_KEY</td>
-<td>Google&#x27;s Image API key is needed both for searching images</td>
-<td><a href="https://developers.google.com/custom-search/v1/overview?hl=ro">https://developers.google.com/custom-search/v1/overview?hl=ro</a></td>
-</tr>
-<tr>
-<td>PIXABAY_API_KEY</td>
-<td>An API key from Pixabay is needed to search slate background images</td>
-<td><a href="https://pixabay.com/">https://pixabay.com/</a></td>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-blue-500 dark:text-blue-400 border border-blue-500 dark:border-blue-400 h-6 px-2 text-xs rounded-md">
+    <span>Collaboration Feature</span>
+</span></td>
+<td>This property works in collaboration mode, which must be bootrstrapped either with the Slatebox App or some other mechanism.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Set whichever environment variables you&#x27;d lik to enable (e.g., <code v-pre>export PIXABAY_API_KEY='xyx'</code>), then restart the app with <code v-pre>npm run start</code>.</p>
+        </div>
+    </div>
+</div>
+<doc-anchor-target id="slate-properties">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#slate-properties">#</doc-anchor-trigger>
+        <span>Slate Properties</span>
+    </h3>
+</doc-anchor-target>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Properties · <a href="https://github.com/Slatebox/slateboxjs/blob/main/src/core/slate.js#L30">View on Github</a> <br/> <sub><em><code v-pre>example</code></em></sub></th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id <br/> <sub><em><code v-pre>abcd</code></em></sub></td>
+<td>Unique identifier for the slate</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>container <br/> <sub><em><code v-pre>abcd</code></em></sub></td>
+<td>The id of the container that will host the slate (so this would be <code v-pre>slateCanvas</code> if the container was <code v-pre>&lt;div id='slateCanvas'&gt;&lt;/div&gt;</code>)</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>instance <br/> <sub><em><code v-pre>abcd</code></em></sub></td>
+<td>Unique instance id of the slate (only necessary in collaboration mode)</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>name <br/> <sub><em><code v-pre>slate name</code></em></sub></td>
+<td>Name of the slate</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>description <br/> <sub><em><code v-pre>slate description</code></em></sub></td>
+<td>Description of the slate</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>basedOnThemeId <br/> <sub><em><code v-pre>theme12</code></em></sub></td>
+<td>Apply a specific theme to the slate using the [theme](Theme API)</td>
+<td>string</td>
+<td><code v-pre>null</code></td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-yellow-900 bg-yellow-100 h-6 px-2 text-xs rounded-md">
+    <span>Experimental</span>
+</span><br/>syncWithTheme <br/> <sub><em><code v-pre>true</code></em></sub></td>
+<td>Sync the shape creation with the theme in question</td>
+<td>boolean</td>
+<td><code v-pre>false</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundColor <br/> <sub><em><code v-pre>#333</code> or <code v-pre>transparent</code></em></sub></td>
+<td>Static hex background color of the slate (hex or transparent)</td>
+<td>string</td>
+<td><code v-pre>transparent</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundImage <br/> <sub><em><code v-pre>https://picsum.photos/id/237/200/300</code></em></sub></td>
+<td>Background src image of the slate</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundSize <br/> <sub><em>cover</em></sub></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-size">CSS Background Size Property</a>. (<code v-pre>cover</code> or <code v-pre>contain</code>, etc)</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-yellow-900 bg-yellow-100 h-6 px-2 text-xs rounded-md">
+    <span>Experimental</span>
+</span><br/>containerStyle.backgroundEffect <br/> <sub><em>abcd</em></sub></td>
+<td>Use an SVG filter effect for the background</td>
+<td>string</td>
+<td><code v-pre>null</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundColorAsGradient <br/> <sub><em><code v-pre>true</code></em></sub></td>
+<td>Enable background gradient</td>
+<td>boolean</td>
+<td><code v-pre>null</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundGradientType <br/> <sub><em><code v-pre>linear</code> or <code v-pre>radial</code></em></sub></td>
+<td>Specify the background gradient to apply to the slate</td>
+<td>string</td>
+<td><code v-pre>null</code></td>
+</tr>
+<tr>
+<td>containerStyle.backgroundGradientColors <br/> <sub><em>[&#x27;#ccc&#x27;, &#x27;#333]</em></sub></td>
+<td>Array of hex colors that make up the gradient</td>
+<td>array</td>
+<td><code v-pre>[]</code></td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-green-700 bg-green-100 h-6 px-2 text-xs rounded-md">
+    <span>Slatebox App Enabled</span>
+</span><br/>containerStyle.backgroundGradientStrategy <br/> <sub><em><code v-pre>shades</code></em></sub></td>
+<td>Define the gradient strategy (only when using the Slatebox App to generate the colors). Either <code v-pre>shades</code> (variance of a single color) or <code v-pre>pallette</code> (complementary colors) can be used.</td>
+<td>string</td>
+<td><code v-pre>shades</code></td>
+</tr>
+<tr>
+<td>viewPort.useIntertiaScrolling <br/> <sub><em>true</em></sub></td>
+<td>Use inertia scrolling for the Slate canvas. (Two finger touchpad slide navigation)</td>
+<td>boolean</td>
+<td><code v-pre>true</code></td>
+</tr>
+<tr>
+<td>viewPort.showGrid <br/> <sub><em>true</em></sub></td>
+<td>Show background alignment 50 x 50 grid</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>viewPort.snapToObjects <br/> <sub><em>false</em></sub></td>
+<td>Auto-snap to the neighboring objects when positioning nodes</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>viewPort.gridSize <br/> <sub><em>100</em></sub></td>
+<td>Size of square outline inside the grid</td>
+<td>integer</td>
+<td>50</td>
+</tr>
+<tr>
+<td>viewPort.width <br/> <sub><em>10000</em></sub></td>
+<td>Width in px of the canvas</td>
+<td>integer</td>
+<td>50000</td>
+</tr>
+<tr>
+<td>viewPort.height <br/> <sub><em>10000</em></sub></td>
+<td>Height in px of the canvas</td>
+<td>integer</td>
+<td>50000</td>
+</tr>
+<tr>
+<td>viewPort.left <br/> <sub><em>abcd</em></sub></td>
+<td>Initial left (x) position of the canvas</td>
+<td>integer</td>
+<td>25000</td>
+</tr>
+<tr>
+<td>viewPort.top <br/> <sub><em>abcd</em></sub></td>
+<td>Initial top (y) position of the canvas</td>
+<td>integer</td>
+<td>25000</td>
+</tr>
+<tr>
+<td>enabled <br/> <sub><em>false</em></sub></td>
+<td>Set to false to disable the slate and make it non-interactive</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>allowDrag <br/> <sub><em>false</em></sub></td>
+<td>Allow the canvas to be draggable</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>showbirdsEye <br/> <sub><em>abcd</em></sub></td>
+<td>Show the birds eye view in the upper</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>sizeOfbirdsEye <br/> <sub><em>150</em></sub></td>
+<td>Default size of birds eye square in px</td>
+<td>integer</td>
+<td>200</td>
+</tr>
+<tr>
+<td>showMultiSelect <br/> <sub><em>false</em></sub></td>
+<td>Show the multi select button on the slate</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>showZoom <br/> <sub><em>false</em></sub></td>
+<td>Show the zoom slider on the slate</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>showUndoRedo <br/> <sub><em>abcd</em></sub></td>
+<td>Show undo / redo buttons on the slate</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>showStatus <br/> <sub><em>abcd</em></sub></td>
+<td>Show the status x,y coordinates in the upper left</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>showLocks <br/> <sub><em>abcd</em></sub></td>
+<td>Show the node locks on the slate when a node has <code v-pre>options.locked</code> set to true</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>mindMapMode <br/> <sub><em>abcd</em></sub></td>
+<td>Enable mind map mode on the slate. Mind-map mode automatically creates parent -&gt; child relationships when a node is added from another node.</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-green-700 bg-green-100 h-6 px-2 text-xs rounded-md">
+    <span>Slatebox App Enabled</span>
+</span><br/>isPublic <br/> <sub><em>false</em></sub></td>
+<td>Determine if a slate is public, private, or unlisted when using the Slatebox App.</td>
+<td>boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-green-700 bg-green-100 h-6 px-2 text-xs rounded-md">
+    <span>Slatebox App Enabled</span>
+</span><br/>isUnlisted <br/> <sub><em>false</em></sub></td>
+<td>Determine if a slate is public, private, or unlisted when using the Slatebox App.</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-green-700 bg-green-100 h-6 px-2 text-xs rounded-md">
+    <span>Slatebox App Enabled</span>
+</span><br/>isPrivate <br/> <sub><em>false</em></sub></td>
+<td>Determine if a slate is public, private, or unlisted when using the Slatebox App.</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-yellow-900 bg-yellow-100 h-6 px-2 text-xs rounded-md">
+    <span>Experimental</span>
+</span><br/>autoEnableDefaultFilters <br/> <sub><em>abcd</em></sub></td>
+<td>Auto enable SVG background filters for slate</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td><span class="no-link inline-flex items-center justify-center font-medium leading-none whitespace-nowrap text-blue-500 dark:text-blue-400 border border-blue-500 dark:border-blue-400 h-6 px-2 text-xs rounded-md">
+    <span>Collaboration Feature</span>
+</span><br/>followMe <br/> <sub><em>abcd</em></sub></td>
+<td>Enable follow-me mode: enforce the Slate canvas and zoom positions to be synced across all collaborators</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+</div>
 
                                 
                                 <!-- Required only on API pages -->
@@ -295,16 +500,23 @@
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjs-api/themeexample/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjs-api/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Theme Example</span>
+                                                <span class="block mt-1">Slatebox​JS API</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjs-api/slate-methods/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">Slate Methods</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
                                     </div>
                                 </nav>
                             </footer>
@@ -345,6 +557,6 @@
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Slatebox App Development", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Slate Properties", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
