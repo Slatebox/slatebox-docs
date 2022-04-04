@@ -17,3 +17,5 @@ snippets:
     - json
 footer:
   copyright: "Hi, Slatebox was designed in Minneapolis."
+table:
+  class: "compact"
