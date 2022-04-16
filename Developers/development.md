@@ -35,7 +35,7 @@ And boom, you should see `=> App running at: http://localhost:3000/` in your com
 
 ### Environment Variables
 
-Environment variables can be set to extend Slatebox's functionality, but they are not necessary (the quickstart above does not set them). The environment variables available are the same as when [running Slatebox via Docker](../Installation/using-docker.md):
+Environment variables can be set to extend Slatebox's functionality, but they are not necessary (the quickstart above does not set them). The environment variables available are the same as when [running Slatebox via Docker](../Installation/install-with-docker.md):
 
 | Env Variable Name           | Description                                                                                            | Link                                                                                                   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |

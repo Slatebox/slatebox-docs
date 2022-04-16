@@ -13,7 +13,7 @@ Otherwise, follow the below links to learn more:
 Slatebox is a snap to use; get up to speed even quicker by checking out the user guide.
 !!!
 
-!!! :building_construction: [Self-Hosted Installation Guide](./Installation/using-docker.md)
+!!! :building_construction: [Self-Hosted Installation Guide](./Installation/install-with-docker.md)
 Do you want to install Slatebox on your own server? It's quick and easy.
 !!!
 
