@@ -11,7 +11,7 @@ The same code that powers Slatebox.com is available under the Elastic 2.0 Licens
 
 To set up your development environment to run and modify the Slatebox App, start with [Slatebox App Development](./development.md)!
 !!!
-!!! [Slateboxjs API](./slateboxjs-api.md)
+!!! [Slateboxjs API](./SlateboxJSAPI/readme.md)
 Slateboxjs is an open source, MIT-licensed low-level <a href="https://www.npmjs.com/package/slateboxjs" target="_blank">npm module</a> that powers all the collaborative visuals at slatebox.com.
 !!!
 

@@ -11,25 +11,25 @@ Note this guide is to install and run Slatebox on your own development machine. 
 
 Want to run Slatebox with the source code? This assumes a Linux environment - 5 easy steps:
 
-1. ```
+```
    npm install -g meteor
-   ```
+```
 
-2. ```
+```
    git clone git@github.com:Slatebox/slatebox.git
-   ```
+```
 
-3. ```
-   cd slatebox/web/app
-   ```
+```
+  cd slatebox/web/app
+```
 
-4. ```
+```
    meteor npm install
-   ```
+```
 
-5. ```
-   npm run start
-   ```
+```
+  npm run start
+```
 
 And boom, you should see `=> App running at: http://localhost:3000/` in your command line. Navigate there, and you will have Slatebox running on your machine, ready for local development. :muscle:
 
