@@ -9,29 +9,29 @@
     <meta name="generator" content="Retype 2.2">
 
     <!-- Primary Meta Tags -->
-    <title>Node Methods</title>
-    <meta name="title" content="Node Methods">
-    <meta name="description" content="Programatically control the slate with the below methods." />
+    <title>Association Properties</title>
+    <meta name="title" content="Association Properties">
+    <meta name="description" content="Associations define the relationships between nodes." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.slatebox.com/developers/slateboxjs-api/node-methods/">
-    <meta property="og:title" content="Node Methods">
-    <meta property="og:description" content="Programatically control the slate with the below methods.">
+    <meta property="og:url" content="https://docs.slatebox.com/developers/slateboxjsapi/association-properties/">
+    <meta property="og:title" content="Association Properties">
+    <meta property="og:description" content="Associations define the relationships between nodes.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.slatebox.com/developers/slateboxjs-api/node-methods/">
-    <meta property="twitter:title" content="Node Methods">
-    <meta property="twitter:description" content="Programatically control the slate with the below methods.">
+    <meta property="twitter:url" content="https://docs.slatebox.com/developers/slateboxjsapi/association-properties/">
+    <meta property="twitter:title" content="Association Properties">
+    <meta property="twitter:description" content="Associations define the relationships between nodes.">
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="/resources/css/retype.css?v=2.2.703452667571" rel="stylesheet" data-turbo-track="reload" />
+    <link href="/resources/css/retype.css?v=2.2.703536493078" rel="stylesheet" data-turbo-track="reload" />
 
-    <script type="text/javascript" src="/resources/js/config.js?v=2.2.703452667571" defer data-turbo-track="reload"></script>
+    <script type="text/javascript" src="/resources/js/config.js?v=2.2.703536493078" defer data-turbo-track="reload"></script>
     <script type="text/javascript" src="/resources/js/retype.js?v=2.2" defer data-turbo-track="reload"></script>
-    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.703452667571" defer></script>
+    <script id="lunr-js" type="text/javascript" src="/resources/js/lunr.js?v=2.2.703536493078" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -173,14 +173,81 @@
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="node-methods" class="break-words">
+<doc-anchor-target id="association-properties" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#node-methods">#</doc-anchor-trigger>
-        <span>Node Methods</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#association-properties">#</doc-anchor-trigger>
+        <span>Association Properties</span>
     </h1>
 </doc-anchor-target>
-<p>Programatically control the slate with the below methods.</p>
-<p>Node Methods will be documented here.</p>
+<p>Associations define the relationships between nodes.</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Property <br/> <sub><em><code v-pre>example</code></em></sub></th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id <br/> <sub><em><code v-pre>abcd</code></em></sub></td>
+<td>A unique id for the association</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>child <br/> <sub><em><code v-pre>{ Node Object }</code></em></sub></td>
+<td>The <code v-pre>child</code> node</td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>lineColor <br/> <sub><em><code v-pre>#000000</code></em></sub></td>
+<td>The line color in hex. If not set, it will use the <code v-pre>node.options.lineColor</code> property.</td>
+<td>string</td>
+<td><code v-pre>#000</code></td>
+</tr>
+<tr>
+<td>lineOpacity <br/> <sub><em><code v-pre>.75</code></em></sub></td>
+<td>The line opacity (0.0 - 1.0). If not set, it will use the <code v-pre>node.options.lineOpacity</code> property.</td>
+<td>integer</td>
+<td><code v-pre>1</code></td>
+</tr>
+<tr>
+<td>lineEffect <br/> <sub><em><code v-pre>outlined</code></em></sub></td>
+<td>The line effect filter. If not set, it will use the <code v-pre>node.options.lineEffect</code> property. The available filters are: <code v-pre>dropShadow</code>, <code v-pre>postItNote</code>, <code v-pre>tattered</code>, <code v-pre>blur</code>, <code v-pre>outline</code>, <code v-pre>pixelate</code>, <code v-pre>posterize</code>, and <code v-pre>pencil</code></td>
+<td>string</td>
+<td><code v-pre>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td>lineWidth <br/> <sub><em><code v-pre>10</code></em></sub></td>
+<td>The line width in px. If not set, it will use the <code v-pre>node.options.lineWidth</code> property.</td>
+<td>integer</td>
+<td><code v-pre>2</code></td>
+</tr>
+<tr>
+<td>isStraightLine <br/> <sub><em><code v-pre>false</code></em></sub></td>
+<td>Set to true for a straight line, otherwise all associations default to bezier curves</td>
+<td>boolean</td>
+<td><code v-pre>false</code></td>
+</tr>
+<tr>
+<td>showParentArrow <br/> <sub><em><code v-pre>true</code></em></sub></td>
+<td>Show the parent arrowhead</td>
+<td>boolean</td>
+<td><code v-pre>true</code></td>
+</tr>
+<tr>
+<td>showChildArrow <br/> <sub><em><code v-pre>true</code></em></sub></td>
+<td>Show the child arrowhead</td>
+<td>boolean</td>
+<td><code v-pre>true</code></td>
+</tr>
+</tbody>
+</table>
+</div>
 
                                 
                                 <!-- Required only on API pages -->
@@ -190,20 +257,20 @@
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjs-api/node-properties/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjsapi/node-methods/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Node Properties</span>
+                                                <span class="block mt-1">Node Methods</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjs-api/association-properties/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="/developers/slateboxjsapi/association-methods/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Association Properties</span>
+                                                <span class="block mt-1">Association Methods</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -247,6 +314,6 @@
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Node Methods", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script>window.__DOCS__ = { "title": "Association Properties", icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
