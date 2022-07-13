@@ -58,7 +58,7 @@ Environment variables can be set to extend Slatebox's functionality, but they ar
 | GOOGLE_DOCS_CLIENT_SECRET               | "                                                                                                                                                                                    |
 | GOOGLE_DOCS_REDIRECT_URIS               | "                                                                                                                                                                                    |
 | GOOGLE_DOCS_JAVASCRIPT_ORIGINS          | "                                                                                                                                                                                    |
-| DAILY_API_KEY                           | Integrate into daily.co for audio and video huddles <br/> https://docs.daily.co/                                                                                                     |
+| DAILY_API_KEY                           | Integrate into daily.co for audio and video huddles <br/> [link](https://docs.daily.co/]                                                                                             |
 | DAILY_URL                               | "                                                                                                                                                                                    |
 
 Set whichever environment variables you'd lik to enable (e.g., `export PIXABAY_API_KEY='xyx'`), then restart the app with `npm run start`.

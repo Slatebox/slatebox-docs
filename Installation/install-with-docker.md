@@ -118,7 +118,7 @@ Environment variables can be set to extend Slatebox's functionality, but they ar
 | GOOGLE_DOCS_CLIENT_SECRET               | "                                                                                                                                                                                    |
 | GOOGLE_DOCS_REDIRECT_URIS               | "                                                                                                                                                                                    |
 | GOOGLE_DOCS_JAVASCRIPT_ORIGINS          | "                                                                                                                                                                                    |
-| DAILY_API_KEY                           | Integrate into daily.co for audio and video huddles <br/> https://docs.daily.co/                                                                                                     |
+| DAILY_API_KEY                           | Integrate into daily.co for audio and video huddles <br/> [link](https://docs.daily.co/]                                                                                             |
 | DAILY_URL                               | "                                                                                                                                                                                    |
 
 Once the variables are set in your environment, run `docker compose up -d` in the same directory as your `docker-compose.yml` file. Once successfully launched, going to `http://localhost` on that server should bring up the Slatebox login page.
