@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.3.0.710995733327">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.3.0.710996048577">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 2.3.0">
@@ -30,11 +30,11 @@
 
     <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../resources/css/retype.css?v=2.3.0.710995733327" rel="stylesheet" />
+    <link href="../../resources/css/retype.css?v=2.3.0.710996048577" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../resources/js/config.js?v=2.3.0.710995733327" data-turbo-eval="false" defer></script>
+    <script type="text/javascript" src="../../resources/js/config.js?v=2.3.0.710996048577" data-turbo-eval="false" defer></script>
     <script type="text/javascript" src="../../resources/js/retype.js?v=2.3.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.3.0.710995733327" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" type="text/javascript" src="../../resources/js/lunr.js?v=2.3.0.710996048577" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -226,7 +226,7 @@
 </div>
 <p>Ensure you have a server with <a href="https://docs.docker.com/engine/install/">Docker</a> installed, then copy and paste the below into a new <code v-pre>docker-compose.yml</code> file on your server:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">version: &quot;3&quot;
+<pre class="language-none"><code v-pre class="language-none">vversion: &quot;3&quot;
 
 services:
   app:
@@ -252,8 +252,30 @@ services:
           &quot;mailGun&quot;: {
             &quot;server&quot;: &quot;${MAIL_URL}&quot;
           },
+          &quot;daily&quot;: {
+            &quot;apiKey&quot;: &quot;${DAILY_API_KEY}&quot;
+          },
+          &quot;aws&quot;: {
+            &quot;secretKey&quot;: &quot;${AWS_SECRET_KEY}&quot;,
+            &quot;accessKey&quot;: &quot;${AWS_ACCESS_KEY}&quot;,
+            &quot;imageBucket&quot;: &quot;${AWS_S3_IMAGE_BUCKET}&quot;,
+            &quot;cloudUrl&quot;: &quot;${IMAGE_CLOUD_URL}&quot;
+          },
+          &quot;googleDocs&quot;: {
+            &quot;web&quot;: {
+              &quot;client_id&quot;: &quot;${GOOGLE_DOCS_CLIENT_ID}&quot;,
+              &quot;project_id&quot;: &quot;${GOOGLE_DOCS_PROJECT_ID}&quot;,
+              &quot;auth_uri&quot;: &quot;${GOOGLE_DOCS_AUTH_URI}&quot;,
+              &quot;token_uri&quot;: &quot;${GOOGLE_DOCS_TOKEN_URI}&quot;,
+              &quot;auth_provider_x509_cert_url&quot;: &quot;${GOOGLE_DOCS_AUTH_PROVIDER_X509_CERT_URL}&quot;,
+              &quot;client_secret&quot;: &quot;${GOOGLE_DOCS_CLIENT_SECRET}&quot;,
+              &quot;redirect_uris&quot;: [&quot;${GOOGLE_DOCS_REDIRECT_URIS}&quot;],
+              &quot;javascript_origins&quot;: [&quot;${GOOGLE_DOCS_JAVASCRIPT_ORIGINS}&quot;]
+            }
+          },
           &quot;public&quot;: {
             &quot;env&quot;: &quot;${MAIL_URL:-dev}&quot;,
+            &quot;dailyBaseUrl&quot;: &quot;${DAILY_URL}&quot;,
             &quot;baseUrl&quot;: &quot;${BASE_URL:-http://localhost:3000}&quot;,
             &quot;googleFontAPIKey&quot;: &quot;${GOOGLE_API_KEY}&quot;,
             &quot;googleImageSearchEngineKey&quot;: &quot;${GOOGLE_IMAGE_SEARCH_API_KEY}&quot;,
@@ -308,7 +330,7 @@ volumes:
 <tbody>
 <tr>
 <td>NOUN_PROJECT_KEY</td>
-<td>Enable custom shape searching in Slatebox via the NounProject. It has access to over 3 million shapes. <br/> <nobr>https://thenounproject.com/developers/</nobr></td>
+<td>Enable custom shape searching in Slatebox via the NounProject. It has access to over 3 million shapes. <br/> <a href="https://thenounproject.com/developers/">link</a></td>
 </tr>
 <tr>
 <td>NOUN_PROJECT_SECRET</td>
@@ -316,15 +338,15 @@ volumes:
 </tr>
 <tr>
 <td>CHATWOOT_TOKEN</td>
-<td>Chatwoot lets you add a drop-in support widget to the site <br/> <nobr>https://www.chatwoot.com/</nobr></td>
+<td>Chatwoot lets you add a drop-in support widget to the site <br/> <a href="https://www.chatwoot.com/">link</a></td>
 </tr>
 <tr>
 <td>MAIL_URL</td>
-<td>Provide an smtp mail server for outgoing messages <br/> <nobr>https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-</nobr></td>
+<td>Provide an smtp mail server for outgoing messages <br/> <a href="https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-">link</a></td>
 </tr>
 <tr>
 <td>GOOGLE_API_KEY</td>
-<td>Google&#x27;s API key is needed both for retrieving fonts <br/> <nobr>https://developers.google.com/custom-search/v1/overview?hl=ro</nobr></td>
+<td>Google&#x27;s API key is needed both for retrieving fonts <br/> <a href="https://developers.google.com/custom-search/v1/overview?hl=ro">link</a></td>
 </tr>
 <tr>
 <td>GOOGLE_IMAGE_SEARCH_API_KEY</td>
@@ -332,11 +354,11 @@ volumes:
 </tr>
 <tr>
 <td>PIXABAY_API_KEY</td>
-<td>An API key from Pixabay is needed to search slate background images <br/> <nobr>https://pixabay.com/</nobr></td>
+<td>An API key from Pixabay is needed to search slate background images <br/> <a href="https://pixabay.com/">link</a></td>
 </tr>
 <tr>
 <td>AWS_SECRET_KEY</td>
-<td>AWS credentials are required to use the copy-to-cloud-url feature when exporting a slate <br/> <nobr>https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html</nobr></td>
+<td>AWS credentials are required to use the copy-to-cloud-url feature when exporting a slate <br/> <a href="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html">link</a></td>
 </tr>
 <tr>
 <td>AWS_ACCESS_KEY</td>
@@ -348,11 +370,11 @@ volumes:
 </tr>
 <tr>
 <td>IMAGE_CLOUD_URL</td>
-<td>You can set up an alias to the cloudfront cdn (or otherwise) and use that DNS name here <br/> <nobr>https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html</nobr></td>
+<td>You can set up an alias to the cloudfront cdn (or otherwise) and use that DNS name here <br/> <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html">link</a></td>
 </tr>
 <tr>
 <td>GOOGLE_DOCS_CLIENT_ID</td>
-<td>Google Docs can be integrated with these env variables <br/> <nobr>https://developers.google.com/docs/api/how-tos/overview</nobr></td>
+<td>Google Docs can be integrated with these env variables <br/> <a href="https://developers.google.com/docs/api/how-tos/overview">link</a></td>
 </tr>
 <tr>
 <td>GOOGLE_DOCS_PROJECT_ID</td>
@@ -384,7 +406,7 @@ volumes:
 </tr>
 <tr>
 <td>DAILY_API_KEY</td>
-<td>Integrate into daily.co for audio and video huddles <br/> <nobr>https://docs.daily.co/</nobr></td>
+<td>Integrate into daily.co for audio and video huddles <br/> <a href="https://docs.daily.co/">https://docs.daily.co/</a></td>
 </tr>
 <tr>
 <td>DAILY_URL</td>
