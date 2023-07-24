@@ -1,5 +1,5 @@
 ---
-label: SlateboxJS API
+label: Javascript Library
 icon: star
 order: 100
 ---

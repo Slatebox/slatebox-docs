@@ -1,6 +1,7 @@
 ---
 label: Slatebox App Development
 icon: rocket
+hidden: true
 ---
 
 ### Quickstart

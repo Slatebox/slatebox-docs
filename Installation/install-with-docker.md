@@ -1,6 +1,7 @@
 ---
 label: Install With Docker
 icon: zap
+hidden: true
 ---
 
 ### Install Slatebox on your own server.
