@@ -1,7 +1,7 @@
 ---
 label: Slates
 icon: star
-order: 300
+order: 500
 ---
 
 ### /v1/slates endpoint
@@ -33,6 +33,10 @@ To make the invocation, you need to POST the below JSON to `/v1/slates/create`:
 }
 ```
 
+!!!
+You MUST provide a valid userId from your organization to the `body` to make this call. You can get all the possible \_ids by making the `/v1/organization/users` call [described here](./organizations.md).
+!!!
+
 Currently, there are three types of visualizations you can make:
 
 1. Scratch - this is a mindmap diagram "from scratch" about whatever `prompt` you provide.
@@ -53,9 +57,9 @@ const body = {
   levelOfDetail: "5",
   wordsPerNode: "25",
   themeId: "ocean",
+  userId: "xyz",
   webhooks: {
     onComplete: "https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a",
-    onUpdate: "https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a",
     onError: "https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a",
   },
 };
@@ -93,6 +97,7 @@ body = {
     "levelOfDetail": "5",
     "wordsPerNode": "25",
     "themeId": "ocean",
+    "userId": "xyz",
     "webhooks": {
         "onComplete": "https://webhook.site/58dc9462-2e64-488b-a539-c40b5df2d8bc",
         "onError": "https://webhook.site/58dc9462-2e64-488b-a539-c40b5df2d8bc",
@@ -105,6 +110,8 @@ resp = requests.post(url, headers=headers, json=body)
 res = resp.json()
 print(res)
 ```
+
++++
 
 ### Response
 

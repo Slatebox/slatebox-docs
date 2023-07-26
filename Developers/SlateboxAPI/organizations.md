@@ -20,12 +20,12 @@ Below are code samples of how to make this GET call, but note you must [produce 
 
 ```
 const resp = await fetch(`${baseUrl}/v1/organization/users`, {
-method: "GET",
-headers: {
-"Content-Type": "application/json",
-Authorization: base64Encode(`${publicKey}:${token}`),
-Timestamp: timestamp,
-}
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: base64Encode(`${publicKey}:${token}`),
+    Timestamp: timestamp,
+  }
 });
 
 console.log("resp is ", await resp.json());
@@ -35,10 +35,10 @@ console.log("resp is ", await resp.json());
 
 ```
 headers = {
-"authorization": base64.b64encode(auth.encode()).decode(),
-"accept": "application/json",
-"timestamp": timestamp,
-"content-type": "application/json",
+  "authorization": base64.b64encode(auth.encode()).decode(),
+  "accept": "application/json",
+  "timestamp": timestamp,
+  "content-type": "application/json",
 }
 
 url = f"{baseUrl}/v1/organizations/users"
@@ -48,22 +48,24 @@ res = resp.json()
 print(res)
 ```
 
++++
+
 ### Response
 
 The calls will return the below JSON:
 
 ```
 {
-"\_id": "xxx", // userId - important: this MUST be provided in the /v1/slate/create call
-"created": "123", // timestamp of creation
-"firstName": "Tim",
-"lastName": "Slate",
-"email": "timslate@slatebox.com",
-"isEmailVerified": true,
-"clientId": "xxx",
-"whiteListedIPs": "\*",
-"isPro": true,
-"isOrgOwner": true
+  "_id": "xxx", // userId - important: this MUST be provided in the /v1/slate/create call
+  "created": "123", // timestamp of creation
+  "firstName": "Tim",
+  "lastName": "Slate",
+  "email": "timslate@slatebox.com",
+  "isEmailVerified": true,
+  "clientId": "xxx",
+  "whiteListedIPs": "*",
+  "isPro": true,
+  "isOrgOwner": true
 }
 
 ```
@@ -93,10 +95,10 @@ console.log("resp is ", await resp.json());
 
 ```
 headers = {
-    "authorization": base64.b64encode(auth.encode()).decode(),
-    "accept": "application/json",
-    "timestamp": timestamp,
-    "content-type": "application/json",
+  "authorization": base64.b64encode(auth.encode()).decode(),
+  "accept": "application/json",
+  "timestamp": timestamp,
+  "content-type": "application/json",
 }
 
 url = f"{baseUrl}/v1/organization"
@@ -106,15 +108,17 @@ res = resp.json()
 print(res)
 ```
 
++++
+
 ### Response
 
 The calls will return the below JSON:
 
 ```
 {
-      _id: org._id,
-      name: org.name,
-      isPro: org.planType !== "free",
-      hasProvisionedAPIKeys: !!org.secretKey,
-    }
+  _id: org._id,
+  name: org.name,
+  isPro: org.planType !== "free",
+  hasProvisionedAPIKeys: !!org.secretKey,
+}
 ```
