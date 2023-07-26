@@ -53,8 +53,8 @@ import base64
 
 baseUrl = "https://api.slatebox.com/v1"
 
-publicKey = "b4552204-dff5-4092-80b2-d703d5efc4d2"
-secretKey = "36ce9e0e-3813-458a-8c55-f7d38192731b"
+publicKey = "YOUR_PUBLIC_KEY"
+secretKey = "YOUR_SECRET_KEY"
 
 now = datetime.datetime.now()
 timestamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
