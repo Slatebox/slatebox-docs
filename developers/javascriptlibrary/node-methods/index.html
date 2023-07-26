@@ -3,45 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="2.4.0.712635269743">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743652998977">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 2.4.0">
+    <meta name="generator" content="Retype 3.1.0">
 
     <!-- Primary Meta Tags -->
-    <title>Slate Methods</title>
-    <meta name="title" content="Slate Methods">
-    <meta name="description" content="Programatically control the slate with the below methods." />
+    <title>Node Methods</title>
+    <meta name="title" content="Node Methods">
+    <meta name="description" content="Programatically control a node with the below methods.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://docs.slatebox.com/developers/slateboxjsapi/slate-methods/" />
+    <link rel="canonical" href="https://docs.slatebox.com/developers/javascriptlibrary/node-methods/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://docs.slatebox.com/developers/slateboxjsapi/slate-methods/">
-    <meta property="og:title" content="Slate Methods">
-    <meta property="og:description" content="Programatically control the slate with the below methods.">
+    <meta property="og:url" content="https://docs.slatebox.com/developers/javascriptlibrary/node-methods/">
+    <meta property="og:title" content="Node Methods">
+    <meta property="og:description" content="Programatically control a node with the below methods.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://docs.slatebox.com/developers/slateboxjsapi/slate-methods/">
-    <meta property="twitter:title" content="Slate Methods">
-    <meta property="twitter:description" content="Programatically control the slate with the below methods.">
+    <meta property="twitter:url" content="https://docs.slatebox.com/developers/javascriptlibrary/node-methods/">
+    <meta property="twitter:title" content="Node Methods">
+    <meta property="twitter:description" content="Programatically control a node with the below methods.">
 
-    <script>(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+    <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../../resources/css/retype.css?v=2.4.0.712635269743" rel="stylesheet" />
+    <link href="../../../resources/css/retype.css?v=3.1.0.743652998977" rel="stylesheet">
 
-    <script type="text/javascript" src="../../../resources/js/config.js?v=2.4.0.712635269743" data-turbo-eval="false" defer></script>
-    <script type="text/javascript" src="../../../resources/js/retype.js?v=2.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" type="text/javascript" src="../../../resources/js/lunr.js?v=2.4.0.712635269743" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.1.0.743652998977" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.1.0.743652998977" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
         <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
     
         <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
-            <div class="container relative flex items-center justify-between grow pr-6 md:justify-start">
+            <div class="container relative flex items-center justify-between pr-6 grow md:justify-start">
                 <!-- Mobile menu button skeleton -->
                 <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
                 <div v-cloak id="docs-sidebar-toggle"></div>
@@ -80,24 +80,22 @@
                         <!-- Search input mock -->
                         <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
                             <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
                             </div>
-        
-                            <input class="w-full h-10 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 placeholder-gray-400 dark:placeholder-dark-400"
-                            style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search" />
+                            <input class="w-full h-10 placeholder-gray-400 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 dark:placeholder-dark-400" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
                         </div>
         
-                        <!-- Mobile search button mock -->
+                        <!-- Mobile search button -->
                         <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
                         </div>
         
-                        <!-- Dark mode switch placehokder -->
+                        <!-- Dark mode switch placeholder -->
                         <div class="w-10 h-10 lg:ml-2"></div>
         
-                        <!-- History button mock -->
+                        <!-- History button -->
                         <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation"  style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
                         </div>
                     </div>
         
@@ -118,10 +116,10 @@
             
                 <!-- Render this div, if config.showSidebarFilter is `true` -->
                 <div class="flex items-center h-16 px-6">
-                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter" />
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter">
                 </div>
             
-                <div class="pl-6 mb-4 mt-1">
+                <div class="pl-6 mt-1 mb-4">
                     <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
                     <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
                     <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
@@ -171,295 +169,40 @@
             <div class="grow min-w-0 dark:bg-dark-850">
                 <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
                 <div class="flex">
-                    <div class="grow min-w-0 px-6 md:px-16">
-                        <main class="relative pt-6 pb-16">
+                    <div class="min-w-0 p-4 grow md:px-16">
+                        <main class="relative pb-12 lg:pt-2">
                             <div class="docs-markdown" id="docs-content">
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="docs-sidebar-right-toggle"></div>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="slate-methods" class="break-words">
+<doc-anchor-target id="node-methods" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#slate-methods">#</doc-anchor-trigger>
-        <span>Slate Methods</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#node-methods">#</doc-anchor-trigger>
+        <span>Node Methods</span>
     </h1>
 </doc-anchor-target>
-<p>Programatically control the slate with the below methods.</p>
-<doc-anchor-target id="nodesadd">
+<p>Programatically control a node with the below methods.</p>
+<doc-anchor-target id="move">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#nodesadd">#</doc-anchor-trigger>
-        <span>nodes.add</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#move">#</doc-anchor-trigger>
+        <span>move</span>
     </h3>
 </doc-anchor-target>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>adds new node(s) to the slate</span>
+        <span>move a node by x, y coordinates</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">    slate.nodes.add([{
-       new Slatebox.node({
-          id: 'first_node',
-          name: 'first_node',
-          text: 'drag me',
-          xPos: 25110,
-          yPos: 25120,
-          height: 60,
-          width: 120,
-          vectorPath: 'roundedrectangle',
-          backgroundColor: '#24A8E0',
-          lineColor: '#333',
-          lineWidth: 5,
-          allowMenu: true,
-          filters: {
-            vect: 'dropShadow',
-          },
-        })
-    }]);</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>node</code></td>
-<td>object</td>
-<td>either <a href="../node-properties/">a node object</a> or an array of node objects.</td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>null</p>
-    </div>
-</div>
-<doc-anchor-target id="nodesremove">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#nodesremove">#</doc-anchor-trigger>
-        <span>nodes.remove</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>remove node(s) from the slate</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">    slate.nodes.remove([{
-      options: {
-        id: &quot;id_to_remove&quot;
-      }
-    }]);</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>node</code></td>
-<td>object</td>
-<td>either <a href="../node-properties/">a node object</a> or an array of node objects.</td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>null</p>
-    </div>
-</div>
-<doc-anchor-target id="svg">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#svg">#</doc-anchor-trigger>
-        <span>svg</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>download the slate as svg</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">    slate.svg();</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>None</p>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>browser will download a <code v-pre>slate_timestamp.svg</code> svg file</p>
-    </div>
-</div>
-<doc-anchor-target id="png">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#png">#</doc-anchor-trigger>
-        <span>png</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>download the slate as png</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">    slate.png();</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>None</p>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>browser will download a <code v-pre>slate_timestamp.png</code> png file</p>
-    </div>
-</div>
-<doc-anchor-target id="canvaszoom">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#canvaszoom">#</doc-anchor-trigger>
-        <span>canvas.zoom</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>zoom the slate on the z plane</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">slate.canvas.zoom({
-  dur: 500,
-  callbacks: {
-      after: () =&gt; {
-        console.log('called at the end of the zoom');
-    },
-    during: () =&gt; {
-      console.log('called once per animationFrame while zooming');
-    }
-  },
-  easing: 'easeFromTo',
-  zoomPercent: 100,
-});</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>dur</code></td>
-<td>integer</td>
-<td>duration in millis</td>
-</tr>
-<tr>
-<td><code v-pre>callbacks</code></td>
-<td>object</td>
-<td>callbacks for <code v-pre>after</code> and <code v-pre>during</code> move</td>
-</tr>
-<tr>
-<td><code v-pre>easing</code></td>
-<td>string</td>
-<td><a href="../easing/">see all easing options</a></td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>null</p>
-    </div>
-</div>
-<doc-anchor-target id="canvasmove">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#canvasmove">#</doc-anchor-trigger>
-        <span>canvas.move</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>move the slate on the x, y plane</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">slate.canvas.move({
-    x: 125,
-    y: 40,
-    dur: 500,
-    callbacks: {
-      after: () =&gt; {
-        console.log('called at the end of the move');
-      },
-      during: () =&gt; {
-        console.log('called once per animationFrame while moving');
-      }
-    },
-    isAbsolute: false,
-    easing: 'easeFromTo',
-  });</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.move({
+        x: 30,
+        y: 20,
+        dur: 500
+    });</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
@@ -476,32 +219,358 @@
 <tr>
 <td><code v-pre>x</code></td>
 <td>integer</td>
-<td><code v-pre>x</code> in px to move the canvas (relative or absolute, depending on <code v-pre>isAbsolute</code>)</td>
+<td>Relative number of px to move the node on x axis</td>
 </tr>
 <tr>
 <td><code v-pre>y</code></td>
 <td>integer</td>
-<td><code v-pre>y</code> in px to move the canvas (relative or absolute, depending on <code v-pre>isAbsolute</code>)</td>
+<td>Relative number of px to move the node on y axis</td>
 </tr>
 <tr>
 <td><code v-pre>dur</code></td>
-<td>integer</td>
-<td>duration in millis</td>
+<td>intger</td>
+<td>The milliseconds for animating the move. Set to 0 to move instantly.</td>
 </tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="tofront">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#tofront">#</doc-anchor-trigger>
+        <span>toFront</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>move a node to front on the z axis</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.toFront();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>none</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="toback">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#toback">#</doc-anchor-trigger>
+        <span>toBack</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>move a node to back on the z axis</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.toBack();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>none</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="hide">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#hide">#</doc-anchor-trigger>
+        <span>hide</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>hide the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.hide();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>none</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="show">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#show">#</doc-anchor-trigger>
+        <span>show</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>show the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.show();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>none</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="togglefilters">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#togglefilters">#</doc-anchor-trigger>
+        <span>toggleFilters</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>show or hide the node effect (dropshadow, etc)</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.toggleFilters(blnHide);</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
 <tr>
-<td><code v-pre>callbacks</code></td>
-<td>object</td>
-<td>callbacks for <code v-pre>after</code> and <code v-pre>during</code> move</td>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td><code v-pre>isAbsolute</code></td>
+<td><code v-pre>blnHide</code></td>
 <td>boolean</td>
-<td>relative or absolute <code v-pre>x,y</code> coordinates</td>
+<td>Set to true ot hide the filter effect</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="spin">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#spin">#</doc-anchor-trigger>
+        <span>spin</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Apply a perpetual spin effect to a node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.spin({
+        angle: 280,
+        duration: 500
+    });</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>angle</code></td>
+<td>integer</td>
+<td>The angle to spin the node</td>
+</tr>
+<tr>
+<td><code v-pre>duration</code></td>
+<td>integer</td>
+<td>Milliseconds to take for each spin animation</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="zoom">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#zoom">#</doc-anchor-trigger>
+        <span>zoom</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Zoom in on the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.zoom(zoomPercent, duration, cb);</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>zoomPercent</code></td>
+<td>integer</td>
+<td>The zoom percent</td>
+</tr>
+<tr>
+<td><code v-pre>duration</code></td>
+<td>integer</td>
+<td>Milliseconds to take for the zoom</td>
+</tr>
+<tr>
+<td><code v-pre>cb</code></td>
+<td>function</td>
+<td>Callback once the zoom completes</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="position">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#position">#</doc-anchor-trigger>
+        <span>position</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Position the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.position(location, cb, easing, dur);</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>location</code></td>
+<td>string</td>
+<td>Position on the slate to put this node. Options are <code v-pre>lowerright</code>, <code v-pre>lowerleft</code>, <code v-pre>upperright</code>, <code v-pre>upperleft</code> and <code v-pre>center</code>.</td>
+</tr>
+<tr>
+<td><code v-pre>cb</code></td>
+<td>function</td>
+<td>Callback once the position completes</td>
 </tr>
 <tr>
 <td><code v-pre>easing</code></td>
-<td>string</td>
-<td><a href="../easing/">see all easing options</a></td>
+<td>function</td>
+<td>The <a href="../easing/">easing</a> options</td>
+</tr>
+<tr>
+<td><code v-pre>dur</code></td>
+<td>function</td>
+<td>The milliseconds in which to animate the position</td>
 </tr>
 </tbody>
 </table>
@@ -516,226 +585,10 @@
 <p>null</p>
     </div>
 </div>
-<doc-anchor-target id="applytheme">
+<doc-anchor-target id="disable">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#applytheme">#</doc-anchor-trigger>
-        <span>applyTheme</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>applyTheme</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">slate.applyTheme(theme, syncWithTheme);</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>theme</code></td>
-<td>object</td>
-<td><a href="../themeexample/">A theme object</a></td>
-</tr>
-<tr>
-<td><code v-pre>syncWithTheme</code></td>
-<td>boolean</td>
-<td>Setting to <code v-pre>true</code> syncs the properties with created children with the theme properties instead of the default (children inheriting properties from their parents.</td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>null</p>
-    </div>
-</div>
-<doc-anchor-target id="exportjson">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#exportjson">#</doc-anchor-trigger>
-        <span>exportJSON</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>a JSON representation of the slate</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">slate.exportJSON();</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>None</p>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
-        <span>returns an array of <a href="../node-properties/">...nodeObject</a>(s) and a <a href="../slate-properties/">...slateObject</a>.</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">{
- &quot;_id&quot;: &quot;CsiJNp8G8LiPHhxRD&quot;,
-	&quot;created&quot;: 1650100223609,
-	&quot;lastSaved&quot;: 1650100223609,
-	&quot;nodes&quot;: [
-    {
-      ...nodeObject
-    }
-  ]
-  &quot;options&quot;: {
-    ...slateObject
-  },
-  &quot;shareId&quot;: &quot;ebc8e555&quot;,
-  &quot;userId&quot;: &quot;xxx&quot;,
-  &quot;orgId&quot;: &quot;yyy&quot;
-}</code></pre>
-</doc-codeblock></div>
-    </div>
-</div>
-<doc-anchor-target id="loadjson">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#loadjson">#</doc-anchor-trigger>
-        <span>loadJSON</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>load a slate with the JSON string exported from <code v-pre>exportJSON</code></span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.loadJSON(jsonSlate, blnPreserve, blnSkipZoom);</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>jsonSlate</code></td>
-<td>string</td>
-<td>A JSON string as described in the <code v-pre>exportJSON</code> return</td>
-</tr>
-<tr>
-<td><code v-pre>blnPreserve</code></td>
-<td>boolean</td>
-<td>Setting to <code v-pre>true</code> will preserve the contents of the targeted slate.</td>
-</tr>
-<tr>
-<td><code v-pre>blnSkipZoom</code></td>
-<td>boolean</td>
-<td>Setting to <code v-pre>true</code> will not zoom the slate after loading the nodes</td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>returns</span>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<p>null</p>
-    </div>
-</div>
-<doc-anchor-target id="getorientation">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#getorientation">#</doc-anchor-trigger>
-        <span>getOrientation</span>
-    </h3>
-</doc-anchor-target>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>orientation details for the slate</span>
-    </div>
-    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
-        <span>arguments</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">slate.getOrientation(nodesToOrient, alwaysOne);</code></pre>
-</doc-codeblock></div>
-    </div>
-    <div class="px-5 py-3 docs-columns-content">
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code v-pre>nodesToOrient</code></td>
-<td>array</td>
-<td>An optional array of node <code v-pre>id</code>s to use when calculating the orientation, if ommited or null, defaults to all nodes</td>
-</tr>
-<tr>
-<td><code v-pre>alwaysOne</code></td>
-<td>boolean</td>
-<td>Defaults to false. Set to true to always enforce a zoom level of 1 (fit to screen) for the orientation</td>
-</tr>
-</tbody>
-</table>
-</div>
-    </div>
-</div>
-<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
-        <span>returns</span>
-    </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  {
-    orientation: 'landscape|portrait',
-    height: 448, // height of slate in px
-    width: 780, // width of slate in px
-    left: 45, // left (x) of the slate as positioned against the infinite canvas in px
-    top: 23, // top (y) coords of the slate as positioned against the infinite canvas in px
-  }</code></pre>
-</doc-codeblock></div>
-    </div>
-</div>
-<doc-anchor-target id="scaletofitandcenter">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#scaletofitandcenter">#</doc-anchor-trigger>
-        <span>scaleToFitAndCenter</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#disable">#</doc-anchor-trigger>
+        <span>disable</span>
     </h3>
 </doc-anchor-target>
 <div class="flex mb-6">
@@ -751,20 +604,83 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>This function combines the <code v-pre>scaleToFitNodes</code> and <code v-pre>centerOnNodes</code> methods into one simplified call.</p>
+<p>Optionally set <code v-pre>node.options.isLocked = true</code> prior to making this <code v-pre>disable</code> call to enable lock icons that the user can programmatically click to re-enable the node.</p>
         </div>
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>scale and center the slate on all its nodes</span>
+        <span>Disables the node from any interaction</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.scaleToFitAndCenter(dur, cb);</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.disable();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>None</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="enable">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#enable">#</doc-anchor-trigger>
+        <span>enable</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Enable the node for user interaction</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.enable();</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>None</p>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="colorpickerset">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#colorpickerset">#</doc-anchor-trigger>
+        <span>colorPicker.set</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Set the background color and opacity for the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.colorPicker.set({
+        color: '#333',
+        opacity: 1.0
+    });</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
@@ -779,14 +695,14 @@
 </thead>
 <tbody>
 <tr>
-<td><code v-pre>dur</code></td>
-<td>integer</td>
-<td>The duration in milliseconds for the scaling and centering animations to happen</td>
+<td><code v-pre>color</code></td>
+<td>string</td>
+<td>The hex color for the node. Gradients can also be defined: <code v-pre>90-#031634-#2D579A</code> (angle-start_hex-end_hex)</td>
 </tr>
 <tr>
-<td><code v-pre>cb</code></td>
-<td>function</td>
-<td>Optional callback to fire after scaling and centering completes</td>
+<td><code v-pre>opacity</code></td>
+<td>integer</td>
+<td>the opacity percentage (0.0 - 1.0) for the node color</td>
 </tr>
 </tbody>
 </table>
@@ -794,35 +710,29 @@
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>returns</span>
     </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  null</code></pre>
-</doc-codeblock></div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
     </div>
 </div>
-<doc-anchor-target id="scaletofitnodes">
+<doc-anchor-target id="customshapesset">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#scaletofitnodes">#</doc-anchor-trigger>
-        <span>scaleToFitNodes</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#customshapesset">#</doc-anchor-trigger>
+        <span>customShapes.set</span>
     </h3>
 </doc-anchor-target>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>scale the slate to show all nodes (or those selected) in the viewport</span>
+        <span>Set the node to a custom svg path</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.scaleToFitNodes({
-    nodes: [],
-    dur: 0,
-    cb: null
-  });</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.customShapes.set(path, width, height, sendCollab);</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
@@ -837,19 +747,24 @@
 </thead>
 <tbody>
 <tr>
-<td><code v-pre>nodes</code></td>
-<td>array</td>
-<td>An optional array of node <code v-pre>id</code>s to use when calculating the scaling, if ommited or null, defaults to all nodes</td>
+<td><code v-pre>path</code></td>
+<td>string</td>
+<td>The custom svg path to attach to the node (e.g., <code v-pre>M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z</code>)</td>
 </tr>
 <tr>
-<td><code v-pre>dur</code></td>
+<td><code v-pre>width</code></td>
 <td>integer</td>
-<td>The duration in milliseconds for the scaling animation to happen</td>
+<td>The width of the shape in px</td>
 </tr>
 <tr>
-<td><code v-pre>cb</code></td>
-<td>function</td>
-<td>Optional callback to fire after scaling completes</td>
+<td><code v-pre>height</code></td>
+<td>integer</td>
+<td>The height of the shape in px</td>
+</tr>
+<tr>
+<td><code v-pre>sendCollab</code></td>
+<td>boolean</td>
+<td>Set to false to NOT send the collaboration data, defaults to true</td>
 </tr>
 </tbody>
 </table>
@@ -857,35 +772,29 @@
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>returns</span>
     </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  null</code></pre>
-</doc-codeblock></div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
     </div>
 </div>
-<doc-anchor-target id="centeronnodes">
+<doc-anchor-target id="editorset">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#centeronnodes">#</doc-anchor-trigger>
-        <span>centerOnNodes</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#editorset">#</doc-anchor-trigger>
+        <span>editor.set</span>
     </h3>
 </doc-anchor-target>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>scale the slate to show all nodes (or those selected) in the viewport</span>
+        <span>Set the node to a custom svg path</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.scaleToFitNodes({
-    nodes: [],
-    dur: 0,
-    cb: null
-  });</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.editor.set(text, fontSize, fontColor, fontOpacity, textXAlign, textYAlign);</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
@@ -900,19 +809,34 @@
 </thead>
 <tbody>
 <tr>
-<td><code v-pre>nodes</code></td>
-<td>array</td>
-<td>An optional array of node <code v-pre>id</code>s to use when calculating the centering, if ommited or null, defaults to all nodes</td>
+<td><code v-pre>text</code></td>
+<td>string</td>
+<td>The text to go in the node. Include appropriate <code v-pre>\n</code> line breaks where necessary</td>
 </tr>
 <tr>
-<td><code v-pre>dur</code></td>
+<td><code v-pre>fontSize</code></td>
 <td>integer</td>
-<td>The duration in milliseconds for the center move animation to happen</td>
+<td>The width of the shape in px</td>
 </tr>
 <tr>
-<td><code v-pre>cb</code></td>
-<td>function</td>
-<td>Optional callback to fire after centering completes</td>
+<td><code v-pre>fontColor</code></td>
+<td>string</td>
+<td>The hex color of the text (<code v-pre>#333</code>)</td>
+</tr>
+<tr>
+<td><code v-pre>fontOpacity</code></td>
+<td>integer</td>
+<td>The opacity percentage of the text (0.0 - 1.0)</td>
+</tr>
+<tr>
+<td><code v-pre>textXAlign</code></td>
+<td>string</td>
+<td>Text horizontal align (<code v-pre>middle</code>, <code v-pre>left</code>, <code v-pre>right</code>)</td>
+</tr>
+<tr>
+<td><code v-pre>textYAlign</code></td>
+<td>string</td>
+<td>Text vertical align (<code v-pre>middle</code>, <code v-pre>top</code>, <code v-pre>bottom</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -920,102 +844,299 @@
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>returns</span>
     </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  null</code></pre>
-</doc-codeblock></div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
     </div>
 </div>
-<doc-anchor-target id="slategridshow">
+<doc-anchor-target id="imagesset">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#slategridshow">#</doc-anchor-trigger>
-        <span>slate.grid.show</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#imagesset">#</doc-anchor-trigger>
+        <span>images.set</span>
     </h3>
 </doc-anchor-target>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>show the background grid on the slate canvas</span>
+        <span>Set an image to the background of the node</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.grid.show();</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.images.set(img, width, height);</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
-<p>none</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>image</code></td>
+<td>string</td>
+<td>The img src url (e.g., <code v-pre>https://e.com/i.png</code>)</td>
+</tr>
+<tr>
+<td><code v-pre>width</code></td>
+<td>integer</td>
+<td>The width of the image (used for proportionally resizing)</td>
+</tr>
+<tr>
+<td><code v-pre>height</code></td>
+<td>integer</td>
+<td>The height of the image (used for proportionally resizing)</td>
+</tr>
+</tbody>
+</table>
+</div>
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>returns</span>
     </div>
-    <div class="docs-columns-code docs-columns-content">
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  null</code></pre>
-</doc-codeblock></div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
     </div>
 </div>
-<doc-anchor-target id="slategriddestroy">
+<doc-anchor-target id="linksset">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#slategriddestroy">#</doc-anchor-trigger>
-        <span>slate.grid.destroy</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#linksset">#</doc-anchor-trigger>
+        <span>links.set</span>
     </h3>
 </doc-anchor-target>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
     <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
-        <span>remove the background grid on the slate canvas</span>
+        <span>Set a link on the node</span>
     </div>
     <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>arguments</span>
     </div>
     <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  slate.grid.destroy();</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.links.set({
+        type: 'url|currentSlate',
+        data: 'https://slatebox.com|other_node_id'
+    }, blnSendCollab);</code></pre>
 </doc-codeblock></div>
     </div>
     <div class="px-5 py-3 docs-columns-content">
-<p>none</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>opts.type</code></td>
+<td>string</td>
+<td>The type of link, either <code v-pre>url</code> (links to external site) or <code v-pre>currentSlate</code> (links to another node on the same slate).</td>
+</tr>
+<tr>
+<td><code v-pre>opts.data</code></td>
+<td>string</td>
+<td>The link data (either the url or the other node&#x27;s <code v-pre>id</code>)</td>
+</tr>
+<tr>
+<td><code v-pre>blnSendCollab</code></td>
+<td>boolean</td>
+<td>Boolean as to whether to send the collab data</td>
+</tr>
+</tbody>
+</table>
+</div>
     </div>
 </div>
 <div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
-    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
         <span>returns</span>
     </div>
-    <div class="docs-columns-code docs-columns-content">
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="linksunset">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#linksunset">#</doc-anchor-trigger>
+        <span>links.unset</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Remove a link from the node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-none"><code v-pre class="language-none">  null</code></pre>
+<pre class="language-none"><code v-pre class="language-none">    node.links.unset(blnSendCollab);</code></pre>
 </doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>blnSendCollab</code></td>
+<td>boolean</td>
+<td>Boolean as to whether to send the collab data</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="resizeset">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#resizeset">#</doc-anchor-trigger>
+        <span>resize.set</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Resize a node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.resize.set(width, height);</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>width</code></td>
+<td>integer</td>
+<td>Width in px to resize the node</td>
+</tr>
+<tr>
+<td><code v-pre>height</code></td>
+<td>integer</td>
+<td>Height in px to resize the node</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
+    </div>
+</div>
+<doc-anchor-target id="rotateset">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#rotateset">#</doc-anchor-trigger>
+        <span>rotate.set</span>
+    </h3>
+</doc-anchor-target>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-mono leading-snug text-white docs-columns-code-title border-r">
+        <span>Rotate a node</span>
+    </div>
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>arguments</span>
+    </div>
+    <div class="docs-columns-code docs-columns-content border-r border-gray-200 dark:border-dark-650">
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">    node.rotate.set(rotationAngle);</code></pre>
+</doc-codeblock></div>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>rotationAngle</code></td>
+<td>integer</td>
+<td>The rotation angle (0-360) to apply</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</div>
+<div class="mb-6 overflow-hidden border rounded-md docs-columns dark:border-dark-650" style="grid-template-columns: repeat(1, minmax(0, 1fr));">
+    <div class="flex items-center px-5 py-3 font-medium leading-snug text-gray-900 border-b border-gray-200 dark:border-dark-650 dark:text-white">
+        <span>returns</span>
+    </div>
+    <div class="px-5 py-3 docs-columns-content">
+<p>null</p>
     </div>
 </div>
 
                                 
                                 <!-- Required only on API pages -->
-                                <doc-toolbar-member-filter-no-results />
+                                <doc-toolbar-member-filter-no-results></doc-toolbar-member-filter-no-results>
                             </div>
                             <footer class="clear-both">
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../developers/slateboxjsapi/slate-properties/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../developers/javascriptlibrary/node-properties/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Slate Properties</span>
+                                                <span class="block mt-1">Node Properties</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../../developers/slateboxjsapi/node-properties/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../../developers/javascriptlibrary/association-properties/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Node Properties</span>
+                                                <span class="block mt-1">Association Properties</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -1059,6 +1180,6 @@
 
     <div id="docs-overlay-target"></div>
 
-    <script>window.__DOCS__ = { "title": "Slate Methods", level: 3, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Node Methods", level: 3, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false }</script>
 </body>
 </html>
