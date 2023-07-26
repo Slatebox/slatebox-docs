@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743653430764">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.1.0.743695204084">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.1.0">
@@ -11,7 +11,7 @@
     <!-- Primary Meta Tags -->
     <title>Slates</title>
     <meta name="title" content="Slates">
-    <meta name="description" content="The /v1/slates endpoint lets you dynamically produce a slate.">
+    <meta name="description" content="You must have a Slatebox TEAM subscription to make this call. Sign up for FREE access here.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/slates/">
@@ -20,21 +20,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.slatebox.com/developers/slateboxapi/slates/">
     <meta property="og:title" content="Slates">
-    <meta property="og:description" content="The /v1/slates endpoint lets you dynamically produce a slate.">
+    <meta property="og:description" content="You must have a Slatebox TEAM subscription to make this call. Sign up for FREE access here.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://docs.slatebox.com/developers/slateboxapi/slates/">
     <meta property="twitter:title" content="Slates">
-    <meta property="twitter:description" content="The /v1/slates endpoint lets you dynamically produce a slate.">
+    <meta property="twitter:description" content="You must have a Slatebox TEAM subscription to make this call. Sign up for FREE access here.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../../resources/css/retype.css?v=3.1.0.743653430764" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.1.0.743695204084" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.1.0.743653430764" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.1.0.743695204084" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.1.0.743653430764" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.1.0.743695204084" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -188,13 +188,31 @@
         <span>/v1/slates endpoint</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>/v1/slates</code> endpoint lets you dynamically produce a slate.</p>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-blue-500 dark:bg-blue-400"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-blue-500 dark:text-blue-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>You must have a Slatebox TEAM subscription to make this call. <a href="https://form.jotform.com/231197009478058">Sign up for FREE access here</a>.</p>
+        </div>
+    </div>
+</div>
+<p>The <code v-pre>/v1/slates/create</code> endpoint lets you programmatically produce an editable slate, accessible via your TEAM portal at <a href="https://app.slatebox.com">slatebox</a>.</p>
 <p>To make the invocation, you need to POST the below JSON to <code v-pre>/v1/slates/create</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre class="language-none"><code v-pre class="language-none">{
   &quot;imageId&quot;: &quot;image_1&quot;, // optional id for your image
   &quot;type&quot;: &quot;scratch&quot;,  # scratch|url|template
   &quot;prompt&quot;: &quot;Long form prompt (or short form) of what you want the slate about&quot;, // for URL type, this should be the URL
+  &quot;templateId&quot;: &quot;&quot; // necessary for a &quot;template&quot; type -- [the template ids are here](https://slatebox.com/templates)
   &quot;async&quot;: true, // true if you want an id returned quickly that you can correlate with the webhooks; false if you want the POST to wait for the slate to be created
   &quot;userId&quot;: &quot;xxx&quot;, // userid pulled from your organization
   &quot;tone&quot;: &quot;witty&quot;, // what tone?  Whatever phrase you like
@@ -207,6 +225,98 @@
   },
 }</code></pre>
 </doc-codeblock></div>
+<p>Currently, there are three types of visualizations you can make:</p>
+<ol>
+<li>Scratch - this is a mindmap diagram &quot;from scratch&quot; about whatever <code v-pre>prompt</code> you provide.</li>
+<li>Template - based on the <a href="https://slatebox.com/templates">templates</a> at Slatebox, you can provide a <code v-pre>prompt</code> that describes the issue for which you&#x27;re using the template, and a <code v-pre>templateId</code> like <code v-pre>pro-con</code> or <code v-pre>swot-analysis</code> that you&#x27;d like to generate.</li>
+<li>URL - this produces a mindmap diagram based on the text of the URL provided in the <code v-pre>prompt</code>.</li>
+</ol>
+<p>Below are code samples of how to make this call, but note you must <a href="../">produce the authentication header</a> to send along with the request.</p>
+<doc-tabs>
+<doc-tab v-cloak id="deno">
+<template #title>Deno</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">const body = {
+  imageId: &quot;image_1&quot;,
+  type: &quot;scratch&quot;, //url|template
+  prompt:
+    'long or short prompt',
+  tone: &quot;witty&quot;,
+  levelOfDetail: &quot;5&quot;,
+  wordsPerNode: &quot;25&quot;,
+  themeId: &quot;ocean&quot;,
+  webhooks: {
+    onComplete: &quot;https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a&quot;,
+    onUpdate: &quot;https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a&quot;,
+    onError: &quot;https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a&quot;,
+  },
+};
+
+console.log(&quot;token time&quot;, token, timestamp);
+
+const resp = await fetch(`${baseUrl}/v1/slate/create`, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+    Authorization: base64Encode(`${publicKey}:${token}`),
+    Timestamp: timestamp,
+  },
+  body: JSON.stringify(body),
+});
+
+console.log(&quot;resp is &quot;, await resp.json());</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="python">
+<template #title>Python</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">headers = {
+    &quot;authorization&quot;: base64.b64encode(auth.encode()).decode(),
+    &quot;accept&quot;: &quot;application/json&quot;,
+    &quot;timestamp&quot;: timestamp,
+    &quot;content-type&quot;: &quot;application/json&quot;,
+}
+
+body = {
+    &quot;imageId&quot;: &quot;image_1&quot;,
+    &quot;type&quot;: &quot;scratch&quot;,  # scratch|url|template
+    &quot;prompt&quot;: &quot;The long tail of history in wwII memory&quot;,  # https://en.wikipedia.org/wiki/Manhattan_Project
+    &quot;async&quot;: False,
+    &quot;userId&quot;: &quot;xxx&quot;,
+    &quot;tone&quot;: &quot;witty&quot;,
+    &quot;levelOfDetail&quot;: &quot;5&quot;,
+    &quot;wordsPerNode&quot;: &quot;25&quot;,
+    &quot;themeId&quot;: &quot;ocean&quot;,
+    &quot;webhooks&quot;: {
+        &quot;onComplete&quot;: &quot;https://webhook.site/58dc9462-2e64-488b-a539-c40b5df2d8bc&quot;,
+        &quot;onError&quot;: &quot;https://webhook.site/58dc9462-2e64-488b-a539-c40b5df2d8bc&quot;,
+    },
+}
+
+url = f&quot;{baseUrl}/v1/slate/create&quot;
+print(url, headers, body)
+resp = requests.post(url, headers=headers, json=body)
+
+res = resp.json()
+print(res)</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="response">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#response">#</doc-anchor-trigger>
+        <span>Response</span>
+    </h3>
+</doc-anchor-target>
+<p>The calls will return the below JSON:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">{
+  &quot;id&quot;: &quot;image_1&quot;,
+  &quot;final&quot;: true,
+  &quot;error&quot;: false,
+  &quot;pngUrl&quot;: &quot;https://files.slatebox.com/82c99f53_XXX.png&quot;, // URL to a PNG of the slate
+  &quot;slateUrl&quot;: &quot;https://app.slatebox.com/canvas/XXX&quot; // URL to the editable slate
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
 
                                 
                                 <!-- Required only on API pages -->
