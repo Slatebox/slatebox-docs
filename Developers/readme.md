@@ -19,4 +19,4 @@ Slateboxjs is an open source, MIT-licensed low-level <a href="https://www.npmjs.
 The Slatebox API is a server-side API that organizations with Slatebox can use to interact with their data and produce editable visualizations using a prompt.
 !!!
 
-Not sure which to use? The Slatebox development guide will get the Slatebox.com app running on your machine quickly. Slateboxjs is a javascript library meant to be used at a lower level module for programmatic control of "slates" -- the library itself is included in the Slatebox App.
+<!-- Not sure which to use? The Slatebox development guide will get the Slatebox.com app running on your machine quickly. Slateboxjs is a javascript library meant to be used at a lower level module for programmatic control of "slates" -- the library itself is included in the Slatebox App. -->

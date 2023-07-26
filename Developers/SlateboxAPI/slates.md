@@ -41,7 +41,7 @@ Currently, there are three types of visualizations you can make:
 
 Below are code samples of how to make this call, but note you must [produce the authentication header](./readme.md) to send along with the request.
 
-+++ Deno
++++ Deno/Node
 
 ```
 const body = {
@@ -59,8 +59,6 @@ const body = {
     onError: "https://webhook.site/27078c5e-722f-4ce5-990d-9fc46911177a",
   },
 };
-
-console.log("token time", token, timestamp);
 
 const resp = await fetch(`${baseUrl}/v1/slate/create`, {
   method: "POST",
@@ -102,7 +100,6 @@ body = {
 }
 
 url = f"{baseUrl}/v1/slate/create"
-print(url, headers, body)
 resp = requests.post(url, headers=headers, json=body)
 
 res = resp.json()
