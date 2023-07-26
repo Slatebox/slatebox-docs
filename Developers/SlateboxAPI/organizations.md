@@ -116,9 +116,9 @@ The calls will return the below JSON:
 
 ```
 {
-  _id: org._id,
-  name: org.name,
-  isPro: org.planType !== "free",
-  hasProvisionedAPIKeys: !!org.secretKey,
+  _id: "xxx",
+  name: "MyOrgName",
+  isPro: true,
+  hasProvisionedAPIKeys: true,
 }
 ```
