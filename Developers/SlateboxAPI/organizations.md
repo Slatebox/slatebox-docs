@@ -4,7 +4,7 @@ icon: star
 order: 400
 ---
 
-### /v1/organizations endpoint
+### /v1/organization endpoint
 
 !!!
 You must have a Slatebox TEAM subscription to make these call. [Sign up for FREE access here](https://form.jotform.com/231197009478058).
@@ -41,7 +41,7 @@ headers = {
   "content-type": "application/json",
 }
 
-url = f"{baseUrl}/v1/organizations/users"
+url = f"{baseUrl}/v1/organization/users"
 resp = requests.get(url, headers=headers)
 
 res = resp.json()
