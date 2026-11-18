@@ -27,6 +27,8 @@ A field-recording team has one recorder on Friday. Give everyone a place to pitc
 2. In **Pitches**, choose **Add card**. Enter “Dawn chorus” under **Card name** and choose **Add card** to save it. Add “Ferry horn” and “Rain on glass” the same way. For another destination, choose **Add lane**, give it a name and set a capacity if needed.
 3. Share an edit link with a teammate. Drag “Dawn chorus” to **Record on Friday**, or open **Move a card by name** and select the lane. The single slot is full. To choose “Ferry horn” instead, move the chorus back to **Pitches**, then move the horn into Friday. Both editors see the same choice. [Share an edit link](#work-with-a-team)
 
+To keep “Dawn chorus” out of a third lane, open **Edit an object**, select the card and find **Where this card can move**. Clear **Any lane, including new lanes**, choose **Record on Friday** and save. The card keeps its current lane, and teammates see only the permitted destinations that have room.
+
 ## Turn a workshop into a decision
 
 Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
