@@ -25,7 +25,7 @@ A field-recording team has one recorder on Friday. Give everyone a place to pitc
 
 1. The new private slate opens as **Untitled workshop** with two empty lanes. Select the **Lane 1** heading, change **Name** to “Pitches” and choose **Save changes**. Rename **Lane 2** to “Record on Friday”, set **Capacity** to **1**, and save.
 2. In **Pitches**, choose **Add card**. Enter “Dawn chorus” under **Card name** and choose **Add card** to save it. Add “Ferry horn” and “Rain on glass” the same way. For another destination, choose **Add lane**, give it a name and set a capacity if needed.
-3. Share an edit link with a teammate. Move “Dawn chorus” to **Record on Friday**. The single slot is full. To choose “Ferry horn” instead, move the chorus back to **Pitches**, then move the horn into Friday. Both editors see the same choice. [Share an edit link](#work-with-a-team)
+3. Share an edit link with a teammate. Drag “Dawn chorus” to **Record on Friday**, or open **Move a card by name** and select the lane. The single slot is full. To choose “Ferry horn” instead, move the chorus back to **Pitches**, then move the horn into Friday. Both editors see the same choice. [Share an edit link](#work-with-a-team)
 
 ## Turn a workshop into a decision
 
