@@ -178,6 +178,46 @@ case "${1:-}" in
       startup_files+=(self-host/hostnames.mjs)
     fi
     git -C "$app" archive "$full_app_rev" "${startup_files[@]}" | tar -xf - -C "$kit"
+    tools_dir=$(cd "$(dirname "$0")" && pwd -P)
+    # A standalone download remains a complete packer. The tools download adds
+    # recovery utilities to the private kit, independently of its app revision.
+    if [[ -f "$tools_dir/backup-instance.sh" || -f "$tools_dir/restore-instance.sh" ]]; then
+      [[ -f "$tools_dir/backup-instance.sh" && -f "$tools_dir/restore-instance.sh" ]] ||
+        die 'The offline recovery tools are incomplete. Extract the complete release-tools.tar.gz or use the standalone packer in its own directory.'
+      cp "$tools_dir/backup-instance.sh" "$tools_dir/restore-instance.sh" "$kit/self-host/"
+      chmod 700 "$kit/self-host/"{backup,restore}-instance.sh
+      README="$kit/self-host/README.md"
+      {
+        cat <<'RECOVERY'
+## Back up or recover this release
+
+Use the recovery scripts included beside this README for backup and migration.
+They supersede any manual volume-copy examples further down. Run them from
+the extracted release’s `self-host/` directory.
+
+On the running source, select its existing Compose project and active settings
+directory. Give the backup a new directory on protected storage.
+
+```sh
+bash ./backup-instance.sh /protected/backup-directory
+```
+
+For final cutover, use `--leave-stopped` before the directory to prevent further
+source writes. Transfer the complete backup privately. On the receiving host,
+use the matching kit, a new Compose project name and an unused state directory.
+
+```sh
+COMPOSE_PROJECT_NAME=slatebox-recovered SLATEBOX_STATE="$PWD/.recovered" bash ./restore-instance.sh /protected/backup-directory
+```
+
+Verify a known private board and its invitation before switching traffic. Keep
+external object storage in your backup plan. [Docker installation and recovery guide](https://docs.slatebox.com/installation/install-with-docker/#move-a-backed-up-instance-to-another-docker-host)
+
+RECOVERY
+        cat "$README"
+      } > "$work/kit-readme"
+      mv "$work/kit-readme" "$README"
+    fi
     cp "$0" "$kit/initialize"
     cp "$0" "$kit/start"
     chmod 700 "$kit/initialize" "$kit/start"
