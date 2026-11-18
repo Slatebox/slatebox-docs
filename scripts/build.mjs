@@ -23,7 +23,10 @@ for (const file of files) {
   const title = meta.title || text.match(/^# (.+)$/m)?.[1] || meta.label || path.basename(file,'.md')
   const section = file.startsWith('Examples/') ? 'Examples' : file.startsWith('Installation/') ? 'Self-hosting' : file.startsWith('Using-Slatebox/') ? 'Using Slatebox' : file.includes('SlateboxAPI/') ? 'HTTP API' : 'SlateboxJS'
   const body = text.replace(/^# [^\n]+\n/m,'')
-  pages.push({file, url:urlFor(file), title, section, body, desc:meta.description || '', group:meta.group || section, demo:meta.demo})
+  const prose = body.replace(/```[\s\S]*?```/g,'').split('\n').filter(line=>line && !line.startsWith('#'))
+  const summary = (prose[0] || '').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replaceAll('`','')
+  const terms = [...new Set([...body.matchAll(/^#{2,4} (.*)|`([\w.]+)`/gm)].map(m => m[1] || m[2]))].join(' ')
+  pages.push({file, url:urlFor(file), title, section, body, desc:meta.description || summary, terms, group:meta.group || section, demo:meta.demo})
 }
 const examples = pages.filter(p => p.section === 'Examples').sort((a,b)=>a.title.localeCompare(b.title))
 const sections = ['Using Slatebox','SlateboxJS','HTTP API','Self-hosting','Examples']
@@ -77,14 +80,14 @@ function render(p) {
     }
   }})
   const body=parser.parse(p.body)
-  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1>'+html(p.title)+'</h1>'+(p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+(headings.length?'<strong>On this page</strong>':'')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
+  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1>'+html(p.title)+'</h1>'+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+(headings.length?'<strong>On this page</strong>':'')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
 for (const p of pages) await write(p.url,layout(p.title,p.desc,p.url,render(p)))
 const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1>Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div></div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home))
-await write('/examples/',layout('Canvas examples','Work through a canvas interaction and see the code behind it.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a gesture, see what changes, then use the code in your own project.</p>'+list(examples)+'</section>'))
-await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section})=>({url,title,desc,section})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
+await write('/examples/',layout('Canvas examples','Work through a canvas interaction and see the code behind it.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a gesture, see what changes, then use the code in your own project.</p>'+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
+await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
 await writeFile(path.join(out,'404.html'),layout('Page not found','','/404.html','<section class="examples"><h1>Page not found.</h1><p>'+link('/','Browse the documentation')+' or '+link('/examples/','try an example')+'.</p></section>'))
 await writeFile(path.join(out,'CNAME'),'docs.slatebox.com\n')
 await writeFile(path.join(out,'.nojekyll'),'')

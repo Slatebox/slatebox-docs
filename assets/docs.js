@@ -4,7 +4,7 @@ const results = document.querySelector('#results')
 let index
 function showResults() {
   const words = query.value.toLowerCase().trim().split(/\s+/)
-  const items = index.filter(item => words.every(word => [item.title,item.section,item.desc].join(' ').toLowerCase().includes(word)))
+  const items = index.filter(item => words.every(word => [item.title,item.section,item.desc,item.terms].join(' ').toLowerCase().includes(word)))
   results.replaceChildren(...items.slice(0,18).map(item => {
     const row = document.createElement('li'), a = document.createElement('a')
     a.href = item.url
