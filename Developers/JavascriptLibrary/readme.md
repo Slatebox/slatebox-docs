@@ -18,6 +18,8 @@ Open `http://127.0.0.1:8000/quick-slate.html`. The downloadable example includes
 
 ### Connect two notes
 
+To create a new connected note with the pointer or keyboard, follow the [connected-notes exercise](../../Examples/connected-notes.md).
+
 The example gives each note a stable ID and a visible label. Once both notes are ready, connect the observation to the decision. These are the variables used in the library reference.
 
 ```js
