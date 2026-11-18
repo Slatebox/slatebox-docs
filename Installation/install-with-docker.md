@@ -16,6 +16,8 @@ The Slatebox app and SlateboxJS engine are MIT licensed. Their current source ch
 
 **Quickest self-host route:** obtain the matched images first, then use an existing Linux Docker host of the same architecture. Start locally and reopen a private slate. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, [start in Slatebox Cloud](https://app.slatebox.com/start).
 
+### Existing Docker host, DigitalOcean Droplet or AWS EC2
+
 | Where to run it | What to provision | What your team owns |
 | --- | --- | --- |
 | Existing Linux VM or on-premises server | Docker Engine, Compose v2, persistent disk and a matched pair of images. The supplied pair targets ARM64. An authorized source build can target AMD64. | Host patching, capacity, backups and recovery. This is the shortest path when a suitable machine is already available. |
@@ -24,9 +26,13 @@ The Slatebox app and SlateboxJS engine are MIT licensed. Their current source ch
 
 **Storage determines which services fit.** This release runs its own MongoDB replica set on a persistent Docker volume. DigitalOcean App Platform documents ephemeral container filesystems and no volume support. Moving this topology there would also require a separate database and a new deployment procedure. On either VM option, the app and relay both need working WebSocket upgrades. [App Platform storage limits](https://docs.digitalocean.com/products/app-platform/details/limits/)
 
-**Budget for a paid VM.** On 1 October 2026 the Node.js build team published a DigitalOcean notice closing new Open Source Credits applications and renewals. DigitalOcean later offered to work directly with Node.js. As of 18 November 2026, our hosting comparison assumes regular billing for a new Slatebox installation. [Program notice and follow-up](https://github.com/nodejs/build/issues/4499) · [DigitalOcean open-source resources](https://www.digitalocean.com/open-source)
+### DigitalOcean open source credits
 
-**What the release checks covered:** the team built Linux ARM64 images natively and AMD64 images under emulation, restored a private board on a second Docker host, and upgraded an existing Compose instance. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
+On 1 October 2026 the Node.js build team published a DigitalOcean notice closing new Open Source Credits applications and renewals. DigitalOcean later offered to work directly with Node.js. As of 18 November 2026, our hosting comparison assumes regular billing for a new Slatebox installation. [Program notice and follow-up](https://github.com/nodejs/build/issues/4499) · [DigitalOcean open-source resources](https://www.digitalocean.com/open-source)
+
+### What the Slatebox release checks covered
+
+The team built Linux ARM64 images natively and AMD64 images under emulation, restored a private board on a second Docker host, and upgraded an existing Compose instance. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
 
 ## Install Slatebox on your own server
 
