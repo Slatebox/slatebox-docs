@@ -7,6 +7,7 @@ export const museumLoans = validateWorkshop({
     {id:'store', label:'Available objects'},
     {id:'case', label:'Two mounts', capacity:2},
   ],
+  presentationOrder: ['case', 'store'],
   cards: [
     {id:'shell', label:'Carved shell', laneId:'store'},
     {id:'lamp', label:'Tin lantern', laneId:'store'},

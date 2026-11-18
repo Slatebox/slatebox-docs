@@ -8,6 +8,7 @@ const initial = validateWorkshop({
   version: 1,
   title: &#39;Community radio · first broadcast&#39;,
   lanes: [{ id: &#39;notes&#39;, label: &#39;Field notes&#39; }, { id: &#39;check&#39;, label: &#39;Next sound check&#39;, capacity: 2 }],
+  presentationOrder: [&#39;check&#39;, &#39;notes&#39;],
   cards: [
     { id: &#39;lamp&#39;, label: &#39;The host missed the red light. Try a headphone cue.&#39;, laneId: &#39;check&#39; },
     { id: &#39;mic&#39;, label: &#39;Both guests reached for one mic. Mark each mic position.&#39;, laneId: &#39;notes&#39; },
@@ -31,4 +32,7 @@ export default function RadioSoundCheck() {
 }
 </code></pre>
 <h2 id="open-the-committed-cue-sheet">Open the committed cue sheet</h2><p>Use <code>onPreview</code> for a linked view that can change while dragging. Use <code>onChange</code> to replace the committed model. Encoding that model with <code>encodeWorkshopFragment</code> carries the chosen cues and the two-slot rule into an editable private slate.</p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#fit-two-lanes-on-a-phone" >Fit two lanes on a phone</a><a href="#open-the-committed-cue-sheet" >Open the committed cue sheet</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+<h2 id="present-the-rehearsal-first">Present the rehearsal first</h2><p>The producer sorts observations from left to right on the board. At the rehearsal, the hosts need to see the two cues they picked first. Set <code>presentationOrder</code> to the lane IDs in speaking order. Select <strong>Present</strong> on the imported slate to open <strong>Next sound check</strong>, then advance to <strong>Field notes</strong>. A teammate can swap a cue before the review and the first scene will show the new selection.</p>
+<p>To change the order in the app, return to the board and choose <strong>Presentation order</strong>. Pick a scene, set its position and save.</p>
+<p>Include each lane ID exactly once. Leaving the field out uses the board’s lane order. To render your own readout, import <code>workshopPresentationLanes</code> from <code>slateboxjs/workshops/model</code> and pass it the saved workshop. Each returned lane has its board ID, so you can select its cards by <code>laneId</code>.</p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#fit-two-lanes-on-a-phone" >Fit two lanes on a phone</a><a href="#open-the-committed-cue-sheet" >Open the committed cue sheet</a><a href="#present-the-rehearsal-first" >Present the rehearsal first</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
