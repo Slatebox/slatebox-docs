@@ -4,7 +4,8 @@
 <pre><code class="language-sh">python3 -m http.server 8000 --bind 127.0.0.1
 </code></pre>
 <p>Open <code>http://127.0.0.1:8000/quick-slate.html</code>. The downloadable example includes its MIT license and imports the same public SlateboxJS browser module and stylesheet used in the docs. It needs an internet connection to load them. The board saves to this browser on this origin. To use your own subject, change the two <code>text</code> values in the HTML before the first save, or rename the notes on the canvas.</p>
-<h3 id="connect-two-notes">Connect two notes</h3><p>The example gives each note a stable ID and a visible label. Once both notes are ready, connect the observation to the decision. These are the variables used in the library reference.</p>
+<h3 id="connect-two-notes">Connect two notes</h3><p>To create a new connected note with the pointer or keyboard, follow the <a href="/examples/connected-notes/">connected-notes exercise</a>.</p>
+<p>The example gives each note a stable ID and a visible label. Once both notes are ready, connect the observation to the decision. These are the variables used in the library reference.</p>
 <pre><code class="language-js">const evidence = slate.addNode({
   id: &#39;evidence&#39;, x: 40, y: 80, width: 180, height: 84,
   text: &#39;Visitors stop to listen&#39;
