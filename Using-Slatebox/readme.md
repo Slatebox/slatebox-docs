@@ -45,7 +45,9 @@ To invite someone to edit a private slate, open **Share**, choose **Create edit 
 
 ### Return to a shared slate
 
-Open **My Slates → Recently joined** and choose the board’s current title. On a whiteboard, saving an edit through a teammate’s invitation adds that exact link to your list if you are signed in, including as a Slatebox guest. Just opening the board does not add it. If you edit while signed out, your changes stay on the shared board. Keep the invitation to return.
+Open **My Slates → Recently joined** and choose the board’s current title. On a whiteboard, saving an edit through a teammate’s invitation adds that exact link to your list if you are signed in, including as a Slatebox guest. Opening a board to read it leaves your list unchanged.
+
+If you edit while signed out, your changes save to the shared board. After the first saved edit, choose **Keep in My Slates** to remember this invitation in this browser without registering. When you see **Saved to My Slates**, choose **Open My Slates**, then select the board under **Recently joined**. If you skip this step, keep the invitation to return.
 
 On an interactive workshop, choosing **Join to edit** creates a guest session and adds the workshop to your list. If you started as a guest, open **Profile → Save my Slatebox** in the same browser before signing in on another device. [Open My Slates](https://app.slatebox.com/)
 
