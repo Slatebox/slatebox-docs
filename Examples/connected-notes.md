@@ -9,17 +9,17 @@ In the live canvas, select **Field recording**. Click its left round connector t
 
 To reproduce that connection in your own app, create both notes and save their relationship with the slate.
 
-Copy `slateboxjs.mjs` and `slateboxjs.css` from the pinned file build’s `dist/` directory beside your HTML page. Serve the page over HTTP with this container and stylesheet.
+Start with the [single-file HTML example](../Developers/JavascriptLibrary/readme.md#quick-slate), or serve an HTML page containing this stylesheet and canvas container.
 
 ```html
-<link rel="stylesheet" href="./slateboxjs.css">
+<link rel="stylesheet" href="https://slatebox.com/assets/engine/slateboxjs.css">
 <div id="slate" style="height:420px"></div>
 ```
 
 Run the following in a `<script type="module">` on that page.
 
 ```js
-import { Slate } from './slateboxjs.mjs'
+import { Slate } from 'https://slatebox.com/assets/engine/slateboxjs.mjs'
 
 const slate = new Slate('#slate')
 const recording = slate.addNode({ id: 'audio', x: 60, y: 80, width: 170, height: 75, text: 'Field recording' })

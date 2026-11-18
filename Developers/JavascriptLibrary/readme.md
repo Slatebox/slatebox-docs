@@ -6,43 +6,56 @@ SlateboxJS creates an editable SVG diagram inside a DOM element. Use it when you
 
 ## Quick Slate
 
-These examples target the SVG.js-based `slateboxjs-v2` source build. With access to the matching engine checkout, build it, pack it, then install that file into your Vite or equivalent browser project.
+Build a two-note decision map in a single HTML file. Move the notes, give one a new name, then save and reload to see the same map and connection. [Run the listening bench](/assets/examples/quick-slate.html) · <a href="/assets/examples/quick-slate.html" download="quick-slate.html">Download the HTML</a>
+
+To run it on your computer, open a terminal in the folder containing the downloaded file and start a local server.
 
 ```sh
-# In the engine checkout
-npm ci
-npm run build
-npm pack
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-In your own project run `npm install /absolute/path/to/the-generated.tgz`, substituting the archive path printed by `npm pack`. Give the canvas a visible height in your HTML.
+Open `http://127.0.0.1:8000/quick-slate.html`. The downloadable example includes its MIT license and imports the same public SlateboxJS browser module and stylesheet used in the docs. It needs an internet connection to load them. The board saves to this browser on this origin. To use your own subject, change the two `text` values in the HTML before the first save, or rename the notes on the canvas.
 
-```html
-<div id="board" aria-label="Decision map" style="width:100%;height:420px"></div>
-<script type="module" src="/src/board.js"></script>
-```
+### Connect two notes
 
-Create `src/board.js`:
+The example gives each note a stable ID and a visible label. Once both notes are ready, connect the observation to the decision. These are the variables used in the library reference.
 
 ```js
-import { Slate } from 'slateboxjs'
-import 'slateboxjs/style.css'
-
-const slate = new Slate('#board', { name: 'Decision map' })
 const evidence = slate.addNode({
-  id: 'evidence', x: 30, y: 80, width: 170, height: 70,
-  shape: 'rectangle', text: 'Rider interviews', backgroundColor: '#d8edda'
+  id: 'evidence', x: 40, y: 80, width: 180, height: 84,
+  text: 'Visitors stop to listen'
 })
 const decision = slate.addNode({
-  id: 'decision', x: 300, y: 80, width: 180, height: 70,
-  shape: 'rectangle', text: 'Pilot the transfer'
+  id: 'decision', x: 300, y: 135, width: 180, height: 84,
+  text: 'Set a bench by the speaker'
 })
 await Promise.all([evidence.ready, decision.ready])
 const edge = evidence.relationships.addAssociation(decision, { showChildArrow: true })
 slate.fitToContent()
 ```
 
-Drag either node to see the connector follow. The reference examples use the same `slate`, `evidence`, `decision` and `edge` variables. Call `slate.destroy()` when unmounting the view.
+To make a move change what the audience sees, try the [entrance rehearsal](../../Examples/theatre-cues.md). Moving a lighting cue lets the crew preview the doorway before committing the change.
+
+### Use a pinned package in your application
+
+With access to a matching SVG.js-based `slateboxjs-v2` checkout, build the engine and pack it locally.
+
+```sh
+npm ci
+npm run build
+npm pack
+```
+
+Install the archive path printed by `npm pack` in your browser project. Use the package imports below in place of the hosted module and stylesheet. Give `#board` a visible height in your HTML.
+
+```js
+import { Slate } from 'slateboxjs'
+import 'slateboxjs/style.css'
+
+const slate = new Slate('#board', { name: 'Listening bench' })
+```
+
+Call `slate.destroy()` when unmounting the view.
 
 ## Development
 

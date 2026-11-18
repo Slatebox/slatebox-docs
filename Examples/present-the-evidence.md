@@ -7,17 +7,17 @@ demo: presentation
 
 In a slate with two notes, open **Presentation options → Edit or publish presentation**. Turn on **Show Scene Boundaries** under **Presentation Settings**. Click a scene number, change **Position in presentation**, add a narrative and save. Use Left and Right to check the order before sharing.
 
-Copy `slateboxjs.mjs` and `slateboxjs.css` from the pinned file build’s `dist/` directory beside your HTML page. Serve the page over HTTP with this container and stylesheet.
+Start with the [single-file HTML example](../Developers/JavascriptLibrary/readme.md#quick-slate), or serve an HTML page containing this stylesheet and canvas container.
 
 ```html
-<link rel="stylesheet" href="./slateboxjs.css">
+<link rel="stylesheet" href="https://slatebox.com/assets/engine/slateboxjs.css">
 <div id="tour" style="height:420px"></div>
 ```
 
 Run the following in a `<script type="module">` on that page.
 
 ```js
-import { Slate } from './slateboxjs.mjs'
+import { Slate } from 'https://slatebox.com/assets/engine/slateboxjs.mjs'
 
 const slate = new Slate('#tour')
 const make = (id, x, text) => slate.addNode({ id, x, y: 100, width: 180, height: 80, text })
