@@ -1,6 +1,7 @@
 import {cp, mkdir, readFile, readdir, rm, writeFile} from 'node:fs/promises'
 import path from 'node:path'
 import {Marked} from 'marked'
+import {museumExample} from './museum-example.mjs'
 import {gzipSync} from 'node:zlib'
 import GithubSlugger from 'github-slugger'
 import {parse as yaml} from 'yaml'
@@ -47,6 +48,7 @@ function nativeCanvas() {
   return '<section class="canvas-demo" aria-label="Playable sound map"><header><span>Sound map</span><span>SlateboxJS</span></header><div class="drawing" data-drawing></div><div class="canvas-actions"><button type="button" data-add disabled>Add glass chimes</button><button type="button" data-reset disabled>Reset</button><output role="status" data-canvas-status>Loading canvas…</output></div><script type="module" src="/assets/canvas.mjs"></script></section>'
 }
 function embed(key) {
+  if (key==='museum') return museumExample()
   if (key==='canvas') return nativeCanvas()
   if (!demos[key]) return ''
   const [label,route]=demos[key], src='https://slatebox.com/assets/product/'+route
