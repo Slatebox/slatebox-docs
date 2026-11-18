@@ -38,3 +38,5 @@ Each hands-on exhibit has a link that opens an owned slate in the app. The liste
 For a multi-user integration, validate writes on the server and check the revision the editor saw. A pointer moving across a candidate position can update the local view before the visitor decides to drop. Save after a committed change. When a collaborator has already changed the board, show their current state before accepting a new decision.
 
 [Open a listening slate](https://app.slatebox.com/new/listening-room)
+
+[Read the cues for an authored scene](../../Examples/theatre-cues.md) to build a rehearsal monitor from the same cards the native presenter frames.
