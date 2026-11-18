@@ -75,4 +75,6 @@ Individuals can create unlimited slates on the free hosted plan. Pro adds AI cap
 
 ## Manage a hosted subscription
 
+To change an individual monthly Pro subscription, sign in and open **Plans → Annually**. If your Pro card offers **Switch to annual billing**, choose it to review the change in Stripe. Check the annual renewal price and the amount due today. Stripe can credit unused time from your monthly plan. You can leave the review and keep monthly billing, or confirm to switch your existing subscription. On return, the Pro card under **Annually** shows **Current plan · billed annually** once Stripe’s update arrives. If the card offers **Manage billing**, use that to see the options for your subscription. [Open hosted plans](https://app.slatebox.com/plans)
+
 Open **Profile → Billing** to see your subscription in Stripe. If you schedule a cancellation, the portal shows the date your subscription ends. You can keep using paid workshop tools until then. When a Pro subscription ends, your individual account returns to Free. [Open your profile](https://app.slatebox.com/profile)

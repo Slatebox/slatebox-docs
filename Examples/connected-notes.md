@@ -5,7 +5,7 @@ group: Canvas
 demo: canvas
 ---
 
-In the live canvas, select **Field recording**. Click its left round connector to add a blank note in the space beside it, or drag the connector into open space to place the note there. Select the new note, press **F2**, type “Transcript” and press **Enter**. Move the transcript to see the line follow.
+In the live canvas, select **Field recording**. Click its left round connector to add a blank note in the space beside it, or drag the connector into open space to place the note there. Select the new note, press **F2**, type “Transcript” and press **Enter**. Move the transcript to see the line follow. Choose **Reset** to return to the original two notes.
 
 To reproduce that connection in your own app, create both notes and save their relationship with the slate.
 
