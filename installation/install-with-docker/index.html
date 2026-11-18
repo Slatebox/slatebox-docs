@@ -20,6 +20,34 @@
 <td>Use the hosted app immediately. For self-hosting, obtain a separate release for your infrastructure.</td>
 </tr>
 </tbody></table>
+<h2 id="choose-a-host-for-a-team-evaluation">Choose a host for a team evaluation</h2><p><strong>Quickest self-host route:</strong> obtain the matched images first, then use an existing Linux Docker host of the same architecture. Start locally and reopen a private slate. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, <a href="https://app.slatebox.com/start">start in Slatebox Cloud</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Where to run it</th>
+<th>What to provision</th>
+<th>What your team owns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Existing Linux VM or on-premises server</td>
+<td>Docker Engine, Compose v2, persistent disk and a matched pair of images. The supplied pair targets ARM64. An authorized source build can target AMD64.</td>
+<td>Host patching, capacity, backups and recovery. This is the shortest path when a suitable machine is already available.</td>
+</tr>
+<tr>
+<td>DigitalOcean Droplet</td>
+<td>The Docker Marketplace image installs Docker Engine and Compose. Check the Droplet architecture before choosing images. For an x86-64 Droplet, obtain a Linux AMD64 build.</td>
+<td>SSH access, firewall, DNS and backups. Budget for the Droplet even when powered off, plus any separately purchased volumes and backups. <a href="https://docs.digitalocean.com/products/marketplace/catalog/docker/">Docker Marketplace image</a> · <a href="https://docs.digitalocean.com/products/droplets/details/pricing/">Droplet billing</a></td>
+</tr>
+<tr>
+<td>AWS EC2</td>
+<td>A Graviton instance with an Arm64 Linux image matches the supplied ARM64 containers. Install Docker Engine and Compose v2. Place Docker&#39;s persistent data on EBS and choose what should happen to that volume on instance termination.</td>
+<td>EC2, disk and backup costs, security groups and DNS. This fits teams that already operate an AWS account and restore EBS-backed hosts. <a href="https://aws.amazon.com/ec2/graviton/">AWS Graviton</a> · <a href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html">Amazon EBS volumes</a></td>
+</tr>
+</tbody></table>
+<p><strong>Storage determines which services fit.</strong> This release runs its own MongoDB replica set on a persistent Docker volume. DigitalOcean App Platform documents ephemeral container filesystems and no volume support. Moving this topology there would also require a separate database and a new deployment procedure. On either VM option, the app and relay both need working WebSocket upgrades. <a href="https://docs.digitalocean.com/products/app-platform/details/limits/">App Platform storage limits</a></p>
+<p><strong>Budget for a paid VM.</strong> On 1 October 2026 the Node.js build team published a DigitalOcean notice closing new Open Source Credits applications and renewals. DigitalOcean later offered to work directly with Node.js. As of 18 November 2026, our hosting comparison assumes regular billing for a new Slatebox installation. <a href="https://github.com/nodejs/build/issues/4499">Program notice and follow-up</a> · <a href="https://www.digitalocean.com/open-source">DigitalOcean open-source resources</a></p>
+<p><strong>What the release checks covered:</strong> the team built Linux ARM64 images natively and AMD64 images under emulation, restored a private board on a second Docker host, and upgraded an existing Compose instance. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. <a href="#verify-a-team-connection">Verify a team connection</a></p>
 <h2 id="install-slatebox-on-your-own-server">Install Slatebox on your own server</h2><p>Use a Linux Docker host with persistent disk, Docker Engine and the Compose v2 plugin. A single VM is sufficient to run this topology. Choose a host your team can patch, back up and monitor. Size storage for your boards, MongoDB and backups, and allow extra memory if you build Meteor on the same machine. Docker Desktop and Colima can run a local evaluation when the release directory and instance state are visible to the Docker VM. <a href="https://docs.docker.com/engine/install/">Docker Engine installation</a> · <a href="https://docs.docker.com/compose/install/">Compose installation</a></p>
 <p>Start in the release’s <code>self-host/</code> directory. Check that you have the scripts and a running Docker daemon.</p>
 <pre><code class="language-sh">test -x ./run &amp;&amp; test -f compose.yaml &amp;&amp; test -f init.mjs &amp;&amp; test -f mongo-init.js
@@ -125,4 +153,4 @@ export COMPOSE_PROJECT_NAME=slatebox-restored
 ./run up -d --wait
 </code></pre>
 <p>The empty-directory check protects existing database files. Open a known private slate as its owner and confirm its contents. For an actual move, direct the original app and relay hostnames to the recovered stack together before accepting edits.</p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#get-the-release" >Get the release</a><a href="#install-slatebox-on-your-own-server" >Install Slatebox on your own server</a><a href="#use-your-enterprise-hostnames" >Use your enterprise hostnames</a><a href="#build-from-the-three-source-checkouts" >Build from the three source checkouts</a><a href="#environment-variables" >Environment Variables</a><a href="#restart-and-update" >Restart and update</a><a href="#move-a-backed-up-instance-to-another-docker-host" >Move a backed-up instance to another Docker host</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#get-the-release" >Get the release</a><a href="#choose-a-host-for-a-team-evaluation" >Choose a host for a team evaluation</a><a href="#install-slatebox-on-your-own-server" >Install Slatebox on your own server</a><a href="#use-your-enterprise-hostnames" >Use your enterprise hostnames</a><a href="#build-from-the-three-source-checkouts" >Build from the three source checkouts</a><a href="#environment-variables" >Environment Variables</a><a href="#restart-and-update" >Restart and update</a><a href="#move-a-backed-up-instance-to-another-docker-host" >Move a backed-up instance to another Docker host</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
