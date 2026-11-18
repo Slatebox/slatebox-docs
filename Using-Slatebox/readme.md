@@ -19,6 +19,14 @@ On **Start**, choose **Create an interactive map**. Your private **Untitled map*
 
 To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
+## Start a blank workshop
+
+A field-recording team has one recorder on Friday. Give everyone a place to pitch sounds, then let the team choose which one gets the slot. [Start a blank workshop](https://app.slatebox.com/new/workshop)
+
+1. The new private slate opens as **Untitled workshop** with two empty lanes. Select the **Lane 1** heading, change **Name** to “Pitches” and choose **Save changes**. Rename **Lane 2** to “Record on Friday”, set **Capacity** to **1**, and save.
+2. In **Pitches**, choose **Add card**. Enter “Dawn chorus” under **Card name** and choose **Add card** to save it. Add “Ferry horn” and “Rain on glass” the same way. For another destination, choose **Add lane**, give it a name and set a capacity if needed.
+3. Share an edit link with a teammate. Move “Dawn chorus” to **Record on Friday**. The single slot is full. To choose “Ferry horn” instead, move the chorus back to **Pitches**, then move the horn into Friday. Both editors see the same choice. [Share an edit link](#work-with-a-team)
+
 ## Turn a workshop into a decision
 
 Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
