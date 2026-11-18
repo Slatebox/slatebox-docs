@@ -23,18 +23,33 @@ Use Docker Engine and CLI 28.1 or newer with Compose v2 on a Linux Docker host t
 sha256sum -c slatebox-*.tar.sha256
 ```
 
-Continue after the checker reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. For a private evaluation on the Docker host, run the commands below. For a team installation using the bundled proxy, substitute `ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./initialize --https` with your domains. [Set up DNS and HTTPS](#use-your-enterprise-hostnames)
+Continue once the checksum reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. Extract the kit and launch it on your Docker host.
 
 ```sh
 tar -xf slatebox-*.tar
 cd slatebox-release
+./start
+```
+
+Open the address printed by `./start`. The default is [http://localhost:7070/start](http://localhost:7070/start) on the Docker host. Create a slate, add a note and reopen its URL. The launcher loads the supplied images, creates private settings and waits for the database, collaboration relay and app to be ready. Keep the extracted kit. Run `./start` from that directory again to resume an interrupted launch or restart the same instance. If the launcher finds another installation under that project name, it leaves its boards in place. To upgrade it, follow the [release upgrade procedure](#upgrade-an-existing-team-from-a-release-kit). [Open a remote trial from your laptop](#try-a-remote-host-over-ssh) · [Back up your boards](#move-a-backed-up-instance-to-another-docker-host)
+
+For a fresh team installation with the bundled HTTPS proxy, set up DNS and open ports 80 and 443 first. Run this in place of the first `./start`, using the two hostnames your team controls.
+
+```sh
+ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./start --https
+```
+
+[Set up DNS and HTTPS](#use-your-enterprise-hostnames) · [Move an existing trial to team hostnames](#keep-the-boards-from-your-pilot)
+
+### Earlier release kits
+
+If your extracted kit has only `initialize`, use its original startup commands from the `slatebox-release` directory. Run the initializer once. On subsequent starts, run the Compose command in `self-host/` with the same settings and project name.
+
+```sh
 ./initialize
 cd self-host
 ./run up -d --wait --pull never
-curl --fail --show-error http://localhost:7070/readyz
 ```
-
-Open [the local start screen](http://localhost:7070/start), add a note on a private slate and reopen it. The initializer checks the Docker host architecture, loads the image set and creates fresh credentials for this instance. Keep the extracted directory and the Mongo volume for restarts. [Connect a second editor](#verify-a-team-connection) · [Back up and restore](#move-a-backed-up-instance-to-another-docker-host)
 
 ## Try a remote host over SSH
 
@@ -56,14 +71,14 @@ A localhost link takes each reader to their own computer. Give the app and relay
 
 ## Choose a host for a team evaluation
 
-**Quickest self-host route:** obtain the matched images first, then use an existing Linux Docker host of the same architecture. Start locally and reopen a private slate. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, [start in Slatebox Cloud](https://app.slatebox.com/start).
+The quickest self-host route is a matched release kit on a Linux Docker host your team already operates. Open the first slate, save a note and reopen it. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, [start in Slatebox Cloud](https://app.slatebox.com/start).
 
 ### Existing Docker host, DigitalOcean Droplet or AWS EC2
 
 | Where to run it | What to provision | What your team owns |
 | --- | --- | --- |
 | Existing Linux VM or on-premises server | Docker Engine, Compose v2, persistent disk and a matched pair of images. Request the ARM64 or AMD64 archive for that host. | Host patching, capacity, backups and recovery. This is the shortest path when a suitable machine is already available. |
-| DigitalOcean Droplet | The Docker Marketplace image installs Docker Engine and Compose. Check the Droplet architecture before choosing images. For an x86-64 Droplet, request the Linux AMD64 archive. | SSH access, firewall, DNS and backups. Budget for the Droplet even when powered off, plus any separately purchased volumes and backups. [Docker Marketplace image](https://docs.digitalocean.com/products/marketplace/catalog/docker/) · [Droplet billing](https://docs.digitalocean.com/products/droplets/details/pricing/) |
+| DigitalOcean Droplet | The Docker Marketplace image installs Docker Engine and Compose. Check the installed versions with `docker version` and `docker compose version`. For an x86-64 Droplet, request the Linux AMD64 archive. | SSH access, firewall, DNS and backups. Budget for the Droplet even when powered off, plus any separately purchased volumes and backups. [Docker Marketplace image](https://docs.digitalocean.com/products/marketplace/catalog/docker/) · [Droplet billing](https://docs.digitalocean.com/products/droplets/details/pricing/) |
 | AWS EC2 | A Graviton instance with an Arm64 Linux image matches the ARM64 archive. Install Docker Engine and Compose v2. Place Docker's persistent data on EBS and choose what should happen to that volume on instance termination. | EC2, disk and backup costs, security groups and DNS. This fits teams that already operate an AWS account and restore EBS-backed hosts. [AWS Graviton](https://aws.amazon.com/ec2/graviton/) · [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) |
 
 **Storage determines which services fit.** This release runs its own MongoDB replica set on a persistent Docker volume. DigitalOcean App Platform documents ephemeral container filesystems and no volume support. Moving this topology there would also require a separate database and a new deployment procedure. On either VM option, the app and relay both need working WebSocket upgrades. [App Platform storage limits](https://docs.digitalocean.com/products/app-platform/details/limits/)
@@ -79,6 +94,8 @@ For an evaluation that needs to start today, use a Linux VM your team already op
 For infrastructure that serves the open-source project itself, AWS reviews applications for credits. Its criteria include an OSI-approved license, an active community, independence from single-vendor dominance and no venture funding. Oregon State University’s Open Source Lab also reviews hosting requests for projects with community impact. Budget for regular hosting until a provider approves the project. [AWS open-source credits](https://aws.amazon.com/blogs/opensource/aws-cloud-credits-for-open-source-projects-affirming-our-commitment/) · [OSU Open Source Lab hosting policy](https://osuosl.org/services/hosting/policy/)
 
 ### What the Slatebox release checks covered
+
+On a separate Linux ARM64 Docker host, the November 18 kit for release `20261118T160440Z` was 658.5 MiB. After extraction, `./start` took 112 seconds to load the images and report a ready app. A new owner created a private map. A reader opened its view link, followed the owner to the second scene and reloaded into that scene. Near the end of that two-browser trial Docker reported 210 MiB for the app, 27 MiB for the relay and 121 MiB for MongoDB. Allow additional memory for the operating system, Docker, more participants and your boards. Measure with your team's workload before sizing a production host.
 
 The team built and packaged both architectures. On a second ARM64 Docker host, a checksum-verified archive started the app, relay and database with registry pulls disabled. Two guests shared a board, presented an edit and reopened it. The AMD64 app and relay ran under emulation on the build host. On an ARM64 installation, a kit upgrade preserved two registered users, a private map and its existing edit link. A cold backup restored into a fresh database volume returned the board to its saved position, and both editors could collaborate again. A separate recovery drill restored a private board on another Docker host. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
 
