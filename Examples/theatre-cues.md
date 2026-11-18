@@ -10,7 +10,7 @@ The director wants the doorway lit for the actor’s entrance. Move **Warm sidel
 
 [Open the standalone HTML rehearsal](/assets/examples/entrance-rehearsal.html). In the light console, drag **Warm sidelight up** across the rail toward **Door opens**. Hold there to preview the amber doorway. Press Escape to leave the saved scene alone, or release to place the cue. The scene names also work as buttons. **Open this rehearsal in Slatebox** carries the last committed placement and both messages into an editable workshop.
 
-To change the rule yourself, download the HTML into an empty directory. It imports the public SlateboxJS workshop model over HTTPS and runs in your browser.
+To change the rule yourself, <a href="/assets/examples/entrance-rehearsal.html" download="entrance-rehearsal.html">download the rehearsal HTML</a> into an empty directory, or use the commands below. It imports the public SlateboxJS workshop model over HTTPS and runs in your browser.
 
 ```sh
 curl -fLO https://docs.slatebox.com/assets/examples/entrance-rehearsal.html
