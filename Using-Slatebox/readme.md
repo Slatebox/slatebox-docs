@@ -20,6 +20,12 @@ For a team slate, open **Share → Private**. Choose **edit** beside the teammat
 
 To collaborate by link, open **Share → Unlisted**, set access to **edit**, copy the link shown there and choose **Save**. Send that link to your collaborator. On a regular canvas, they can acknowledge the welcome and edit a note. For an interactive workshop, a first-time visitor can choose **Join to edit** and make a move as a guest. You should both see the change and find it on the same board after reloading. Choose **read** for observers or switch back to **Private** to revoke the unlisted link. [Try a two-person incident handoff](../Examples/incident-handoff.md)
 
+### Find a workshop you joined
+
+Open **My Slates → Recently joined** to return to a teammate’s interactive slate. It appears when you choose **Join to edit** as a guest or save your first change through an edit invitation while signed in. The list shows the latest title. If you started as a guest, open **Profile → Save my Slatebox** in the same browser before signing in on another device. [Open My Slates](https://app.slatebox.com/)
+
+If the owner switches the invitation to **read**, the same link opens the board for viewing. Switching the board to **Private** removes the entry. To invite people back, the owner can share a new link.
+
 ## Present or publish
 
 Choose **Present** to lead a meeting from the board. For a workshop, choose **Publish presentation** to give people a read-only copy of the sequence and its current cards. Later edits stay on your slate until you publish again. For teammates who will catch up later, publish a sequence of viewpoints. They can open the viewer link or follow the walkthrough inside your team handbook. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
