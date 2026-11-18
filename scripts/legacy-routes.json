@@ -1,4 +1,7 @@
 {
+  "/developers/slateboxjs-api/": [
+    "slateboxjs-api"
+  ],
   "/developers/development/": [
     "slatebox-app-development",
     "quickstart",

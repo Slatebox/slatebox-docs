@@ -17,7 +17,9 @@ The public `timheckel/slatebox-community:latest` image on Docker Hub is the 2022
 
 ## Start from a release kit
 
-Use Docker Engine and CLI 28.1 or newer with Compose v2 on a Linux Docker host that matches the release architecture. Obtain the archive and its SHA-256 checksum file through your release contact. Copy both files into a fresh installation directory on the receiving machine. These commands assume one supplied archive and checksum file in that directory.
+Start with the release archive and its SHA-256 checksum file. If you need them, [request a release kit](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) and include the architecture printed by `docker version --format '{{.Server.Arch}}'`.
+
+Use Docker Engine and CLI 28.1 or newer with Compose v2 on a matching Linux Docker host. Copy both files into a fresh installation directory there. These commands assume one supplied archive and checksum file in that directory.
 
 ```sh
 sha256sum -c slatebox-*.tar.sha256

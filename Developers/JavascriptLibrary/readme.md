@@ -4,6 +4,8 @@
 
 SlateboxJS creates an editable SVG diagram inside a DOM element. Use it when your application owns the page, storage and access controls. To operate on a slate already stored in the hosted app, use the [HTTP API](../SlateboxAPI/readme.md).
 
+Working with an existing integration that calls `new Slatebox.slate(...)`? See [SlateboxJS 2.x and the current canvas](../slateboxjs-api.md).
+
 ## Quick Slate
 
 Build a two-note decision map in a single HTML file. Move the notes, give one a new name, then save and reload to see the same map and connection. [Run the listening bench](/assets/examples/quick-slate.html) · <a href="/assets/examples/quick-slate.html" download="quick-slate.html">Download the HTML</a>
