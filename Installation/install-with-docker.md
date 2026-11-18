@@ -268,7 +268,9 @@ For example, if you run llama.cpp under the alias `slatebox-local`, merge these 
 
 An operator test used llama.cpp build 9910 with the Q4_K_M GGUF of Qwen3-4B-Instruct-2507 on an M3 Ultra. After downloading the weights, the model server ran with `--jinja --ctx-size 8192 --alias slatebox-local` and the default `toolChoice` of `auto`. A registered user generated a sorting workshop, opened it as a private slate, moved a card and presented the result. A branching map draft also retained the two requested cue messages. The weights file is about 2.5 GB. Budget additional memory for inference and test your expected concurrent workload on your own hardware. Once the weights are installed, local drafting can use that private endpoint without an external inference service. [llama.cpp server setup](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) · [Qwen3-4B-Instruct-2507 GGUF files](https://huggingface.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF)
 
-Run `./run up -d --no-deps --force-recreate --wait app`. From a registered account, open `/workshops`, choose **Ask AI**, then **Draft a different board**. Enter a brief, choose **Draft with AI**, and move a card on the result. The endpoint receives the brief and, for rule revisions, the current workshop model. Audio and video rooms use Daily separately. See **Use your own inference endpoint** in your release’s `self-host/README.md` for the model server requirements.
+Run `./run up -d --no-deps --force-recreate --wait app`. Sign in with a registered account on your own instance and open `/new/map`. In the **Canvas AI** conversation beside the map, ask “Add a step for account owner approval after Start.” Inspect the proposed branch, choose **Keep changes**, and reload the slate to confirm it was saved. **Discard** leaves the saved map as it was. If the composer says **Direct map edits**, check the account and workshop AI settings before testing the provider.
+
+The model endpoint receives the current map, your request and recent conversation turns. Audio and video rooms use Daily separately.
 
 ## Restart and update
 
