@@ -219,9 +219,10 @@ The script stages committed source, packs the matching engine into the app, buil
 
 ### Package a source build for another team
 
-On your build host, use the `APP_IMAGE` and `COLLAB_IMAGE` tags printed by the source build. Pull the MongoDB and Caddy versions pinned in that release’s Compose file with `docker pull --platform linux/arm64` or `linux/amd64` as appropriate. Set `TARGET_PLATFORM` to the receiving Docker host’s platform when packaging a cross-build. Download the [release packaging script](/assets/self-host/release-kit.sh). From the parent of your app checkout, run it with the app checkout path and an existing output directory.
+On your build host, use the `APP_IMAGE` and `COLLAB_IMAGE` tags printed by the source build. Pull the MongoDB and Caddy versions pinned in that release’s Compose file with `docker pull --platform linux/arm64` or `linux/amd64` as appropriate. Set `TARGET_PLATFORM` to the receiving Docker host’s platform when packaging a cross-build. Download the [release tools](/assets/self-host/release-tools.tar.gz) into a new directory and extract them there. Keep the three scripts together so operators receive the backup and restore helpers inside the kit. The original [standalone packager](/assets/self-host/release-kit.sh) also works.
 
 ```sh
+tar -xzf release-tools.tar.gz
 printf 'App build tag: '; read -r APP_IMAGE
 printf 'Relay build tag: '; read -r COLLAB_IMAGE
 export APP_IMAGE COLLAB_IMAGE
@@ -304,39 +305,30 @@ For a manual image upgrade on an installation managed from separate images, back
 
 ## Move a backed-up instance to another Docker host
 
-Choose a maintenance window. Stopping the app, relay and MongoDB together lets you take a consistent copy of the database files. These commands assume a Linux host with `sha256sum`. Use the Compose project name and active settings directory you used to start the instance. For a promoted HTTPS trial, set `SLATEBOX_STATE` to the team settings directory before taking the backup. On macOS, substitute `shasum -a 256` for `sha256sum`. Run them from the release's `self-host` directory.
+Use a cold backup to move the same accounts, boards and invitations. Schedule a maintenance window and keep the original app and relay hostnames for the recovered instance. Have a private slate URL and its existing edit invitation ready so the team can check the move.
+
+### Back up the running installation
+
+Use the `backup-instance.sh` supplied in the kit or download the [backup helper](/assets/self-host/backup-instance.sh) before disconnecting the host. Run it from the source installation’s `self-host/` directory with its active Compose project and settings directory. The default project is `slatebox` and the default settings directory is `.state`. For a promoted HTTPS trial, select the team settings used by the running app.
 
 ```sh
-set -e
-umask 077
-state_dir=${SLATEBOX_STATE:-.state}
-backup=$(mktemp -d ./slatebox-backup.XXXXXXXX)
-./run down
-./run run --rm -T --no-deps --entrypoint tar mongo -C /data/db -czf - . < /dev/null > "$backup/mongo-data.tgz"
-tar -C "$state_dir" -czf "$backup/instance.tgz" instance.env settings.json
-(cd "$backup" && sha256sum mongo-data.tgz instance.tgz > SHA256SUMS)
+bash ./backup-instance.sh /private/backups/team-before-move
 ```
 
-The archive contains private boards, login data and service credentials. Store the copies together on protected storage and transfer them over an encrypted connection. Back up any external object storage separately. If you enabled managed HTTPS, also back up the `caddy-data` volume to retain certificate state, or let Caddy obtain fresh certificates on recovery with working DNS and reachable public ports. For a backup drill, the original installation can be brought back with `./run up -d --wait` as soon as the files have been copied.
+Choose a new backup directory. The helper checks the running app’s mounted settings and the MongoDB volume before stopping services. It copies the cold database and installation settings, includes the certificate volume for a running bundled HTTPS proxy, and restarts the source. Keep the entire backup together on protected storage. It contains private boards and credentials. Back up any externally configured object storage separately.
 
-On the recovery host, use the same release, Mongo image version and compatible release images for the host architecture. Copy the three backup files into `backup/` beside the Compose file. Use an unused Compose project name and a new settings directory. Preserve the public URLs for the app and relay so invitation links and browser sessions still address the same instance.
+### Recover on another Docker host
+
+Obtain the release kit for the **same app and engine revisions** as the source, built for the receiving host’s architecture. Verify its supplied archive checksum and extract it on the receiver. If you operate from separate images, [package the matched release on the build host](#package-a-source-build-for-another-team) to get the same offline recovery path. Transfer the backup over an encrypted connection. Use the bundled `restore-instance.sh` or place the [restore helper](/assets/self-host/restore-instance.sh) in the kit’s `self-host/` directory before disconnecting the receiver. From the extracted kit’s `self-host/` directory, choose an unused Compose project and a fresh state directory. On Docker Desktop or Colima, place both the kit and the settings in a directory shared with the Docker VM. The helper verifies those bind mounts before it creates the database volume.
 
 ```sh
-set -e
-umask 077
-(cd backup && sha256sum -c SHA256SUMS)
-mkdir -m 700 .state
-tar -C .state -xzf backup/instance.tgz
-export SLATEBOX_STATE="$PWD/.state"
 export COMPOSE_PROJECT_NAME=slatebox-restored
+export SLATEBOX_STATE="$PWD/.state"
+bash ./restore-instance.sh /private/backups/team-before-move
+./run up -d --wait --pull never
+./run ps -a
 ```
 
-Before starting the restored instance, set `APP_IMAGE` and `COLLAB_IMAGE` in its restored `.state/instance.env` to the matching pair available on the recovery host. This matters when the replacement host uses a different architecture. Keep the restored database credentials. Then load the volume from the archive.
+The restore helper verifies the backup and kit platform, loads the four images from the release kit, and restores the settings and data volumes. It selects the kit’s app and relay tags and the new settings path while preserving the original credentials. The final Compose command starts the restored services using the local images. Keep using the same project and state directory when managing the recovered instance.
 
-```sh
-./run run --rm -T --no-deps --entrypoint sh mongo -ec \
-  'test -z "$(ls -A /data/db)" && tar -C /data/db -xzf -' < backup/mongo-data.tgz
-./run up -d --wait
-```
-
-The empty-directory check protects existing database files. Open a known private slate as its owner and confirm its contents. For an actual move, direct the original app and relay hostnames to the recovered stack together before accepting edits.
+For a rehearsal, open the recovery host through a separate test route or SSH tunnel. Sign in as the original owner and open the private slate URL. Have a teammate follow the existing invitation, change a note and reload both browsers. Check the note, its connections and the teammate’s access. For the final move, run the source helper again with `--leave-stopped` and a new backup directory. A successful final backup leaves the original services stopped. Restore that snapshot into a fresh project, switch both hostnames, and reopen the same board before accepting new work.
