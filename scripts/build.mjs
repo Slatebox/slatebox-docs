@@ -40,6 +40,7 @@ const entries = [
   {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Bring up the app and collaboration services with Docker.'}
 ]
 const demos = {
+  telescope:['Try the original telescope test','workshop-demo?mode=planet-map'],
   incident:['Move an incident note and open your timeline','multiplayer.html?story=incident'],
   listening:['Move the listening horn','workshop-demo?mode=listening'], gallery:['Hang the night sky','workshop-demo?mode=gallery'],
   focus:['Wire a return path','workshop-demo?mode=map&story=access'], handoff:['Review a field note','workshop-demo?mode=map&story=offline'],
