@@ -1,22 +1,13 @@
----
-label: Welcome, Developers!
-icon: gear
-index: 900
----
+# Build with Slatebox
 
-Slatebox provides TWO ways for developers to interact.
+Choose the interface that owns the data you want to change.
 
-<!-- !!! [Slatebox App Development](./development.md)
-The same code that powers Slatebox.com is available under the Elastic 2.0 License (Elv2) and is free and open for anyone to use and extend. You're welcome to use Slatebox for your own company's needs, host on your own servers, and use it in your own application as well, provided you adhere to the <a href="https://www.elastic.co/licensing/elastic-license" target="_blank">three simple limitations in the license</a>.
+| Goal | Starting point |
+| --- | --- |
+| Draw a board in your own web page and control its storage | [SlateboxJS quick slate](JavascriptLibrary/readme.md) |
+| Read a hosted slate or preview a repeatable edit | [HTTP API](SlateboxAPI/readme.md) |
+| Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
+| Work on the app, engine or relay | [Development](development.md) |
+| Run an installation for your organization | [Install with Docker](../Installation/install-with-docker.md) |
 
-To set up your development environment to run and modify the Slatebox App, start with [Slatebox App Development](./development.md)!-->
-
-!!! [Javascript Library](./JavascriptLibrary/readme.md)
-Slateboxjs is an open source, MIT-licensed low-level <a href="https://www.npmjs.com/package/slateboxjs" target="_blank">npm module</a> that powers all the collaborative visuals at slatebox.com.
-!!!
-
-!!! [Slatebox API](./SlateboxAPI/readme.md)
-The Slatebox API is a server-side API that organizations with Slatebox can use to interact with their data and produce editable visualizations using a prompt.
-!!!
-
-<!-- Not sure which to use? The Slatebox development guide will get the Slatebox.com app running on your machine quickly. Slateboxjs is a javascript library meant to be used at a lower level module for programmatic control of "slates" -- the library itself is included in the Slatebox App. -->
+The app and the SVG.js engine are MIT licensed. Source access and compatible release images are available through Slatebox while the repositories are private.

@@ -1,410 +1,95 @@
----
-label: Node Methods
-icon: star
-order: 60
----
+# Node methods
 
-Programatically control a node with the below methods.
+Edit the node returned by `slate.addNode()`. The examples extend the [quick slate](readme.md#quick-slate).
 
-### move
+## position
 
-||| move a node by x, y coordinates
-
-```
-    node.move({
-        x: 30,
-        y: 20,
-        dur: 500
-    });
+```js
+decision.position(330, 140)
+decision.setSize(200, 80)
+decision.setRotation(12)
 ```
 
-||| arguments
+Position is expressed in diagram coordinates and rotation in degrees. [Motion and easing](easing.md)
 
-| Name  | Type    | Description                                                          |
-| ----- | ------- | -------------------------------------------------------------------- |
-| `x`   | integer | Relative number of px to move the node on x axis                     |
-| `y`   | integer | Relative number of px to move the node on y axis                     |
-| `dur` | intger  | The milliseconds for animating the move. Set to 0 to move instantly. |
+## editor.set
 
-|||
+Older examples use nested editor, resize and color-picker helpers. The direct API accepts text and geometry through node methods.
 
-||| returns
-null
-|||
-
-### toFront
-
-||| move a node to front on the z axis
-
-```
-    node.toFront();
+```js
+evidence.setText('Four rider interviews')
+evidence.setColors('#cbe8d2', '#385c49')
+evidence.setShape('ellipse')
 ```
 
-||| arguments
+## toFront
 
-none
+`decision.toFront()` raises the node above overlapping items.
 
-|||
+## toBack
 
-||| returns
-null
-|||
+`decision.toBack()` sends it behind other items.
 
-### toBack
+## hide
 
-||| move a node to back on the z axis
+`decision.hide()` hides the rendered node.
 
-```
-    node.toBack();
-```
+## show
 
-||| arguments
+`decision.show()` shows it again. To remove it from the document use `slate.removeNode(decision.id)`.
 
-none
+## Lock and unlock
 
-|||
+`decision.lock()` and `decision.unlock()` change its editing lock. For connections, operate on the node’s relationships manager. [Relationship methods](association-methods.md)
 
-||| returns
-null
-|||
+## move
 
-### hide
+Migrate coordinate moves to `node.position(x, y)`. [Position](#position)
 
-||| hide the node
+## resize.set
 
-```
-    node.hide();
-```
+Use `node.setSize(width, height)` to resize the node in board coordinates.
 
-||| arguments
+## rotate.set
 
-none
+Use `node.setRotation(angle)` for an absolute angle in degrees.
 
-|||
+## spin
 
-||| returns
-null
-|||
+For a visible rotation to a target angle, supply a duration in milliseconds, for example `node.setRotation(90, 200)`.
 
-### show
+## zoom
 
-||| show the node
+Zoom belongs to the viewport. `slate.zoomAtPoint(level, point)` anchors a zoom at a point. [Viewport methods](slate-methods.md#canvaszoom)
 
-```
-    node.show();
-```
+## disable
 
-||| arguments
+Use `node.lock()` when the intent is to lock an item against interactive edits.
 
-none
+## enable
 
-|||
+Use `node.unlock()` to release the lock.
 
-||| returns
-null
-|||
+## colorPicker.set
 
-### toggleFilters
+`node.setColors(backgroundColor, borderColor)` updates the fill and border in the direct API.
 
-||| show or hide the node effect (dropshadow, etc)
+## customShapes.set
 
-```
-    node.toggleFilters(blnHide);
-```
+Use `node.setShape(shape, vectorPath)` to update a shape. The optional second argument supplies SVG path data.
 
-||| arguments
+## images.set
 
-| Name      | Type    | Description                           |
-| --------- | ------- | ------------------------------------- |
-| `blnHide` | boolean | Set to true ot hide the filter effect |
+Use `node.images.set(url, width, height)` for an image fill and `node.images.clear()` to remove it. Use an image origin available to your readers.
 
-|||
+## links.set
 
-||| returns
-null
-|||
+`node.links.set({type: 'url', data: 'https://slatebox.com'})` attaches a URL.
 
-### spin
+## links.unset
 
-||| Apply a perpetual spin effect to a node
+`node.links.unset()` removes the existing link.
 
-```
-    node.spin({
-        angle: 280,
-        duration: 500
-    });
-```
+## toggleFilters
 
-||| arguments
-
-| Name       | Type    | Description                                  |
-| ---------- | ------- | -------------------------------------------- |
-| `angle`    | integer | The angle to spin the node                   |
-| `duration` | integer | Milliseconds to take for each spin animation |
-
-|||
-
-||| returns
-null
-|||
-
-### zoom
-
-||| Zoom in on the node
-
-```
-    node.zoom(zoomPercent, duration, cb);
-```
-
-||| arguments
-
-| Name          | Type     | Description                       |
-| ------------- | -------- | --------------------------------- |
-| `zoomPercent` | integer  | The zoom percent                  |
-| `duration`    | integer  | Milliseconds to take for the zoom |
-| `cb`          | function | Callback once the zoom completes  |
-
-|||
-
-||| returns
-null
-|||
-
-### position
-
-||| Position the node
-
-```
-    node.position(location, cb, easing, dur);
-```
-
-||| arguments
-
-| Name       | Type     | Description                                                                                                            |
-| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `location` | string   | Position on the slate to put this node. Options are `lowerright`, `lowerleft`, `upperright`, `upperleft` and `center`. |
-| `cb`       | function | Callback once the position completes                                                                                   |
-| `easing`   | function | The [easing](./easing.md) options                                                                                      |
-| `dur`      | function | The milliseconds in which to animate the position                                                                      |
-
-|||
-
-||| returns
-null
-|||
-
-### disable
-
-!!! info
-Optionally set `node.options.isLocked = true` prior to making this `disable` call to enable lock icons that the user can programmatically click to re-enable the node.
-!!!
-
-||| Disables the node from any interaction
-
-```
-    node.disable();
-```
-
-||| arguments
-None
-|||
-
-||| returns
-null
-|||
-
-### enable
-
-||| Enable the node for user interaction
-
-```
-    node.enable();
-```
-
-||| arguments
-None
-|||
-
-||| returns
-null
-|||
-
-### colorPicker.set
-
-||| Set the background color and opacity for the node
-
-```
-    node.colorPicker.set({
-        color: '#333',
-        opacity: 1.0
-    });
-```
-
-||| arguments
-
-| Name      | Type    | Description                                                                                               |
-| --------- | ------- | --------------------------------------------------------------------------------------------------------- |
-| `color`   | string  | The hex color for the node. Gradients can also be defined: `90-#031634-#2D579A` (angle-start_hex-end_hex) |
-| `opacity` | integer | the opacity percentage (0.0 - 1.0) for the node color                                                     |
-
-|||
-
-||| returns
-null
-|||
-
-### customShapes.set
-
-||| Set the node to a custom svg path
-
-```
-    node.customShapes.set(path, width, height, sendCollab);
-```
-
-||| arguments
-
-| Name         | Type    | Description                                                                             |
-| ------------ | ------- | --------------------------------------------------------------------------------------- |
-| `path`       | string  | The custom svg path to attach to the node (e.g., `M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z`) |
-| `width`      | integer | The width of the shape in px                                                            |
-| `height`     | integer | The height of the shape in px                                                           |
-| `sendCollab` | boolean | Set to false to NOT send the collaboration data, defaults to true                       |
-
-|||
-
-||| returns
-null
-|||
-
-### editor.set
-
-||| Set the node to a custom svg path
-
-```
-    node.editor.set(text, fontSize, fontColor, fontOpacity, textXAlign, textYAlign);
-```
-
-||| arguments
-
-| Name          | Type    | Description                                                                      |
-| ------------- | ------- | -------------------------------------------------------------------------------- |
-| `text`        | string  | The text to go in the node. Include appropriate `\n` line breaks where necessary |
-| `fontSize`    | integer | The width of the shape in px                                                     |
-| `fontColor`   | string  | The hex color of the text (`#333`)                                               |
-| `fontOpacity` | integer | The opacity percentage of the text (0.0 - 1.0)                                   |
-| `textXAlign`  | string  | Text horizontal align (`middle`, `left`, `right`)                                |
-| `textYAlign`  | string  | Text vertical align (`middle`, `top`, `bottom`)                                  |
-
-|||
-
-||| returns
-null
-|||
-
-### images.set
-
-||| Set an image to the background of the node
-
-```
-    node.images.set(img, width, height);
-```
-
-||| arguments
-
-| Name     | Type    | Description                                                |
-| -------- | ------- | ---------------------------------------------------------- |
-| `image`  | string  | The img src url (e.g., `https://e.com/i.png`)              |
-| `width`  | integer | The width of the image (used for proportionally resizing)  |
-| `height` | integer | The height of the image (used for proportionally resizing) |
-
-|||
-
-||| returns
-null
-|||
-
-### links.set
-
-||| Set a link on the node
-
-```
-    node.links.set({
-        type: 'url|currentSlate',
-        data: 'https://slatebox.com|other_node_id'
-    }, blnSendCollab);
-```
-
-||| arguments
-
-| Name            | Type    | Description                                                                                                          |
-| --------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
-| `opts.type`     | string  | The type of link, either `url` (links to external site) or `currentSlate` (links to another node on the same slate). |
-| `opts.data`     | string  | The link data (either the url or the other node's `id`)                                                              |
-| `blnSendCollab` | boolean | Boolean as to whether to send the collab data                                                                        |
-
-|||
-
-||| returns
-null
-|||
-
-### links.unset
-
-||| Remove a link from the node
-
-```
-    node.links.unset(blnSendCollab);
-```
-
-||| arguments
-
-| Name            | Type    | Description                                   |
-| --------------- | ------- | --------------------------------------------- |
-| `blnSendCollab` | boolean | Boolean as to whether to send the collab data |
-
-|||
-
-||| returns
-null
-|||
-
-### resize.set
-
-||| Resize a node
-
-```
-    node.resize.set(width, height);
-```
-
-||| arguments
-
-| Name     | Type    | Description                     |
-| -------- | ------- | ------------------------------- |
-| `width`  | integer | Width in px to resize the node  |
-| `height` | integer | Height in px to resize the node |
-
-|||
-
-||| returns
-null
-|||
-
-### rotate.set
-
-||| Rotate a node
-
-```
-    node.rotate.set(rotationAngle);
-```
-
-||| arguments
-
-| Name            | Type    | Description                         |
-| --------------- | ------- | ----------------------------------- |
-| `rotationAngle` | integer | The rotation angle (0-360) to apply |
-
-|||
-
-||| returns
-null
-|||
+When porting an old global filter toggle, identify the named filter being used. The current filter manager exposes per-filter state through `isActive(name)` and removal through `remove(name)`.

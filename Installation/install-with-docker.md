@@ -1,125 +1,92 @@
----
-label: Install With Docker
-icon: zap
-hidden: true
----
+# Host a Slatebox instance
 
-### Install Slatebox on your own server.
+Run the Meteor web app, its authenticated collaboration relay, and a single-member MongoDB replica set with persistent storage on your own Docker host. The setup creates fresh installation secrets. Each browser talks to the app and to the collaboration relay at the origins you configure.
 
-The easiest and recommended way to install Slatebox on your own server is to use the official Docker image and a Docker compose file.
+## Install Slatebox on your own server
 
-!!! success
-Note this guide is to install Slatebox on your own server. Alternatively, [Slatebox cloud](https://app.slatebox.com) is a free for teams, is highly scalable, and requires no setup.
-!!!
+Install Docker Engine and Docker Compose v2 or newer. The initializer uses Node bundled in the app image. Run these commands from the app release’s `self-host/` directory on the Docker host. With Docker Desktop or Colima, keep this checkout and the instance state in a folder shared with the Docker VM so it can mount the configuration files. The current supplied release images are Linux ARM64. Ask Slatebox for access to the image pair while the source repositories are private. For other architectures or a source-controlled release, build the images below.
 
-!!! info
-Want to modify the source code and run Slatebox as a developer instead? [Head over to the development guide](../Developers/development.md) to get started.
-!!!
-
-Ensure you have a server with [Docker](https://docs.docker.com/engine/install/) installed, then copy and paste the below into a new `docker-compose.yml` file on your server:
-
-```
-vversion: "3"
-
-services:
-  app:
-    image: timheckel/slatebox-community:latest
-    container_name: slatebox-community
-    ports:
-      - "80:3000"
-    depends_on:
-      - mongo
-    environment:
-      ROOT_URL: ${APP_ROOT_URL:-http://localhost}
-      MONGO_URL: ${MONGO_URL:-mongodb://mongo:27017/meteor}
-      PORT: 3000
-      METEOR_SETTINGS: >
-        {
-          "nounProject": {
-            "key": "${NOUN_PROJECT_KEY}",
-            "secret": "${NOUN_PROJECT_SECRET}"
-          },
-          "chatWoot": {
-            "userIdentityValidationToken": "${CHATWOOT_TOKEN}"
-          },
-          "mailGun": {
-            "server": "${MAIL_URL}"
-          },
-          "daily": {
-            "apiKey": "${DAILY_API_KEY}"
-          },
-          "aws": {
-            "secretKey": "${AWS_SECRET_KEY}",
-            "accessKey": "${AWS_ACCESS_KEY}",
-            "imageBucket": "${AWS_S3_IMAGE_BUCKET}",
-            "cloudUrl": "${IMAGE_CLOUD_URL}"
-          },
-          "googleDocs": {
-            "web": {
-              "client_id": "${GOOGLE_DOCS_CLIENT_ID}",
-              "project_id": "${GOOGLE_DOCS_PROJECT_ID}",
-              "auth_uri": "${GOOGLE_DOCS_AUTH_URI}",
-              "token_uri": "${GOOGLE_DOCS_TOKEN_URI}",
-              "auth_provider_x509_cert_url": "${GOOGLE_DOCS_AUTH_PROVIDER_X509_CERT_URL}",
-              "client_secret": "${GOOGLE_DOCS_CLIENT_SECRET}",
-              "redirect_uris": ["${GOOGLE_DOCS_REDIRECT_URIS}"],
-              "javascript_origins": ["${GOOGLE_DOCS_JAVASCRIPT_ORIGINS}"]
-            }
-          },
-          "public": {
-            "env": "${MAIL_URL:-dev}",
-            "dailyBaseUrl": "${DAILY_URL}",
-            "baseUrl": "${BASE_URL:-http://localhost:3000}",
-            "googleFontAPIKey": "${GOOGLE_API_KEY}",
-            "googleImageSearchEngineKey": "${GOOGLE_IMAGE_SEARCH_API_KEY}",
-            "googleImageSearchAPIKey": "${GOOGLE_API_KEY}",
-            "pixabayAPIKey": "${PIXABAY_API_KEY}"
-          }
-        }
-  mongo:
-    image: mongo:latest
-    container_name: mongo-slatebox
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-
-volumes:
-  data:
+```sh
+APP_IMAGE=registry.example.com/slatebox/app:release \
+  COLLAB_IMAGE=registry.example.com/slatebox/relay:release ./run init
+./run up -d
+./run ps
+curl --fail http://localhost:7070/readyz
 ```
 
-### Environment Variables
+Replace the two image references with the supplied release tags or your local build tags. Sign in to your registry first if it requires authentication. The browser entry is http://localhost:7070/start and the relay listens on ws://localhost:7071. Both ports bind to loopback. MongoDB is reachable only inside the Compose network.
 
-In order to use all of Slatebox's functionality, you'll have to set the following environment variables, as noted in the `docker-compose.yml` file above:
+To run multiple instances, use a distinct COMPOSE_PROJECT_NAME, SLATEBOX_STATE directory, APP_PORT and COLLAB_PORT for each one. Keep the project name and state path the same for later commands. `./run stop` stops the containers. `./run up -d` starts them again. `./run down` recreates containers on the next start and preserves the Mongo data volume. Removing the volume deletes the instance data.
 
-!!!
-Note these variables are optional - you can run Slatebox with the associated functionality disabled if you do not provide these at startup.
-!!!
+## Use your enterprise hostnames
 
-Environment variables can be set to extend Slatebox's functionality, but they are not necessary (the quickstart above does not set them). The environment variables available are the same as when [running Slatebox via Docker](../Installation/install-with-docker.md):
+Set the public app and relay origins when initializing. For example, put an HTTPS reverse proxy in front of the two loopback ports and enable WebSocket upgrade forwarding on both upstreams.
 
-| Env Variable Name                       | Description                                                                                                                                                                          |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| NOUN_PROJECT_KEY                        | Enable custom shape searching in Slatebox via the NounProject. It has access to over 3 million shapes. <br/> [link](https://thenounproject.com/developers/)                          |
-| NOUN_PROJECT_SECRET                     |
-| CHATWOOT_TOKEN                          | Chatwoot lets you add a drop-in support widget to the site <br/> [link](https://www.chatwoot.com/)                                                                                   |
-| MAIL_URL                                | Provide an smtp mail server for outgoing messages <br/> [link](https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-)               |
-| GOOGLE_API_KEY                          | Google's API key is needed both for retrieving fonts <br/> [link](https://developers.google.com/custom-search/v1/overview?hl=ro)                                                     |
-| GOOGLE_IMAGE_SEARCH_API_KEY             | Google's Image API key is needed both for searching images                                                                                                                           |
-| PIXABAY_API_KEY                         | An API key from Pixabay is needed to search slate background images <br/> [link](https://pixabay.com/)                                                                               |
-| AWS_SECRET_KEY                          | AWS credentials are required to use the copy-to-cloud-url feature when exporting a slate <br/> [link](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html)         |
-| AWS_ACCESS_KEY                          | "                                                                                                                                                                                    |
-| AWS_S3_IMAGE_BUCKET                     | "                                                                                                                                                                                    |
-| IMAGE_CLOUD_URL                         | You can set up an alias to the cloudfront cdn (or otherwise) and use that DNS name here <br/> [link](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html) |
-| GOOGLE_DOCS_CLIENT_ID                   | Google Docs can be integrated with these env variables <br/> [link](https://developers.google.com/docs/api/how-tos/overview)                                                         |
-| GOOGLE_DOCS_PROJECT_ID                  | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_AUTH_URI                    | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_TOKEN_URI                   | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_AUTH_PROVIDER_X509_CERT_URL | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_CLIENT_SECRET               | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_REDIRECT_URIS               | "                                                                                                                                                                                    |
-| GOOGLE_DOCS_JAVASCRIPT_ORIGINS          | "                                                                                                                                                                                    |
-| DAILY_API_KEY                           | Integrate into daily.co for audio and video huddles <br/> [link](https://docs.daily.co/)                                                                                             |
-| DAILY_URL                               | "                                                                                                                                                                                    |
+```sh
+ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com \
+  APP_IMAGE=registry.example.com/slatebox/app:release \
+  COLLAB_IMAGE=registry.example.com/slatebox/relay:release ./run init
+```
 
-Once the variables are set in your environment, run `docker compose up -d` in the same directory as your `docker-compose.yml` file. Once successfully launched, going to `http://localhost` on that server should bring up the Slatebox login page.
+The init command creates `.state/instance.env` and `.state/settings.json` with private file permissions. Protect these files and your Mongo volume in backups. Running init against an existing directory stops before changing credentials. For an update, change the two image tags in `instance.env`, make a database backup, and run `./run up -d`. The Mongo initialization service also runs on restart and reuses the original database users.
+
+## Build from the three source checkouts
+
+Use the Slatebox app, SlateboxJS engine and Slatebox collaboration relay repositories. The relay is the Slatebox fork of y-websocket. Use a compatible set of commits supplied by your release contact. With this app checkout open in the self-host directory, run:
+
+```sh
+./build-images.sh /path/to/slateboxjs-v2 /path/to/y-websocket
+```
+
+The script stages committed source in a temporary directory, builds and packs the engine, and checks the app lock points at that exact local build. It then produces Docker images tagged with the source revisions and prints the two image names to use with init. Source builds need Git, npm, Node.js, Docker, internet access for dependencies, and sufficient memory for the Meteor builder.
+
+By default the script targets the Docker daemon’s native Linux architecture. To select one explicitly, run:
+
+```sh
+TARGET_PLATFORM=linux/amd64 ./build-images.sh /path/to/slateboxjs-v2 /path/to/y-websocket
+TARGET_PLATFORM=linux/arm64 ./build-images.sh /path/to/slateboxjs-v2 /path/to/y-websocket
+```
+
+Build each architecture on a matching Docker host or a builder with emulation for the target. The script loads individual images into the local Docker daemon, checks their architecture and adds an `-amd64` or `-arm64` suffix to each tag. Use the matching pair for your deployment.
+
+## Environment Variables
+
+- **Email** — Set `mailGun.server` in `.state/settings.json` to your SMTP URL for login links, invitations, verification, and password resets.
+- **AI** — Set `API_KEY_DEEP_INFRA` in `.state/instance.env` to your own provider credential. In app versions with workshops, set `selfHosted.workshopAI` to `true` to enable agent-authored workshops for registered users.
+- **Calls** — Supply `daily.apiKey` from your own Daily account for cloud-hosted media rooms. The bundled WebSocket service carries board changes.
+- **Published presentation images** — Configure your own `aws.region`, `aws.accessKey`, `aws.secretKey`, `aws.imageBucket` and `aws.cloudUrl` for the app's S3 image-storage integration. Published images need an HTTPS asset origin reachable by viewers.
+
+Apply settings changes with `./run up -d --force-recreate app`. The app's `public` settings are visible to browsers. Keep credentials in server settings. Configure production access through your organization’s firewall, TLS proxy, and backup process. This Compose installation uses one database member and one relay process.
+
+### Move a backed-up instance to another Docker host
+
+Choose a maintenance window. Stopping the app, relay and MongoDB together lets you take a consistent copy of the database files. These commands assume the default settings directory and the Compose project name used to start the instance. Run them from the release's `self-host` directory.
+
+```sh
+set -e
+umask 077
+backup=$(mktemp -d ./slatebox-backup.XXXXXXXX)
+./run down
+./run run --rm -T --no-deps --entrypoint tar mongo -C /data/db -czf - . < /dev/null > "$backup/mongo-data.tgz"
+tar -C .state -czf "$backup/instance.tgz" instance.env settings.json
+(cd "$backup" && shasum -a 256 mongo-data.tgz instance.tgz > SHA256SUMS)
+```
+
+The archive contains private boards, login data and service credentials. Store the copies together on protected storage and transfer them over an encrypted connection. Back up any external object storage separately. For a backup drill, the original installation can be brought back with `./run up -d --wait` as soon as the files have been copied.
+
+On the recovery host, use the same release, Mongo image version and compatible release images for the host architecture. Copy the three backup files into `backup/` beside the Compose file. Use an unused Compose project name and a new settings directory. Preserve the public URLs for the app and relay so invitation links and browser sessions still address the same instance.
+
+```sh
+set -e
+umask 077
+(cd backup && shasum -a 256 -c SHA256SUMS)
+mkdir -m 700 .state
+tar -C .state -xzf backup/instance.tgz
+export SLATEBOX_STATE="$PWD/.state"
+export COMPOSE_PROJECT_NAME=slatebox-restored
+./run run --rm -T --no-deps --entrypoint sh mongo -ec \
+  'test -z "$(ls -A /data/db)" && tar -C /data/db -xzf -' < backup/mongo-data.tgz
+./run up -d --wait
+```
+
+The empty-directory check protects existing database files. Open a known private slate as its owner and confirm its contents. For an actual move, direct the original app and relay hostnames to the recovered stack together before accepting edits.

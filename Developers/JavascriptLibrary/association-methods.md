@@ -1,47 +1,16 @@
----
-label: Association Methods
-icon: star
-order: 40
----
+# Relationship methods
 
-Programatically control associations with the below methods.
+## relationships.addAssociation
 
-### relationships.addAssociation
+After both nodes’ `ready` promises resolve, add a directed relationship from the source node to the destination node. The returned association has its own ID. Two connections can join the same pair of nodes, so retain that ID to address a particular edge.
 
-!!! info
-The `node` making the call is the `parent` of the `association`.
-!!!
-
-||| Set an image to the background of the node
-
-```
-  node.relationships.addAssociation({
-    child: otherNode,
-    lineColor: '#000',
-    lineOpacity: 1,
-    lineEffect: 'outline',
-    lineWidth: 10,
-    isStraightLine: false,
-    showParentArrow: true,
-    showChildArrow: false
-  });
+```js
+const connection = evidence.relationships.addAssociation(decision, {
+  lineColor: '#2c6259',
+  lineWidth: 3,
+  showChildArrow: true
+})
+evidence.relationships.applyLineProperty(connection.id, 'lineColor', '#875120')
 ```
 
-||| arguments
-
-| Name              | Type    | Description                                                                                          |
-| ----------------- | ------- | ---------------------------------------------------------------------------------------------------- |
-| `child`           | object  | The child `node` to connect to                                                                       |
-| `lineColor`       | string  | The hex color of the connecting line                                                                 |
-| `lineOpacity`     | integer | The opacity percentage of the connecting line (0.0 - 1.0)                                            |
-| `lineEffect`      | string  | The line effect to apply (`postItNote`, `dropShadow`, `outlined`, `tattered`, `posterize`, `pencil`) |
-| `lineWidth`       | integer | The width in px of the connecting line                                                               |
-| `isStraightLine`  | boolean | Set to `true` to make the line straight, defaults to bezier curve                                    |
-| `showParentArrow` | boolean | Show the arrowhead on the parent side                                                                |
-| `showChildArrow`  | boolean | Show the arrowhead on the child side                                                                 |
-
-|||
-
-||| returns
-null
-|||
+Call `evidence.relationships.getAssociations()` to inspect outbound associations. Call `evidence.relationships.removeAssociation(connection.id)` to remove that connection. [Association properties](association-properties.md)

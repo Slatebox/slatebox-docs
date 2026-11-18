@@ -1,51 +1,49 @@
----
-label: Javascript Library
-icon: star
-order: 100
----
+# SlateboxJS
 
-### Introduction
+## Introduction
 
-Slateboxjs is an [MIT-licensed standalone javascript library](https://github.com/Slatebox/Slateboxjs) that can be used to create diagrams, mind-maps, and more on an infinite campus. It's the same underlying library used in the self-hostable [Slatebox App](./development.md) and the cloud offering at [Slatebox.com](https://app.slatebox.com).
+SlateboxJS creates an editable SVG diagram inside a DOM element. Use it when your application owns the page, storage and access controls. To operate on a slate already stored in the hosted app, use the [HTTP API](../SlateboxAPI/readme.md).
 
----
+## Quick Slate
 
-### Quick Slate
+These examples target the SVG.js-based `slateboxjs-v2` source build. With access to the matching engine checkout, build it, pack it, then install that file into your Vite or equivalent browser project.
 
-Here is a simple codepen example of a slate with 2 connected nodes.
+```sh
+# In the engine checkout
+npm ci
+npm run build
+npm pack
+```
 
-<iframe height="600" style="width: 100%;" scrolling="no" title="Slatebox - 2 Nodes" src="https://codepen.io/timheckel/embed/JjMNKmP?default-tab=js%2Cresult&editable=true&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/timheckel/pen/JjMNKmP">
-  Slatebox - 2 Nodes</a> by Tim Heckel (<a href="https://codepen.io/timheckel">@timheckel</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+In your own project run `npm install /absolute/path/to/the-generated.tgz`, substituting the archive path printed by `npm pack`. Give the canvas a visible height in your HTML.
 
----
+```html
+<div id="board" aria-label="Decision map" style="width:100%;height:420px"></div>
+<script type="module" src="/src/board.js"></script>
+```
 
-#### Installation
+Create `src/board.js`:
 
-The easiest is just as an npm module.
+```js
+import { Slate } from 'slateboxjs'
+import 'slateboxjs/style.css'
 
-`npm i slateboxjs`
+const slate = new Slate('#board', { name: 'Decision map' })
+const evidence = slate.addNode({
+  id: 'evidence', x: 30, y: 80, width: 170, height: 70,
+  shape: 'rectangle', text: 'Rider interviews', backgroundColor: '#d8edda'
+})
+const decision = slate.addNode({
+  id: 'decision', x: 300, y: 80, width: 180, height: 70,
+  shape: 'rectangle', text: 'Pilot the transfer'
+})
+await Promise.all([evidence.ready, decision.ready])
+const edge = evidence.relationships.addAssociation(decision, { showChildArrow: true })
+slate.fitToContent()
+```
 
----
+Drag either node to see the connector follow. The reference examples use the same `slate`, `evidence`, `decision` and `edge` variables. Call `slate.destroy()` when unmounting the view.
 
-### Development
+## Development
 
-Do you want to contribute to the slateboxjs core to do bug fixes or feature enhancements? Excellent. Please reach out on the [community forums](https://community.slatebox.com) with questions.
-
-Follow these steps to get slateboxjs running locally:
-
-`git clone git@github.com:Slatebox/slateboxjs.git`
-
-`cd slateboxjs`
-
-`npm install`
-
-`npm run start`
-
-This will open up `http://localhost:1234` with a node and a slate attached.
-
-!!!
-Under the covers, Slateboxjs uses the [parcel](https://parceljs.org) library to build and serve the module.
-!!!
+Save a document with `slate.exportJSON()` and restore it with `await slate.loadJSON(saved)`. Exported board JSON can be stored in your own backend. The library creates local objects, while persistence, invitations and calls belong to the host application. [Slate methods](slate-methods.md) · [Node properties](node-properties.md) · [Relationships](association-methods.md)

@@ -1,438 +1,73 @@
----
-label: Slate Methods
-icon: star
-order: 80
----
+# Slate methods
 
-Programatically control the slate with the below methods.
+A `Slate` manages the board, its viewport and serialization. Start with the [quick slate](readme.md#quick-slate).
 
-### nodes.add
+## nodes.add
 
-||| adds new node(s) to the slate
+`slate.nodes.add(options)` creates a node and returns it. `slate.addNode(options)` also runs slate-level notification and collaboration hooks. Use a stable ID when code needs to look up the same object after reload.
 
-```
-    slate.nodes.add([{
-       new Slatebox.node({
-          id: 'first_node',
-          name: 'first_node',
-          text: 'drag me',
-          xPos: 25110,
-          yPos: 25120,
-          height: 60,
-          width: 120,
-          vectorPath: 'roundedrectangle',
-          backgroundColor: '#24A8E0',
-          lineColor: '#333',
-          lineWidth: 5,
-          allowMenu: true,
-          filters: {
-            vect: 'dropShadow',
-          },
-        })
-    }]);
+## nodes.remove
+
+`slate.removeNode('decision')` removes a node through the slate. `slate.getNode('decision')` finds a node by ID. `slate.getAllNodes()` returns the current nodes.
+
+## exportJSON
+
+```js
+const saved = slate.exportJSON()
+localStorage.setItem('decision-map', saved)
 ```
 
-||| arguments
+The result is a string. Use `slate.snapshot()` for an in-memory document object.
 
-| Name   | Type   | Description                                                               |
-| ------ | ------ | ------------------------------------------------------------------------- |
-| `node` | object | either [a node object](./node-properties.md) or an array of node objects. |
+## loadJSON
 
-|||
-
-||| returns
-
-null
-
-|||
-
-### nodes.remove
-
-||| remove node(s) from the slate
-
-```
-    slate.nodes.remove([{
-      options: {
-        id: "id_to_remove"
-      }
-    }]);
+```js
+const saved = localStorage.getItem('decision-map')
+if (saved) await slate.loadJSON(saved)
 ```
 
-||| arguments
+Loading is asynchronous. Look up nodes again after loading. A browser's local storage is specific to that origin and browser.
 
-| Name   | Type   | Description                                                               |
-| ------ | ------ | ------------------------------------------------------------------------- |
-| `node` | object | either [a node object](./node-properties.md) or an array of node objects. |
+## svg
 
-|||
+`slate.svg()` returns SVG markup representing the board. Use it to produce a vector illustration.
 
-||| returns
+## png
 
-null
+`await slate.png()` renders a raster export asynchronously. The result type is a string or Blob depending on export options.
 
-|||
+## canvas.zoom
 
-### svg
+The direct API exposes `slate.zoom(level)`, `slate.zoomBy(factor)` and `slate.getZoom()`. Use `slate.fitToContent()` after populating a diagram to frame the entire board.
 
-||| download the slate as svg
+## canvas.move
 
-```
-    slate.svg();
-```
+Use `slate.pan({x, y})` or `slate.panBy({x, y})` to reposition the viewport. Node coordinates identify positions in the diagram.
 
-||| arguments
+## applyTheme
 
-None
+`slate.applyTheme(theme)` applies a theme definition. [Theme example](themeExample.md)
 
-|||
+## getOrientation
 
-||| returns
+`slate.getOrientation()` reports content bounds. For common framing tasks use `slate.fitToContent()` or `slate.centerContent()`. Older examples refer to `scaleToFitAndCenter`, `scaleToFitNodes` or `centerOnNodes` on the compatibility interface.
 
-browser will download a `slate_timestamp.svg` svg file
+## slate.grid.show
 
-|||
+`slate.grid.show()` displays the grid. Use `slate.grid.hide()` to turn it off again.
 
-### png
+## slate.grid.destroy
 
-||| download the slate as png
+Use `slate.grid.hide()` to hide a grid you plan to show again. Use `slate.destroy()` when unmounting the entire canvas.
 
-```
-    slate.png();
-```
+## scaleToFitAndCenter
 
-||| arguments
+For whole-board framing on the direct API use `slate.fitToContent()`.
 
-None
+## scaleToFitNodes
 
-|||
+Legacy integrations sometimes frame a selected subset. `slate.fitToContent()` frames the whole canvas. A subset view requires an explicit viewport calculation from the chosen nodes.
 
-||| returns
+## centerOnNodes
 
-browser will download a `slate_timestamp.png` png file
-
-|||
-
-### canvas.zoom
-
-||| zoom the slate on the z plane
-
-```
-slate.canvas.zoom({
-  dur: 500,
-  callbacks: {
-      after: () => {
-        console.log('called at the end of the zoom');
-    },
-    during: () => {
-      console.log('called once per animationFrame while zooming');
-    }
-  },
-  easing: 'easeFromTo',
-  zoomPercent: 100,
-});
-```
-
-||| arguments
-
-| Name        | Type    | Description                             |
-| ----------- | ------- | --------------------------------------- |
-| `dur`       | integer | duration in millis                      |
-| `callbacks` | object  | callbacks for `after` and `during` move |
-| `easing`    | string  | [see all easing options](./easing.md)   |
-
-|||
-
-||| returns
-
-null
-
-|||
-
-### canvas.move
-
-||| move the slate on the x, y plane
-
-```
-slate.canvas.move({
-    x: 125,
-    y: 40,
-    dur: 500,
-    callbacks: {
-      after: () => {
-        console.log('called at the end of the move');
-      },
-      during: () => {
-        console.log('called once per animationFrame while moving');
-      }
-    },
-    isAbsolute: false,
-    easing: 'easeFromTo',
-  });
-```
-
-||| arguments
-
-| Name         | Type    | Description                                                                    |
-| ------------ | ------- | ------------------------------------------------------------------------------ |
-| `x`          | integer | `x` in px to move the canvas (relative or absolute, depending on `isAbsolute`) |
-| `y`          | integer | `y` in px to move the canvas (relative or absolute, depending on `isAbsolute`) |
-| `dur`        | integer | duration in millis                                                             |
-| `callbacks`  | object  | callbacks for `after` and `during` move                                        |
-| `isAbsolute` | boolean | relative or absolute `x,y` coordinates                                         |
-| `easing`     | string  | [see all easing options](./easing.md)                                          |
-
-|||
-
-||| returns
-
-null
-
-|||
-
-### applyTheme
-
-||| applyTheme
-
-```
-slate.applyTheme(theme, syncWithTheme);
-```
-
-||| arguments
-
-| Name            | Type    | Description                                                                                                                                                       |
-| --------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `theme`         | object  | [A theme object](./themeExample.md)                                                                                                                               |
-| `syncWithTheme` | boolean | Setting to `true` syncs the properties with created children with the theme properties instead of the default (children inheriting properties from their parents. |
-
-|||
-
-||| returns
-
-null
-
-|||
-
-### exportJSON
-
-||| a JSON representation of the slate
-
-```
-slate.exportJSON();
-```
-
-||| arguments
-
-None
-
-|||
-
-||| returns an array of [...nodeObject](./node-properties.md)(s) and a [...slateObject](./slate-properties.md).
-
-```
-{
- "_id": "CsiJNp8G8LiPHhxRD",
-	"created": 1650100223609,
-	"lastSaved": 1650100223609,
-	"nodes": [
-    {
-      ...nodeObject
-    }
-  ]
-  "options": {
-    ...slateObject
-  },
-  "shareId": "ebc8e555",
-  "userId": "xxx",
-  "orgId": "yyy"
-}
-```
-
-|||
-
-### loadJSON
-
-||| load a slate with the JSON string exported from `exportJSON`
-
-```
-  slate.loadJSON(jsonSlate, blnPreserve, blnSkipZoom);
-```
-
-||| arguments
-
-| Name          | Type    | Description                                                         |
-| ------------- | ------- | ------------------------------------------------------------------- |
-| `jsonSlate`   | string  | A JSON string as described in the `exportJSON` return               |
-| `blnPreserve` | boolean | Setting to `true` will preserve the contents of the targeted slate. |
-| `blnSkipZoom` | boolean | Setting to `true` will not zoom the slate after loading the nodes   |
-
-|||
-
-||| returns
-
-null
-
-|||
-
-### getOrientation
-
-||| orientation details for the slate
-
-```
-slate.getOrientation(nodesToOrient, alwaysOne);
-```
-
-||| arguments
-
-| Name            | Type    | Description                                                                                                        |
-| --------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| `nodesToOrient` | array   | An optional array of node `id`s to use when calculating the orientation, if ommited or null, defaults to all nodes |
-| `alwaysOne`     | boolean | Defaults to false. Set to true to always enforce a zoom level of 1 (fit to screen) for the orientation             |
-
-|||
-
-||| returns
-
-```
-  {
-    orientation: 'landscape|portrait',
-    height: 448, // height of slate in px
-    width: 780, // width of slate in px
-    left: 45, // left (x) of the slate as positioned against the infinite canvas in px
-    top: 23, // top (y) coords of the slate as positioned against the infinite canvas in px
-  }
-```
-
-|||
-
-### scaleToFitAndCenter
-
-!!! info
-This function combines the `scaleToFitNodes` and `centerOnNodes` methods into one simplified call.
-!!!
-
-||| scale and center the slate on all its nodes
-
-```
-  slate.scaleToFitAndCenter(dur, cb);
-```
-
-||| arguments
-
-| Name  | Type     | Description                                                                     |
-| ----- | -------- | ------------------------------------------------------------------------------- |
-| `dur` | integer  | The duration in milliseconds for the scaling and centering animations to happen |
-| `cb`  | function | Optional callback to fire after scaling and centering completes                 |
-
-|||
-
-||| returns
-
-```
-  null
-```
-
-|||
-
-### scaleToFitNodes
-
-||| scale the slate to show all nodes (or those selected) in the viewport
-
-```
-  slate.scaleToFitNodes({
-    nodes: [],
-    dur: 0,
-    cb: null
-  });
-```
-
-||| arguments
-
-| Name    | Type     | Description                                                                                                    |
-| ------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| `nodes` | array    | An optional array of node `id`s to use when calculating the scaling, if ommited or null, defaults to all nodes |
-| `dur`   | integer  | The duration in milliseconds for the scaling animation to happen                                               |
-| `cb`    | function | Optional callback to fire after scaling completes                                                              |
-
-|||
-
-||| returns
-
-```
-  null
-```
-
-|||
-
-### centerOnNodes
-
-||| scale the slate to show all nodes (or those selected) in the viewport
-
-```
-  slate.scaleToFitNodes({
-    nodes: [],
-    dur: 0,
-    cb: null
-  });
-```
-
-||| arguments
-
-| Name    | Type     | Description                                                                                                      |
-| ------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
-| `nodes` | array    | An optional array of node `id`s to use when calculating the centering, if ommited or null, defaults to all nodes |
-| `dur`   | integer  | The duration in milliseconds for the center move animation to happen                                             |
-| `cb`    | function | Optional callback to fire after centering completes                                                              |
-
-|||
-
-||| returns
-
-```
-  null
-```
-
-|||
-
-### slate.grid.show
-
-||| show the background grid on the slate canvas
-
-```
-  slate.grid.show();
-```
-
-||| arguments
-
-none
-
-|||
-
-||| returns
-
-```
-  null
-```
-
-|||
-
-### slate.grid.destroy
-
-||| remove the background grid on the slate canvas
-
-```
-  slate.grid.destroy();
-```
-
-||| arguments
-
-none
-
-|||
-
-||| returns
-
-```
-  null
-```
-
-|||
+For whole-board centering use `slate.centerContent()`. For a custom view, set pan and zoom from the bounds you intend to show.
