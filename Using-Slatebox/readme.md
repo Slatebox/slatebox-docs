@@ -25,3 +25,7 @@ Choose **Present** to lead a meeting from the board. For a workshop, choose **Pu
 ## Choose where to work
 
 Individuals can create unlimited slates on the free hosted plan. Pro adds AI capabilities. Team plans support a shared organization. Open the plan chooser for current features and billing options. Organizations with their own infrastructure can operate the app, relay and database together. [Hosted plans](https://app.slatebox.com/plans) · [Self-host with Docker](../Installation/install-with-docker.md)
+
+## Manage a hosted subscription
+
+Open **Profile → Billing** to see your subscription in Stripe. If you schedule a cancellation, the portal shows the date your subscription ends. You can keep using paid workshop tools until then. When a Pro subscription ends, your individual account returns to Free. [Open your profile](https://app.slatebox.com/profile)
