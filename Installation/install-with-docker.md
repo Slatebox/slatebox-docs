@@ -38,7 +38,9 @@ Open [the local start screen](http://localhost:7070/start), add a note on a priv
 
 ## Try a remote host over SSH
 
-If Docker runs on a VM, open a tunnel from the laptop where you want to try the board. Slatebox serves the app on the VM’s loopback port 7070 and live edits on port 7071. Forward both so your browser can reach the two services. This works with the default loopback installation before you set up DNS.
+Start the release kit on the VM first. You can request a matched archive and checksum from Slatebox. [Get the release](#get-the-release) · [Start the kit on the VM](#start-from-a-release-kit)
+
+Once the app is healthy, open a tunnel from the laptop where you want to try the board. Slatebox serves the app on the VM’s loopback port 7070 and live edits on port 7071. Forward both so your browser can reach the two services. This works with the default loopback installation before you set up DNS.
 
 Run this in a terminal on your laptop. Replace `operator@your-docker-host` with your SSH login and host. Keep this terminal open during the evaluation.
 
@@ -70,9 +72,15 @@ A localhost link takes each reader to their own computer. Give the app and relay
 
 On 1 October 2026 the Node.js build team published a DigitalOcean notice closing new Open Source Credits applications and renewals. DigitalOcean later offered to work directly with Node.js. As of 18 November 2026, our hosting comparison assumes regular billing for a new Slatebox installation. [Program notice and follow-up](https://github.com/nodejs/build/issues/4499) · [DigitalOcean open-source resources](https://www.digitalocean.com/open-source)
 
+### Hosting a public project demo
+
+For an evaluation that needs to start today, use a Linux VM your team already operates. If you want a dedicated host with a short setup, the Docker Droplet is a paid VM with Docker installed. Choose its release archive by the VM's reported architecture. [DigitalOcean Docker Droplet](https://docs.digitalocean.com/products/marketplace/catalog/docker/)
+
+For infrastructure that serves the open-source project itself, AWS reviews applications for credits. Its criteria include an OSI-approved license, an active community, independence from single-vendor dominance and no venture funding. Oregon State University’s Open Source Lab also reviews hosting requests for projects with community impact. Budget for regular hosting until a provider approves the project. [AWS open-source credits](https://aws.amazon.com/blogs/opensource/aws-cloud-credits-for-open-source-projects-affirming-our-commitment/) · [OSU Open Source Lab hosting policy](https://osuosl.org/services/hosting/policy/)
+
 ### What the Slatebox release checks covered
 
-The team built and packaged both architectures. On a second ARM64 Docker host, a checksum-verified archive started the app, relay and database with registry pulls disabled. Two guests shared a board, presented an edit and reopened it. The AMD64 app and relay ran under emulation on the build host. A separate recovery drill restored a private board on another Docker host, and an upgrade preserved an existing installation. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
+The team built and packaged both architectures. On a second ARM64 Docker host, a checksum-verified archive started the app, relay and database with registry pulls disabled. Two guests shared a board, presented an edit and reopened it. The AMD64 app and relay ran under emulation on the build host. On an ARM64 installation, a kit upgrade preserved two registered users, a private map and its existing edit link. A cold backup restored into a fresh database volume returned the board to its saved position, and both editors could collaborate again. A separate recovery drill restored a private board on another Docker host. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
 
 ## Install Slatebox on your own server
 
@@ -242,19 +250,49 @@ Run `./run up -d --no-deps --force-recreate --wait app`. From a registered accou
 
 ## Restart and update
 
-`./run stop` stops the services. `./run up -d --wait` starts them again. `./run down` removes the containers and retains the named database volume. For upgrades, back up your database and state files, replace the image references in `.state/instance.env` with a matched release pair, and run `./run up -d --wait`. Reopen a known private slate using its owner’s account. [Docker volume lifecycle](https://docs.docker.com/engine/storage/volumes/)
+`./run stop` stops the services. `./run up -d --wait` starts them again. `./run down` removes the containers and retains the named database volume. [Docker volume lifecycle](https://docs.docker.com/engine/storage/volumes/)
+
+### Upgrade an existing team from a release kit
+
+Obtain the new kit and its checksum for the same Docker host architecture. Use a new kit with the `--upgrade-from` option. Keep the current release in its own directory. Schedule a maintenance window, take a backup, and start the original instance again. Sign in and save the URL of a private slate to check after the upgrade. [Get the release](#get-the-release) · [Back up the instance](#move-a-backed-up-instance-to-another-docker-host)
+
+Put the new archive and checksum in a fresh directory. Keep the Compose project name you used for the running instance. The default is `slatebox`. If you use a custom project name, export that value instead. Set `previous_state` to the **active settings directory** for the running app. For example, a trial promoted to HTTPS may use `.team-state`. It contains `instance.env` and `settings.json`.
+
+```sh
+set -e
+export COMPOSE_PROJECT_NAME=slatebox
+previous_state=/path/to/current/slatebox-release/self-host/.state
+unset APP_IMAGE COLLAB_IMAGE SLATEBOX_STATE
+sha256sum -c slatebox-*.tar.sha256
+tar -xf slatebox-*.tar
+cd slatebox-release
+./initialize --upgrade-from "$previous_state"
+```
+
+Preparation checks that the running app uses those settings, loads the images locally, and creates a private copy of the configuration in the new kit. The current app keeps serving your team at this point. To switch to the new release, run the commands below in the same terminal so the project name stays selected.
+
+```sh
+cd self-host
+./run up -d --wait --pull never
+./run ps -a
+```
+
+Open the saved private slate at its original URL. Sign in as the same owner, ask a second editor to move a note, then reload to confirm the edit persisted. Run subsequent commands from the new release's `self-host` directory with the same project name. Keep the backup and the original configuration available for recovery.
+
+For a manual image upgrade on an installation managed from separate images, back up the instance, load the matched image pair, update the app and relay references in the active settings file, and apply them with `./run up -d --wait --pull never`.
 
 ## Move a backed-up instance to another Docker host
 
-Choose a maintenance window. Stopping the app, relay and MongoDB together lets you take a consistent copy of the database files. These commands assume a Linux host with `sha256sum`, the default settings directory and the Compose project name used to start the instance. On macOS, substitute `shasum -a 256` for `sha256sum`. Run them from the release's `self-host` directory.
+Choose a maintenance window. Stopping the app, relay and MongoDB together lets you take a consistent copy of the database files. These commands assume a Linux host with `sha256sum`. Use the Compose project name and active settings directory you used to start the instance. For a promoted HTTPS trial, set `SLATEBOX_STATE` to the team settings directory before taking the backup. On macOS, substitute `shasum -a 256` for `sha256sum`. Run them from the release's `self-host` directory.
 
 ```sh
 set -e
 umask 077
+state_dir=${SLATEBOX_STATE:-.state}
 backup=$(mktemp -d ./slatebox-backup.XXXXXXXX)
 ./run down
 ./run run --rm -T --no-deps --entrypoint tar mongo -C /data/db -czf - . < /dev/null > "$backup/mongo-data.tgz"
-tar -C .state -czf "$backup/instance.tgz" instance.env settings.json
+tar -C "$state_dir" -czf "$backup/instance.tgz" instance.env settings.json
 (cd "$backup" && sha256sum mongo-data.tgz instance.tgz > SHA256SUMS)
 ```
 
