@@ -8,11 +8,13 @@ Give your slate a recognizable name. If you began as a guest, register the guest
 
 ## Turn a workshop into a decision
 
-Open a workshop, try moving a card, then inspect the changed result. In a release plan, grouped moves can be previewed together before applying them. For a live session, choose **Share live workshop** and grant your teammate access. Use **Present workshop** to review the shared state, then return to editing. [Open workshops](https://app.slatebox.com/workshops)
+Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
 
 ## Work with a team
 
-A team administrator can invite people through team settings. Once a teammate joins, use the slate or shared workshop's access controls to choose edit or view access. Open the same slate in each participant’s browser to see changes. A link to a private board alone does not invite someone into the team. [Manage team members](../Developers/SlateboxAPI/organizations.md)
+For a team slate, open **Share → Private**. Choose **edit** beside the teammate who will contribute, or **read** for someone reviewing the board. A team administrator can invite a new member through team settings. [Manage team members](../Developers/SlateboxAPI/organizations.md)
+
+To collaborate by link, open **Share → Unlisted**, set access to **edit**, copy the link shown there and choose **Save**. Anyone who receives that link can edit while that permission is active. Send the link to your collaborator and ask them to change one note. Both of you should see the edit on the same board. [Try a two-person incident handoff](../Examples/incident-handoff.md)
 
 ## Present or publish
 
