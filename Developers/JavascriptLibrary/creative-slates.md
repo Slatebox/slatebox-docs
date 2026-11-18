@@ -14,6 +14,35 @@ A board takes its saved model as `value`. Supply `onChange` to receive the commi
 | Wire a print viewer’s return path, open the viewer, and press Escape to follow the connection. | `FocusDarkroomBoard` | [Try keyboard focus](../../Examples/focus-return.md) |
 | Bring a field test into review, compare it with the desk copy and pick the handoff the crew will see. | `OfflineHandoffBoard` | [Review a field note](../../Examples/field-note-handoff.md) |
 
+## Build a workshop with one recording slot
+
+An audio producer has one recorder for Friday. New pitches can take that slot. A recording already in the archive can go back to the pitch meeting for review.
+
+```js
+import {
+  createLaneWorkshop, addWorkshopLane, addWorkshopCard, encodeWorkshopFragment
+} from 'slateboxjs/workshops/model'
+
+const workshop = createLaneWorkshop()
+workshop.title = 'Friday field recordings'
+const [pitches, archive] = workshop.lanes
+pitches.label = 'Pitches'
+archive.label = 'Archive'
+
+const plan = addWorkshopLane(workshop, { label: 'Record on Friday', capacity: 1 })
+const friday = plan.lanes[2]
+const pitched = addWorkshopCard(plan, pitches.id, { label: 'Ferry horn' })
+const ready = addWorkshopCard(pitched, archive.id, {
+  label: 'Dawn chorus from last week',
+  allowedLaneIds: [archive.id, pitches.id]
+})
+const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopFragment(ready)
+```
+
+Move **Ferry horn** to **Record on Friday**. Friday now shows one occupied slot. Move the horn back to **Pitches** and try moving **Dawn chorus from last week** to Friday. Its destination rule keeps it out even with the recorder available. [Open the recording workshop](https://app.slatebox.com/new/workshop#model=%7B%22version%22%3A1%2C%22title%22%3A%22Friday+field+recordings%22%2C%22lanes%22%3A%5B%7B%22id%22%3A%22lane-1%22%2C%22label%22%3A%22Pitches%22%7D%2C%7B%22id%22%3A%22lane-2%22%2C%22label%22%3A%22Archive%22%7D%2C%7B%22id%22%3A%22lane-3%22%2C%22label%22%3A%22Record+on+Friday%22%2C%22capacity%22%3A1%7D%5D%2C%22cards%22%3A%5B%7B%22id%22%3A%22card-1%22%2C%22label%22%3A%22Ferry+horn%22%2C%22laneId%22%3A%22lane-1%22%7D%2C%7B%22id%22%3A%22card-2%22%2C%22label%22%3A%22Dawn+chorus+from+last+week%22%2C%22laneId%22%3A%22lane-2%22%2C%22allowedLaneIds%22%3A%5B%22lane-2%22%2C%22lane-1%22%5D%7D%5D%7D)
+
+Use the exported model helpers with the current [SlateboxJS build](readme.md#quick-slate). A host embedding `WorkshopBoard` can supply `onAddCard(laneId, anchorElement)` and `onEditLane(laneId, anchorElement)` to open its own controls at the selected lane. To make the workshop directly on the canvas, [start with two empty lanes](../../Using-Slatebox/readme.md#start-a-blank-workshop).
+
 ## Add a path to a map
 
 A field recorder hears birdsong under a bridge. Give the sound editor a choice of microphone positions. This example adds a second path from the starting station and gives it an outcome the team can hear described when they move the token.
