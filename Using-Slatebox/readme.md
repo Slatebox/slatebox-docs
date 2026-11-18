@@ -59,6 +59,17 @@ If the owner switches the invitation to **read**, the same link opens the board 
 
 ## Present or publish
 
+### Present a whiteboard together
+
+When a customer asks where their uploaded file goes, show them the path on your whiteboard. The sample follows a file through a fictional import service. Replace its retention note with your own policy before showing it to a customer. [Open the customer-file whiteboard](https://app.slatebox.com/new/customer-file)
+
+1. Choose **Share** and give your teammate a link with **read** access. Have them open the link while you stay on the board.
+2. Choose **Present notes together**. Your teammate can choose **Follow presentation** to see the note you’re discussing.
+3. Use **Next** to go from the upload to the worker and then to the retained data. **Previous** takes both of you back when someone has a question.
+4. Your teammate can choose **Leave presentation** to explore on their own. Choose **End presentation** to bring everyone still following back to the board.
+
+For a solo rehearsal, choose **Present**. [Try the three views on the product page](https://slatebox.com/product/presentations/#example)
+
 ### Present a workshop together
 
 A curator and a reviewer can visit the same detail at the same time. In the gallery guide, add **Look at the brushwork**, then choose **Open my guide in Slatebox** to save your map. [Build a gallery guide](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
