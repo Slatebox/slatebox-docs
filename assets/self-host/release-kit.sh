@@ -82,7 +82,7 @@ start_instance() {
   containers=$(docker ps -aq --filter "label=com.docker.compose.project=$project")
   for container in $containers; do
     file=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.project.config_files"}}' "$container")
-    [[ -n "$owner" && "$file" == "$(pwd -P)/compose.yaml" ]] || die "Existing containers belong to another installation of project $project."
+    [[ -n "$owner" && ( "$file" == "$(pwd -P)/compose.yaml" || "$file" -ef ./compose.yaml ) ]] || die "Existing containers belong to another installation of project $project."
     service=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.service"}}' "$container")
     if [[ "$service" == app ]]; then
       mounted=$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/opt/slatebox/settings.json"}}{{.Source}}{{end}}{{end}}' "$container")

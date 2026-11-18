@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, chmodSync, copyFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, chmodSync, copyFileSync, existsSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -21,7 +21,7 @@ const fs=require('node:fs'),p=process.env.RESOURCES, d=JSON.parse(fs.readFileSyn
 const print=items=>items.forEach(item=>console.log(item))
 if(args[0]==='info')console.log(d.daemon)
 else if(args[0]==='ps')print(d.containers.map(c=>c.name))
-else if(args[0]==='inspect'){const c=d.containers.find(c=>c.name===args.at(-1));console.log(c.file)}
+else if(args[0]==='inspect'){const c=d.containers.find(c=>c.name===args.at(-1));console.log(args[2].includes('config_files')?c.file:c.service)}
 else if(args[0]==='network')print(d.networks)
 else if(args[0]==='volume' && args[1]==='ls')print(Object.keys(d.volumes))
 else if(args[0]==='volume' && args[1]==='create'){
@@ -34,6 +34,7 @@ else throw Error('Unexpected Docker operation: '+args[0])
   const kit=name=>{
     const dir=join(root,name),host=join(dir,'self-host')
     mkdirSync(host,{recursive:true})
+    writeFileSync(join(host,'compose.yaml'),'services: {}\n')
     copyFileSync(packer,join(dir,'start'));chmodSync(join(dir,'start'),0o700)
     tool(join(dir,'initialize'),`#!/bin/sh
 set -eu
@@ -54,7 +55,7 @@ else throw Error('Unexpected Compose command')
       encoding:'utf8',stdio:['ignore','pipe','pipe'],
     })}
   }
-  return {kit,read,put}
+  return {kit,read,put,root}
 }
 
 test('partial startup retries with the original configuration; an absent database or a different daemon stops before Compose',t=>{
@@ -88,4 +89,22 @@ test('managed HTTPS initializes its profile and claims proxy storage; retry prin
   assert.match(a.start({ROOT_URL:'https://boards.example.invalid'},['--https']),/https:\/\/boards.example.invalid\/start/)
   assert.deepEqual(Object.keys(f.read().volumes).sort(),['fixture_caddy-data','fixture_mongo-data'])
   assert.match(a.start(),/https:\/\/boards.example.invalid\/start/)
+})
+
+
+test('retry accepts a directory alias to the same Compose file and refuses a distinct file with identical bytes',t=>{
+  const f=fixture(t), a=f.kit('operator')
+  a.start()
+  const alias=join(f.root,'alias')
+  symlinkSync(join(f.root,'operator'),alias,'dir')
+  const d=f.read()
+  d.containers=[{name:'existing-mongo',service:'mongo',file:join(alias,'self-host','compose.yaml')}]
+  f.put(d)
+  assert.match(a.start(),/localhost:7070\/start/)
+  const other=f.kit('distinct')
+  const distinct=join(other.state,'..','compose.yaml')
+  assert.deepEqual(readFileSync(distinct),readFileSync(d.containers[0].file))
+  const now=f.read();now.containers[0].file=distinct;f.put(now)
+  assert.throws(()=>a.start(),/another installation/)
+  assert.equal(f.read().calls.length,2)
 })
