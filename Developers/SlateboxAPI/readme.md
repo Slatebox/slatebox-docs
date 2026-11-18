@@ -15,6 +15,8 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 | `GET /embed/{publishedSlateId}` | Display a published presentation snapshot | A published image |
 | `GET /healthz` | Check the edge service | Public |
 
+The shell CLI and MCP tools can read the same board and submit the same edit plan. [Edit from a terminal or an agent](terminal-and-agents.md)
+
 ## Authentication
 
 Sign in, open **Profile → Developer access**, and create a personal token. Copy it into a local secret store when issued. Send it in the `Authorization: Bearer` header. The service checks the token's scopes and the account's current access on every request. Revoke unused tokens in the same profile panel. [Developer access](https://app.slatebox.com/profile)

@@ -30,7 +30,7 @@ for (const file of files) {
   const prose = body.replace(/```[\s\S]*?```/g,'').split('\n').filter(line=>line && !line.startsWith('#'))
   const summary = (prose[0] || '').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replaceAll('`','')
   const terms = [...new Set([...body.matchAll(/^#{2,4} (.*)|`([\w.]+)`/gm)].map(m => m[1] || m[2]))].join(' ')
-  pages.push({file, text, url:urlFor(file), title, section, body, desc:meta.description || summary, terms, group:meta.group || section, demo:meta.demo})
+  pages.push({file, text, url:urlFor(file), title, section, body, desc:meta.description || summary, terms, group:meta.group || section, demo:meta.demo, agentPrompt:meta.agentPrompt})
 }
 const examples = pages.filter(p => p.section === 'Examples').sort((a,b)=>a.title.localeCompare(b.title))
 const sections = ['Using Slatebox','SlateboxJS','HTTP API','Self-hosting','Examples']
@@ -84,7 +84,7 @@ function promptFor(p) {
     SlateboxJS: 'Help me implement “'+p.title+'” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.',
     'Using Slatebox': 'Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.'
   }
-  return task[p.section]+'\n\nRead '+source+' first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.'
+  return (p.agentPrompt || task[p.section])+'\n\nRead '+source+' first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.'
 }
 function agentTools(prompt, source, sourceLabel='Read Markdown') {
   const copyText = prompt+'\n\nIf your client cannot fetch the documentation, read the same published file at '+publishedFiles+source+'.'
