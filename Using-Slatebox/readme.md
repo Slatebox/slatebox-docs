@@ -20,7 +20,7 @@ To collaborate by link, open **Share → Unlisted**, set access to **edit**, cop
 
 ## Present or publish
 
-Present your board when the group is ready to walk through a decision. For a public snapshot that can appear on another site, publish a presentation and use its published ID in an iframe. Sharing a snapshot and granting edit access serve different audiences. [Embed a presentation](../Developers/SlateboxAPI/readme.md#embed-a-published-board)
+Choose **Present** to lead a meeting from the board. For teammates who will catch up later, publish a sequence of viewpoints. They can open the viewer link or follow the walkthrough inside your team handbook. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
 
 ## Choose where to work
 

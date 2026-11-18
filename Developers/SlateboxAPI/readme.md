@@ -23,7 +23,9 @@ For the shell examples, set `SLATEBOX_TOKEN` in your terminal through your secre
 
 ## Embed a published board
 
-Publish a presentation in Slatebox, replace the identifier below with its published slate ID, and paste this into your page. The iframe shows the presentation image. Give collaborators a canvas invitation in the app when they need to edit.
+For an interactive walkthrough, open **View previous versions** in the presentation editor and select **Copy embed code** on the published version. Readers can advance through the viewpoints inside your page. [Try a walkthrough in a handbook](../../Examples/embed-a-walkthrough.md)
+
+For a still preview, replace the identifier below with your published slate ID. The iframe shows the published image and links to its presentation player. Use a canvas invitation for teammates who will edit the underlying board.
 
 ```html
 <iframe title="Workshop decision" loading="lazy" width="800" height="450"

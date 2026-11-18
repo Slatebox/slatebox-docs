@@ -40,6 +40,7 @@ const entries = [
   {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Bring up the app and collaboration services with Docker.'}
 ]
 const demos = {
+  river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
   telescope:['Try the original telescope test','workshop-demo?mode=planet-map'],
   incident:['Move an incident note and open your timeline','multiplayer.html?story=incident'],
   listening:['Move the listening horn','workshop-demo?mode=listening'], gallery:['Hang the night sky','workshop-demo?mode=gallery'],
@@ -54,7 +55,8 @@ function embed(key) {
   if (key==='canvas') return nativeCanvas()
   if (!demos[key]) return ''
   const [label,route]=demos[key], src='https://slatebox.com/assets/product/'+route
-  return '<figure class="live-demo"><iframe loading="lazy" src="'+html(src)+'" title="'+html(label)+'" allow="autoplay"></iframe><figcaption>'+link(src,'Open the example in its own window ↗')+'</figcaption></figure>'
+  const frameClass = key === 'presentation' || key === 'river' ? 'live-demo deck-demo' : 'live-demo'
+  return '<figure class="'+frameClass+'"><iframe loading="lazy" src="'+html(src)+'" title="'+html(label)+'" allow="autoplay"></iframe><figcaption>'+link(src,'Open the example in its own window ↗')+'</figcaption></figure>'
 }
 function sidebar(active) {
   return '<details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections">'+sections.map(section=>{
