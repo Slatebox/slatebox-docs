@@ -4,7 +4,7 @@
 
 Choose **Open a blank slate** for a freeform canvas. Add a note for the decision, add one for the evidence, and connect them. Use **Build an interactive map** when participants should move an item along specific paths. [Start a slate](https://app.slatebox.com/start)
 
-To add a thought beside an existing one, select its shape and drag a connection handle into open space. The new shape starts blank and connected. Select it and press **F2** to give it a name. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
+Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
 
 Give your slate a recognizable name. If you began as a guest, register the guest account in that browser before relying on access from another device. Keep the canvas link. People opening a private link still need permission.
 
