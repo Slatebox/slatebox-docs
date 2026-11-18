@@ -17,6 +17,8 @@ On **Start**, choose **Create an interactive map**. Your private **Untitled map*
 3. Move **Token → Next step**, then **Token → Listening buoy**. The arrival text appears with the token. Reopen the slate to pick up where you left it.
 4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone else follow along, choose **Share**, select **Unlisted** with **read** permission, and send the link.
 
+To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
+
 ## Turn a workshop into a decision
 
 Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
