@@ -1,26 +1,30 @@
-name: build-for-retype
+name: Publish documentation
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-
+    branches: [main]
+permissions:
+  contents: write
 jobs:
   publish:
-    name: Publish to the retype branch
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          dotnet-version: 6.0.x
-
-      - uses: retypeapp/action-build@latest
-
-      - uses: retypeapp/action-github-pages@latest
-        with:
-          branch: retype
-          update-branch: true
+          node-version: 22
+          cache: npm
+      - run: npm ci && npm run build && npm test
+      - name: Update the existing static publishing branch
+        run: |
+          git fetch origin retype
+          git worktree add --detach /tmp/slatebox-docs-site origin/retype
+          rsync -a --delete --exclude=.git dist/ /tmp/slatebox-docs-site/
+          cd /tmp/slatebox-docs-site
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish documentation from ${GITHUB_SHA}"
+            git push origin HEAD:retype
+          fi

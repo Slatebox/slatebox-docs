@@ -1,0 +1,7 @@
+{
+  "name": "slatebox-documentation",
+  "private": true,
+  "type": "module",
+  "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/check.mjs"},
+  "dependencies": {"marked":"15.0.12","github-slugger":"2.0.0","yaml":"2.8.1"}
+}
