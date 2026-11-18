@@ -15,7 +15,7 @@ On **Start**, choose **Create an interactive map**. Your private **Untitled map*
 1. Choose **Add a branch**. Under **Branch from**, select **Next step**.
 2. For **Name**, enter “Listening buoy”. For **On arrival**, enter “Record the bell before the tide turns.” Choose **Save branch**.
 3. Move **Token → Next step**, then **Token → Listening buoy**. The arrival text appears with the token. Reopen the slate to pick up where you left it.
-4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone explore the saved map at their own pace, choose **Share**, select **Unlisted** with **read** permission, and send the link.
+4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone explore the saved map at their own pace, choose **Share**, select **Unlisted**, leave **Link permission** on **read**, then choose **Create link** and **Copy link**.
 
 To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
@@ -39,13 +39,13 @@ To show what a move means, choose **Edit an object**, select a card and choose *
 
 For a team slate, open **Share → Private**. Choose **edit** beside the teammate who will contribute, or **read** for someone reviewing the board. A team administrator can invite a new member through team settings. [Manage team members](../Developers/SlateboxAPI/organizations.md)
 
-To collaborate by link, open **Share → Unlisted**, set access to **edit**, copy the link shown there and choose **Save**. Send that link to your collaborator. On a regular canvas, they can acknowledge the welcome and edit a note. For an interactive workshop, a first-time visitor can choose **Join to edit** and make a move as a guest. You should both see the change and find it on the same board after reloading. Choose **read** for observers or switch back to **Private** to revoke the unlisted link. [Try a two-person incident handoff](../Examples/incident-handoff.md)
+To invite someone to edit a private slate, open **Share**, choose **Create edit link**, then **Copy link** and **Done**. Send that unlisted link to your collaborator. Anyone with it can edit. On a regular canvas, they can acknowledge the welcome and edit a note. For an interactive workshop, a first-time visitor can choose **Join to edit** and make a move as a guest. You should both see the change and find it on the same board after reloading. For a read-only invitation, choose **Unlisted**, leave **Link permission** on **read** and select **Create link**. To change an existing link, choose a permission and select **Apply access**. [Try a two-person incident handoff](../Examples/incident-handoff.md)
 
 ### Find a workshop you joined
 
 Open **My Slates → Recently joined** to return to a teammate’s interactive slate. It appears when you choose **Join to edit** as a guest or save your first change through an edit invitation while signed in. The list shows the latest title. If you started as a guest, open **Profile → Save my Slatebox** in the same browser before signing in on another device. [Open My Slates](https://app.slatebox.com/)
 
-If the owner switches the invitation to **read**, the same link opens the board for viewing. Switching the board to **Private** removes the entry. To invite people back, the owner can share a new link.
+If the owner switches the invitation to **read**, the same link opens the board for viewing. Opening **Share → Private** and choosing **Make private** revokes the invitation and removes the entry. To invite people back, the owner can share a new link.
 
 ## Present or publish
 
