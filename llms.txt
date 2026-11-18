@@ -44,6 +44,7 @@ The same files are available from the [published documentation repository](https
 - [Hang the coast before the moon](https://docs.slatebox.com/Examples/gallery-prerequisite.md)
 - [Keep a connection when you reopen a slate](https://docs.slatebox.com/Examples/connected-notes.md)
 - [Mix two sound sculptures](https://docs.slatebox.com/Examples/listening-room.md)
+- [Move a refund decision from a terminal](https://docs.slatebox.com/Examples/refund-approval.md)
 - [Plan a design partner experiment](https://docs.slatebox.com/Examples/startup-experiments.md)
 - [Preview a triangle before editing the slate](https://docs.slatebox.com/Examples/preview-api-edit.md)
 - [Put a walkthrough in your team handbook](https://docs.slatebox.com/Examples/embed-a-walkthrough.md)
