@@ -14,6 +14,7 @@ async function walk(dir) {
   return (await Promise.all(entries.map(entry => entry.isDirectory() ? walk(path.join(dir,entry.name)) : path.join(dir,entry.name)))).flat()
 }
 const files = (await Promise.all(['Using-Slatebox','Examples','Developers','Installation'].map(walk))).flat().filter(f=>f.endsWith('.md'))
+const legacy = JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
 const pages = []
 for (const file of files) {
   const raw = await readFile(file, 'utf8')
@@ -79,12 +80,21 @@ function render(p) {
       return '<a href="'+html(target)+'">'+this.parser.parseInline(tokens)+'</a>'
     }
   }})
-  const body=parser.parse(p.body)
-  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1>'+html(p.title)+'</h1>'+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+(headings.length?'<strong>On this page</strong>':'')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
+  let body=parser.parse(p.body)
+  const oldTitle = legacy[p.url]?.[0]
+  const titleId = oldTitle && !body.includes('id="'+html(oldTitle)+'"') ? ' id="'+html(oldTitle)+'"' : ''
+  const aliases = (legacy[p.url] || []).filter(id=>id !== oldTitle && !body.includes('id="'+html(id)+'"'))
+  if (aliases.length) {
+    const section = p.url === '/developers/javascriptlibrary/' ? 'quick-slate' : 'v1organization-endpoint'
+    const anchors = aliases.map(id=>'<span id="'+html(id)+'" aria-hidden="true"></span>').join('')
+    const marker = '<h2 id="'+section+'"'
+    body = body.includes(marker) ? body.replace(marker, anchors+marker) : anchors+body
+  }
+  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+(headings.length?'<strong>On this page</strong>':'')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
 for (const p of pages) await write(p.url,layout(p.title,p.desc,p.url,render(p)))
-const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1>Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div></div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
+const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1 id="slatebox-documentation">Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div></div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home))
 await write('/examples/',layout('Canvas examples','Work through a canvas interaction and see the code behind it.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a gesture, see what changes, then use the code in your own project.</p>'+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))

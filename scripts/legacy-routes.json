@@ -1,0 +1,101 @@
+{
+  "/developers/development/": [
+    "slatebox-app-development",
+    "quickstart",
+    "environment-variables"
+  ],
+  "/developers/": [
+    "welcome-developers"
+  ],
+  "/developers/javascriptlibrary/association-methods/": [
+    "association-methods",
+    "relationshipsaddassociation"
+  ],
+  "/developers/javascriptlibrary/association-properties/": [
+    "association-properties"
+  ],
+  "/developers/javascriptlibrary/easing/": [
+    "easing"
+  ],
+  "/developers/javascriptlibrary/": [
+    "javascript-library",
+    "introduction",
+    "quick-slate",
+    "installation",
+    "development"
+  ],
+  "/developers/javascriptlibrary/node-methods/": [
+    "node-methods",
+    "move",
+    "tofront",
+    "toback",
+    "hide",
+    "show",
+    "togglefilters",
+    "spin",
+    "zoom",
+    "position",
+    "disable",
+    "enable",
+    "colorpickerset",
+    "customshapesset",
+    "editorset",
+    "imagesset",
+    "linksset",
+    "linksunset",
+    "resizeset",
+    "rotateset"
+  ],
+  "/developers/javascriptlibrary/node-properties/": [
+    "node-properties"
+  ],
+  "/developers/javascriptlibrary/slate-methods/": [
+    "slate-methods",
+    "nodesadd",
+    "nodesremove",
+    "svg",
+    "png",
+    "canvaszoom",
+    "canvasmove",
+    "applytheme",
+    "exportjson",
+    "loadjson",
+    "getorientation",
+    "scaletofitandcenter",
+    "scaletofitnodes",
+    "centeronnodes",
+    "slategridshow",
+    "slategriddestroy"
+  ],
+  "/developers/javascriptlibrary/slate-properties/": [
+    "slate-properties",
+    "slate-properties"
+  ],
+  "/developers/javascriptlibrary/themeexample/": [
+    "theme-example"
+  ],
+  "/developers/slateboxapi/": [
+    "slatebox-api",
+    "introduction",
+    "authentication"
+  ],
+  "/developers/slateboxapi/organizations/": [
+    "organizations",
+    "v1organization-endpoint",
+    "v1organizationusers",
+    "response",
+    "v1organization",
+    "response-1"
+  ],
+  "/developers/slateboxapi/slates/": [
+    "slates",
+    "v1slates-endpoint",
+    "response"
+  ],
+  "/": [
+    "slatebox-documentation"
+  ],
+  "/using-slatebox/": [
+    "slatebox-user-guide"
+  ]
+}

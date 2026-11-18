@@ -19,5 +19,10 @@ for(const file of files){
     }
   }
 }
+const legacy=JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
+for (const [url, ids] of Object.entries(legacy)){
+  const doc=await readFile(join(root,url,'index.html'),'utf8')
+  for(const id of ids) if(!doc.includes('id="'+id+'"')) errors.push('Lost legacy anchor '+url+'#'+id)
+}
 if(errors.length)throw Error([...new Set(errors)].join('\n'))
 console.log(files.length+' HTML files passed internal link and anchor checks.')
