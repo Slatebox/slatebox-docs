@@ -49,7 +49,7 @@ SOFTWARE.
     <button id="save" disabled>Save changes</button>
     <output id="status" role="status">Loading canvas…</output>
   </footer>
-  <script type="module">
+  <script data-cfasync="false" type="module">
     const status = document.querySelector('#status')
     const save = document.querySelector('#save')
     const storageKey = 'slatebox-listening-bench:' + location.pathname

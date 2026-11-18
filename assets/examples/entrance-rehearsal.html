@@ -73,7 +73,7 @@ SOFTWARE.
     <div class="actions"><a id="open" hidden>Open this rehearsal in Slatebox</a><button id="undo" disabled>Undo last move</button></div>
   </section>
 </main>
-<script type="module">
+<script data-cfasync="false" type="module">
   const {
     validateWorkshop, availableLanes, moveWorkshopCard, resolveWorkshopSignals, encodeWorkshopFragment
   } = await import('https://slatebox.com/assets/engine/workshop-model.mjs').catch(error => {
