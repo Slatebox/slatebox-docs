@@ -54,3 +54,5 @@ The producer sorts observations from left to right on the board. At the rehearsa
 To change the order in the app, return to the board and choose **Presentation order**. Pick a scene, set its position and save.
 
 Include each lane ID exactly once. Leaving the field out uses the board’s lane order. To render your own readout, import `workshopPresentationLanes` from `slateboxjs/workshops/model` and pass it the saved workshop. Each returned lane has its board ID, so you can select its cards by `laneId`.
+
+For hosts who missed the rehearsal, the owner can publish the two scenes and put the player in the studio handbook. [Publish a workshop handoff](/examples/embed-a-walkthrough/#publish-a-workshop-handoff)

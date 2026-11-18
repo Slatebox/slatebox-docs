@@ -20,7 +20,7 @@ To collaborate by link, open **Share → Unlisted**, set access to **edit**, cop
 
 ## Present or publish
 
-Choose **Present** to lead a meeting from the board. For teammates who will catch up later, publish a sequence of viewpoints. They can open the viewer link or follow the walkthrough inside your team handbook. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
+Choose **Present** to lead a meeting from the board. For a workshop, choose **Publish presentation** to give people a read-only copy of the sequence and its current cards. Later edits stay on your slate until you publish again. For teammates who will catch up later, publish a sequence of viewpoints. They can open the viewer link or follow the walkthrough inside your team handbook. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
 
 ## Choose where to work
 
