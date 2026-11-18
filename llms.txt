@@ -26,6 +26,7 @@ The same files are available from the [published documentation repository](https
 
 ## HTTP API
 
+- [Edit a shared slate from a terminal or an agent](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md)
 - [Manage team access](https://docs.slatebox.com/Developers/SlateboxAPI/organizations.md)
 - [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md)
 - [Slatebox HTTP API](https://docs.slatebox.com/Developers/SlateboxAPI/readme.md)
