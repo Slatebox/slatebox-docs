@@ -19,3 +19,11 @@
   .mast { flex-wrap: wrap; row-gap: .45rem; }
   .mast nav { width: 100%; justify-content: space-between; }
 }
+
+.agent-tools { scroll-margin-top: 5rem; margin: 1.1rem 0 1.65rem; font-size: .93rem; }
+.agent-tools > div { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1rem; }
+.agent-tools button { padding: .5rem .85rem; border: 1px solid #25382f; border-radius: .3rem; background: #25382f; color: #fffdf4; font: inherit; font-weight: 650; cursor: pointer; }
+.agent-tools details { margin-top: .55rem; }
+.agent-tools summary { display: list-item; width: fit-content; cursor: pointer; }
+.agent-tools pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #ecefe5; color: #213c30; padding: 1rem; line-height: 1.5; font: inherit; }
+.agent-status:not(:empty) { display: block; margin-top: .45rem; }
