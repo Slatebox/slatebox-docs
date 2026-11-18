@@ -44,6 +44,104 @@ prepare_upgrade() (
   printf 'From this kit, run: cd self-host && COMPOSE_PROJECT_NAME=%q ./run up -d --wait --pull never\n' "${COMPOSE_PROJECT_NAME:-slatebox}"
 )
 
+start_instance() {
+  [[ $# == 0 || ( $# == 1 && $1 == --https ) ]] || die 'Usage: ./start [--https]'
+  cd "$(dirname "$0")/self-host"
+  project=${COMPOSE_PROJECT_NAME:-slatebox}
+  [[ "$project" =~ ^[a-z0-9][a-z0-9_-]*$ ]] || die 'Use a lowercase Compose project name.'
+  export COMPOSE_PROJECT_NAME="$project"
+  state=${SLATEBOX_STATE:-.state}
+  state=$(cd "$(dirname "$state")" && pwd -P)/$(basename "$state")
+  export SLATEBOX_STATE="$state"
+  identity="$state/start-instance"
+  pending="$state.start-pending"
+  daemon=$(docker info --format '{{.ID}}')
+  [[ -n "$daemon" ]] || die 'Cannot identify the Docker daemon.'
+  owner=''
+  record="$identity"
+  if [[ ! -f "$record" ]]; then record="$pending"; fi
+  if [[ -f "$record" ]]; then
+    { IFS= read -r old_project; IFS= read -r owner; IFS= read -r old_daemon; } < "$record"
+    [[ "$old_project" == "$project" && "$old_daemon" == "$daemon" && "$owner" =~ ^[0-9a-f]{32}$ ]] ||
+      die 'Use the Docker daemon and Compose project that own this installation.'
+  elif [[ -e "$state" || -L "$state" ]]; then
+    die 'These settings were prepared separately. Use self-host/run with their existing project or follow the documented upgrade or restore procedure.'
+  fi
+
+  # Include stopped containers, retained volumes and resources without Compose labels.
+  # Existing settings alone do not prove which credentials belong to a database volume.
+  volumes=$(docker volume ls --format '{{.Name}}' --filter "label=com.docker.compose.project=$project")
+  all_volumes=$(docker volume ls --format '{{.Name}}')
+  for name in ${project}_mongo-data ${project}_caddy-data; do
+    if grep -Fxq "$name" <<< "$all_volumes"; then volumes="$volumes $name"; fi
+  done
+  for name in $volumes; do
+    marker=$(docker volume inspect --format '{{index .Labels "com.slatebox.installation"}}' "$name")
+    [[ -n "$owner" && "$marker" == "$owner" ]] || die "Existing volume $name belongs to another installation. Use a fresh project or the documented upgrade path."
+  done
+  containers=$(docker ps -aq --filter "label=com.docker.compose.project=$project")
+  for container in $containers; do
+    file=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.project.config_files"}}' "$container")
+    [[ -n "$owner" && "$file" == "$(pwd -P)/compose.yaml" ]] || die "Existing containers belong to another installation of project $project."
+    service=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.service"}}' "$container")
+    if [[ "$service" == app ]]; then
+      mounted=$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/opt/slatebox/settings.json"}}{{.Source}}{{end}}{{end}}' "$container")
+      [[ "$mounted" == "$state/settings.json" || "$mounted" -ef "$state/settings.json" ]] || die 'The project app uses a different settings file.'
+    fi
+  done
+  networks=$(docker network ls --format '{{.Name}}' --filter "label=com.docker.compose.project=$project")
+  all_networks=$(docker network ls --format '{{.Name}}')
+  if [[ -n "$networks" ]] || grep -Fxq "${project}_default" <<< "$all_networks"; then
+    [[ -n "$owner" && -n "$volumes" && "$networks" == "${project}_default" ]] ||
+      die "Existing network conflicts with project $project. Choose a fresh project."
+  fi
+
+  if [[ -f "$state/start-volume" ]] && ! grep -Fxq "${project}_mongo-data" <<< "$all_volumes"; then
+    die 'The original database volume is missing. Restore the instance from backup before starting.'
+  fi
+  if [[ -n "$volumes" && ( ! -f "$state/instance.env" || ! -f "$state/settings.json" ) ]]; then
+    die 'The installation settings for the existing database are missing. Restore them from backup.'
+  fi
+  if [[ -z "$owner" ]]; then
+    owner=$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
+    temp=$(mktemp "$state.start-pending.XXXXXXXX")
+    trap 'rm -f "$temp"' EXIT
+    printf '%s\n%s\n%s\n' "$project" "$owner" "$daemon" > "$temp"
+    ln "$temp" "$pending" || die 'Another process is starting this instance. Retry ./start.'
+  fi
+  if [[ ! -e "$state" ]]; then
+    ../initialize "$@"
+  elif [[ ! -f "$state/settings.json" || ! -f "$state/instance.env" ]]; then
+    die 'Incomplete settings directory. Check the original settings before starting this installation.'
+  fi
+  if [[ ! -f "$identity" ]]; then ln "$pending" "$identity"; fi
+  if [[ -f "$pending" && "$pending" -ef "$identity" ]]; then rm "$pending"; fi
+  # Installer inputs apply on first launch. On retries Compose must use the settings
+  # that belong to the retained database, even from a shell with different defaults.
+  unset APP_PORT COLLAB_PORT ROOT_URL WS_URL APP_IMAGE COLLAB_IMAGE COMPOSE_PROFILES
+  unset MONGO_ROOT_PASSWORD APP_PASSWORD RELAY_PASSWORD REPLICA_KEY API_GEN_KEY API_KEYS
+  services=$(./run config --services)
+  if [[ $# == 1 ]] && ! grep -Fxq proxy <<< "$services"; then
+    die 'This instance uses HTTP. Use the documented HTTPS promotion flow.'
+  fi
+  # Docker creates a named volume atomically. Verify the winner's label even if
+  # another extracted kit tried to claim the same project after our initial check.
+  claim_volume() {
+    local logical=$1 name="${project}_$1" marker
+    docker volume create --label "com.docker.compose.project=$project" --label "com.docker.compose.volume=$logical" \
+      --label "com.slatebox.installation=$owner" "$name" >/dev/null
+    marker=$(docker volume inspect --format '{{index .Labels "com.slatebox.installation"}}' "$name")
+    [[ "$marker" == "$owner" ]] || die "Volume $name belongs to another installation."
+  }
+  claim_volume mongo-data
+  : > "$state/start-volume"
+  if grep -Fxq proxy <<< "$services"; then claim_volume caddy-data; fi
+  ./run up -d --wait --pull never
+  ./run exec -T app node -p 'new URL("/start", process.env.ROOT_URL).href'
+}
+
+if [[ $(basename "$0") == start ]]; then start_instance "$@"; exit; fi
+
 case "${1:-}" in
   pack)
     [[ $# == 3 ]] || die 'Usage: release-kit.sh pack APP_CHECKOUT OUTPUT_DIRECTORY'
@@ -72,7 +170,8 @@ case "${1:-}" in
     fi
     git -C "$app" archive "$full_app_rev" "${startup_files[@]}" | tar -xf - -C "$kit"
     cp "$0" "$kit/initialize"
-    chmod 700 "$kit/initialize"
+    cp "$0" "$kit/start"
+    chmod 700 "$kit/initialize" "$kit/start"
 
     # Resolve dependencies from the versioned Compose file with inert values only.
     compose=(docker compose)
