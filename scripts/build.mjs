@@ -42,6 +42,7 @@ const entries = [
 const demos = {
   river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
   telescope:['Try the original telescope test','workshop-demo?mode=planet-map'],
+  outage:['Trace both customer paths on a whiteboard','sign-in-outage.html'],
   incident:['Move an incident note and open your timeline','multiplayer.html?story=incident'],
   listening:['Move the listening horn','workshop-demo?mode=listening'], gallery:['Hang the night sky','workshop-demo?mode=gallery'],
   focus:['Wire a return path','workshop-demo?mode=map&story=access'], handoff:['Review a field note','workshop-demo?mode=map&story=offline'],
