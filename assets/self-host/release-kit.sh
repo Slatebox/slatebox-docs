@@ -35,7 +35,7 @@ prepare_upgrade() (
   # Publish instance.env last: ./run treats its presence as a ready instance.
   # Only the process that reserved this directory may clean up these files.
   mkdir -m 700 "$target"
-  trap 'rm -rf "$temp"; rm -f "$target/settings.json"; rmdir "$target" 2>/dev/null || true' EXIT
+  trap 'rm -rf "$temp"; if [[ ! -f "$target/instance.env" ]]; then rm -f "$target/settings.json"; rmdir "$target"; fi' EXIT
   mv "$temp/settings.json" "$target/settings.json"
   mv "$temp/instance.env" "$target/instance.env"
   trap - EXIT
