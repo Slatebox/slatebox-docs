@@ -18,7 +18,10 @@ for(const file of files){
     const mirror='https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype'+new URL(markdown).pathname
     if(!prompt?.includes(markdown) || !prompt.includes(mirror) || !doc.includes('data-copy-agent')) errors.push(file+' missing copyable guide prompt')
     const raw=await readFile(join(root,new URL(markdown).pathname),'utf8')
-    if(!/^# /m.test(raw)) errors.push(file+' missing Markdown title')
+    if(!raw.startsWith('# ')) errors.push(file+' missing Markdown title')
+    const rawPrompt=raw.match(/^## Agent prompt\n\n```text\n([\s\S]*?)\n```/m)?.[1]
+    const escaped=rawPrompt?.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;")
+    if(!rawPrompt || escaped!==prompt) errors.push(file+' HTML and Markdown agent prompts differ')
   }
   if(!doc.includes('<h1'))errors.push(file+' missing title')
   for(const match of doc.matchAll(/(?:href|src)="([^"]+)"/g)){

@@ -1,8 +1,10 @@
 ---
 agentPrompt: >-
   Help me install the Slatebox shell and MCP tools from the checksummed package in this guide.
-  Ask which existing slate I want to use and which note I want to add.
-  Read the board, preview my edit, and show me the result. When I ask to save it, reuse one
+  Ask whether I want to open an existing board or create a private decision map from my question.
+  For a new map, create it once, reuse the same key on retries, and give me the editor URL.
+  For an existing whiteboard, ask which note I want to add.
+  For a note edit, read the board, preview my edit, and show me the result. When I ask to save it, reuse one
   idempotency key if you retry. Read the note back and show me where to find it on the whiteboard.
   Use my configured token without asking me to paste it into chat.
 ---
@@ -13,7 +15,7 @@ Suppose two engineers are reviewing what happens to a customer's uploaded file. 
 
 ## Connect to your board
 
-Open an ordinary whiteboard you can edit. Copy the share ID following `/canvas/` in its URL. In **Profile → Developer access**, create a token with `slates:read` and `slates:write`. Load it from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set `SLATEBOX_BASE_URL` to the HTTPS origin of your Slatebox instance. [Developer access](https://app.slatebox.com/profile)
+In **Profile → Developer access**, create a token with `slates:read` and `slates:write`. Load it from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set `SLATEBOX_BASE_URL` to the HTTPS origin of your Slatebox instance. [Developer access](https://app.slatebox.com/profile)
 
 ## Install the tools
 
@@ -21,7 +23,7 @@ Use Node.js 20 or later. Download the package and its checksum into the project 
 
 ```sh
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.1.tgz
+package=slatebox-mcp-0.2.2.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -40,11 +42,23 @@ On Linux, `sha256sum -c` can also verify the checksum. If the downloads host is 
 }
 ```
 
-[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.1.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.1.tgz.sha256)
+[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.2.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.2.tgz.sha256)
+
+## Create a private decision map
+
+Put the question your team needs to answer in the brief. This command creates a real slate in the account that issued the token. Generate a key once for this map and keep it for retries.
+
+```sh
+create_key=$(node -p 'crypto.randomUUID()')
+npx --no-install slatebox create "Who can approve a customer refund?" \
+  --idempotency-key "$create_key"
+```
+
+Open the returned `url` while signed in to that account. In the side conversation, type **Ask finance or ask the account owner**, then choose **Keep changes** to put both paths on the map. To start the same way from an MCP client, call `create_slate` with `brief` and `idempotency_key`. [Move the team token and present the decision](../../Examples/refund-approval.md)
 
 ## Preview a question
 
-Set `SLATEBOX_SHARE_ID` to the board ID. Read the board and save the following JSON as `retention-question.json`.
+On an ordinary whiteboard you can edit, copy the ID following `/canvas/` in its URL and set `SLATEBOX_SHARE_ID` to that value. Read the board and save the following JSON as `retention-question.json`.
 
 ```json
 {

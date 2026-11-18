@@ -86,8 +86,11 @@ function promptFor(p) {
   }
   return (p.agentPrompt || task[p.section])+'\n\nRead '+source+' first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.'
 }
+function copyablePrompt(prompt, source) {
+  return prompt+'\n\nIf your client cannot fetch the documentation, read the same published file at '+publishedFiles+source+'.'
+}
 function agentTools(prompt, source, sourceLabel='Read Markdown') {
-  const copyText = prompt+'\n\nIf your client cannot fetch the documentation, read the same published file at '+publishedFiles+source+'.'
+  const copyText = copyablePrompt(prompt, source)
   return '<section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button>'+link(source,sourceLabel)+'</div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>'+html(copyText)+'</pre></details><span class="agent-status" role="status"></span></section>'
 }
 function layout(title,desc,url,main,hasCanvas = false, source) {
@@ -128,7 +131,8 @@ for (const p of pages) {
   await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas','/'+p.file))
   const markdown = path.join(out,p.file)
   await mkdir(path.dirname(markdown),{recursive:true})
-  await writeFile(markdown,/^# /m.test(p.text) ? p.text : '# '+p.title+'\n\n'+p.text)
+  const prompt = copyablePrompt(promptFor(p), '/'+p.file)
+  await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'The same files are available from the [published documentation repository]('+publishedFiles+'/llms.txt). To fetch a guide there, append its case-sensitive path to '+publishedFiles+'/.', '']
 for (const section of sections) {
@@ -137,7 +141,9 @@ for (const section of sections) {
 await writeFile(path.join(out,'llms.txt'),agentIndex.join('\n'))
 const browsePrompt = 'Read the official Slatebox documentation index at '+base+'/llms.txt. Ask me what I want to build or operate, pick the matching guide, and use its documented steps to verify the result.'
 
-const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1 id="slatebox-documentation">Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div>'+agentTools(browsePrompt,'/llms.txt','Read agent index')+'</div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
+const outagePreview = '<figure class="outage-preview"><figcaption><h2>What still works when sign-in goes down?</h2></figcaption><div class="outage-map" role="img" aria-label="New customers are blocked at sign-in. Existing sessions can open saved work. Support sends a status link."><div data-outage-preview inert></div><p data-outage-fallback>New customers need the status link. Customers who are already signed in can open their saved work.</p></div>'+link('/examples/sign-in-outage/','Open the outage whiteboard example →')+'<script type="module" src="/assets/outage-preview.mjs"></script></figure>'
+const teamExamples = ['refund-approval','sign-in-outage','startup-experiments','incident-handoff'].map(name => examples.find(p => p.url === '/examples/'+name+'/'))
+const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1 id="slatebox-documentation">Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div>'+agentTools(browsePrompt,'/llms.txt','Read agent index')+'</div>'+outagePreview+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(teamExamples)+'</section>'
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home,true))
 await write('/examples/',layout('Canvas examples','Hands-on guides for using Slatebox and building with SlateboxJS.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a working example, then follow the steps in the app or build it with SlateboxJS.</p>'+agentTools('Read '+base+'/llms.txt. Ask what my team wants to do, choose a runnable example and help me try it on my own slate.','/llms.txt','Read agent index')+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))

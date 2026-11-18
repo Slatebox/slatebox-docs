@@ -27,3 +27,11 @@
 .agent-tools summary { display: list-item; width: fit-content; cursor: pointer; }
 .agent-tools pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #ecefe5; color: #213c30; padding: 1rem; line-height: 1.5; font: inherit; }
 .agent-status:not(:empty) { display: block; margin-top: .45rem; }
+
+.outage-preview{margin:0;min-width:0;background:#f7f4e8;border:1px solid var(--line);color:var(--ink)}
+.outage-preview figcaption{padding:1rem 1.25rem;background:var(--green);color:var(--paper)}
+.outage-preview figcaption h2{margin:0;font:inherit;font-weight:650}
+.outage-map{position:relative;height:clamp(260px,28vw,380px);overflow:hidden;display:grid;place-items:center}
+.outage-map [data-outage-preview]{position:absolute;inset:0;pointer-events:none}
+.outage-map p{max-width:38ch;margin:1.25rem}
+.outage-preview>a{display:block;padding:.85rem 1.25rem;border-top:1px solid var(--line)}
