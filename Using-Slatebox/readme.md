@@ -8,6 +8,8 @@ Select a shape and tap one of its round connection handles to add a blank shape 
 
 Give your slate a recognizable name. If you began as a guest, register the guest account in that browser before relying on access from another device. Keep the canvas link. People opening a private link still need permission.
 
+If a teammate sends you an older template bookmark, the preview shows the template they chose. Choose **Use this template** to make a private copy. When the link includes a topic, you can see the name your copy will have before you open it.
+
 ## Add a branch to an interactive map
 
 On **Start**, choose **Create an interactive map**. Your private **Untitled map** opens with one token and a path from **Start** to **Next step**. To explore a finished example first, choose **Try a sample map** on the same start screen. [Create an interactive map](https://app.slatebox.com/new/map) · [Try a sample map](https://app.slatebox.com/workshops?format=map)
