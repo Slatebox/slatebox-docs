@@ -2,6 +2,8 @@
 
 Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.
 
+The same files are available from the [published documentation repository](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt). To fetch a guide there, append its case-sensitive path to https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/.
+
 ## Using Slatebox
 
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md)
