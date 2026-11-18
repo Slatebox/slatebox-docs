@@ -15,7 +15,8 @@ for(const file of files){
   if(markdown) {
     if(!guideLinks.delete(markdown)) errors.push(file+' missing or duplicate agent index entry')
     const prompt=doc.match(/<pre[^>]*data-agent-prompt[^>]*>([\s\S]*?)<\/pre>/)?.[1]
-    if(!prompt?.includes(markdown) || !doc.includes('data-copy-agent')) errors.push(file+' missing copyable guide prompt')
+    const mirror='https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype'+new URL(markdown).pathname
+    if(!prompt?.includes(markdown) || !prompt.includes(mirror) || !doc.includes('data-copy-agent')) errors.push(file+' missing copyable guide prompt')
     const raw=await readFile(join(root,new URL(markdown).pathname),'utf8')
     if(!/^# /m.test(raw)) errors.push(file+' missing Markdown title')
   }

@@ -9,6 +9,7 @@ import {parse as yaml} from 'yaml'
 const root = process.cwd()
 const out = path.join(root, 'dist')
 const base = 'https://docs.slatebox.com'
+const publishedFiles = 'https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype'
 const html = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const urlFor = file => '/' + file.replace(/(?:^|\/)readme\.md$/i, '/').replace(/\.md$/i,'/').toLowerCase().replace(/^\/+/, '')
 async function walk(dir) {
@@ -86,7 +87,8 @@ function promptFor(p) {
   return task[p.section]+'\n\nRead '+source+' first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.'
 }
 function agentTools(prompt, source, sourceLabel='Read Markdown') {
-  return '<section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button>'+link(source,sourceLabel)+'</div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>'+html(prompt)+'</pre></details><span class="agent-status" role="status"></span></section>'
+  const copyText = prompt+'\n\nIf your client cannot fetch the documentation, read the same published file at '+publishedFiles+source+'.'
+  return '<section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button>'+link(source,sourceLabel)+'</div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>'+html(copyText)+'</pre></details><span class="agent-status" role="status"></span></section>'
 }
 function layout(title,desc,url,main,hasCanvas = false, source) {
   const engineStyle = hasCanvas ? '<link rel="stylesheet" href="https://slatebox.com/assets/engine/slateboxjs.css">' : ''
@@ -128,7 +130,7 @@ for (const p of pages) {
   await mkdir(path.dirname(markdown),{recursive:true})
   await writeFile(markdown,/^# /m.test(p.text) ? p.text : '# '+p.title+'\n\n'+p.text)
 }
-const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '']
+const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'The same files are available from the [published documentation repository]('+publishedFiles+'/llms.txt). To fetch a guide there, append its case-sensitive path to '+publishedFiles+'/.', '']
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+')'),'')
 }
