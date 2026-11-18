@@ -30,4 +30,4 @@ export default function PilotBudget() {
 }
 ```
 
-For the interview exercise, initialize state with `createInterviewWorkshop` from the same model entry point. Pick Bea’s quote about clients already added by hand. The prototype now flags a matching client, and the brief records what the designer will test with Bea. Pass `readOnly` for a display that visitors can inspect. [Try the interview workshop](https://slatebox.com/use-cases/research-synthesis/)
+For the interview exercise, initialize state with `createInterviewWorkshop` from the same model entry point. Pick Bea’s quote about clients already added by hand. The component displays its built-in duplicate-client example and saves Bea’s quote in the brief. The screen layout and client rows are part of the example component. To make your own diagram, use the whiteboard editor to add notes and connect them. Pass `readOnly` when embedding a workshop for viewing. [Try the interview workshop](https://slatebox.com/use-cases/research-synthesis/)
