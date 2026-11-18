@@ -5,7 +5,9 @@ group: Canvas
 demo: canvas
 ---
 
-Make a note for a field recording and another for its transcript. Draw a connection between them. Reopen the slate and move the transcript. The end of the line follows the note.
+In the live canvas, select **Field recording**. Click a round connector to add a blank note beside it, or drag the connector into open space to place the note there. Select the new note, press **F2**, type “Transcript” and press **Enter**. Move the transcript to see the line follow.
+
+To reproduce that connection in your own app, create both notes and save their relationship with the slate.
 
 Copy `slateboxjs.mjs` and `slateboxjs.css` from the pinned file build’s `dist/` directory beside your HTML page. Serve the page over HTTP with this container and stylesheet.
 
