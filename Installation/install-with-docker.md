@@ -50,7 +50,7 @@ ssh -NT -o ExitOnForwardFailure=yes \
 
 Open [Slatebox on your laptop](http://localhost:7070/start) and create a slate. Under **Share**, copy an edit link and open it in a private browser window on the same laptop. Join as a second editor, add a note and watch it appear in the original window. Press **Ctrl+C** in the SSH terminal to close the tunnel. The remote instance keeps running and stores the slate on the VM.
 
-A localhost link takes each reader to their own computer. Give the app and relay team hostnames before sending invitations to colleagues. [Configure team access](#use-your-enterprise-hostnames)
+A localhost link takes each reader to their own computer. Give the app and relay team hostnames before sending invitations to colleagues. [Keep the boards from your pilot](#keep-the-boards-from-your-pilot) · [Set up a fresh team instance](#use-your-enterprise-hostnames)
 
 ## Choose a host for a team evaluation
 
@@ -133,6 +133,30 @@ unset APP_IMAGE COLLAB_IMAGE
 The release check used Caddy’s local certificate authority and two separate hostnames. Two browsers exchanged edits over secure WebSockets and reopened the saved slate. Public DNS and public certificate issuance require a check on your deployment.
 
 Keep the named `caddy-data` volume across restarts to retain certificate and account state. If a certificate fails to issue, check DNS, the firewall, any other service bound to ports 80 or 443, and `./run logs --tail=80 proxy`. [How Caddy obtains and renews certificates](https://caddyserver.com/docs/automatic-https)
+
+### Keep the boards from your pilot
+
+A trial on `localhost` can become the team instance on the same Docker host. Before moving it, have anyone who owns a board as a guest save their account with an email and password. Write down each board’s path starting with `/canvas/`. The new hostname has its own browser session.
+
+Use a release whose `self-host/` directory includes `hostnames.mjs`. If your kit predates this command, ask your release contact for the updated kit. Make a [backup of the database and installation settings](#move-a-backed-up-instance-to-another-docker-host), start the pilot again, and keep its Compose project name and state directory selected. Point two DNS names at the host and allow inbound TCP 80 and 443 for the bundled proxy.
+
+From `self-host/`, substitute your hostnames and choose a new directory for the team settings.
+
+```sh
+ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./run promote .team-state
+export SLATEBOX_STATE=.team-state
+./run up -d --wait
+```
+
+The first command copies the installation settings and credentials into the new directory and sets the app and relay origins. Starting the services with that directory uses the existing database. Keep `SLATEBOX_STATE` and the project name set the same way on future runs. Sign in at the new hostname, open a saved board path and send collaborators the updated link. Check that another editor’s change arrives in your browser.
+
+To return to the original loopback setup, stop the proxy with the team settings selected, select the pilot’s original state directory again and start the services. For a pilot that used the default `.state/`, run:
+
+```sh
+SLATEBOX_STATE=.team-state ./run stop proxy
+unset SLATEBOX_STATE
+./run up -d --wait
+```
 
 ### Bring your existing reverse proxy
 
