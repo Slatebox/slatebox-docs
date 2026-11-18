@@ -2,11 +2,20 @@
 
 ## Start your first slate
 
-Choose **Open a blank slate** for a freeform canvas. Add a note for the decision, add one for the evidence, and connect them. Use **Build an interactive map** when participants should move an item along specific paths. [Start a slate](https://app.slatebox.com/start)
+Choose **Open a blank slate** for a freeform canvas. Add a note for the decision, add one for the evidence, and connect them. Choose **Create an interactive map** when participants should move a token along paths you define. [Start a slate](https://app.slatebox.com/start)
 
 Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
 
 Give your slate a recognizable name. If you began as a guest, register the guest account in that browser before relying on access from another device. Keep the canvas link. People opening a private link still need permission.
+
+## Add a branch to an interactive map
+
+On **Start**, choose **Create an interactive map**. Your private **Untitled map** opens with one token and a path from **Start** to **Next step**. To explore a finished example first, choose **Try a sample map** on the same start screen. [Create an interactive map](https://app.slatebox.com/new/map) · [Try a sample map](https://app.slatebox.com/workshops?format=map)
+
+1. Choose **Add a branch**. Under **Branch from**, select **Next step**.
+2. For **Name**, enter “Listening buoy”. For **On arrival**, enter “Record the bell before the tide turns.” Choose **Save branch**.
+3. Move **Token → Next step**, then **Token → Listening buoy**. The arrival text appears with the token. Reopen the slate to pick up where you left it.
+4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone else follow along, choose **Share**, select **Unlisted** with **read** permission, and send the link.
 
 ## Turn a workshop into a decision
 
