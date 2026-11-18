@@ -15,7 +15,7 @@ On **Start**, choose **Create an interactive map**. Your private **Untitled map*
 1. Choose **Add a branch**. Under **Branch from**, select **Next step**.
 2. For **Name**, enter “Listening buoy”. For **On arrival**, enter “Record the bell before the tide turns.” Choose **Save branch**.
 3. Move **Token → Next step**, then **Token → Listening buoy**. The arrival text appears with the token. Reopen the slate to pick up where you left it.
-4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone else follow along, choose **Share**, select **Unlisted** with **read** permission, and send the link.
+4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone explore the saved map at their own pace, choose **Share**, select **Unlisted** with **read** permission, and send the link.
 
 To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
@@ -39,7 +39,19 @@ If the owner switches the invitation to **read**, the same link opens the board 
 
 ## Present or publish
 
-Choose **Present** to lead a meeting from the board. For a workshop, choose **Publish presentation** to give people a read-only copy of the sequence and its current cards. Later edits stay on your slate until you publish again. For teammates who will catch up later, publish a sequence of viewpoints. They can open the viewer link or follow the walkthrough inside your team handbook. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
+### Present a workshop together
+
+A curator and a reviewer can visit the same detail at the same time. In the gallery guide, add **Look at the brushwork**, then choose **Open my guide in Slatebox** to save your map. [Build a gallery guide](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
+
+1. On the saved map, choose **Share** and give the reviewer a link with **read** access. They can follow with that permission.
+2. As an editor, choose **Present together**. Ask the reviewer to open the shared board link and choose **Follow presentation**.
+3. Advance to **Look at the brushwork**. The reviewer’s player follows you to the same detail and arrival text. The reviewer can choose **Leave presentation** to return to the board. Choose **End presentation** when you’re done to return the remaining followers to the board.
+
+This also works on saved workshops with lanes and cards. Choose **Present** for a self-paced rehearsal.
+
+### Send a presentation for later
+
+Choose **Publish presentation** on a saved workshop to share its current scenes with readers. Readers can advance on their own in the standalone player or a team handbook. To include later changes, republish the workshop. [Publish and embed a walkthrough](../Examples/embed-a-walkthrough.md)
 
 ## Choose where to work
 

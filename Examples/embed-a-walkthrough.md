@@ -15,6 +15,8 @@ Advance to **Flood marks** in this exhibition walkthrough. Step back to the **Li
 
 ## Publish a workshop handoff
 
+For a meeting where everyone follows one person’s scene changes, use the [live workshop presentation](../Using-Slatebox/readme.md#present-a-workshop-together). Publishing gives the next shift a walkthrough they can open whenever they need it.
+
 Try the [theatre cue sheet](https://slatebox.com/use-cases/creative-handoffs/#rehearsal). Move **Warm sidelight up** to **Door opens** and select **Open this rehearsal in Slatebox**. The evening crew should hear which light comes up as the actor enters.
 
 1. On your private slate, use **Present** to review every scene and its cards. Use **Presentation order** on the board to change the opening scene.
