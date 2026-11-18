@@ -28,6 +28,28 @@
 <td><a href="/examples/field-note-handoff/">Review a field note</a></td>
 </tr>
 </tbody></table>
+<h2 id="build-a-workshop-with-one-recording-slot">Build a workshop with one recording slot</h2><p>An audio producer has one recorder for Friday. New pitches can take that slot. A recording already in the archive can go back to the pitch meeting for review.</p>
+<pre><code class="language-js">import {
+  createLaneWorkshop, addWorkshopLane, addWorkshopCard, encodeWorkshopFragment
+} from &#39;slateboxjs/workshops/model&#39;
+
+const workshop = createLaneWorkshop()
+workshop.title = &#39;Friday field recordings&#39;
+const [pitches, archive] = workshop.lanes
+pitches.label = &#39;Pitches&#39;
+archive.label = &#39;Archive&#39;
+
+const plan = addWorkshopLane(workshop, { label: &#39;Record on Friday&#39;, capacity: 1 })
+const friday = plan.lanes[2]
+const pitched = addWorkshopCard(plan, pitches.id, { label: &#39;Ferry horn&#39; })
+const ready = addWorkshopCard(pitched, archive.id, {
+  label: &#39;Dawn chorus from last week&#39;,
+  allowedLaneIds: [archive.id, pitches.id]
+})
+const openInSlatebox = &#39;https://app.slatebox.com/new/workshop&#39; + encodeWorkshopFragment(ready)
+</code></pre>
+<p>Move <strong>Ferry horn</strong> to <strong>Record on Friday</strong>. Friday now shows one occupied slot. Move the horn back to <strong>Pitches</strong> and try moving <strong>Dawn chorus from last week</strong> to Friday. Its destination rule keeps it out even with the recorder available. <a href="https://app.slatebox.com/new/workshop#model=%7B%22version%22%3A1%2C%22title%22%3A%22Friday+field+recordings%22%2C%22lanes%22%3A%5B%7B%22id%22%3A%22lane-1%22%2C%22label%22%3A%22Pitches%22%7D%2C%7B%22id%22%3A%22lane-2%22%2C%22label%22%3A%22Archive%22%7D%2C%7B%22id%22%3A%22lane-3%22%2C%22label%22%3A%22Record+on+Friday%22%2C%22capacity%22%3A1%7D%5D%2C%22cards%22%3A%5B%7B%22id%22%3A%22card-1%22%2C%22label%22%3A%22Ferry+horn%22%2C%22laneId%22%3A%22lane-1%22%7D%2C%7B%22id%22%3A%22card-2%22%2C%22label%22%3A%22Dawn+chorus+from+last+week%22%2C%22laneId%22%3A%22lane-2%22%2C%22allowedLaneIds%22%3A%5B%22lane-2%22%2C%22lane-1%22%5D%7D%5D%7D">Open the recording workshop</a></p>
+<p>Use the exported model helpers with the current <a href="/developers/javascriptlibrary/#quick-slate">SlateboxJS build</a>. A host embedding <code>WorkshopBoard</code> can supply <code>onAddCard(laneId, anchorElement)</code> and <code>onEditLane(laneId, anchorElement)</code> to open its own controls at the selected lane. To make the workshop directly on the canvas, <a href="/using-slatebox/#start-a-blank-workshop">start with two empty lanes</a>.</p>
 <h2 id="add-a-path-to-a-map">Add a path to a map</h2><p>A field recorder hears birdsong under a bridge. Give the sound editor a choice of microphone positions. This example adds a second path from the starting station and gives it an outcome the team can hear described when they move the token.</p>
 <p>Use the current file build from the <a href="/developers/javascriptlibrary/#quick-slate">SlateboxJS quickstart</a>.</p>
 <pre><code class="language-js">import {
@@ -80,4 +102,4 @@ export default function SoundTable() {
 <p>For a multi-user integration, validate writes on the server and check the revision the editor saw. A pointer moving across a candidate position can update the local view before the visitor decides to drop. Save after a committed change. When a collaborator has already changed the board, show their current state before accepting a new decision.</p>
 <p><a href="https://app.slatebox.com/new/listening-room">Open a listening slate</a></p>
 <p><a href="/examples/theatre-cues/">Read the cues for an authored scene</a> to build a rehearsal monitor from the same cards the native presenter frames.</p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#pick-a-board" >Pick a board</a><a href="#add-a-path-to-a-map" >Add a path to a map</a><a href="#give-a-map-station-an-image" >Give a map station an image</a><a href="#mount-the-listening-room" >Mount the listening room</a><a href="#move-from-a-demo-to-team-work" >Move from a demo to team work</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#pick-a-board" >Pick a board</a><a href="#build-a-workshop-with-one-recording-slot" >Build a workshop with one recording slot</a><a href="#add-a-path-to-a-map" >Add a path to a map</a><a href="#give-a-map-station-an-image" >Give a map station an image</a><a href="#mount-the-listening-room" >Mount the listening room</a><a href="#move-from-a-demo-to-team-work" >Move from a demo to team work</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
