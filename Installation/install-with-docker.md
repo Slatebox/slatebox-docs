@@ -4,13 +4,37 @@ Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docke
 
 ## Get the release
 
-The Slatebox app and SlateboxJS engine are MIT licensed. Their current source checkouts and matched app/relay release images require access from Slatebox. Request the release’s **self-host directory**, the **two image references** and their **Linux architecture**. If you prefer to build locally, request compatible revisions of the app, engine and relay. Include your host architecture when asking. [Request self-host release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20access) · [Enterprise deployment options](https://slatebox.com/enterprise/)
+The Slatebox app and SlateboxJS engine are MIT licensed. Request a matched self-host release from Slatebox and include the Linux architecture reported by `docker version --format '{{.Server.Arch}}'`. For a first install, ask for the **single-file release kit and its SHA-256 checksum**. It includes the app, authenticated collaboration relay, MongoDB, optional HTTPS proxy and startup files. [Request release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) · [Enterprise deployment options](https://slatebox.com/enterprise/)
 
-| What you have | How to install |
+| What you have | Where to start |
 | --- | --- |
-| The supplied Linux ARM64 images and release directory | Use a compatible ARM64 host. Pull the image pair with the supplied access or load the pair delivered by your release contact. |
-| Authorized source for all three repositories | Build a matched Linux AMD64 or ARM64 pair, then use its local tags. [Source build](#build-from-the-three-source-checkouts) |
-| A hosted Slatebox account | Use the hosted app immediately. For self-hosting, obtain a separate release for your infrastructure. |
+| A release kit and checksum | [Load it on a fresh Docker host](#start-from-a-release-kit). The operator can install without signing in to a container registry. |
+| A release directory and tagged image pair | [Install from separate images](#install-slatebox-on-your-own-server). Match the images to your host architecture. |
+| Source access | [Build the images](#build-from-the-three-source-checkouts) from the supplied app and engine revisions and the matching public relay revision. |
+| A hosted Slatebox account | [Open Slatebox Cloud](https://app.slatebox.com/start) to use a board immediately. |
+
+The public `timheckel/slatebox-community:latest` image on Docker Hub is the 2022 community release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
+
+## Start from a release kit
+
+Use Docker Engine and CLI 28.1 or newer with Compose v2 on a Linux Docker host that matches the release architecture. Obtain the archive and its SHA-256 checksum file through your release contact. Copy both files into a fresh installation directory on the receiving machine. These commands assume one supplied archive and checksum file in that directory.
+
+```sh
+sha256sum -c slatebox-*.tar.sha256
+```
+
+Continue after the checker reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. For a private evaluation on the Docker host, run the commands below. For a team installation using the bundled proxy, substitute `ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./initialize --https` with your domains. [Set up DNS and HTTPS](#use-your-enterprise-hostnames)
+
+```sh
+tar -xf slatebox-*.tar
+cd slatebox-release
+./initialize
+cd self-host
+./run up -d --wait --pull never
+curl --fail --show-error http://localhost:7070/readyz
+```
+
+Open [the local start screen](http://localhost:7070/start), add a note on a private slate and reopen it. The initializer checks the Docker host architecture, loads the image set and creates fresh credentials for this instance. Keep the extracted directory and the Mongo volume for restarts. [Connect a second editor](#verify-a-team-connection) · [Back up and restore](#move-a-backed-up-instance-to-another-docker-host)
 
 ## Choose a host for a team evaluation
 
@@ -110,7 +134,7 @@ From a separate device check `https://boards.example.com/readyz` using your real
 
 ## Build from the three source checkouts
 
-With release access, check out the matching app, SlateboxJS engine and Slatebox collaboration relay revisions provided by Slatebox. The relay is Slatebox’s fork of y-websocket. Source builds require Git, Bash, tar, npm, Node.js, Docker and network access for build dependencies. From the app checkout’s `self-host/` directory run the command for **one** target architecture, replacing the paths with your local checkout paths.
+With release access, check out the matching app and SlateboxJS engine revisions. Check out the relay revision supplied for that release from Slatebox’s public fork of y-websocket. [Relay source](https://github.com/Slatebox/y-websocket) Source builds require Git, Bash, tar, npm, Node.js, Docker and network access for build dependencies. From the app checkout’s `self-host/` directory run the command for **one** target architecture, replacing the paths with your local checkout paths.
 
 ```sh
 # For Intel or AMD 64-bit Linux
@@ -123,6 +147,20 @@ TARGET_PLATFORM=linux/arm64 ./build-images.sh /path/to/slateboxjs-v2 /path/to/y-
 ```
 
 The script stages committed source, packs the matching engine into the app, builds the two Docker images and verifies each target architecture. It prints `APP_IMAGE` and `COLLAB_IMAGE` values with revision and architecture tags. Use those tags for initialization. For a different target architecture, use a native builder or configure Docker emulation. The output is a pair of local images for the selected platform. [Docker multi-platform build options](https://docs.docker.com/build/building/multi-platform/)
+
+### Package a source build for another team
+
+On your build host, use the `APP_IMAGE` and `COLLAB_IMAGE` tags printed by the source build. Pull the MongoDB and Caddy versions pinned in that release’s Compose file with `docker pull --platform linux/arm64` or `linux/amd64` as appropriate. Set `TARGET_PLATFORM` to the receiving Docker host’s platform when packaging a cross-build. Download the [release packaging script](/assets/self-host/release-kit.sh). From the parent of your app checkout, run it with the app checkout path and an existing output directory.
+
+```sh
+printf 'App build tag: '; read -r APP_IMAGE
+printf 'Relay build tag: '; read -r COLLAB_IMAGE
+export APP_IMAGE COLLAB_IMAGE
+mkdir -p releases
+bash release-kit.sh pack /path/to/app releases
+```
+
+The packager reads the startup files from the app revision stamped on the local image. It exports the four images and writes the archive and its `.tar.sha256` file. Give both to authorized operators. Instance credentials and board data are generated or restored on the receiving host.
 
 ## Environment Variables
 

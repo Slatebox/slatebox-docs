@@ -10,4 +10,4 @@ Choose the interface that owns the data you want to change.
 | Work on the app, engine or relay | [Development](development.md) |
 | Run an installation for your organization | [Install with Docker](../Installation/install-with-docker.md) |
 
-The app and the SVG.js engine are MIT licensed. Source access and compatible release images are available through Slatebox while the repositories are private.
+The app and SVG.js engine are MIT licensed. Request their source or a matched Docker release from Slatebox. The collaboration relay source is public. [Get a self-host release](../Installation/install-with-docker.md#get-the-release) · [Read the relay source](https://github.com/Slatebox/y-websocket)
