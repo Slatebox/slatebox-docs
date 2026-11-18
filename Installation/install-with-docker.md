@@ -36,6 +36,22 @@ curl --fail --show-error http://localhost:7070/readyz
 
 Open [the local start screen](http://localhost:7070/start), add a note on a private slate and reopen it. The initializer checks the Docker host architecture, loads the image set and creates fresh credentials for this instance. Keep the extracted directory and the Mongo volume for restarts. [Connect a second editor](#verify-a-team-connection) · [Back up and restore](#move-a-backed-up-instance-to-another-docker-host)
 
+## Try a remote host over SSH
+
+If Docker runs on a VM, open a tunnel from the laptop where you want to try the board. Slatebox serves the app on the VM’s loopback port 7070 and live edits on port 7071. Forward both so your browser can reach the two services. This works with the default loopback installation before you set up DNS.
+
+Run this in a terminal on your laptop. Replace `operator@your-docker-host` with your SSH login and host. Keep this terminal open during the evaluation.
+
+```sh
+ssh -NT -o ExitOnForwardFailure=yes \
+  -L 127.0.0.1:7070:127.0.0.1:7070 \
+  -L 127.0.0.1:7071:127.0.0.1:7071 operator@your-docker-host
+```
+
+Open [Slatebox on your laptop](http://localhost:7070/start) and create a slate. Under **Share**, copy an edit link and open it in a private browser window on the same laptop. Join as a second editor, add a note and watch it appear in the original window. Press **Ctrl+C** in the SSH terminal to close the tunnel. The remote instance keeps running and stores the slate on the VM.
+
+A localhost link takes each reader to their own computer. Give the app and relay team hostnames before sending invitations to colleagues. [Configure team access](#use-your-enterprise-hostnames)
+
 ## Choose a host for a team evaluation
 
 **Quickest self-host route:** obtain the matched images first, then use an existing Linux Docker host of the same architecture. Start locally and reopen a private slate. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, [start in Slatebox Cloud](https://app.slatebox.com/start).
