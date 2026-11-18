@@ -29,7 +29,7 @@ for (const file of files) {
   const prose = body.replace(/```[\s\S]*?```/g,'').split('\n').filter(line=>line && !line.startsWith('#'))
   const summary = (prose[0] || '').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replaceAll('`','')
   const terms = [...new Set([...body.matchAll(/^#{2,4} (.*)|`([\w.]+)`/gm)].map(m => m[1] || m[2]))].join(' ')
-  pages.push({file, url:urlFor(file), title, section, body, desc:meta.description || summary, terms, group:meta.group || section, demo:meta.demo})
+  pages.push({file, text, url:urlFor(file), title, section, body, desc:meta.description || summary, terms, group:meta.group || section, demo:meta.demo})
 }
 const examples = pages.filter(p => p.section === 'Examples').sort((a,b)=>a.title.localeCompare(b.title))
 const sections = ['Using Slatebox','SlateboxJS','HTTP API','Self-hosting','Examples']
@@ -69,9 +69,28 @@ function sidebar(active) {
 function list(rows) {
   return '<div class="rows">'+rows.map(p=>'<a class="row" href="'+p.url+'"><div><h3>'+html(p.title)+'</h3><p>'+html(p.desc)+'</p></div><span aria-hidden="true">↗</span></a>').join('')+'</div>'
 }
-function layout(title,desc,url,main,hasCanvas = false) {
+function promptFor(p) {
+  const source = base+'/'+p.file
+  if (p.section === 'Self-hosting') return [
+    'Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at '+source+'.',
+    'Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.',
+    'For a new install, use the matching Slatebox release kit and its SHA-256 checksum. If I do not have both, tell me exactly what to request and pause there. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
+    'Verify the checksum, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
+  ].join('\n\n')
+  const task = {
+    Examples: 'Help me try the Slatebox example “'+p.title+'”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.',
+    'HTTP API': 'Help me use the documented Slatebox HTTP API for “'+p.title+'”. Use the documented method, path and permissions. Show the request with credential placeholders and verify the response on my chosen slate.',
+    SlateboxJS: 'Help me implement “'+p.title+'” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.',
+    'Using Slatebox': 'Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.'
+  }
+  return task[p.section]+'\n\nRead '+source+' first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.'
+}
+function agentTools(prompt, source, sourceLabel='Read Markdown') {
+  return '<section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button>'+link(source,sourceLabel)+'</div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>'+html(prompt)+'</pre></details><span class="agent-status" role="status"></span></section>'
+}
+function layout(title,desc,url,main,hasCanvas = false, source) {
   const engineStyle = hasCanvas ? '<link rel="stylesheet" href="https://slatebox.com/assets/engine/slateboxjs.css">' : ''
-  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html(title)+' · Slatebox Docs</title><meta name="description" content="'+html(desc)+'"><link rel="canonical" href="'+base+url+'"><link rel="icon" href="/assets/slatebox.svg">'+engineStyle+'<link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content">'+main+'</main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>'
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html(title)+' · Slatebox Docs</title><meta name="description" content="'+html(desc)+'"><link rel="canonical" href="'+base+url+'"><link rel="icon" href="/assets/slatebox.svg">'+(source?'<link rel="alternate" type="text/markdown" href="'+html(base+source)+'">':'')+engineStyle+'<link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content">'+main+'</main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>'
 }
 async function write(url, content) {
   const dir=path.join(out,url); await mkdir(dir,{recursive:true}); await writeFile(path.join(dir,'index.html'),content)
@@ -99,14 +118,26 @@ function render(p) {
     const marker = '<h2 id="'+section+'"'
     body = body.includes(marker) ? body.replace(marker, anchors+marker) : anchors+body
   }
-  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+(headings.length?'<strong>On this page</strong>':'')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
+  return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+agentTools(promptFor(p),'/'+p.file)+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+'<strong>On this page</strong>'+link('#agent-prompt','Agent prompt')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
 execFileSync('python3',['scripts/bundle-release-tools.py',path.join(out,'assets/self-host')])
-for (const p of pages) await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas'))
-const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1 id="slatebox-documentation">Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div></div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
+for (const p of pages) {
+  await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas','/'+p.file))
+  const markdown = path.join(out,p.file)
+  await mkdir(path.dirname(markdown),{recursive:true})
+  await writeFile(markdown,/^# /m.test(p.text) ? p.text : '# '+p.title+'\n\n'+p.text)
+}
+const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '']
+for (const section of sections) {
+  agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+')'),'')
+}
+await writeFile(path.join(out,'llms.txt'),agentIndex.join('\n'))
+const browsePrompt = 'Read the official Slatebox documentation index at '+base+'/llms.txt. Ask me what I want to build or operate, pick the matching guide, and use its documented steps to verify the result.'
+
+const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation</p><h1 id="slatebox-documentation">Build with<br> the canvas.</h1><p class="intro">Bring an idea to a slate. Add a note, wire up an interaction, or build the canvas into your own app.</p><div class="actions">'+link('/examples/','Explore examples','class="primary"')+link('/using-slatebox/','Start your first slate →')+'</div>'+agentTools(browsePrompt,'/llms.txt','Read agent index')+'</div>'+nativeCanvas()+'</section><section class="directory"><h2>Find your guide</h2>'+list(entries)+'</section><section class="directory tinted"><div><h2>Canvas examples</h2>'+link('/examples/','Browse all examples →')+'</div>'+list(examples.filter(p=>['listening','focus','gallery','handoff'].includes(p.demo)))+'</section>'
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home,true))
-await write('/examples/',layout('Canvas examples','Hands-on guides for using Slatebox and building with SlateboxJS.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a working example, then follow the steps in the app or build it with SlateboxJS.</p>'+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
+await write('/examples/',layout('Canvas examples','Hands-on guides for using Slatebox and building with SlateboxJS.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a working example, then follow the steps in the app or build it with SlateboxJS.</p>'+agentTools('Read '+base+'/llms.txt. Ask what my team wants to do, choose a runnable example and help me try it on my own slate.','/llms.txt','Read agent index')+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
 await writeFile(path.join(out,'404.html'),layout('Page not found','','/404.html','<section class="examples"><h1>Page not found.</h1><p>'+link('/','Browse the documentation')+' or '+link('/examples/','try an example')+'.</p></section>'))
 await writeFile(path.join(out,'CNAME'),'docs.slatebox.com\n')

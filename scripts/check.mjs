@@ -6,9 +6,19 @@ import './check-recording-workshop.mjs'
 const root='dist'
 async function walk(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(entry=>entry.isDirectory()?walk(join(dir,entry.name)):join(dir,entry.name)))).flat()}
 const files=(await walk(root)).filter(f=>f.endsWith('.html')), errors=[]
+const guideIndex=await readFile(join(root,'llms.txt'),'utf8')
+const guideLinks=new Set([...guideIndex.matchAll(/\]\((https:\/\/docs\.slatebox\.com\/[^)]+\.md)\)/g)].map(match=>match[1]))
 for(const file of files){
   const doc=await readFile(file,'utf8')
   const source=new URL(file.slice(root.length).replace(/index\.html$/,''),'https://docs.slatebox.com')
+  const markdown=doc.match(/<link rel="alternate" type="text\/markdown" href="([^"]+)">/)?.[1]
+  if(markdown) {
+    if(!guideLinks.delete(markdown)) errors.push(file+' missing or duplicate agent index entry')
+    const prompt=doc.match(/<pre[^>]*data-agent-prompt[^>]*>([\s\S]*?)<\/pre>/)?.[1]
+    if(!prompt?.includes(markdown) || !doc.includes('data-copy-agent')) errors.push(file+' missing copyable guide prompt')
+    const raw=await readFile(join(root,new URL(markdown).pathname),'utf8')
+    if(!/^# /m.test(raw)) errors.push(file+' missing Markdown title')
+  }
   if(!doc.includes('<h1'))errors.push(file+' missing title')
   for(const match of doc.matchAll(/(?:href|src)="([^"]+)"/g)){
     const link=new URL(match[1].replaceAll('&amp;','&'),source)
@@ -22,6 +32,7 @@ for(const file of files){
     }
   }
 }
+if(guideLinks.size) errors.push('Agent index points to missing pages: '+[...guideLinks].join(', '))
 const legacy=JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
 for (const [url, ids] of Object.entries(legacy)){
   const doc=await readFile(join(root,url,'index.html'),'utf8')

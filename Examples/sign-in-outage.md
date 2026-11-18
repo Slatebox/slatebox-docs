@@ -14,4 +14,4 @@ A customer on the phone can still see their workspace. A new customer has just t
 
 The diagram records what your team knows about its product. Your team supplies the dependencies and fallback. Slatebox keeps the connections attached as the drawing changes.
 
-[Try the homepage whiteboard](https://slatebox.com/#collaboration) · [Open the outage diagram in Slatebox](https://app.slatebox.com/new/sign-in-outage) · [Add a connected note](./connected-notes.md)
+[Try the example whiteboard](https://slatebox.com/assets/product/sign-in-outage.html) · [Open the outage diagram in Slatebox](https://app.slatebox.com/new/sign-in-outage) · [Add a connected note](./connected-notes.md)

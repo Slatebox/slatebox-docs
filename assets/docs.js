@@ -36,3 +36,24 @@ for (const pre of document.querySelectorAll('.prose pre')) {
   button.onclick=async()=>{try{await navigator.clipboard.writeText(pre.querySelector('code').textContent);button.textContent='Copied'}catch{button.textContent='Select code to copy'}}
   pre.append(button)
 }
+for (const panel of document.querySelectorAll('.agent-tools')) {
+  const button = panel.querySelector('[data-copy-agent]')
+  const prompt = panel.querySelector('[data-agent-prompt]')
+  const status = panel.querySelector('[role="status"]')
+  button.hidden = false
+  button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(prompt.textContent)
+      status.textContent = 'Prompt copied.'
+    } catch {
+      panel.querySelector('details').open = true
+      prompt.focus()
+      const range = document.createRange()
+      range.selectNodeContents(prompt)
+      const selection = window.getSelection()
+      selection.removeAllRanges()
+      selection.addRange(range)
+      status.textContent = 'Prompt selected. Use your device’s Copy command.'
+    }
+  })
+}

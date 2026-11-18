@@ -4,7 +4,7 @@ Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docke
 
 ## Get the release
 
-The Slatebox app and SlateboxJS engine are MIT licensed. Request a matched self-host release from Slatebox and include the Linux architecture reported by `docker version --format '{{.Server.Arch}}'`. For a first install, ask for the **ARM64 or AMD64 release archive and its SHA-256 checksum**. It includes the app, authenticated collaboration relay, MongoDB, optional HTTPS proxy and startup files. [Request release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) · [Enterprise deployment options](https://slatebox.com/enterprise/)
+The self-hosted release is called **Slatebox**. The whiteboard app and SlateboxJS engine are MIT licensed. Request the current matched release from Slatebox and include the Linux architecture reported by `docker version --format '{{.Server.Arch}}'`. For a first install, ask for the **ARM64 or AMD64 release archive and its SHA-256 checksum**. It includes the app, authenticated collaboration relay, MongoDB, optional HTTPS proxy and startup files. [Request release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) · [Enterprise deployment options](https://slatebox.com/enterprise/)
 
 | What you have | Where to start |
 | --- | --- |
@@ -13,7 +13,7 @@ The Slatebox app and SlateboxJS engine are MIT licensed. Request a matched self-
 | Source access | [Build the images](#build-from-the-three-source-checkouts) from the supplied app and engine revisions and the matching public relay revision. |
 | A hosted Slatebox account | [Open Slatebox Cloud](https://app.slatebox.com/start) to use a board immediately. |
 
-The public `timheckel/slatebox-community:latest` image on Docker Hub is the 2022 community release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
+The public `timheckel/slatebox-community:latest` image on Docker Hub was last updated in July 2022. Its `latest` tag points to that historical release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
 
 ## Start from a release kit
 
