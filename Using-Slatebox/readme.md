@@ -2,6 +2,8 @@
 
 ## Start your first slate
 
+Choose **Plan a $600 pilot budget** or **Turn interviews into a prototype brief** to open a private example you can change. [Try a design partner experiment](../Examples/startup-experiments.md)
+
 Choose **Open a blank slate** for a freeform canvas. Add a note for the decision, add one for the evidence, and connect them. Choose **Create an interactive map** when participants should move a token along paths you define. [Start a slate](https://app.slatebox.com/start)
 
 Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
@@ -12,12 +14,12 @@ If a teammate sends you an older template bookmark, the preview shows the templa
 
 ## Add a branch to an interactive map
 
-On **Start**, choose **Create an interactive map**. Your private **Untitled map** opens with one token and a path from **Start** to **Next step**. To explore a finished example first, choose **Try a sample map** on the same start screen. [Create an interactive map](https://app.slatebox.com/new/map) · [Try a sample map](https://app.slatebox.com/workshops?format=map)
+Choose **Create an interactive map**. The canvas opens with a conversation beside it. On a free slate, you can connect named steps, add a branch, rename a step or change an outcome using direct edits. Pro and paid Team accounts can describe the change to Canvas AI. [Create an interactive map](https://app.slatebox.com/new/map)
 
-1. Choose **Add a branch**. Under **Branch from**, select **Next step**.
-2. For **Name**, enter “Listening buoy”. For **On arrival**, enter “Record the bell before the tide turns.” Choose **Save branch**.
-3. Move **Token → Next step**, then **Token → Listening buoy**. The arrival text appears with the token. Reopen the slate to pick up where you left it.
-4. Choose **Present** and advance with **Next station** to show the listening buoy and its cue. To let someone explore the saved map at their own pace, choose **Share**, select **Unlisted**, leave **Link permission** on **read**, then choose **Create link** and **Copy link**.
+1. Send `First upload → Preview 10 rows → Import clients`. Try the path in the preview, then choose **Keep changes**.
+2. Send `Add Review duplicates after Preview 10 rows`. Try the new branch. Choose **Keep changes** to save it or **Discard** to return to the saved map.
+3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Keep it and reopen the slate to see the result. **Undo last change** restores the previous saved map while an undo is available.
+4. Choose **Present** to walk a teammate through the map. Give a teammate **edit** access to work on the same slate or **read** access to show the saved result. If someone edits while you are reviewing a proposal, discard it and ask again on the updated map.
 
 To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
@@ -33,13 +35,13 @@ To keep “Dawn chorus” out of a third lane, open **Edit an object**, select t
 
 ## Turn a workshop into a decision
 
-Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
+Try the $600 pilot budget. Move a $200 allocation from a newsletter placement to concierge onboarding and watch the number of assisted imports change. Open the budget as a slate to keep that allocation and share it with your cofounder. [Try the pilot budget](https://slatebox.com/product/workshops/#example)
 
 To show what a move means, choose **Edit an object**, select a card and choose **Add placement outcome**. Pick its destination and write what teammates should see with the card there and with it elsewhere. Save the change, move the card, then present that destination to read the result. [Try it with a theatre cue](../Examples/theatre-cues.md)
 
 ## Work with a team
 
-For a team slate, open **Share → Private**. Choose **edit** beside the teammate who will contribute, or **read** for someone reviewing the board. A team administrator can invite a new member through team settings. [Manage team members](../Developers/SlateboxAPI/organizations.md)
+For a team slate, open **Share → Private**. Choose **edit** beside the teammate who will contribute, or **read** for someone reviewing the board. A team administrator can invite a new member through **Manage Team**. [Manage team members](../Developers/SlateboxAPI/organizations.md)
 
 To invite someone to edit a private slate, open **Share**, choose **Create edit link**, then **Copy link** and **Done**. Send that unlisted link to your collaborator. Anyone with it can edit. On a regular canvas, they can acknowledge the welcome and edit a note. For an interactive workshop, a first-time visitor can choose **Join to edit** and make a move as a guest. You should both see the change and find it on the same board after reloading. For a read-only invitation, choose **Unlisted**, leave **Link permission** on **read** and select **Create link**. To change an existing link, choose a permission and select **Apply access**. [Try a two-person incident handoff](../Examples/incident-handoff.md)
 

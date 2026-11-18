@@ -4,7 +4,7 @@ description: Fit two lanes on a phone, preview rehearsal cues while dragging and
 group: Interactions
 ---
 
-Drag the microphone note into **Next sound check** and hold it there. The producer’s cue sheet shows the second rehearsal cue while the note is still in your hand. Press Escape to keep the original sheet. Drop the note to include both cues when you open the workshop in Slatebox. [Try the community radio sound check](https://slatebox.com/use-cases/research-synthesis/).
+Drag the microphone note into **Next sound check** and hold it there. The producer’s cue sheet shows the second rehearsal cue while the note is still in your hand. Press Escape to keep the original sheet. Drop the note to include both cues when you open the workshop in Slatebox. [Try the community radio sound check](https://slatebox.com/use-cases/research-synthesis/#sound-check).
 
 ## Fit two lanes on a phone
 

@@ -34,4 +34,4 @@ For a still preview, replace the identifier below with your published slate ID. 
 
 ## Migration from organization HMAC credentials
 
-Replace request signatures, public keys and timestamp headers with a personal bearer token. The former prompt magic links, programmatic slate-creation, standalone layout service and v1.0 WebSocket embed scripts were retired. Create the slate in the app, then read or edit it by its share ID. Move organization administration to the team settings screen. [Team administration](organizations.md)
+Replace request signatures, public keys and timestamp headers with a personal bearer token. The former prompt magic links, programmatic slate-creation, standalone layout service and v1.0 WebSocket embed scripts were retired. Create the slate in the app, then read or edit it by its share ID. Use **Manage Team** in the app to invite colleagues. [Team administration](organizations.md)
