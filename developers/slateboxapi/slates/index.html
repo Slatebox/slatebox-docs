@@ -19,6 +19,23 @@ slate_url=&quot;https://api.slatebox.com/v1/slates/$SLATEBOX_SHARE_ID&quot;
 curl --fail-with-body --silent --show-error \
   -H &quot;Authorization: Bearer $SLATEBOX_TOKEN&quot; &quot;$slate_url&quot;
 </code></pre>
+<h2 id="manage-an-invitation-link">Manage an invitation link</h2><p>Create a token with <strong>Manage invitation links on slates I own</strong>. Use the owner’s <code>shareId</code> in <code>slate_url</code>. To let a teammate contribute, create an unlisted edit link. Use <code>read</code> for a viewer or <code>comment</code> for a reviewer who needs to leave feedback.</p>
+<pre><code class="language-sh">invite_key=$(uuidgen)
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_TOKEN&quot; \
+  -H &quot;Idempotency-Key: $invite_key&quot; \
+  -H &#39;Content-Type: application/json&#39; \
+  --data &#39;{&quot;role&quot;:&quot;edit&quot;}&#39; &quot;$slate_url/invite&quot;
+</code></pre>
+<p>The returned <code>url</code> opens the slate with the chosen role. The <code>inviteId</code> identifies this invitation for revocation. The board has one active unlisted link, so changing its role also changes what existing holders can do. If the board is public, manage its visibility in the app.</p>
+<p>To close access through this link, set <code>SLATEBOX_INVITE_ID</code> to the returned ID. Use a new idempotency key for revocation. A retry of either request uses its original key.</p>
+<pre><code class="language-sh">revoke_key=$(uuidgen)
+curl --fail-with-body --silent --show-error -X DELETE \
+  -H &quot;Authorization: Bearer $SLATEBOX_TOKEN&quot; \
+  -H &quot;Idempotency-Key: $revoke_key&quot; \
+  &quot;$slate_url/invite/$SLATEBOX_INVITE_ID&quot;
+</code></pre>
+<p>After revocation the original invitation URL stops granting access. The board is private again, with any private team-member permissions applying. <a href="/developers/slateboxapi/terminal-and-agents/#invite-a-reviewer">Use the shell or MCP</a></p>
 <h2 id="response">Response</h2><p>A successful read returns JSON with <code>shareId</code> and <code>summary</code>. Append <code>?include=full</code> to receive a <code>slate</code> field with the full document. Treat the response as private board data.</p>
 <h2 id="preview-one-change">Preview one change</h2><p>This request previews a triangle on the existing slate. The JSON boolean <code>true</code> keeps the change out of the saved document. Previewing still requires edit permission.</p>
 <pre><code class="language-sh">curl --fail-with-body --silent --show-error \
@@ -66,4 +83,4 @@ curl --fail-with-body --silent --show-error \
 <td>Pause before retrying requests for this token.</td>
 </tr>
 </tbody></table>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#v1slates-endpoint" >/v1/slates endpoint</a><a href="#response" >Response</a><a href="#preview-one-change" >Preview one change</a><a href="#apply-the-change" >Apply the change</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#v1slates-endpoint" >/v1/slates endpoint</a><a href="#manage-an-invitation-link" >Manage an invitation link</a><a href="#response" >Response</a><a href="#preview-one-change" >Preview one change</a><a href="#apply-the-change" >Apply the change</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

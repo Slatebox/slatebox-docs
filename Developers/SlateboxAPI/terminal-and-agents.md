@@ -14,7 +14,7 @@ Suppose two engineers are reviewing what happens to a customer's uploaded file. 
 
 ## Connect to your board
 
-In **Profile → Developer access**, create a token with `slates:read` and `slates:write`. Load it from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set `SLATEBOX_BASE_URL` to the HTTPS origin of your Slatebox instance. [Developer access](https://app.slatebox.com/profile)
+In **Profile → Developer access**, choose the token permissions you need. **Read slates** and **Create and edit slates** are selected by default. To issue or withdraw invitation links for your own boards, also select **Manage invitation links on slates I own** (`slates:share`). Load it from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set `SLATEBOX_BASE_URL` to the HTTPS origin of your Slatebox instance. [Developer access](https://app.slatebox.com/profile)
 
 ## Install the tools
 
@@ -22,7 +22,7 @@ Use Node.js 20 or later. Download the package and its checksum into the project 
 
 ```sh
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.2.tgz
+package=slatebox-mcp-0.2.3.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -41,7 +41,7 @@ On Linux, `sha256sum -c` can also verify the checksum. If the downloads host is 
 }
 ```
 
-[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.2.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.2.tgz.sha256)
+[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.3.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.3.tgz.sha256)
 
 ## Create a private decision map
 
@@ -54,6 +54,28 @@ npx --no-install slatebox create "Who can approve a customer refund?" \
 ```
 
 Open the returned `url` while signed in to that account. In the side conversation, type **Ask finance or ask the account owner**, then choose **Keep changes** to put both paths on the map. To start the same way from an MCP client, call `create_slate` with `brief` and `idempotency_key`. [Move the team token and present the decision](../../Examples/refund-approval.md)
+
+## Invite a reviewer
+
+On your own instance, read `/api/v1/openapi.json` and look for `/slates/{shareId}/invite`. If that path is missing, the owner can issue the link from **Share** in the canvas or upgrade the instance before using these agent tools.
+
+Use the `shareId` from creation or the owner’s canvas URL. An invitation turns a private slate into an unlisted slate. Anyone with the invitation URL can use its role. Choose `read` for someone reviewing a decision, `comment` for feedback, or `edit` for someone making changes on the board.
+
+```sh
+invite_key=$(node -p 'crypto.randomUUID()')
+npx --no-install slatebox share "$SLATEBOX_SHARE_ID" --role edit --idempotency-key "$invite_key"
+```
+
+Give the reviewer the returned `url` and keep the `inviteId` for your records. Issuing a different role updates the board’s single unlisted link for everyone using it. To do the same from an MCP client, call `create_slate_invite` with `share_id`, `role` and `idempotency_key`.
+
+When the review ends, set `SLATEBOX_INVITE_ID` to the returned ID and withdraw that invitation. Use a fresh key for this action and reuse it if you retry.
+
+```sh
+revoke_key=$(node -p 'crypto.randomUUID()')
+npx --no-install slatebox unshare "$SLATEBOX_SHARE_ID" --invite-id "$SLATEBOX_INVITE_ID" --idempotency-key "$revoke_key"
+```
+
+The MCP equivalent is `revoke_slate_invite` with `share_id`, `invite_id` and `idempotency_key`. The board returns to private. People with separate private team grants can still use their assigned access. [HTTP examples](slates.md#manage-an-invitation-link)
 
 ## Preview a question
 

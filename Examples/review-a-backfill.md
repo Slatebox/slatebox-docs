@@ -3,7 +3,7 @@
 ## Agent prompt
 
 ```text
-Help me create a private Slatebox decision map for reviewing a database backfill. Use the exact three-step route in this guide as the brief for create_slate. Keep one idempotency key for that request. Give me the editor link so I can add the repair path. Read the finished map and tell me which destinations follow Compare row counts.
+Help me create a private Slatebox decision map for reviewing a database backfill. Use the exact three-step route in this guide as the brief for create_slate. Keep one idempotency key for that request. Give me the editor link so I can add the repair path. Read the finished map and tell me which destinations follow Compare row counts. If I ask to invite a reviewer, ask which role they need, create the invitation and give me the URL and its invite ID.
 
 Read https://docs.slatebox.com/Examples/review-a-backfill.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -30,4 +30,4 @@ Move **Team** onto **Compare row counts**. Both **Approve cutover** and **Repair
 
 ## Hand off the decision
 
-Share the map with a teammate who reviews migrations. Ask them to follow the path for a missing record and read the instruction back. The slate records the decision and the check your team chose. Your database tools supply the actual comparison. [Share a slate and present the decision](../Using-Slatebox/readme.md)
+As the owner, choose **Share → Create edit link** or ask your connected agent to create an unlisted edit link for this map. Give that URL to the engineer reviewing the migration. [Create or withdraw a reviewer’s link](../Developers/SlateboxAPI/terminal-and-agents.md#invite-a-reviewer) Ask them to follow the path for a missing record and read the instruction back. The slate records the decision and the check your team chose. Your database tools supply the actual comparison. [Share a slate and present the decision](../Using-Slatebox/readme.md)

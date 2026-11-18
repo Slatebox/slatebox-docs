@@ -38,6 +38,33 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_TOKEN" "$slate_url"
 ```
 
+## Manage an invitation link
+
+Create a token with **Manage invitation links on slates I own**. Use the owner’s `shareId` in `slate_url`. To let a teammate contribute, create an unlisted edit link. Use `read` for a viewer or `comment` for a reviewer who needs to leave feedback.
+
+```sh
+invite_key=$(uuidgen)
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_TOKEN" \
+  -H "Idempotency-Key: $invite_key" \
+  -H 'Content-Type: application/json' \
+  --data '{"role":"edit"}' "$slate_url/invite"
+```
+
+The returned `url` opens the slate with the chosen role. The `inviteId` identifies this invitation for revocation. The board has one active unlisted link, so changing its role also changes what existing holders can do. If the board is public, manage its visibility in the app.
+
+To close access through this link, set `SLATEBOX_INVITE_ID` to the returned ID. Use a new idempotency key for revocation. A retry of either request uses its original key.
+
+```sh
+revoke_key=$(uuidgen)
+curl --fail-with-body --silent --show-error -X DELETE \
+  -H "Authorization: Bearer $SLATEBOX_TOKEN" \
+  -H "Idempotency-Key: $revoke_key" \
+  "$slate_url/invite/$SLATEBOX_INVITE_ID"
+```
+
+After revocation the original invitation URL stops granting access. The board is private again, with any private team-member permissions applying. [Use the shell or MCP](terminal-and-agents.md#invite-a-reviewer)
+
 ## Response
 
 A successful read returns JSON with `shareId` and `summary`. Append `?include=full` to receive a `slate` field with the full document. Treat the response as private board data.

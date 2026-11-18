@@ -23,6 +23,8 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 | `POST /v1/slates` | Create a private decision map from a brief | `slates:write` and an `Idempotency-Key` |
 | `GET /v1/slates/{shareId}` | Read a summary, optionally the full slate | `slates:read` and permission to view the slate |
 | `POST /v1/slates/{shareId}/operations` | Preview or apply an edit | `slates:write` and permission to edit the slate |
+| `POST /v1/slates/{shareId}/invite` | Issue or change an unlisted invitation link | Owner with `slates:share` and an `Idempotency-Key` |
+| `DELETE /v1/slates/{shareId}/invite/{inviteId}` | Withdraw that invitation | Owner with `slates:share` and an `Idempotency-Key` |
 | `GET /embed/{publishedSlateId}` | Display a published presentation snapshot | A published image |
 | `GET /healthz` | Check the edge service | Public |
 

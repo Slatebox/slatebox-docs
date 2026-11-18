@@ -29,6 +29,16 @@ If your client cannot fetch the documentation, read the same published file at h
 <td><code>slates:write</code> and permission to edit the slate</td>
 </tr>
 <tr>
+<td><code>POST /v1/slates/{shareId}/invite</code></td>
+<td>Issue or change an unlisted invitation link</td>
+<td>Owner with <code>slates:share</code> and an <code>Idempotency-Key</code></td>
+</tr>
+<tr>
+<td><code>DELETE /v1/slates/{shareId}/invite/{inviteId}</code></td>
+<td>Withdraw that invitation</td>
+<td>Owner with <code>slates:share</code> and an <code>Idempotency-Key</code></td>
+</tr>
+<tr>
 <td><code>GET /embed/{publishedSlateId}</code></td>
 <td>Display a published presentation snapshot</td>
 <td>A published image</td>
