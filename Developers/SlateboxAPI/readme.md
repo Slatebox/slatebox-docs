@@ -18,6 +18,8 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 
 The shell CLI and MCP tools can read the same board and submit the same edit plan. [Edit from a terminal or an agent](terminal-and-agents.md)
 
+Download the OpenAPI 3.1 document for the request bodies, response schemas and operation IDs. Self-hosted instances serve their own version at `/api/v1/openapi.json`. The document can be read before issuing a token. [OpenAPI for Slatebox Cloud](https://api.slatebox.com/v1/openapi.json)
+
 ## Authentication
 
 Sign in, open **Profile → Developer access**, and create a personal token. Copy it into a local secret store when issued. Send it in the `Authorization: Bearer` header. The service checks the token's scopes and the account's current access on every request. Revoke unused tokens in the same profile panel. [Developer access](https://app.slatebox.com/profile)
