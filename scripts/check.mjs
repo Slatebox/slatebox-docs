@@ -1,6 +1,7 @@
 import {readFile, readdir, stat} from 'node:fs/promises'
 import {join, dirname} from 'node:path'
 import './check-museum.mjs'
+import './check-theatre.mjs'
 const root='dist'
 async function walk(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(entry=>entry.isDirectory()?walk(join(dir,entry.name)):join(dir,entry.name)))).flat()}
 const files=(await walk(root)).filter(f=>f.endsWith('.html')), errors=[]

@@ -20,7 +20,7 @@ Try the [theatre cue sheet](https://slatebox.com/use-cases/creative-handoffs/#re
 1. On your private slate, use **Present** to review every scene and its cards. Use **Presentation order** on the board to change the opening scene.
 2. Choose **Publish presentation** on the board. Select **Anyone with the link** for an unlisted briefing or **Public** for a public presentation. Select **Publish** to share this version. The audience receives all the scenes and their cards. Your slate keeps its existing sharing settings.
 3. Choose **Copy embed code** for a handbook, or copy the viewer link to open the briefing on its own. A reader can advance from **Door opens** to **Actor sits** and step back to the first cue.
-4. Change a cue on the working board. Open the viewer link again to see the original briefing. Publish the updated version when the next crew should receive the change. To take the briefing down, choose **Withdraw presentation** and reload the viewer.
+4. Change a cue on the working board. Open the viewer link again to see the original briefing. Choose **Republish** when the next crew should receive the change. Its existing viewer link and embed open the new version. To take the briefing down, choose **Withdraw presentation** and reload the viewer.
 
 ## Try it as a reader
 
