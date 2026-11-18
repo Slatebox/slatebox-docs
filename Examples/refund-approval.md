@@ -1,9 +1,18 @@
 # Move a refund decision from a terminal
 
+## Agent prompt
+
+```text
+Help me map who can approve a customer refund. Use create_slate with my question and one idempotency key to make a private Slatebox map. Give me its editor URL and the words to type to add two approval paths in the side conversation. Read the saved map through the CLI or MCP, show me where the team token can move, and preview my choice. When I ask you to save it, apply that one move with the revision you read and an idempotency key. Show me the decision in the reopened map.
+
+Read https://docs.slatebox.com/Examples/refund-approval.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/refund-approval.md.
+```
 
 ## Give the team two paths
 
-[Open a private refund map](https://app.slatebox.com/new/map#brief=Who%20can%20approve%20a%20customer%20refund%3F). In its side conversation, type **Ask finance or ask the account owner**. Choose **Keep changes**. Those are now two stations on your team's map. Copy the ID following `/canvas/` from the address bar.
+Ask your connected agent, “Create a private Slatebox decision map called Who can approve a customer refund? Give me its editor link.” Open that link as the account that issued the token. You can also [start directly in the browser](https://app.slatebox.com/new/map#brief=Who%20can%20approve%20a%20customer%20refund%3F). In the map’s side conversation, type **Ask finance or ask the account owner**. Choose **Keep changes**. Those are now two stations on your team's map. Copy the ID following `/canvas/` from the address bar.
 
 ## Preview the finance path
 

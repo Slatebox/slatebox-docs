@@ -1,5 +1,15 @@
 # Local development
 
+## Agent prompt
+
+```text
+Help me implement “Local development” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/development.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/development.md.
+```
+
 ## Quickstart
 
 For a running instance, use the Compose release and its matching app and relay images. It starts MongoDB, the Meteor app and the collaboration relay together. The initializer uses Node inside the image. [Docker setup](../Installation/install-with-docker.md)

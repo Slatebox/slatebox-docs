@@ -1,5 +1,14 @@
 # Show what changes when a cue moves
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Show what changes when a cue moves”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/theatre-cues.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/theatre-cues.md.
+```
 
 The director wants the doorway lit for the actor’s entrance. Move **Warm sidelight up** to **Door opens** and watch the stage monitor. Move it away and the doorway goes dark. Open the rehearsal as your own slate to change the cue and what the crew reads. [Try the rehearsal](https://slatebox.com/use-cases/creative-handoffs/#rehearsal)
 

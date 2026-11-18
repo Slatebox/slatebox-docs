@@ -1,8 +1,18 @@
 # Slatebox HTTP API
 
+## Agent prompt
+
+```text
+Help me use the documented Slatebox HTTP API for “Slatebox HTTP API”. Use the documented method, path and permissions. Show the request with credential placeholders and verify the response on my chosen slate.
+
+Read https://docs.slatebox.com/Developers/SlateboxAPI/readme.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/readme.md.
+```
+
 ## Introduction
 
-Read an existing slate or submit a structured edit from your own application. A public route directory lists the endpoints and scopes the hosted service currently serves.
+Create a private decision map from a team question, read a slate or submit an edit from your own application. A public route directory lists the endpoints and scopes the hosted service currently serves.
 
 ```sh
 curl --fail --silent --show-error https://api.slatebox.com/v1
@@ -10,12 +20,15 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 
 | Request | Use | Required access |
 | --- | --- | --- |
+| `POST /v1/slates` | Create a private decision map from a brief | `slates:write` and an `Idempotency-Key` |
 | `GET /v1/slates/{shareId}` | Read a summary, optionally the full slate | `slates:read` and permission to view the slate |
 | `POST /v1/slates/{shareId}/operations` | Preview or apply an edit | `slates:write` and permission to edit the slate |
 | `GET /embed/{publishedSlateId}` | Display a published presentation snapshot | A published image |
 | `GET /healthz` | Check the edge service | Public |
 
 The shell CLI and MCP tools can read the same board and submit the same edit plan. [Edit from a terminal or an agent](terminal-and-agents.md)
+
+Download the OpenAPI 3.1 document for the request bodies, response schemas and operation IDs. Self-hosted instances serve their own version at `/api/v1/openapi.json`. The document can be read before issuing a token. [OpenAPI for Slatebox Cloud](https://api.slatebox.com/v1/openapi.json)
 
 ## Authentication
 
@@ -36,4 +49,4 @@ For a still preview, replace the identifier below with your published slate ID. 
 
 ## Migration from organization HMAC credentials
 
-Replace request signatures, public keys and timestamp headers with a personal bearer token. The former prompt magic links, programmatic slate-creation, standalone layout service and v1.0 WebSocket embed scripts were retired. Create the slate in the app, then read or edit it by its share ID. Use **Manage Team** in the app to invite colleagues. [Team administration](organizations.md)
+Replace request signatures, public keys and timestamp headers with a personal bearer token. Migrate decision-map creation to `POST /v1/slates` with a brief and an idempotency key. Older prompt magic links, standalone layout and v1.0 WebSocket embed scripts were retired. [Create a private decision map](slates.md#create-a-private-decision-map) Use **Manage Team** in the app to invite colleagues. [Team administration](organizations.md)

@@ -1,5 +1,14 @@
 # Build a community radio cue sheet
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Build a community radio cue sheet”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/research-cue-sheet.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/research-cue-sheet.md.
+```
 
 Drag the microphone note into **Next sound check** and hold it there. The producer’s cue sheet shows the second rehearsal cue while the note is still in your hand. Press Escape to keep the original sheet. Drop the note to include both cues when you open the workshop in Slatebox. [Try the community radio sound check](https://slatebox.com/use-cases/research-synthesis/#sound-check).
 

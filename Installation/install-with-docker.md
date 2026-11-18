@@ -1,5 +1,19 @@
 # Host a Slatebox instance
 
+## Agent prompt
+
+```text
+Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at https://docs.slatebox.com/Installation/install-with-docker.md.
+
+Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.
+
+For a new install, use the matching Slatebox release kit and its SHA-256 checksum. If I do not have both, tell me exactly what to request and pause there. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.
+
+Verify the checksum, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md.
+```
+
 Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docker host you manage. Browser clients connect to your app and relay. Board data lives in a persistent MongoDB volume. If you want Slatebox to operate the service, start in Slatebox Cloud. [Open the hosted app](https://app.slatebox.com/start)
 
 ## Get the release

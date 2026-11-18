@@ -1,5 +1,14 @@
 # Use the interactive boards
 
+## Agent prompt
+
+```text
+Help me implement “Use the interactive boards” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/JavascriptLibrary/creative-slates.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/creative-slates.md.
+```
 
 A board takes its saved model as `value`. Supply `onChange` to receive the committed decision. For a presentation, pass `readOnly` to show that decision. A facilitator can choose a different result later by returning to the editor.
 

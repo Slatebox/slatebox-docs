@@ -1,5 +1,14 @@
 # Trace who can still use your product during a sign-in outage
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Trace who can still use your product during a sign-in outage”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/sign-in-outage.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/sign-in-outage.md.
+```
 
 A customer on the phone can still see their workspace. A new customer has just tried signing in and can’t open theirs. Put both accounts on one whiteboard so support can tell which answer to give.
 

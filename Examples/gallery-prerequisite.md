@@ -1,5 +1,14 @@
 # Hang the coast before the moon
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Hang the coast before the moon”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/gallery-prerequisite.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/gallery-prerequisite.md.
+```
 
 Start with the dunes already hanging. In your own exhibit, make the coast the next piece. The physical positions of the three frames can stay the same while the hanging order changes.
 

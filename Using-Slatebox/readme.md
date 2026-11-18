@@ -1,5 +1,15 @@
 # Slatebox user guide
 
+## Agent prompt
+
+```text
+Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.
+
+Read https://docs.slatebox.com/Using-Slatebox/readme.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md.
+```
+
 ## Start your first slate
 
 Choose **Plan a $600 pilot budget** or **Turn interviews into a prototype brief** to open a private example you can change. [Try a design partner experiment](../Examples/startup-experiments.md)

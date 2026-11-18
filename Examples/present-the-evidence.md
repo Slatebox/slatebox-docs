@@ -1,5 +1,14 @@
 # Walk through evidence in a chosen order
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Walk through evidence in a chosen order”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/present-the-evidence.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/present-the-evidence.md.
+```
 
 In a slate with two notes, open **Presentation options → Edit or publish presentation**. Turn on **Show Scene Boundaries** under **Presentation Settings**. Click a scene number, change **Position in presentation**, add a narrative and save. Use Left and Right to check the order before sharing.
 

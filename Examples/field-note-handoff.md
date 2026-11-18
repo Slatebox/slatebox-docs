@@ -1,5 +1,14 @@
 # Review two conflicting field notes
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Review two conflicting field notes”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/field-note-handoff.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/field-note-handoff.md.
+```
 
 Drag Noor’s badge test onto Jules’s notebook. While holding it, read the two reports. Drop it, choose **Merge field test**, then **Reopen review** and choose **Keep shared note**. The fallback instructions survive both choices. This interaction simulates an offline handoff inside one document.
 

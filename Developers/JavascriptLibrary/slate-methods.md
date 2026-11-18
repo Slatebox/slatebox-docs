@@ -1,5 +1,15 @@
 # Slate methods
 
+## Agent prompt
+
+```text
+Help me implement “Slate methods” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/JavascriptLibrary/slate-methods.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/slate-methods.md.
+```
+
 A `Slate` manages the board, its viewport and serialization. Start with the [quick slate](readme.md#quick-slate).
 
 ## nodes.add

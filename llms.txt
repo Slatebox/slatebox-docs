@@ -39,6 +39,7 @@ The same files are available from the [published documentation repository](https
 
 - [Build a community radio cue sheet](https://docs.slatebox.com/Examples/research-cue-sheet.md)
 - [Choose two objects for a loan case](https://docs.slatebox.com/Examples/museum-loans.md)
+- [Decide what a reviewer needs before a backfill](https://docs.slatebox.com/Examples/review-a-backfill.md)
 - [Give the planetarium crew a second try](https://docs.slatebox.com/Examples/telescope-retest.md)
 - [Hand an incident timeline to the next shift](https://docs.slatebox.com/Examples/incident-handoff.md)
 - [Hang the coast before the moon](https://docs.slatebox.com/Examples/gallery-prerequisite.md)

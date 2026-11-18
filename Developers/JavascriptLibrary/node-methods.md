@@ -1,5 +1,15 @@
 # Node methods
 
+## Agent prompt
+
+```text
+Help me implement “Node methods” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/JavascriptLibrary/node-methods.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/node-methods.md.
+```
+
 Edit the node returned by `slate.addNode()`. The examples extend the [quick slate](readme.md#quick-slate).
 
 ## position

@@ -1,5 +1,15 @@
 # Build with Slatebox
 
+## Agent prompt
+
+```text
+Help me implement “Build with Slatebox” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/readme.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/readme.md.
+```
+
 Choose the interface that owns the data you want to change.
 
 | Goal | Starting point |

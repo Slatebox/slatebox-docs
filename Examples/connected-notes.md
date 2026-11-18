@@ -1,5 +1,14 @@
 # Keep a connection when you reopen a slate
 
+## Agent prompt
+
+```text
+Help me try the Slatebox example “Keep a connection when you reopen a slate”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.
+
+Read https://docs.slatebox.com/Examples/connected-notes.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/connected-notes.md.
+```
 
 In the live canvas, select **Field recording**. Click its left round connector to add a blank note in the space beside it, or drag the connector into open space to place the note there. Select the new note, press **F2**, type “Transcript” and press **Enter**. Move the transcript to see the line follow. Choose **Reset** to return to the original two notes.
 

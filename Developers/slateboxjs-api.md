@@ -1,5 +1,15 @@
 # SlateboxJS 2.x and the current canvas
 
+## Agent prompt
+
+```text
+Help me implement “SlateboxJS 2.x and the current canvas” with SlateboxJS in my project. Use the documented library interfaces and provide a runnable example that verifies the result.
+
+Read https://docs.slatebox.com/Developers/slateboxjs-api.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/slateboxjs-api.md.
+```
+
 If your code creates a board with `new Slatebox.slate(...)`, you’re using the 2.x API. The public GitHub repository contains version 2.5.17. To build a new canvas with the engine used in Slatebox today, open the [current quickstart](JavascriptLibrary/readme.md#quick-slate). You can run and download a two-note board directly from that guide.
 
 ## Maintain a 2.x integration

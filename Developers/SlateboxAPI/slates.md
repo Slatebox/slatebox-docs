@@ -1,5 +1,31 @@
 # Read and edit a slate
 
+## Agent prompt
+
+```text
+Help me use the documented Slatebox HTTP API for “Read and edit a slate”. Use the documented method, path and permissions. Show the request with credential placeholders and verify the response on my chosen slate.
+
+Read https://docs.slatebox.com/Developers/SlateboxAPI/slates.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/slates.md.
+```
+
+## Create a private decision map
+
+Load a personal token with `slates:write` into `SLATEBOX_TOKEN`. Generate one key for the intended board and keep it until you have the response.
+
+```sh
+create_key=$(uuidgen)
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_TOKEN" \
+  -H "Idempotency-Key: $create_key" \
+  -H 'Content-Type: application/json' \
+  --data '{"brief":"Who can approve a customer refund?"}' \
+  https://api.slatebox.com/v1/slates
+```
+
+HTTP 201 returns the new board's `shareId`, editor `url` and `workshop` summary. The board is private to the token owner. Open the editor to give the team alternative paths through the side conversation. A retry with the same token, key and brief returns HTTP 200 and the original board. Reusing the key for another brief returns HTTP 409.
+
 ## /v1/slates endpoint
 
 Use a personal token and a slate you control. The following shell examples use the same two environment variables. Run them in a single session. [Set up a token](readme.md#authentication)
