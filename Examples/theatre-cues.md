@@ -1,18 +1,18 @@
 ---
-title: Read the cues for an authored scene
-description: Use the cards assigned to a scene to light a rehearsal preview and prepare the crew’s briefing.
+title: Show what changes when a cue moves
+description: Give a cue two outcomes, preview the light during a drag, and publish the cue sheet the crew will use.
 group: Interactions
 ---
 
-In the theatre handoff, moving a cue toward the entrance brings the sidelight up in the stage monitor. Cancel the drag and the light goes down. The evening crew keeps its previous cue sheet until the stage manager updates the copy. [Try the rehearsal](https://slatebox.com/use-cases/creative-handoffs/#rehearsal)
+The director wants the doorway lit for the actor’s entrance. Move **Warm sidelight up** to **Door opens** and watch the stage monitor. Move it away and the doorway goes dark. Open the rehearsal as your own slate to change the cue and what the crew reads. [Try the rehearsal](https://slatebox.com/use-cases/creative-handoffs/#rehearsal)
 
-## Read one scene from the workshop
+## Give the cue a consequence
 
-Run this with the file-based SlateboxJS package. The bench lane comes first on the working board. The director wants the audience to start when the door opens.
+A placement outcome refers to one card and one lane by ID. Its two messages describe what the crew sees when the cue is in that scene and when it is elsewhere. The same definition travels with the board. Run this example with the file-based SlateboxJS package.
 
 ```js
 import {
-  validateWorkshop, moveWorkshopCard, workshopPresentationScenes
+  validateWorkshop, resolveWorkshopSignals, moveWorkshopCard, workshopPresentationScenes
 } from 'slateboxjs/workshops/model'
 
 const rehearsal = validateWorkshop({
@@ -23,19 +23,24 @@ const rehearsal = validateWorkshop({
   cards: [
     { id: 'rain', label: 'Fade the rain', laneId: 'door' },
     { id: 'light', label: 'Warm sidelight up', laneId: 'bench' }
-  ]
+  ],
+  signals: [{
+    id: 'entrance', label: 'Entrance light', cardId: 'light', laneId: 'door',
+    whenPresent: 'The doorway glows amber.', whenAbsent: 'The doorway stays dark.'
+  }]
 })
 
+console.log(resolveWorkshopSignals(rehearsal)[0].text)
 const revised = moveWorkshopCard(rehearsal, 'light', 'door')
 const [opening, next] = workshopPresentationScenes(revised)
-console.log(opening.lane.label, opening.cards.map(card => card.label))
+console.log(opening.lane.label, opening.signals[0].text)
 console.log(next.lane.label, next.cards.length)
 ```
 
-The opening scene contains **Fade the rain** and **Warm sidelight up**. **Actor sits** stays in the running order, even with zero cues. Each scene also has a `nodeIds` array for framing its lane and current cards in native Slatebox artwork.
+Before the move, the doorway stays dark. The opening scene now reads **The doorway glows amber**. Both the rain and sidelight cues are in that scene. **Actor sits** stays in the running order even with zero cues. Each scene’s `nodeIds` lists the native canvas objects to frame.
 
-## Preview the light while dragging
+## Try a different light
 
-Pass the candidate from `WorkshopBoard.onPreview` to `workshopPresentationScenes`. Find the doorway lane and check whether it contains the light cue. If the candidate is cleared, render from the last committed board. Keep a separate reference to the version the crew saw. Replace it when the stage manager approves an update.
+In your slate, select the light cue and edit its placement outcome. Choose the scene and write the two messages your crew needs. For a blackout, try “Wait for the door to close” when the cue is present and “Stand by for the entrance” when it is elsewhere. Save, move the cue and present the scene to check the new call.
 
-When the stage manager publishes from the app, the server saves the workshop’s committed revision. The crew can use the same link after a later revision is published. [Publish a workshop handoff](/examples/embed-a-walkthrough/#publish-a-workshop-handoff)
+In a custom monitor, pass the candidate board from `WorkshopBoard.onPreview` into `resolveWorkshopSignals`. Use the resolved `present` value to paint the light and `text` for the crew’s call. When the preview clears, render from the committed board again. Publishing saves that revision for the crew. Later edits become visible at the same link when you publish again. [Publish a workshop handoff](/examples/embed-a-walkthrough/#publish-a-workshop-handoff)

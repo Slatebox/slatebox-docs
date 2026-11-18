@@ -12,6 +12,8 @@ Give your slate a recognizable name. If you began as a guest, register the guest
 
 Try the listening room. Move the horn toward the glass chimes until both recordings overlap. Open your mix as a slate, rename a sound source, and present the mix you chose. Your teammate can reopen the same board and try another balance. [Try the listening room](https://slatebox.com/product/workshops/)
 
+To show what a move means, select a card and add a placement outcome. Pick its destination and write what teammates should see with the card there and with it elsewhere. Save the change, move the card, then present that destination to read the result. [Try it with a theatre cue](../Examples/theatre-cues.md)
+
 ## Work with a team
 
 For a team slate, open **Share → Private**. Choose **edit** beside the teammate who will contribute, or **read** for someone reviewing the board. A team administrator can invite a new member through team settings. [Manage team members](../Developers/SlateboxAPI/organizations.md)
