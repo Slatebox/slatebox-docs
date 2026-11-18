@@ -41,11 +41,15 @@ For a team slate, open **Share → Private**. Choose **edit** beside the teammat
 
 To invite someone to edit a private slate, open **Share**, choose **Create edit link**, then **Copy link** and **Done**. Send that unlisted link to your collaborator. Anyone with it can edit. On a regular canvas, they can acknowledge the welcome and edit a note. For an interactive workshop, a first-time visitor can choose **Join to edit** and make a move as a guest. You should both see the change and find it on the same board after reloading. For a read-only invitation, choose **Unlisted**, leave **Link permission** on **read** and select **Create link**. To change an existing link, choose a permission and select **Apply access**. [Try a two-person incident handoff](../Examples/incident-handoff.md)
 
-### Find a workshop you joined
+<span id="find-a-workshop-you-joined" aria-hidden="true"></span>
 
-Open **My Slates → Recently joined** to return to a teammate’s interactive slate. It appears when you choose **Join to edit** as a guest or save your first change through an edit invitation while signed in. The list shows the latest title. If you started as a guest, open **Profile → Save my Slatebox** in the same browser before signing in on another device. [Open My Slates](https://app.slatebox.com/)
+### Return to a shared slate
 
-If the owner switches the invitation to **read**, the same link opens the board for viewing. Opening **Share → Private** and choosing **Make private** revokes the invitation and removes the entry. To invite people back, the owner can share a new link.
+Open **My Slates → Recently joined** and choose the board’s current title. On a whiteboard, saving an edit through a teammate’s invitation adds that exact link to your list if you are signed in, including as a Slatebox guest. Just opening the board does not add it. If you edit while signed out, your changes stay on the shared board. Keep the invitation to return.
+
+On an interactive workshop, choosing **Join to edit** creates a guest session and adds the workshop to your list. If you started as a guest, open **Profile → Save my Slatebox** in the same browser before signing in on another device. [Open My Slates](https://app.slatebox.com/)
+
+If the owner switches the invitation to **read**, the same link opens the board for viewing. Opening **Share → Private** and choosing **Make private** revokes the invitation and removes the entry. If the owner shares the slate again, ask for the new invitation. The old link stays revoked.
 
 ## Present or publish
 
