@@ -58,6 +58,8 @@ Open the returned `url` while signed in to that account. In the side conversatio
 
 ## Invite a reviewer
 
+On your own instance, read `/api/v1/openapi.json` and look for `/slates/{shareId}/invite`. If that path is missing, the owner can issue the link from **Share** in the canvas or upgrade the instance before using these agent tools.
+
 Use the `shareId` from creation or the owner’s canvas URL. An invitation turns a private slate into an unlisted slate. Anyone with the invitation URL can use its role. Choose `read` for someone reviewing a decision, `comment` for feedback, or `edit` for someone making changes on the board.
 
 ```sh
