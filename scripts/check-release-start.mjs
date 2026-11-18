@@ -134,3 +134,46 @@ test('resume recreates only the verified app that lost its network after a faile
   assert.deepEqual(recovered.containers,[app,mongo,relay])
   assert.deepEqual(recovered.volumes,d.volumes)
 })
+
+test('offline release tools round-trip through the public bundle and the private packer; standalone packing still works', t => {
+  const root=mkdtempSync(join(tmpdir(),'slatebox-pack-tools-'))
+  t.after(()=>rmSync(root,{recursive:true,force:true}))
+  const tools=join(root,'tools'), bare=join(root,'standalone'), app=join(root,'app')
+  for(const directory of [tools,bare,join(app,'self-host')]) mkdirSync(directory,{recursive:true})
+  const archive=new URL('../dist/assets/self-host/release-tools.tar.gz',import.meta.url).pathname
+  const members=['release-kit.sh','backup-instance.sh','restore-instance.sh']
+  assert.deepEqual(execFileSync('tar',['-tzf',archive],{encoding:'utf8'}).trim().split('\n'),members)
+  execFileSync('tar',['-xzf',archive,'-C',tools])
+  for(const name of members) assert.deepEqual(readFileSync(join(tools,name)),readFileSync(new URL(name,packer)))
+  copyFileSync(packer,join(bare,'release-kit.sh'))
+  for(const name of ['LICENSE.md','self-host/compose.yaml','self-host/Caddyfile','self-host/init.mjs','self-host/mongo-init.js','self-host/run','self-host/README.md']) writeFileSync(join(app,name),'versioned release content\n')
+  const git=(...args)=>execFileSync('git',['-C',app,...args],{encoding:'utf8'})
+  git('init','-q');git('add','.');git('-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','Synthetic release')
+  const rev=git('rev-parse','HEAD').trim()
+  const docker=join(root,'docker')
+  writeFileSync(docker,`#!/bin/sh
+case "$1 $2" in
+  "version --format") echo linux/arm64 ;;
+  "image inspect") echo "$FIXTURE_REVISION" ;;
+  "compose version") exit 0 ;;
+  "compose --env-file") printf '%s\\n' app collab mongo caddy ;;
+  "image save") printf '%s' dummy-image-stream ;;
+  *) exit 1 ;;
+esac
+`)
+  chmodSync(docker,0o700)
+  for(const [folder,withTools] of [[tools,true],[bare,false]]){
+    const output=join(folder,'out');mkdirSync(output)
+    execFileSync('bash',[join(folder,'release-kit.sh'),'pack',app,output],{env:{...process.env,APP_IMAGE:'app',COLLAB_IMAGE:'collab',FIXTURE_REVISION:rev,PATH:root+':'+process.env.PATH}})
+    const kit=join(output,`slatebox-${rev}-${rev}-${rev}-arm64.tar`)
+    const contents=execFileSync('tar',['-tf',kit],{encoding:'utf8'}).trim().split('\n')
+    for(const name of members.slice(1)){
+      const member='slatebox-release/self-host/'+name
+      assert.equal(contents.includes(member),withTools)
+      if(withTools) assert.deepEqual(execFileSync('tar',['-xOf',kit,member]),readFileSync(join(tools,name)))
+    }
+    const readme=execFileSync('tar',['-xOf',kit,'slatebox-release/self-host/README.md'],{encoding:'utf8'})
+    assert.equal(readme.includes('--leave-stopped'),withTools)
+    assert.ok(readme.includes('versioned release content'))
+  }
+})
