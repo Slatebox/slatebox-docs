@@ -19,6 +19,7 @@ const initial = validateWorkshop({
   version: 1,
   title: 'Community radio · first broadcast',
   lanes: [{ id: 'notes', label: 'Field notes' }, { id: 'check', label: 'Next sound check', capacity: 2 }],
+  presentationOrder: ['check', 'notes'],
   cards: [
     { id: 'lamp', label: 'The host missed the red light. Try a headphone cue.', laneId: 'check' },
     { id: 'mic', label: 'Both guests reached for one mic. Mark each mic position.', laneId: 'notes' },
@@ -45,3 +46,11 @@ export default function RadioSoundCheck() {
 ## Open the committed cue sheet
 
 Use `onPreview` for a linked view that can change while dragging. Use `onChange` to replace the committed model. Encoding that model with `encodeWorkshopFragment` carries the chosen cues and the two-slot rule into an editable private slate.
+
+## Present the rehearsal first
+
+The producer sorts observations from left to right on the board. At the rehearsal, the hosts need to see the two cues they picked first. Set `presentationOrder` to the lane IDs in speaking order. Select **Present** on the imported slate to open **Next sound check**, then advance to **Field notes**. A teammate can swap a cue before the review and the first scene will show the new selection.
+
+To change the order in the app, return to the board and choose **Presentation order**. Pick a scene, set its position and save.
+
+Include each lane ID exactly once. Leaving the field out uses the board’s lane order. To render your own readout, import `workshopPresentationLanes` from `slateboxjs/workshops/model` and pass it the saved workshop. Each returned lane has its board ID, so you can select its cards by `laneId`.

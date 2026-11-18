@@ -18,6 +18,7 @@ const initial = validateWorkshop({
   version: 1,
   title: 'Loans for the shoreline case',
   lanes: [{ id: 'store', label: 'Available objects' }, { id: 'case', label: 'Two mounts', capacity: 2 }],
+  presentationOrder: ['case', 'store'],
   cards: [
     { id: 'shell', label: 'Carved shell', laneId: 'store' },
     { id: 'lamp', label: 'Tin lantern', laneId: 'store' },
@@ -45,7 +46,7 @@ const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopF
 console.log(openInSlatebox)
 ```
 
-The link from this code opens the filled case. Use `vacancy` instead of `full` to make the shell available and leave one mount free.
+The link opens the filled case. Select **Present** to show the two objects you mounted. Advance once to see what stayed in storage. Use `vacancy` instead of `full` to make the shell available and leave one mount free.
 
 ## Fit two lanes on a phone and preview a radio cue sheet
 

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
 import {museumLoans, museumLoanURL} from '../assets/museum-loans.mjs'
-import {decodeWorkshopFragment, moveWorkshopCard} from '../assets/vendor/workshop-model.mjs'
+import {decodeWorkshopFragment, moveWorkshopCard, workshopPresentationLanes} from '../assets/vendor/workshop-model.mjs'
 
 const recipe = await readFile(new URL('../Examples/museum-loans.md', import.meta.url), 'utf8')
 const modelURL = new URL('../assets/vendor/workshop-model.mjs', import.meta.url).href
@@ -12,6 +12,8 @@ const moduleURL = 'data:text/javascript;charset=utf-8,' + encodeURIComponent(cap
 const {initial, full, vacancy, openInSlatebox, output} = await import(moduleURL)
 assert.deepEqual(output, [['store'], ['store', 'case'], openInSlatebox])
 assert.deepEqual(initial, museumLoans)
+assert.deepEqual(initial.lanes.map(lane => lane.id), ['store', 'case'])
+assert.deepEqual(workshopPresentationLanes(full).map(lane => lane.id), ['case', 'store'])
 assert.deepEqual(decodeWorkshopFragment(new URL(openInSlatebox).hash), full)
 assert.throws(() => moveWorkshopCard(full, 'chart', 'case'), /unavailable/i)
 const exchanged = moveWorkshopCard(vacancy, 'chart', 'case')
