@@ -210,11 +210,35 @@ Initialization writes your private `.state/instance.env` and `.state/settings.js
 | --- | --- |
 | Draw, save, reopen and collaborate on boards | The app, its WebSocket relay and persistent MongoDB from the Compose stack. |
 | Email invitations, verification links and password resets | Configure your SMTP URL in private `mailGun.server` settings and verify delivery to a test account. |
-| AI-authored workshops | Registered users can request drafts when you set `selfHosted.workshopAI` to `true` in private settings and supply `API_KEY_DEEP_INFRA` in `.state/instance.env`. Usage is billed to your provider account. See **Enable AI workshop drafts** in the release’s `self-host/README.md`. |
+| AI-authored workshops | Enable drafting for registered users with `selfHosted.workshopAI` in private settings. The default provider uses your `API_KEY_DEEP_INFRA` in `.state/instance.env` and bills your DeepInfra account. You can also [connect a model server you operate](#run-workshop-ai-on-your-own-infrastructure). |
 | Audio and video calls | Configure your own Daily account in private `daily.apiKey` settings. Daily hosts the media rooms. Camera and microphone access requires HTTPS or localhost. Without a Daily key, calls are unavailable and board collaboration continues. |
 | Published presentation images | Configure `aws.region`, `aws.accessKey`, `aws.secretKey`, `aws.imageBucket` and `aws.cloudUrl` for your image bucket and viewer-accessible HTTPS asset origin. |
 
 The app’s `public` settings are delivered to browsers. Keep secrets in server settings. Apply app configuration changes with `./run up -d --no-deps --force-recreate --wait app`. Your cloud subscription, provider credentials and existing hosted slates are separate from the fresh installation.
+
+## Run workshop AI on your own infrastructure
+
+The board VM runs the app, collaboration relay and MongoDB. AI drafting is optional. You can run a tool-capable model on the same machine if it has enough memory for both workloads, or use a private inference host so generating a draft does not compete with collaborators for VM resources.
+
+In `.state/settings.json`, set `selfHosted.workshopAI` to `true` and configure `selfHosted.workshopProvider` with the model server’s API root (`baseUrl`) and exact model name (`model`). Use an address the app container can reach. A server on another machine needs its internal hostname. Two containers on the same Docker network can use a service name. Keep any required bearer credential in the private `workshopProvider.apiKey` field.
+
+For example, if you run llama.cpp under the alias `slatebox-local`, merge these fields into the existing private settings. Replace the example hostname and port with your server’s address. Slatebox appends `/chat/completions` to the API root.
+
+```json
+{
+  "selfHosted": {
+    "workshopAI": true,
+    "workshopProvider": {
+      "baseUrl": "http://inference.internal:8080/v1",
+      "model": "slatebox-local"
+    }
+  }
+}
+```
+
+An operator test used llama.cpp build 9910 with the Q4_K_M GGUF of Qwen3-4B-Instruct-2507 on an M3 Ultra. After downloading the weights, the model server ran with `--jinja --ctx-size 8192 --alias slatebox-local` and the default `toolChoice` of `auto`. A registered user generated a sorting workshop, opened it as a private slate, moved a card and presented the result. A branching map draft also retained the two requested cue messages. The weights file is about 2.5 GB. Budget additional memory for inference and test your expected concurrent workload on your own hardware. Once the weights are installed, local drafting can use that private endpoint without an external inference service. [llama.cpp server setup](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) · [Qwen3-4B-Instruct-2507 GGUF files](https://huggingface.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF)
+
+Run `./run up -d --no-deps --force-recreate --wait app`. From a registered account, open `/workshops`, choose **Ask AI**, then **Draft a different board**. Enter a brief, choose **Draft with AI**, and move a card on the result. The endpoint receives the brief and, for rule revisions, the current workshop model. Audio and video rooms use Daily separately. See **Use your own inference endpoint** in your release’s `self-host/README.md` for the model server requirements.
 
 ## Restart and update
 
