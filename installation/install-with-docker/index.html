@@ -44,7 +44,7 @@ curl --fail --show-error http://localhost:7070/readyz
   -L 127.0.0.1:7071:127.0.0.1:7071 operator@your-docker-host
 </code></pre>
 <p>Open <a href="http://localhost:7070/start">Slatebox on your laptop</a> and create a slate. Under <strong>Share</strong>, copy an edit link and open it in a private browser window on the same laptop. Join as a second editor, add a note and watch it appear in the original window. Press <strong>Ctrl+C</strong> in the SSH terminal to close the tunnel. The remote instance keeps running and stores the slate on the VM.</p>
-<p>A localhost link takes each reader to their own computer. Give the app and relay team hostnames before sending invitations to colleagues. <a href="#use-your-enterprise-hostnames">Configure team access</a></p>
+<p>A localhost link takes each reader to their own computer. Give the app and relay team hostnames before sending invitations to colleagues. <a href="#keep-the-boards-from-your-pilot">Keep the boards from your pilot</a> · <a href="#use-your-enterprise-hostnames">Set up a fresh team instance</a></p>
 <h2 id="choose-a-host-for-a-team-evaluation">Choose a host for a team evaluation</h2><p><strong>Quickest self-host route:</strong> obtain the matched images first, then use an existing Linux Docker host of the same architecture. Start locally and reopen a private slate. For a team trial, give the app and relay separate HTTPS hostnames and invite a second editor. If you need a board today while release access is being arranged, <a href="https://app.slatebox.com/start">start in Slatebox Cloud</a>.</p>
 <h3 id="existing-docker-host-digitalocean-droplet-or-aws-ec2">Existing Docker host, DigitalOcean Droplet or AWS EC2</h3><table>
 <thead>
@@ -108,6 +108,19 @@ unset APP_IMAGE COLLAB_IMAGE
 </code></pre>
 <p>The release check used Caddy’s local certificate authority and two separate hostnames. Two browsers exchanged edits over secure WebSockets and reopened the saved slate. Public DNS and public certificate issuance require a check on your deployment.</p>
 <p>Keep the named <code>caddy-data</code> volume across restarts to retain certificate and account state. If a certificate fails to issue, check DNS, the firewall, any other service bound to ports 80 or 443, and <code>./run logs --tail=80 proxy</code>. <a href="https://caddyserver.com/docs/automatic-https">How Caddy obtains and renews certificates</a></p>
+<h3 id="keep-the-boards-from-your-pilot">Keep the boards from your pilot</h3><p>A trial on <code>localhost</code> can become the team instance on the same Docker host. Before moving it, have anyone who owns a board as a guest save their account with an email and password. Write down each board’s path starting with <code>/canvas/</code>. The new hostname has its own browser session.</p>
+<p>Use a release whose <code>self-host/</code> directory includes <code>hostnames.mjs</code>. If your kit predates this command, ask your release contact for the updated kit. Make a <a href="#move-a-backed-up-instance-to-another-docker-host">backup of the database and installation settings</a>, start the pilot again, and keep its Compose project name and state directory selected. Point two DNS names at the host and allow inbound TCP 80 and 443 for the bundled proxy.</p>
+<p>From <code>self-host/</code>, substitute your hostnames and choose a new directory for the team settings.</p>
+<pre><code class="language-sh">ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./run promote .team-state
+export SLATEBOX_STATE=.team-state
+./run up -d --wait
+</code></pre>
+<p>The first command copies the installation settings and credentials into the new directory and sets the app and relay origins. Starting the services with that directory uses the existing database. Keep <code>SLATEBOX_STATE</code> and the project name set the same way on future runs. Sign in at the new hostname, open a saved board path and send collaborators the updated link. Check that another editor’s change arrives in your browser.</p>
+<p>To return to the original loopback setup, stop the proxy with the team settings selected, select the pilot’s original state directory again and start the services. For a pilot that used the default <code>.state/</code>, run:</p>
+<pre><code class="language-sh">SLATEBOX_STATE=.team-state ./run stop proxy
+unset SLATEBOX_STATE
+./run up -d --wait
+</code></pre>
 <h3 id="bring-your-existing-reverse-proxy">Bring your existing reverse proxy</h3><p>Initialize the standard loopback services and configure your existing TLS proxy to reach them. When the proxy runs on the Docker host, forward the app hostname to <code>127.0.0.1:7070</code> and the relay hostname to <code>127.0.0.1:7071</code>. Enable WebSocket upgrades on <strong>both</strong> upstreams.</p>
 <pre><code class="language-sh">ROOT_URL=https://boards.example.com WS_URL=wss://live.example.com ./run init
 unset APP_IMAGE COLLAB_IMAGE

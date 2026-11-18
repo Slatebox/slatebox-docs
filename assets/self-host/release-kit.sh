@@ -30,7 +30,11 @@ case "${1:-}" in
     trap 'rm -rf "$work"' EXIT
     kit="$work/slatebox-release"
     mkdir "$kit"
-    git -C "$app" archive "$full_app_rev" LICENSE.md self-host/{compose.yaml,Caddyfile,init.mjs,mongo-init.js,run,README.md} | tar -xf - -C "$kit"
+    startup_files=(LICENSE.md self-host/{compose.yaml,Caddyfile,init.mjs,mongo-init.js,run,README.md})
+    if git -C "$app" cat-file -e "$full_app_rev:self-host/hostnames.mjs" 2>/dev/null; then
+      startup_files+=(self-host/hostnames.mjs)
+    fi
+    git -C "$app" archive "$full_app_rev" "${startup_files[@]}" | tar -xf - -C "$kit"
     cp "$0" "$kit/initialize"
     chmod 700 "$kit/initialize"
 
