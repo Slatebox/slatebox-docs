@@ -4,7 +4,7 @@ Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docke
 
 ## Get the release
 
-The Slatebox app and SlateboxJS engine are MIT licensed. Request a matched self-host release from Slatebox and include the Linux architecture reported by `docker version --format '{{.Server.Arch}}'`. For a first install, ask for the **single-file release kit and its SHA-256 checksum**. It includes the app, authenticated collaboration relay, MongoDB, optional HTTPS proxy and startup files. [Request release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) · [Enterprise deployment options](https://slatebox.com/enterprise/)
+The Slatebox app and SlateboxJS engine are MIT licensed. Request a matched self-host release from Slatebox and include the Linux architecture reported by `docker version --format '{{.Server.Arch}}'`. For a first install, ask for the **ARM64 or AMD64 release archive and its SHA-256 checksum**. It includes the app, authenticated collaboration relay, MongoDB, optional HTTPS proxy and startup files. [Request release access](mailto:tim@slatebox.com?subject=Slatebox%20self-host%20release%20kit) · [Enterprise deployment options](https://slatebox.com/enterprise/)
 
 | What you have | Where to start |
 | --- | --- |
@@ -44,9 +44,9 @@ Open [the local start screen](http://localhost:7070/start), add a note on a priv
 
 | Where to run it | What to provision | What your team owns |
 | --- | --- | --- |
-| Existing Linux VM or on-premises server | Docker Engine, Compose v2, persistent disk and a matched pair of images. The supplied pair targets ARM64. An authorized source build can target AMD64. | Host patching, capacity, backups and recovery. This is the shortest path when a suitable machine is already available. |
-| DigitalOcean Droplet | The Docker Marketplace image installs Docker Engine and Compose. Check the Droplet architecture before choosing images. For an x86-64 Droplet, obtain a Linux AMD64 build. | SSH access, firewall, DNS and backups. Budget for the Droplet even when powered off, plus any separately purchased volumes and backups. [Docker Marketplace image](https://docs.digitalocean.com/products/marketplace/catalog/docker/) · [Droplet billing](https://docs.digitalocean.com/products/droplets/details/pricing/) |
-| AWS EC2 | A Graviton instance with an Arm64 Linux image matches the supplied ARM64 containers. Install Docker Engine and Compose v2. Place Docker's persistent data on EBS and choose what should happen to that volume on instance termination. | EC2, disk and backup costs, security groups and DNS. This fits teams that already operate an AWS account and restore EBS-backed hosts. [AWS Graviton](https://aws.amazon.com/ec2/graviton/) · [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) |
+| Existing Linux VM or on-premises server | Docker Engine, Compose v2, persistent disk and a matched pair of images. Request the ARM64 or AMD64 archive for that host. | Host patching, capacity, backups and recovery. This is the shortest path when a suitable machine is already available. |
+| DigitalOcean Droplet | The Docker Marketplace image installs Docker Engine and Compose. Check the Droplet architecture before choosing images. For an x86-64 Droplet, request the Linux AMD64 archive. | SSH access, firewall, DNS and backups. Budget for the Droplet even when powered off, plus any separately purchased volumes and backups. [Docker Marketplace image](https://docs.digitalocean.com/products/marketplace/catalog/docker/) · [Droplet billing](https://docs.digitalocean.com/products/droplets/details/pricing/) |
+| AWS EC2 | A Graviton instance with an Arm64 Linux image matches the ARM64 archive. Install Docker Engine and Compose v2. Place Docker's persistent data on EBS and choose what should happen to that volume on instance termination. | EC2, disk and backup costs, security groups and DNS. This fits teams that already operate an AWS account and restore EBS-backed hosts. [AWS Graviton](https://aws.amazon.com/ec2/graviton/) · [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) |
 
 **Storage determines which services fit.** This release runs its own MongoDB replica set on a persistent Docker volume. DigitalOcean App Platform documents ephemeral container filesystems and no volume support. Moving this topology there would also require a separate database and a new deployment procedure. On either VM option, the app and relay both need working WebSocket upgrades. [App Platform storage limits](https://docs.digitalocean.com/products/app-platform/details/limits/)
 
@@ -56,7 +56,7 @@ On 1 October 2026 the Node.js build team published a DigitalOcean notice closing
 
 ### What the Slatebox release checks covered
 
-The team built Linux ARM64 images natively and AMD64 images under emulation, restored a private board on a second Docker host, and upgraded an existing Compose instance. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
+The team built and packaged both architectures. On a second ARM64 Docker host, a checksum-verified archive started the app, relay and database with registry pulls disabled. Two guests shared a board, presented an edit and reopened it. The AMD64 app and relay ran under emulation on the build host. A separate recovery drill restored a private board on another Docker host, and an upgrade preserved an existing installation. Two browsers exchanged edits over distinct app and relay HTTPS origins using a local certificate authority. The cloud options above are deployment choices based on provider documentation reviewed on 18 November 2026. Verify public DNS, certificate issuance and a two-user edit on the host you select. [Verify a team connection](#verify-a-team-connection)
 
 ## Install Slatebox on your own server
 
