@@ -79,6 +79,7 @@ start_instance() {
     marker=$(docker volume inspect --format '{{index .Labels "com.slatebox.installation"}}' "$name")
     [[ -n "$owner" && "$marker" == "$owner" ]] || die "Existing volume $name belongs to another installation. Use a fresh project or the documented upgrade path."
   done
+  disconnected_app=''
   containers=$(docker ps -aq --filter "label=com.docker.compose.project=$project")
   for container in $containers; do
     file=$(docker inspect --format '{{index .Config.Labels "com.docker.compose.project.config_files"}}' "$container")
@@ -87,6 +88,9 @@ start_instance() {
     if [[ "$service" == app ]]; then
       mounted=$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/opt/slatebox/settings.json"}}{{.Source}}{{end}}{{end}}' "$container")
       [[ "$mounted" == "$state/settings.json" || "$mounted" -ef "$state/settings.json" ]] || die 'The project app uses a different settings file.'
+      if [[ $(docker inspect --format '{{len .NetworkSettings.Networks}}' "$container") == 0 ]]; then
+        disconnected_app=$container
+      fi
     fi
   done
   networks=$(docker network ls --format '{{.Name}}' --filter "label=com.docker.compose.project=$project")
@@ -136,6 +140,11 @@ start_instance() {
   claim_volume mongo-data
   : > "$state/start-volume"
   if grep -Fxq proxy <<< "$services"; then claim_volume caddy-data; fi
+  # A port-bind failure can detach the app from every network. Compose can
+  # restart that container without restoring DNS, so recreate just the app.
+  if [[ -n "$disconnected_app" && "$networks" == "${project}_default" ]]; then
+    ./run up --no-start --no-deps --force-recreate --pull never app
+  fi
   ./run up -d --wait --pull never
   ./run exec -T app node -p 'new URL("/start", process.env.ROOT_URL).href'
 }

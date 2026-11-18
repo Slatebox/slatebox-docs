@@ -21,7 +21,8 @@ const fs=require('node:fs'),p=process.env.RESOURCES, d=JSON.parse(fs.readFileSyn
 const print=items=>items.forEach(item=>console.log(item))
 if(args[0]==='info')console.log(d.daemon)
 else if(args[0]==='ps')print(d.containers.map(c=>c.name))
-else if(args[0]==='inspect'){const c=d.containers.find(c=>c.name===args.at(-1));console.log(args[2].includes('config_files')?c.file:c.service)}
+else if(args[0]==='inspect'){const c=d.containers.find(c=>c.name===args.at(-1));const field=args[2]
+ console.log(field.includes('config_files')?c.file:field.includes('.Mounts')?c.settings:field.includes('.Networks')?c.networkCount:c.service)}
 else if(args[0]==='network')print(d.networks)
 else if(args[0]==='volume' && args[1]==='ls')print(Object.keys(d.volumes))
 else if(args[0]==='volume' && args[1]==='create'){
@@ -45,7 +46,10 @@ printf '%s' "\${1:-http}" >"$SLATEBOX_STATE/settings.json"
     tool(join(host,'run'),'#!/usr/bin/env node\n'+`
 const fs=require('node:fs'),s=process.env.SLATEBOX_STATE, args=process.argv.slice(2),p=process.env.RESOURCES,d=JSON.parse(fs.readFileSync(p))
 if(args.join(' ')==='config --services')console.log(fs.readFileSync(s+'/settings.json','utf8')==='--https'?'proxy\\napp':'app')
-else if(args.join(' ')==='up -d --wait --pull never'){
+else if(args.join(' ')==='up --no-start --no-deps --force-recreate --pull never app'){
+ const app=d.containers.find(c=>c.service==='app');if(!app||app.networkCount!==0)throw Error('Recreating a connected app')
+ app.networkCount=1;d.calls.push(args);fs.writeFileSync(p,JSON.stringify(d))
+}else if(args.join(' ')==='up -d --wait --pull never'){
  d.calls.push(args);fs.writeFileSync(p,JSON.stringify(d));if(process.env.FAIL==='1')process.exit(8)
 }else if(args[0]==='exec')console.log(fs.readFileSync(s+'/instance.env','utf8')+'/start')
 else throw Error('Unexpected Compose command')
@@ -107,4 +111,26 @@ test('retry accepts a directory alias to the same Compose file and refuses a dis
   const now=f.read();now.containers[0].file=distinct;f.put(now)
   assert.throws(()=>a.start(),/another installation/)
   assert.equal(f.read().calls.length,2)
+})
+
+
+test('resume recreates only the verified app that lost its network after a failed port bind',t=>{
+  const f=fixture(t),a=f.kit('operator')
+  a.start()
+  const d=f.read(),file=join(a.state,'..','compose.yaml')
+  const app={name:'app-id',service:'app',settings:join(a.state,'settings.json'),file,networkCount:1}
+  const mongo={name:'mongo-id',service:'mongo',file,networkCount:1}
+  const relay={name:'relay-id',service:'collab',file,networkCount:1}
+  d.containers=[app,mongo,relay];d.networks=['fixture_default'];f.put(d)
+  a.start()
+  assert.equal(f.read().calls.some(args=>args.includes('--force-recreate')),false)
+  const lost=f.read();lost.containers[0].networkCount=0;f.put(lost)
+  a.start()
+  const recovered=f.read()
+  assert.deepEqual(recovered.calls.slice(-2),[
+    ['up','--no-start','--no-deps','--force-recreate','--pull','never','app'],
+    ['up','-d','--wait','--pull','never'],
+  ])
+  assert.deepEqual(recovered.containers,[app,mongo,relay])
+  assert.deepEqual(recovered.volumes,d.volumes)
 })
