@@ -18,9 +18,15 @@ Advance to **Flood marks** in this exhibition walkthrough. Step back to the **Li
 Try the [theatre cue sheet](https://slatebox.com/use-cases/creative-handoffs/#rehearsal). Move **Warm sidelight up** to **Door opens** and select **Open this rehearsal in Slatebox**. The evening crew should hear which light comes up as the actor enters.
 
 1. On your private slate, use **Present** to review every scene and its cards. Use **Presentation order** on the board to change the opening scene.
-2. Choose **Publish presentation** on the board. Select **Anyone with the link** for an unlisted briefing or **Public** for a public presentation. Select **Publish** to share this version. The audience receives all the scenes and their cards. Your slate keeps its existing sharing settings.
-3. Choose **Copy embed code** for a handbook, or copy the viewer link to open the briefing on its own. A reader can advance from **Door opens** to **Actor sits** and step back to the first cue.
-4. Change a cue on the working board. Open the viewer link again to see the original briefing. Choose **Republish** when the next crew should receive the change. Its existing viewer link and embed open the new version. To take the briefing down, choose **Withdraw presentation** and reload the viewer.
+2. Choose **Publish presentation** on the board. Select **Anyone with the link** for an unlisted briefing or **Public** for a public presentation. To let the evening crew adapt the cues, check **Let viewers open their own copy**. This option starts off. Select **Publish** to share the saved scenes, cards and placement outcomes. Your source slate keeps its existing sharing settings.
+3. Choose **Copy embed code** for a handbook or **Copy link** for the standalone player. Readers can move between **Door opens** and **Actor sits** in either player.
+4. Keep rehearsing on the source slate. Its edits reach the viewer link and embedded player when you choose **Republish**. To stop offering copies while keeping the briefing available, clear **Let viewers open their own copy** and republish. **Withdraw presentation** takes the briefing down and stops viewers from making new copies.
+
+### Open your own workshop copy
+
+When the presenter enables copying, select **Open my own copy** in the standalone player or handbook embed. A new tab opens a private, editable slate owned by you. If you’re signed out, Slatebox creates a guest copy in that browser. You can move a lighting cue or rewrite the entrance call and leave the crew’s published briefing intact.
+
+Your copy starts with the published cue positions, scene order and placement rules. It keeps your edits independently, even if the presenter later republishes or withdraws the handoff. If you left an older player open, reload it before starting a new copy. The latest published version must still allow copying.
 
 ## Try it as a reader
 
