@@ -18,3 +18,10 @@ assert.equal(resolveWorkshopSignals(blackout)[0].text, 'Stand by for the entranc
 assert.deepEqual(next.nodeIds, ['lane-bench'])
 assert.equal(rehearsal.cards.find(card => card.id === 'light').laneId, 'bench')
 console.log('Theatre scene recipe, cue placement and native viewpoint IDs passed.')
+
+const standalone = await readFile(new URL('../assets/examples/entrance-rehearsal.html', import.meta.url), 'utf8')
+const boardDefinition = standalone.match(/const rehearsal = validateWorkshop\([\s\S]*?\n  \}\)/)[0]
+const standaloneModel = await import('data:text/javascript,' + encodeURIComponent(
+  'import { validateWorkshop } from ' + JSON.stringify(modelURL) + '; export ' + boardDefinition))
+assert.deepEqual(standaloneModel.rehearsal, rehearsal)
+assert.ok(recipe.includes('/assets/examples/entrance-rehearsal.html'))
