@@ -49,8 +49,61 @@ If your client cannot fetch the documentation, read the same published file at h
 <td>Public</td>
 </tr>
 </tbody></table>
-<p>The shell CLI and MCP tools can read the same board and submit the same edit plan. <a href="/developers/slateboxapi/terminal-and-agents/">Edit from a terminal or an agent</a></p>
 <p>Download the OpenAPI 3.1 document for the request bodies, response schemas and operation IDs. Self-hosted instances serve their own version at <code>/api/v1/openapi.json</code>. The document can be read before issuing a token. <a href="https://api.slatebox.com/v1/openapi.json">OpenAPI for Slatebox Cloud</a></p>
+<h2 id="work-on-the-same-decision-map">Work on the same decision map</h2><p>The canvas, CLI, MCP and HTTP API work on the same saved slate. The HTTP paths below are relative to <code>/v1</code> in Slatebox Cloud or <code>/api/v1</code> on your own instance. Check the OpenAPI schema on the instance you plan to use.</p>
+<table>
+<thead>
+<tr>
+<th>In the app</th>
+<th>Shell command</th>
+<th>MCP tool</th>
+<th>HTTP operation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Start a private map from a brief</td>
+<td><code>slatebox create</code></td>
+<td><code>create_slate</code></td>
+<td><code>POST /slates</code></td>
+</tr>
+<tr>
+<td>Open the saved map</td>
+<td><code>slatebox read</code></td>
+<td><code>get_slate</code></td>
+<td><code>GET /slates/{shareId}</code></td>
+</tr>
+<tr>
+<td>Ask the side conversation to add a branch</td>
+<td><code>slatebox branch</code></td>
+<td><code>add_map_branch</code></td>
+<td>Submit <code>add_map_branch</code></td>
+</tr>
+<tr>
+<td>Change the instruction at a station</td>
+<td><code>slatebox outcome</code></td>
+<td><code>update_map_outcome</code></td>
+<td>Submit <code>update_map_outcome</code></td>
+</tr>
+<tr>
+<td>Drag the token to a connected station or choose it by keyboard</td>
+<td><code>slatebox move</code></td>
+<td><code>move_workshop_card</code></td>
+<td>Submit <code>move_workshop_card</code></td>
+</tr>
+<tr>
+<td>Create an invitation from <strong>Share</strong></td>
+<td><code>slatebox share</code></td>
+<td><code>create_slate_invite</code></td>
+<td><code>POST /slates/{shareId}/invite</code></td>
+</tr>
+<tr>
+<td>Withdraw that link</td>
+<td><code>slatebox unshare</code></td>
+<td><code>revoke_slate_invite</code></td>
+<td><code>DELETE /slates/{shareId}/invite/{inviteId}</code></td>
+</tr>
+</tbody></table>
+<p>Submit map edits and moves to <code>POST /slates/{shareId}/operations</code>. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use <strong>Manage Team</strong>. To reorder presentation views, open the slate in the app. <a href="/examples/review-a-backfill/">Run the backfill review</a> · <a href="/developers/slateboxapi/terminal-and-agents/">CLI and MCP setup</a> · <a href="/developers/slateboxapi/organizations/">Team enrollment</a></p>
 <h2 id="authentication">Authentication</h2><p>Sign in, open <strong>Profile → Developer access</strong>, and create a personal token. Copy it into a local secret store when issued. Send it in the <code>Authorization: Bearer</code> header. The service checks the token&#39;s scopes and the account&#39;s current access on every request. Revoke unused tokens in the same profile panel. <a href="https://app.slatebox.com/profile">Developer access</a></p>
 <p>For the shell examples, set <code>SLATEBOX_TOKEN</code> in your terminal through your secret manager and set <code>SLATEBOX_SHARE_ID</code> to the identifier following <code>/canvas/</code> in a slate you can access. Public web pages should call their own backend when requests require personal credentials. The Worker also accepts the original app-style <code>/api/v1/slates/…</code> paths. <a href="/developers/slateboxapi/slates/">Read, preview and apply an edit</a></p>
 <h2 id="embed-a-published-board">Embed a published board</h2><p>For an interactive walkthrough, open <strong>View previous versions</strong> in the presentation editor and select <strong>Copy embed code</strong> on the published version. Readers can advance through the viewpoints inside your page. <a href="/examples/embed-a-walkthrough/">Try a walkthrough in a handbook</a></p>
@@ -59,4 +112,4 @@ If your client cannot fetch the documentation, read the same published file at h
   src=&quot;https://api.slatebox.com/embed/YOUR_PUBLISHED_SLATE_ID&quot;&gt;&lt;/iframe&gt;
 </code></pre>
 <h2 id="migration-from-organization-hmac-credentials">Migration from organization HMAC credentials</h2><p>Replace request signatures, public keys and timestamp headers with a personal bearer token. Migrate decision-map creation to <code>POST /v1/slates</code> with a brief and an idempotency key. Older prompt magic links, standalone layout and v1.0 WebSocket embed scripts were retired. <a href="/developers/slateboxapi/slates/#create-a-private-decision-map">Create a private decision map</a> Use <strong>Manage Team</strong> in the app to invite colleagues. <a href="/developers/slateboxapi/organizations/">Team administration</a></p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#introduction" >Introduction</a><a href="#authentication" >Authentication</a><a href="#embed-a-published-board" >Embed a published board</a><a href="#migration-from-organization-hmac-credentials" >Migration from organization HMAC credentials</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#introduction" >Introduction</a><a href="#work-on-the-same-decision-map" >Work on the same decision map</a><a href="#authentication" >Authentication</a><a href="#embed-a-published-board" >Embed a published board</a><a href="#migration-from-organization-hmac-credentials" >Migration from organization HMAC credentials</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
