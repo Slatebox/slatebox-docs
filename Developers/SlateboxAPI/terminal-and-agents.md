@@ -58,7 +58,7 @@ npx --no-install slatebox create "$brief" --kind diagram --source call-status \
 
 Open the returned `url` to edit a note, add your team’s fallback or present the drawing. `diagram.nodes` and `diagram.connections` describe what the command created. An agent can call `create_slate` with `kind: "diagram"`, `source: "call-status"`, the same `brief` and the same `idempotency_key` to retrieve the original creation result. Read the slate again to see subsequent edits.
 
-To draw your own flow, omit `--source` and pass steps such as `Request -> Review -> Release` as the brief. Each new line can begin a separate path or a standalone note. A diagram brief accepts up to 1,200 characters. The other available public sources are `interview-notes` and `sign-in-outage`. [See the example drawing](https://slatebox.com/product/intelligence/) · [HTTP request](slates.md#create-a-native-diagram)
+To draw your own flow, omit `--source` and pass steps such as `Request -> Review -> Release` as the brief. Each new line can begin a separate path or a standalone note. A diagram brief accepts up to 1,200 characters. The other available public sources are `interview-notes` and `sign-in-outage`. [See the example drawing](https://slatebox.com/product/intelligence/) · [Draw two spend-cap policies from a brief](../../Examples/agent-spend-cap.md) · [HTTP request](slates.md#create-a-native-diagram)
 
 ## Create a private decision map
 
