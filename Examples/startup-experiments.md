@@ -4,6 +4,14 @@ description: Turn an interview quote into a prototype brief, or allocate a pilot
 group: Interactions
 ---
 
+## Turn interviews into a test
+
+In the research example, one customer wants a sample file and another wants to undo an import. Follow both arrows to the concern they share. The final note proposes a reversible preview. [See the research slate](https://slatebox.com/use-cases/research-synthesis/)
+
+Choose **Open the research slate**. Replace one sample quote with words from your own interview. Move it and check where its connector leads. Invite your designer to edit the proposed test, then present the drawing together. [Share a slate](../Using-Slatebox/readme.md#work-with-a-team)
+
+## Allocate a pilot budget
+
 A founder has $600 for onboarding research. A $200 newsletter placement gets the team in front of a partner’s audience. The same $200 covers two assisted imports in which the team can watch customers use the product.
 
 1. Open the pilot budget. Drag its second $200 allocation over **Partner newsletter**. While you hold it there, the placement count changes. Press Escape to cancel.
@@ -30,4 +38,4 @@ export default function PilotBudget() {
 }
 ```
 
-For the interview exercise, initialize state with `createInterviewWorkshop` from the same model entry point. Pick Bea’s quote about clients already added by hand. The component displays its built-in duplicate-client example and saves Bea’s quote in the brief. The screen layout and client rows are part of the example component. To make your own diagram, use the whiteboard editor to add notes and connect them. Pass `readOnly` when embedding a workshop for viewing. [Try the interview workshop](https://slatebox.com/use-cases/research-synthesis/)
+For a separate quote-selection workshop, initialize state with `createInterviewWorkshop` from the same model entry point. Pick Bea’s quote about clients already added by hand. The component displays its built-in duplicate-client example and saves Bea’s quote in the brief. The screen layout and client rows are part of the example component. To make your own diagram, use the whiteboard editor to add notes and connect them. Pass `readOnly` when embedding a workshop for viewing.
