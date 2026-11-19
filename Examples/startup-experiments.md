@@ -50,4 +50,4 @@ const view = mountWorkshop(document.querySelector('#pilot-budget'), budget, {
 })
 ```
 
-Use `view.update(nextBudget)` to apply a teammate’s saved changes. Call `view.destroy()` when removing the embed. For a view-only preview, pass `readOnly: true` when mounting. The embedding code is plain JavaScript. The engine adapter uses its React peers internally. [Set up the SlateboxJS package](../Developers/JavaScriptLibrary/creative-slates.md#mount-a-map-from-plain-javascript)
+Use `view.update(nextBudget)` to apply a teammate’s saved changes. Call `view.destroy()` when removing the embed. For a view-only preview, pass `readOnly: true` when mounting. The embedding code is plain JavaScript. The engine adapter uses its React peers internally. [Set up the SlateboxJS package](../Developers/JavascriptLibrary/creative-slates.md#mount-a-map-from-plain-javascript)

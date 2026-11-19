@@ -1,5 +1,6 @@
 import {readFile, readdir, stat} from 'node:fs/promises'
 import {join, dirname} from 'node:path'
+import {marked} from 'marked'
 import './check-museum.mjs'
 import './check-theatre.mjs'
 import './check-recording-workshop.mjs'
@@ -35,6 +36,7 @@ for (const file of kitFiles) {
   }
 }
 const guideLinks=new Set([...guideIndex.matchAll(/\]\((https:\/\/docs\.slatebox\.com\/[^)]+\.md)\)/g)].map(match=>match[1]))
+const publishedGuides = new Set(guideLinks)
 for(const file of files){
   const doc=await readFile(file,'utf8')
   const source=new URL(file.slice(root.length).replace(/index\.html$/,''),'https://docs.slatebox.com')
@@ -46,6 +48,13 @@ for(const file of files){
     if(!guideIndex.includes(']('+mirror+')')) errors.push(file+' missing direct Markdown mirror in agent index')
     if(!prompt?.includes(markdown) || !prompt.includes(mirror) || !doc.includes('data-copy-agent')) errors.push(file+' missing copyable guide prompt')
     const raw=await readFile(join(root,new URL(markdown).pathname),'utf8')
+    marked.walkTokens(marked.lexer(raw), token => {
+      if (token.type !== 'link') return
+      const url = new URL(token.href, markdown)
+      if (url.origin === source.origin && url.pathname.endsWith('.md') && !publishedGuides.has(url.origin + url.pathname)) {
+        errors.push(markdown + ' links to an unpublished Markdown path ' + url.pathname)
+      }
+    })
     if(!raw.startsWith('# ')) errors.push(file+' missing Markdown title')
     const rawPrompt=raw.match(/^## Agent prompt\n\n```text\n([\s\S]*?)\n```/m)?.[1]
     const escaped=rawPrompt?.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;")
