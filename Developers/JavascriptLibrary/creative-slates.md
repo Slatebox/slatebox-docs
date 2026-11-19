@@ -69,7 +69,7 @@ const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopF
 
 Move **Ferry horn** to **Record on Friday**. Friday now shows one occupied slot. Move the horn back to **Pitches** and try moving **Dawn chorus from last week** to Friday. Its destination rule keeps it out even with the recorder available. [Open the recording workshop](https://app.slatebox.com/new/workshop#model=%7B%22version%22%3A1%2C%22title%22%3A%22Friday+field+recordings%22%2C%22lanes%22%3A%5B%7B%22id%22%3A%22lane-1%22%2C%22label%22%3A%22Pitches%22%7D%2C%7B%22id%22%3A%22lane-2%22%2C%22label%22%3A%22Archive%22%7D%2C%7B%22id%22%3A%22lane-3%22%2C%22label%22%3A%22Record+on+Friday%22%2C%22capacity%22%3A1%7D%5D%2C%22cards%22%3A%5B%7B%22id%22%3A%22card-1%22%2C%22label%22%3A%22Ferry+horn%22%2C%22laneId%22%3A%22lane-1%22%7D%2C%7B%22id%22%3A%22card-2%22%2C%22label%22%3A%22Dawn+chorus+from+last+week%22%2C%22laneId%22%3A%22lane-2%22%2C%22allowedLaneIds%22%3A%5B%22lane-2%22%2C%22lane-1%22%5D%7D%5D%7D)
 
-Use the exported model helpers with the current [SlateboxJS build](readme.md#quick-slate). A host embedding `WorkshopBoard` can supply `onAddCard(laneId, anchorElement)` and `onEditLane(laneId, anchorElement)` to open its own controls at the selected lane. To make the workshop directly on the canvas, [start with two empty lanes](../../Using-Slatebox/readme.md#start-a-blank-workshop).
+Use the model helpers to add a card, set its destinations and update the mounted board. To build the same workshop in Slatebox, send these changes in the conversation beside the canvas. [Try the recording workshop](../../Using-Slatebox/readme.md#start-a-blank-workshop)
 
 ## Add a path to a map
 
