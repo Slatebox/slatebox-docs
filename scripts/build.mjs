@@ -138,12 +138,12 @@ for (const p of pages) {
   const prompt = copyablePrompt(promptFor(p), '/'+p.file)
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
-const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'The same files are available from the [published documentation repository]('+publishedFiles+'/llms.txt). To fetch a guide there, append its case-sensitive path to '+publishedFiles+'/.', '']
+const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
 agentIndex.push('[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)', '',
   'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '',
-  '[Current self-host release record]('+base+'/assets/self-host/release.json)', '')
+  '[Current self-host release record]('+base+'/assets/self-host/release.json) · [GitHub mirror]('+publishedFiles+'/assets/self-host/release.json)', '')
 for (const section of sections) {
-  agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+')'),'')
+  agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+') · [GitHub mirror]('+publishedFiles+'/'+p.file+')'),'')
 }
 await writeFile(path.join(out,'llms.txt'),agentIndex.join('\n'))
 const browsePrompt = 'Read the official Slatebox documentation index at '+base+'/llms.txt. Ask me what I want to build or operate, pick the matching guide, and use its documented steps to verify the result.'
