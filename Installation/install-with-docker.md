@@ -32,6 +32,14 @@ Everything Slatebox stores is in the Docker volume `slatebox-data`, mounted at `
 
 The container itself holds no state. You can remove it and start a new one on the same volume at any time. Removing the volume deletes your slates.
 
+To keep the data in a folder on a Linux host instead of a volume, make the folder and run the container as its owner:
+
+```sh
+mkdir -p ~/slatebox-data
+docker run -d --name slatebox -p 7070:7070 --user "$(id -u):$(id -g)" \
+  -v ~/slatebox-data:/data ghcr.io/slatebox/slatebox
+```
+
 ## Use a public address with HTTPS
 
 `localhost` only works on the machine that runs Docker. For a team, give Slatebox a host name. Point the DNS name at your server, allow inbound TCP ports 80 and 443, and start Slatebox with its address:
@@ -81,15 +89,16 @@ Every option is optional. Give one with `-e NAME=value` in the `docker run` comm
 | `SLATEBOX_URL` | The address people type to reach this Slatebox. Default `http://localhost:7070`. |
 | `SLATEBOX_HTTPS` | Set to `off` when your own proxy terminates HTTPS. Otherwise an `https://` address turns on built-in HTTPS on ports 80 and 443. |
 | `SLATEBOX_ACME_CA` | The ACME directory URL of your own certificate authority, when certificates should not come from Let's Encrypt. |
-| `SLATEBOX_MAIL_URL` | An `smtp://` or `smtps://` URL, for example `smtp://user:password@mail.example.com:587`. Turns on invitations, email verification and password-reset mail. Mail is sent from `Slatebox <info@slatebox.com>`, so use a mail service that accepts that sender. |
+| `SLATEBOX_MAIL_URL` | An `smtp://` or `smtps://` URL, for example `smtp://user:password@mail.example.com:587`. Turns on invitations, email verification and password-reset mail. |
+| `SLATEBOX_MAIL_FROM` | The address mail is sent from, for example `Slatebox <boards@example.com>`. Use an address your mail service accepts as a sender. When the user name in `SLATEBOX_MAIL_URL` is itself an address, that address is used and this option can be left out. |
 | `SLATEBOX_AI_KEY` | A [DeepInfra](https://deepinfra.com) API key. Turns on AI drafts. |
 | `SLATEBOX_AI_URL` and `SLATEBOX_AI_MODEL` | Use your own OpenAI-compatible endpoint and model for AI drafts. `SLATEBOX_AI_KEY` is then that endpoint's bearer token, if it needs one. |
 | `SLATEBOX_SETTINGS` | A JSON object with further app settings. `{"daily":{"apiKey":"..."}}` supplies the [Daily](https://www.daily.co) key that audio and video calls need. |
 | `MONGO_URL` | Use a MongoDB replica set you run elsewhere. The bundled database is then not started. `MONGO_OPLOG_URL` is passed to the app as well when set. |
 
-A misspelled `SLATEBOX_` option stops the container with the list of valid names, so an option is never silently ignored. To change an option, remove the container and run it again with the new value; your data stays in the volume.
+A misspelled option, or one written in lower case, stops the container with the list of valid names, so an option is never silently ignored. To change an option, remove the container and run it again with the new value; your data stays in the volume.
 
-Features that need an outside service say so when it is not configured, and everything else keeps working. Without mail, slates are shared by link and Slatebox says that it cannot send a verification mail. Without an AI key, a request for a draft answers that the administrator can turn drafting on. Without a Daily key, starting a call answers that calls are unavailable.
+Features that need an outside service say so when it is not configured, and everything else keeps working. Without mail, slates are shared by link, Slatebox says that it cannot send a verification mail, and a forgotten password is reset with a link you make (see [Forgotten passwords](#forgotten-passwords)). Without an AI key, a request for a draft answers that the administrator can turn drafting on. Without a Daily key, starting a call answers that calls are unavailable.
 
 ## Upgrade
 
@@ -123,6 +132,16 @@ The restore checks the file before it changes anything, pauses Slatebox for a fe
 
 With `MONGO_URL` set, your slates are in your own database; back that up with its own tools.
 
+## Forgotten passwords
+
+With mail on, **Forgot password** on the sign-in page sends a reset link. With or without mail, you can make one for a person yourself:
+
+```sh
+docker exec slatebox slatebox password-link person@example.com
+```
+
+Give the printed link to that person only. It sets a new password once and expires after three days.
+
 ## Troubleshooting
 
 Start with the log. Each line names the part of Slatebox that wrote it:
@@ -134,10 +153,11 @@ docker logs slatebox
 | What you see | What to do |
 | --- | --- |
 | The page says "Slatebox is starting" for more than a few minutes | Read `docker logs slatebox`. The last `[slatebox]` lines say which part did not come up. |
-| The page says "Slatebox is set up for another address" | You opened Slatebox at an address other than `SLATEBOX_URL`. Start the container again with the address you want to use. This also happens when you publish a port other than 7070 without setting `SLATEBOX_URL`. |
+| The page says "Slatebox is set up for another address" | You opened Slatebox at an address other than `SLATEBOX_URL`. Remove the container and run your `docker run` command again with `-e SLATEBOX_URL=` and the address you want to use; `docker start` cannot add an option. This also happens when you publish a port other than 7070 without setting `SLATEBOX_URL`. |
 | `docker ps` shows the container restarting or exited | A required part stopped. `docker logs slatebox` names it in a line that says `stopped unexpectedly`. |
 | The log says `Unknown setting` | An option name is misspelled. The message lists the valid names. |
-| The log says `/data is not writable` | Mount a Docker volume at `/data`, as in the command above. |
+| The log says `/data is not writable` | The log names the owner of the folder mounted at `/data`. Add `--user` with that owner to the `docker run` command, or mount a Docker volume at `/data` instead. |
+| The log says `SLATEBOX_MAIL_URL also needs SLATEBOX_MAIL_FROM` | Add `-e SLATEBOX_MAIL_FROM=` with an address your mail service accepts as a sender. |
 | The log says `holds a database but /data/secrets/secrets.json is missing` | The `db` and `secrets` folders of the volume belong together. Use the complete volume, or start on a new, empty volume and restore a backup into it. |
 | `port is already allocated` when starting | Another program uses port 7070. Publish a different one, for example `-p 8080:7070 -e SLATEBOX_URL=http://localhost:8080`. |
 | With built-in HTTPS, the browser reports a certificate error | The certificate could not be issued yet. Check that the DNS name points at this server and that ports 80 and 443 reach the container. The log lines from `[proxy]` give the reason. |
@@ -156,7 +176,7 @@ The Slatebox app, the SlateboxJS canvas engine and the collaboration relay are M
 | MongoDB Community Server | Server Side Public License (SSPL) v1 |
 | MongoDB Database Tools, Caddy | Apache License 2.0 |
 | Node.js, Meteor, tini | MIT |
-| Fonts for rendering slate images | SIL Open Font License 1.1 or Apache License 2.0, per family |
+| Fonts for the interface and for rendering slate images | SIL Open Font License 1.1 or Apache License 2.0, per family |
 | Ubuntu base system and npm packages | Each under its own license |
 
 The image as a whole is therefore not MIT licensed. In particular the SSPL is not an MIT-style license; read it if you plan to offer the database to others as a service. Setting `MONGO_URL` runs Slatebox without starting the bundled MongoDB. The complete list and every license text ship inside the image:
@@ -173,4 +193,4 @@ The image is built from three source repositories: the Slatebox app, SlateboxJS,
 ./build-image.sh /path/to/slateboxjs /path/to/y-websocket
 ```
 
-It builds from committed files only, labels the image with the three source revisions and prints the command to run it. [Development](../Developers/development.md)
+It builds from committed files only, labels the image with the three source revisions and prints the command to run it. To work on the source itself, see [Development](../Developers/development.md).

@@ -66,7 +66,7 @@ For whole-board framing on the direct API use `slate.fitToContent()`.
 
 ## scaleToFitNodes
 
-Legacy integrations sometimes frame a selected subset. `slate.fitToContent()` frames the whole canvas. A subset view requires an explicit viewport calculation from the chosen nodes.
+`slate.fitToContent()` frames the whole canvas. To frame a selected subset, calculate the viewport from the chosen nodes.
 
 ## centerOnNodes
 
