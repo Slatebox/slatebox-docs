@@ -20,6 +20,14 @@ try {
     if (status.textContent !== summary) status.textContent = summary
     add.disabled = busy || !slate.getNode('recording') || Boolean(slate.getNode('glass'))
     reset.disabled = busy
+    requestAnimationFrame(keepInView)
+  }
+  // The canvas is small: when a note ends up outside it, show the whole drawing again.
+  function keepInView() {
+    if (busy || el.querySelector('.sb-inline-editor')) return
+    const view = slate.canvas.viewbox()
+    const outside = slate.getAllNodes().some(({options: note}) => note.x < view.x || note.y < view.y || note.x + note.width > view.x + view.width || note.y + note.height > view.y + view.height)
+    if (outside) slate.fitToContent()
   }
   const slate=new Slate(stage,{name:'Field recording',viewPort:{originalWidth:560,originalHeight:252},containerStyle:{backgroundColor:'#f3f0e3'},showBirdsEye:false,showZoom:false,showMultiSelect:false,events:{onSlateChanged:refresh}})
   function note(id,x,y,text,color){return slate.addNode({id,x,y,width:146,height:64,shape:'rectangle',text,backgroundColor:color,foregroundColor:'#24392f',fontSize:17})}
@@ -27,6 +35,7 @@ try {
   await Promise.all([rain.ready,recording.ready])
   rain.relationships.addAssociation(recording)
   original = slate.exportJSON()
+  const home = slate.canvas.viewbox()
   refresh()
   add.onclick = async () => {
     busy = true
@@ -46,7 +55,8 @@ try {
     refresh()
     try {
       slate.clearSelection()
-      await slate.loadJSON(original)
+      await slate.loadJSON(original, false, true)
+      slate.canvas.viewbox(home.x, home.y, home.width, home.height)
     } finally {
       busy = false
       refresh()
