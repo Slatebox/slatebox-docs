@@ -8,7 +8,7 @@ On Pro or a paid Team plan, ask a follow-up about the drawing. For example, “D
 
 To see a source and its diagram together, open the call-status example. The two paths show what happened to new and existing calls during an outage. **Open the call diagram in a private slate** gives you the same drawing to edit. [See the call diagram](https://slatebox.com/product/intelligence/)
 
-Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
+Select a shape and tap one of its round connection handles. A connected shape appears beside it, ready for you to type its name. To place the new shape somewhere specific, drag the handle into open space. To rename any shape, select it and start typing, or double-tap it. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
 
 Give your slate a recognizable name. If you began as a guest, register the guest account in that browser before relying on access from another device. Keep the canvas link. People opening a private link still need permission.
 

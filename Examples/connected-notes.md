@@ -5,11 +5,13 @@ group: Canvas
 demo: canvas
 ---
 
-In the live canvas, select **Field recording**. Click its left round connector to add a blank note in the space beside it, or drag the connector into open space to place the note there. Select the new note, press **F2**, type “Transcript” and press **Enter**. Move the transcript to see the line follow. Choose **Reset** to return to the original two notes.
+Select **Field recording** and click one of its round connectors. A new note appears, already connected and ready for typing. Type “Transcript” and press **Enter**. Drag the new note and its line follows. **Reset** brings back the original two notes.
 
-With a keyboard, Tab to **Field recording** and press Space to select it. Tab through the direction buttons to **Add connected note to the left** and press Enter. The new blank note receives focus. Press F2, type “Transcript” and press Enter to keep the name. Escape from a direction button returns you to the source note.
+To put the new note somewhere specific, drag the connector into open space instead of clicking it.
 
-To reproduce that connection in your own app, create both notes and save their relationship with the slate.
+Everything works from the keyboard too. Tab to a note, press Space to select it, Tab to a connector and press Enter, then type the name.
+
+To make the same connection in your own app, create both notes and save their relationship with the slate.
 
 Start with the [single-file HTML example](../Developers/JavascriptLibrary/readme.md#quick-slate), or serve an HTML page containing this stylesheet and canvas container.
 
