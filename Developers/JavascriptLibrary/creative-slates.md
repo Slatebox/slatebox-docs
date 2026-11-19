@@ -5,6 +5,34 @@ description: Embed a controlled board or build a branching map your team can ope
 
 A board takes its saved model as `value`. Supply `onChange` to receive the committed decision. For a presentation, pass `readOnly` to show that decision. A facilitator can choose a different result later by returning to the editor.
 
+## Mount a map from plain JavaScript
+
+Give the board a container, import the stylesheet and mount a validated model. This example gives a release reviewer another place to send a change. Drag the token along a route or use its keyboard control. The map uses native SlateboxJS objects and Dragology handles the permitted moves.
+
+```html
+<div id="review-map"></div>
+```
+
+```js
+import 'slateboxjs/style.css'
+import { mountWorkshop } from 'slateboxjs/workshops/mount'
+import { createWorkshopMap, addWorkshopBranch } from 'slateboxjs/workshops/model'
+
+const draft = createWorkshopMap()
+draft.lanes[0].label = 'Review change'
+const review = addWorkshopBranch(draft, draft.lanes[0].id, {
+  label: 'Request evidence',
+  outcome: 'Attach an example before the review continues.'
+})
+const view = mountWorkshop(document.querySelector('#review-map'), review, {
+  onChange(next) {
+    localStorage.setItem('review-map', JSON.stringify(next))
+  }
+})
+```
+
+Use `view.update(next)` when your server sends a revised model. Call `view.destroy()` when removing the embed. Install the React and React DOM peers listed in the matched engine package. The embedding page and the agent author only JavaScript and board data. [Get the matched engine build](readme.md#quick-slate)
+
 ## Pick a board
 
 | What your visitor does | React component | Try it |
@@ -69,7 +97,7 @@ const routes = addWorkshopBranch(map, 'start', {
 const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopFragment(routes)
 ```
 
-Open the generated URL and move **Field microphone** to **By the reeds**. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, select a station and choose **Add a branch**. [Create an interactive map](https://app.slatebox.com/new/map)
+Open the generated URL and move **Field microphone** to **By the reeds**. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, ask the side conversation to “Add By the reeds after Bridge entrance” and keep the change. [Create a slate](https://app.slatebox.com/new)
 
 ## Give a map station an image
 

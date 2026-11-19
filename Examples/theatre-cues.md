@@ -54,6 +54,6 @@ Before the move, the doorway stays dark. The opening scene now reads **The doorw
 
 ## Try a different light
 
-In your slate, choose **Edit an object**, select **Warm sidelight up**, then open **Entrance call** under **Placement outcomes**. Choose the scene and write the two messages your crew needs. For a blackout, try “Wait for the door to close” when the cue is present and “Stand by for the entrance” when it is elsewhere. Save, move the cue and present the scene to check the new call.
+In the side conversation, send `Set outcome Entrance call for Warm sidelight up in Door opens: Wait for the door to close | Stand by for the entrance`. Keep the change, move the cue and present the scene to check the new call.
 
 In a custom monitor, pass the candidate board from `WorkshopBoard.onPreview` into `resolveWorkshopSignals`. Use the resolved `present` value to paint the light and `text` for the crew’s call. When the preview clears, render from the committed board again. Publishing saves that revision for the crew. Later edits become visible at the same link when you publish again. [Publish a workshop handoff](/examples/embed-a-walkthrough/#publish-a-workshop-handoff)

@@ -51,7 +51,7 @@ Use `onPreview` for a linked view that can change while dragging. Use `onChange`
 
 The producer sorts observations from left to right on the board. At the rehearsal, the hosts need to see the two cues they picked first. Set `presentationOrder` to the lane IDs in speaking order. Select **Present** on the imported slate to open **Next sound check**, then advance to **Field notes**. A teammate can swap a cue before the review and the first scene will show the new selection.
 
-To change the order in the app, return to the board and choose **Presentation order**. Pick a scene, set its position and save.
+To change the order in the app, ask the side conversation to “Present Door opens first”, using the scene name on your board. Check the sequence and keep the change.
 
 Include each lane ID exactly once. Leaving the field out uses the board’s lane order. To render your own readout, import `workshopPresentationLanes` from `slateboxjs/workshops/model` and pass it the saved workshop. Each returned lane has its board ID, so you can select its cards by `laneId`.
 
