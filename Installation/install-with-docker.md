@@ -27,7 +27,7 @@ Use Docker Engine and CLI 28.1 or newer with Compose v2 on a matching Linux Dock
 sha256sum -c slatebox-*.tar.sha256
 ```
 
-Continue once the checksum reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. Extract the kit and launch it on your Docker host.
+For a release listed in the public record, compare the digest in the supplied checksum file with `sha256` for your platform and check that `wc -c < slatebox-*.tar` reports the recorded byte count. Extract the archive once those values match and the checksum command reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. Launch it on your Docker host.
 
 ```sh
 tar -xf slatebox-*.tar
