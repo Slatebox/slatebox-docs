@@ -2,6 +2,6 @@
   "name": "slatebox-documentation",
   "private": true,
   "type": "module",
-  "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/check.mjs && node --test scripts/check-release-start.mjs scripts/check-instance-restore.mjs scripts/check-call-provider.mjs", "test:backup-docker": "bash scripts/check-instance-backup.sh"},
+  "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/check.mjs"},
   "dependencies": {"marked":"15.0.12","github-slugger":"2.0.0","yaml":"2.8.1"}
 }

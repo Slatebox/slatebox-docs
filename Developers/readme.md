@@ -9,6 +9,6 @@ Choose the interface that owns the data you want to change.
 | Edit a private board from a shell or an MCP client | [Terminal and agent tools](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
-| Run an installation for your organization | [Install with Docker](../Installation/install-with-docker.md) |
+| Run your own Slatebox | [One Docker command](../Installation/install-with-docker.md) |
 
-The app and SVG.js engine are MIT licensed. Request their source or a matched Docker release from Slatebox. The collaboration relay source is public. [Get a self-host release](../Installation/install-with-docker.md#get-the-release) · [Read the relay source](https://github.com/Slatebox/y-websocket)
+The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. One Docker image runs all three with a database. [Run your own Slatebox](../Installation/install-with-docker.md) · [What the image contains and its licenses](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · [Read the relay source](https://github.com/Slatebox/y-websocket)

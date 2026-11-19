@@ -3,7 +3,6 @@ import path from 'node:path'
 import {Marked} from 'marked'
 import {museumExample} from './museum-example.mjs'
 import {gzipSync} from 'node:zlib'
-import {execFileSync} from 'node:child_process'
 import GithubSlugger from 'github-slugger'
 import {parse as yaml} from 'yaml'
 const root = process.cwd()
@@ -39,7 +38,7 @@ const entries = [
   {url:'/using-slatebox/', title:'Use the app',desc:'Create a private slate, invite a teammate and present your work.'},
   {url:'/developers/javascriptlibrary/', title:'Build with SlateboxJS',desc:'Draw a node, connect two ideas and save the canvas as JSON.'},
   {url:'/developers/slateboxapi/', title:'Connect your application',desc:'Read a slate and preview a change with a scoped API token.'},
-  {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Bring up the app and collaboration services with Docker.'}
+  {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one Docker command.'}
 ]
 const demos = {
   river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
@@ -73,10 +72,10 @@ function list(rows) {
 function promptFor(p) {
   const source = base+'/'+p.file
   if (p.section === 'Self-hosting') return [
-    'Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at '+source+'.',
-    'Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.',
-    'For a new install, read the current kit record at '+base+'/assets/self-host/release.json or its mirror at '+publishedFiles+'/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. Keep that release ID so we can verify the same kit even if a newer one appears. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
-    'Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
+    'Help me run my own Slatebox with Docker. Read the official installation guide at '+source+'.',
+    'Check that Docker is running on the target host, which address people will use to reach Slatebox, and whether a container named slatebox or a volume named slatebox-data already exists. If one exists, keep the volume and follow the upgrade steps in the guide instead of starting over.',
+    'For a new installation, run the one docker run command from the guide, wait until docker ps reports the container as healthy, and give me the address to open. Add only the settings from the guide that my answers call for.',
+    'Then show me how to confirm that a slate survives a reload and that a second browser sees my edits as I make them. Report which checks actually ran and what still needs my input.'
   ].join('\n\n')
   const task = {
     Examples: 'Help me try the Slatebox example “'+p.title+'”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.',
@@ -126,11 +125,6 @@ function render(p) {
   return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+agentTools(promptFor(p),'/'+p.file)+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+'<strong>On this page</strong>'+link('#agent-prompt','Agent prompt')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
-const kitRecords = path.join(out, 'assets/self-host/releases')
-const latestKit = (await readdir(kitRecords)).filter(name => /^\d{8}T\d{6}Z\.json$/.test(name)).sort().at(-1)
-if (!latestKit) throw new Error('The install guide needs a verified kit record.')
-await cp(path.join(kitRecords, latestKit), path.join(out, 'assets/self-host/release.json'))
-execFileSync('python3',['scripts/bundle-release-tools.py',path.join(out,'assets/self-host')])
 for (const p of pages) {
   await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas','/'+p.file))
   const markdown = path.join(out,p.file)
@@ -140,8 +134,7 @@ for (const p of pages) {
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
 agentIndex.push('[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)', '',
-  'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '',
-  '[Current self-host release record]('+base+'/assets/self-host/release.json) · [GitHub mirror]('+publishedFiles+'/assets/self-host/release.json)', '')
+  'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '')
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+') · [GitHub mirror]('+publishedFiles+'/'+p.file+')'),'')
 }
