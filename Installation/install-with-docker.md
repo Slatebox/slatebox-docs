@@ -7,9 +7,9 @@ Help me install the current self-hosted Slatebox on my Docker host. Read the off
 
 Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.
 
-For a new install, use the matching Slatebox release kit and its SHA-256 checksum. If I do not have both, tell me exactly what to request and pause there. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.
+For a new install, read the current kit record at https://docs.slatebox.com/assets/self-host/release.json or its mirror at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.
 
-Verify the checksum, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.
+Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.
 
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md.
 ```
@@ -28,6 +28,8 @@ The self-hosted release is called **Slatebox**. The whiteboard app and SlateboxJ
 | A hosted Slatebox account | [Open Slatebox Cloud](https://app.slatebox.com/start) to use a board immediately. |
 
 The public `timheckel/slatebox-community:latest` image on Docker Hub was last updated in July 2022. Its `latest` tag points to that historical release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
+
+The [current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) lists the verified app, engine and relay revisions. Under `platforms`, find your host’s architecture to get the exact archive filename, byte count and SHA-256 digest. The `distribution` field tells your agent how to obtain the kit. If you requested an older release, use its own checksum. [Release record mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
 
 ## Start from a release kit
 
