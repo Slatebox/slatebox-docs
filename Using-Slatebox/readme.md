@@ -12,9 +12,11 @@ If your client cannot fetch the documentation, read the same published file at h
 
 ## Start your first slate
 
-Choose **Plan a $600 pilot budget** or **Turn interviews into a prototype brief** to open a private example you can change. [Try a design partner experiment](../Examples/startup-experiments.md)
+Choose **Create slate**. Sketch on the canvas or describe the work in the conversation beside it. Try “Draw a flow from Request to Review to Approve” for three connected, editable notes. Paste steps or interview notes to give the conversation material to work with. [Create a slate](https://app.slatebox.com/new)
 
-Choose **Open a blank slate** for a freeform canvas. Add a note for the decision, add one for the evidence, and connect them. Choose **Create an interactive map** when participants should move a token along paths you define. [Start a slate](https://app.slatebox.com/start)
+On Pro or a paid Team plan, ask a follow-up about the drawing. For example, “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” Slatebox can use the notes and connections already on the canvas. Review the proposed notes and arrows, then choose **Keep changes** to add them.
+
+To see a source and its diagram together, open the call-status example. The two paths show what happened to new and existing calls during an outage. **Open the call diagram in a private slate** gives you the same drawing to edit. [See the call diagram](https://slatebox.com/product/intelligence/)
 
 Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
 
@@ -24,30 +26,32 @@ If a teammate sends you an older template bookmark, the preview shows the templa
 
 ## Add a branch to an interactive map
 
-Choose **Create an interactive map**. The canvas opens with a conversation beside it. On a free slate, you can connect named steps, add a branch, rename a step or change an outcome using direct edits. Pro and paid Team accounts can describe the change to Canvas AI. [Create an interactive map](https://app.slatebox.com/new/map)
+Ask the side conversation to make the flow interactive. A map has stations, paths between them and a token the team can move. The conversation can name a station, add a branch and change what happens on arrival. Pro and paid Team accounts can also ask Canvas AI to draft changes in their own words. [Open a slate](https://app.slatebox.com/new)
 
 1. Send `First upload → Preview 10 rows → Import clients`. Try the path in the preview, then choose **Keep changes**.
 2. Send `Add Review duplicates after Preview 10 rows`. Try the new branch. Choose **Keep changes** to save it or **Discard** to return to the saved map.
 3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Keep it and reopen the slate to see the result. **Undo last change** restores the previous saved map while an undo is available.
 4. Choose **Present** to walk a teammate through the map. Give a teammate **edit** access to work on the same slate or **read** access to show the saved result. If someone edits while you are reviewing a proposal, discard it and ask again on the updated map.
 
-To show a photo or illustration when someone takes a branch, select the destination on the map and open **Add a station image**. Paste its HTTPS address, describe the image for someone who cannot see it, and choose **Save changes**. You can replace or remove it under **Edit station image**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
+To add artwork, send “For Review duplicates, set image https://example.org/review.jpg with description A highlighted duplicate customer record”, substituting your own HTTPS image and description. Review the change and choose **Keep changes**. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
 ## Start a blank workshop
 
-A field-recording team has one recorder on Friday. Give everyone a place to pitch sounds, then let the team choose which one gets the slot. [Start a blank workshop](https://app.slatebox.com/new/workshop)
+A field-recording team has one recorder on Friday. Open **Create slate**, then send “Make a workshop with Pitches and Record on Friday, limit Record on Friday to one card.” Check the names and capacity in the preview, then choose **Keep changes**. The workshop and your original drawing share one private URL. [Create a slate](https://app.slatebox.com/new)
 
-1. The new private slate opens as **Untitled workshop** with two empty lanes. Select the **Lane 1** heading, change **Name** to “Pitches” and choose **Save changes**. Rename **Lane 2** to “Record on Friday”, set **Capacity** to **1**, and save.
-2. In **Pitches**, choose **Add card**. Enter “Dawn chorus” under **Card name** and choose **Add card** to save it. Add “Ferry horn” and “Rain on glass” the same way. For another destination, choose **Add lane**, give it a name and set a capacity if needed.
-3. Share an edit link with a teammate. Drag “Dawn chorus” to **Record on Friday**, or open **Move a card by name** and select the lane. The single slot is full. To choose “Ferry horn” instead, move the chorus back to **Pitches**, then move the horn into Friday. Both editors see the same choice. [Share an edit link](#work-with-a-team)
+Send each change in the conversation beside the board. Check the preview and choose **Keep changes** when it looks right.
 
-To keep “Dawn chorus” out of a third lane, open **Edit an object**, select the card and find **Where this card can move**. Clear **Any lane, including new lanes**, choose **Record on Friday** and save. The card keeps its current lane, and teammates see only the permitted destinations that have room.
+1. If you want a different limit later, send `Set capacity of Record on Friday to 2`. Keep the single slot for this example.
+2. Send `Add card Dawn chorus to Pitches`. Add “Ferry horn” and “Rain on glass” the same way.
+3. Give a teammate an edit link. Drag “Dawn chorus” to **Record on Friday** or send `Move Dawn chorus to Record on Friday`. To choose “Ferry horn” instead, move the chorus back to **Pitches** first. [Share an edit link](#work-with-a-team)
+
+To restrict a card to these two destinations, send `Allow Dawn chorus in Pitches, Record on Friday`. Future lanes stay outside its allowed destinations until you change that rule.
 
 ## Turn a workshop into a decision
 
 Try the $600 pilot budget. Move a $200 allocation from a newsletter placement to concierge onboarding and watch the number of assisted imports change. Open the budget as a slate to keep that allocation and share it with your cofounder. [Try the pilot budget](https://slatebox.com/product/workshops/#example)
 
-To show what a move means, choose **Edit an object**, select a card and choose **Add placement outcome**. Pick its destination and write what teammates should see with the card there and with it elsewhere. Save the change, move the card, then present that destination to read the result. [Try it with a theatre cue](../Examples/theatre-cues.md)
+Give the move a consequence in the conversation. In the theatre example, send `Set outcome Entrance call for Warm sidelight up in Door opens: Bring up the sidelight | Hold the actor in shadow`. Keep the change and move the cue to hear the new call in the presentation. [Try the theatre cue](../Examples/theatre-cues.md)
 
 ## Work with a team
 

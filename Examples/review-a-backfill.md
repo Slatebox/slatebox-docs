@@ -14,7 +14,7 @@ A backfill copies customer records into a new table. The reviewer needs to know 
 
 ## Draw the expected path
 
-[Open the three steps in a private slate](https://app.slatebox.com/new/map#brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover). If you work from a terminal, use the same three steps as the brief. Slatebox uses the arrows you supply to connect the stations. [Install the CLI](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-tools)
+[Open the three steps in a private slate](https://app.slatebox.com/new#play=1&brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover). If you work from a terminal, use the same three steps as the brief. Slatebox uses the arrows you supply to connect the stations. [Install the CLI](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-tools)
 
 ```sh
 create_key=$(node -p 'crypto.randomUUID()')

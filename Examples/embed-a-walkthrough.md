@@ -24,7 +24,7 @@ For a meeting where everyone follows one person’s scene changes, use the [live
 
 Try the [theatre cue sheet](https://slatebox.com/use-cases/creative-handoffs/#rehearsal). Move **Warm sidelight up** to **Door opens** and select **Open this rehearsal in Slatebox**. The evening crew should hear which light comes up as the actor enters.
 
-1. On your private slate, use **Present** to review every scene and its cards. Use **Presentation order** on the board to change the opening scene.
+1. On your private slate, use **Present** to review each scene. Send `Present Door opens first` in the side conversation and keep the change to set the opening scene.
 2. Choose **Publish presentation** on the board. Select **Anyone with the link** for an unlisted briefing or **Public** for a public presentation. To let the evening crew adapt the cues, check **Let viewers open their own copy**. This option starts off. Select **Publish** to share the saved scenes, cards and placement outcomes. Your source slate keeps its existing sharing settings.
 3. Choose **Copy embed code** for a handbook or **Copy link** for the standalone player. Readers can move between **Door opens** and **Actor sits** in either player.
 4. Keep rehearsing on the source slate. Its edits reach the viewer link and embedded player when you choose **Republish**. To stop offering copies while keeping the briefing available, clear **Let viewers open their own copy** and republish. **Withdraw presentation** takes the briefing down and stops viewers from making new copies.

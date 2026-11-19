@@ -12,7 +12,7 @@ If your client cannot fetch the documentation, read the same published file at h
 
 ## Give the team two paths
 
-Ask your connected agent, “Create a private Slatebox decision map called Who can approve a customer refund? Give me its editor link.” Open that link as the account that issued the token. You can also [start directly in the browser](https://app.slatebox.com/new/map#brief=Who%20can%20approve%20a%20customer%20refund%3F). In the map’s side conversation, type **Ask finance or ask the account owner**. Choose **Keep changes**. Those are now two stations on your team's map. Copy the ID following `/canvas/` from the address bar.
+Ask your connected agent, “Create a private Slatebox decision map called Who can approve a customer refund? Give me its editor link.” Open that link as the account that issued the token. You can also [start directly in the browser](https://app.slatebox.com/new#play=1&brief=Who%20can%20approve%20a%20customer%20refund%3F). In the map’s side conversation, type **Ask finance or ask the account owner**. Choose **Keep changes**. Those are now two stations on your team's map. Copy the ID following `/canvas/` from the address bar.
 
 ## Preview the finance path
 

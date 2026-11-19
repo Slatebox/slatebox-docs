@@ -3,6 +3,26 @@
 Read https://docs.slatebox.com/Developers/JavascriptLibrary/creative-slates.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/creative-slates.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>A board takes its saved model as <code>value</code>. Supply <code>onChange</code> to receive the committed decision. For a presentation, pass <code>readOnly</code> to show that decision. A facilitator can choose a different result later by returning to the editor.</p>
+<h2 id="mount-a-map-from-plain-javascript">Mount a map from plain JavaScript</h2><p>Give the board a container, import the stylesheet and mount a validated model. This example gives a release reviewer another place to send a change. Drag the token along a route or use its keyboard control. The map uses native SlateboxJS objects and Dragology handles the permitted moves.</p>
+<pre><code class="language-html">&lt;div id=&quot;review-map&quot;&gt;&lt;/div&gt;
+</code></pre>
+<pre><code class="language-js">import &#39;slateboxjs/style.css&#39;
+import { mountWorkshop } from &#39;slateboxjs/workshops/mount&#39;
+import { createWorkshopMap, addWorkshopBranch } from &#39;slateboxjs/workshops/model&#39;
+
+const draft = createWorkshopMap()
+draft.lanes[0].label = &#39;Review change&#39;
+const review = addWorkshopBranch(draft, draft.lanes[0].id, {
+  label: &#39;Request evidence&#39;,
+  outcome: &#39;Attach an example before the review continues.&#39;
+})
+const view = mountWorkshop(document.querySelector(&#39;#review-map&#39;), review, {
+  onChange(next) {
+    localStorage.setItem(&#39;review-map&#39;, JSON.stringify(next))
+  }
+})
+</code></pre>
+<p>Use <code>view.update(next)</code> when your server sends a revised model. Call <code>view.destroy()</code> when removing the embed. Install the React and React DOM peers listed in the matched engine package. The embedding page and the agent author only JavaScript and board data. <a href="/developers/javascriptlibrary/#quick-slate">Get the matched engine build</a></p>
 <h2 id="pick-a-board">Pick a board</h2><table>
 <thead>
 <tr>
@@ -53,7 +73,7 @@ const ready = addWorkshopCard(pitched, archive.id, {
 const openInSlatebox = &#39;https://app.slatebox.com/new/workshop&#39; + encodeWorkshopFragment(ready)
 </code></pre>
 <p>Move <strong>Ferry horn</strong> to <strong>Record on Friday</strong>. Friday now shows one occupied slot. Move the horn back to <strong>Pitches</strong> and try moving <strong>Dawn chorus from last week</strong> to Friday. Its destination rule keeps it out even with the recorder available. <a href="https://app.slatebox.com/new/workshop#model=%7B%22version%22%3A1%2C%22title%22%3A%22Friday+field+recordings%22%2C%22lanes%22%3A%5B%7B%22id%22%3A%22lane-1%22%2C%22label%22%3A%22Pitches%22%7D%2C%7B%22id%22%3A%22lane-2%22%2C%22label%22%3A%22Archive%22%7D%2C%7B%22id%22%3A%22lane-3%22%2C%22label%22%3A%22Record+on+Friday%22%2C%22capacity%22%3A1%7D%5D%2C%22cards%22%3A%5B%7B%22id%22%3A%22card-1%22%2C%22label%22%3A%22Ferry+horn%22%2C%22laneId%22%3A%22lane-1%22%7D%2C%7B%22id%22%3A%22card-2%22%2C%22label%22%3A%22Dawn+chorus+from+last+week%22%2C%22laneId%22%3A%22lane-2%22%2C%22allowedLaneIds%22%3A%5B%22lane-2%22%2C%22lane-1%22%5D%7D%5D%7D">Open the recording workshop</a></p>
-<p>Use the exported model helpers with the current <a href="/developers/javascriptlibrary/#quick-slate">SlateboxJS build</a>. A host embedding <code>WorkshopBoard</code> can supply <code>onAddCard(laneId, anchorElement)</code> and <code>onEditLane(laneId, anchorElement)</code> to open its own controls at the selected lane. To make the workshop directly on the canvas, <a href="/using-slatebox/#start-a-blank-workshop">start with two empty lanes</a>.</p>
+<p>Use the model helpers to add a card, set its destinations and update the mounted board. To build the same workshop in Slatebox, send these changes in the conversation beside the canvas. <a href="/using-slatebox/#start-a-blank-workshop">Try the recording workshop</a></p>
 <h2 id="add-a-path-to-a-map">Add a path to a map</h2><p>A field recorder hears birdsong under a bridge. Give the sound editor a choice of microphone positions. This example adds a second path from the starting station and gives it an outcome the team can hear described when they move the token.</p>
 <p>Use the current file build from the <a href="/developers/javascriptlibrary/#quick-slate">SlateboxJS quickstart</a>.</p>
 <pre><code class="language-js">import {
@@ -74,7 +94,7 @@ const routes = addWorkshopBranch(map, &#39;start&#39;, {
 })
 const openInSlatebox = &#39;https://app.slatebox.com/new/workshop&#39; + encodeWorkshopFragment(routes)
 </code></pre>
-<p>Open the generated URL and move <strong>Field microphone</strong> to <strong>By the reeds</strong>. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, select a station and choose <strong>Add a branch</strong>. <a href="https://app.slatebox.com/new/map">Create an interactive map</a></p>
+<p>Open the generated URL and move <strong>Field microphone</strong> to <strong>By the reeds</strong>. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, ask the side conversation to “Add By the reeds after Bridge entrance” and keep the change. <a href="https://app.slatebox.com/new">Create a slate</a></p>
 <h2 id="give-a-map-station-an-image">Give a map station an image</h2><p>A gallery guide can take visitors from the whole painting to a detail. Pass an image address and a description with the branch. Moving the visitor token to that station shows the detail. Presenting the station frames the same artwork alongside its outcome.</p>
 <pre><code class="language-js">import { addWorkshopBranch, createWorkshopMap } from &#39;slateboxjs/workshops/model&#39;
 
@@ -106,4 +126,4 @@ export default function SoundTable() {
 <p>For a multi-user integration, validate writes on the server and check the revision the editor saw. A pointer moving across a candidate position can update the local view before the visitor decides to drop. Save after a committed change. When a collaborator has already changed the board, show their current state before accepting a new decision.</p>
 <p><a href="https://app.slatebox.com/new/listening-room">Open a listening slate</a></p>
 <p><a href="/examples/theatre-cues/">Read the cues for an authored scene</a> to build a rehearsal monitor from the same cards the native presenter frames.</p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#pick-a-board" >Pick a board</a><a href="#build-a-workshop-with-one-recording-slot" >Build a workshop with one recording slot</a><a href="#add-a-path-to-a-map" >Add a path to a map</a><a href="#give-a-map-station-an-image" >Give a map station an image</a><a href="#mount-the-listening-room" >Mount the listening room</a><a href="#move-from-a-demo-to-team-work" >Move from a demo to team work</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#mount-a-map-from-plain-javascript" >Mount a map from plain JavaScript</a><a href="#pick-a-board" >Pick a board</a><a href="#build-a-workshop-with-one-recording-slot" >Build a workshop with one recording slot</a><a href="#add-a-path-to-a-map" >Add a path to a map</a><a href="#give-a-map-station-an-image" >Give a map station an image</a><a href="#mount-the-listening-room" >Mount the listening room</a><a href="#move-from-a-demo-to-team-work" >Move from a demo to team work</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

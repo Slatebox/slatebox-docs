@@ -12,6 +12,34 @@ If your client cannot fetch the documentation, read the same published file at h
 
 A board takes its saved model as `value`. Supply `onChange` to receive the committed decision. For a presentation, pass `readOnly` to show that decision. A facilitator can choose a different result later by returning to the editor.
 
+## Mount a map from plain JavaScript
+
+Give the board a container, import the stylesheet and mount a validated model. This example gives a release reviewer another place to send a change. Drag the token along a route or use its keyboard control. The map uses native SlateboxJS objects and Dragology handles the permitted moves.
+
+```html
+<div id="review-map"></div>
+```
+
+```js
+import 'slateboxjs/style.css'
+import { mountWorkshop } from 'slateboxjs/workshops/mount'
+import { createWorkshopMap, addWorkshopBranch } from 'slateboxjs/workshops/model'
+
+const draft = createWorkshopMap()
+draft.lanes[0].label = 'Review change'
+const review = addWorkshopBranch(draft, draft.lanes[0].id, {
+  label: 'Request evidence',
+  outcome: 'Attach an example before the review continues.'
+})
+const view = mountWorkshop(document.querySelector('#review-map'), review, {
+  onChange(next) {
+    localStorage.setItem('review-map', JSON.stringify(next))
+  }
+})
+```
+
+Use `view.update(next)` when your server sends a revised model. Call `view.destroy()` when removing the embed. Install the React and React DOM peers listed in the matched engine package. The embedding page and the agent author only JavaScript and board data. [Get the matched engine build](readme.md#quick-slate)
+
 ## Pick a board
 
 | What your visitor does | React component | Try it |
@@ -48,7 +76,7 @@ const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopF
 
 Move **Ferry horn** to **Record on Friday**. Friday now shows one occupied slot. Move the horn back to **Pitches** and try moving **Dawn chorus from last week** to Friday. Its destination rule keeps it out even with the recorder available. [Open the recording workshop](https://app.slatebox.com/new/workshop#model=%7B%22version%22%3A1%2C%22title%22%3A%22Friday+field+recordings%22%2C%22lanes%22%3A%5B%7B%22id%22%3A%22lane-1%22%2C%22label%22%3A%22Pitches%22%7D%2C%7B%22id%22%3A%22lane-2%22%2C%22label%22%3A%22Archive%22%7D%2C%7B%22id%22%3A%22lane-3%22%2C%22label%22%3A%22Record+on+Friday%22%2C%22capacity%22%3A1%7D%5D%2C%22cards%22%3A%5B%7B%22id%22%3A%22card-1%22%2C%22label%22%3A%22Ferry+horn%22%2C%22laneId%22%3A%22lane-1%22%7D%2C%7B%22id%22%3A%22card-2%22%2C%22label%22%3A%22Dawn+chorus+from+last+week%22%2C%22laneId%22%3A%22lane-2%22%2C%22allowedLaneIds%22%3A%5B%22lane-2%22%2C%22lane-1%22%5D%7D%5D%7D)
 
-Use the exported model helpers with the current [SlateboxJS build](readme.md#quick-slate). A host embedding `WorkshopBoard` can supply `onAddCard(laneId, anchorElement)` and `onEditLane(laneId, anchorElement)` to open its own controls at the selected lane. To make the workshop directly on the canvas, [start with two empty lanes](../../Using-Slatebox/readme.md#start-a-blank-workshop).
+Use the model helpers to add a card, set its destinations and update the mounted board. To build the same workshop in Slatebox, send these changes in the conversation beside the canvas. [Try the recording workshop](../../Using-Slatebox/readme.md#start-a-blank-workshop)
 
 ## Add a path to a map
 
@@ -76,7 +104,7 @@ const routes = addWorkshopBranch(map, 'start', {
 const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopFragment(routes)
 ```
 
-Open the generated URL and move **Field microphone** to **By the reeds**. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, select a station and choose **Add a branch**. [Create an interactive map](https://app.slatebox.com/new/map)
+Open the generated URL and move **Field microphone** to **By the reeds**. The audience sees the outcome you wrote. Station IDs stay stable when labels change. To build the same map in the app, ask the side conversation to “Add By the reeds after Bridge entrance” and keep the change. [Create a slate](https://app.slatebox.com/new)
 
 ## Give a map station an image
 

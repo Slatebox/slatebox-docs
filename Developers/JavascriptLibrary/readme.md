@@ -14,6 +14,8 @@ If your client cannot fetch the documentation, read the same published file at h
 
 SlateboxJS creates an editable SVG diagram inside a DOM element. Use it when your application owns the page, storage and access controls. To operate on a slate already stored in the hosted app, use the [HTTP API](../SlateboxAPI/readme.md).
 
+To build a playable board, give SlateboxJS a workshop model and a DOM element. The library draws the stations and lets a visitor drag a token along the permitted paths. [Mount a playable map from plain JavaScript](creative-slates.md#mount-a-map-from-plain-javascript)
+
 Working with an existing integration that calls `new Slatebox.slate(...)`? See [SlateboxJS 2.x and the current canvas](../slateboxjs-api.md).
 
 ## Quick Slate
