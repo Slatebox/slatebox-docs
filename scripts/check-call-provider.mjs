@@ -22,3 +22,15 @@ test('only read-only domain configuration is requested; neither credential nor r
   }
   assert.equal((await checkCalls({daily:{apiKey:testKey}},async()=>{throw Error(testKey)}))[0],4)
 })
+
+test('the install guide pins the exact helper bytes before invoking the container', async()=>{
+  const {readFile}=await import('node:fs/promises')
+  const {createHash}=await import('node:crypto')
+  const doc=await readFile(new URL('../Installation/install-with-docker.md',import.meta.url),'utf8')
+  const script=await readFile(new URL('../assets/self-host/check-calls.cjs',import.meta.url))
+  const digest=createHash('sha256').update(script).digest('hex')
+  const snippet=doc.split('## Configure audio and video calls')[1].split('```sh')[1].split('```')[0]
+  assert.match(snippet,/githubusercontent\.com\/Slatebox\/slatebox-docs\/[a-f0-9]{40}\/assets\/self-host\/check-calls\.cjs/)
+  assert.ok(snippet.includes(digest))
+  assert.ok(snippet.includes('fi && ./run exec -T app node - < check-calls.cjs'))
+})

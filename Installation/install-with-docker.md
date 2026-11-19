@@ -256,9 +256,16 @@ Apply the change to the app, then run this read-only check from the same directo
 
 ```sh
 ./run up -d --no-deps --force-recreate --wait --pull never app
-curl -fSLo check-calls.cjs https://docs.slatebox.com/assets/self-host/check-calls.cjs
-./run exec -T app node - < check-calls.cjs
+curl -fSLo check-calls.cjs https://raw.githubusercontent.com/Slatebox/slatebox-docs/57d83e4a67e90cf88ec2cfda48232e9f7dbc7b8b/assets/self-host/check-calls.cjs
+printf '%s  %s\n' '1dbb4b62768a5d60a1c7d7dddc6f30f207f580099e90292cc1b565fb5fa7db36' 'check-calls.cjs' > check-calls.sha256
+if command -v sha256sum >/dev/null; then
+  sha256sum -c check-calls.sha256
+else
+  shasum -a 256 -c check-calls.sha256
+fi && ./run exec -T app node - < check-calls.cjs
 ```
+
+The download is pinned to a source revision. Verify the digest before granting the script access to the app container. [Read the diagnostic source](https://docs.slatebox.com/assets/self-host/check-calls.cjs)
 
 The check uses the app container’s mounted settings to request Daily’s domain configuration. It prints a status and discards the response. A missing key, a rejected credential, and an unreachable provider have separate messages. A successful check confirms HTTPS access to the Daily API. The media path also needs a test from the network your colleagues use. [Daily domain configuration endpoint](https://docs.daily.co/reference/rest-api/domain/get-domain-config)
 
