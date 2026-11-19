@@ -15,7 +15,7 @@ The self-hosted release is called **Slatebox**. The whiteboard app and SlateboxJ
 
 The public `timheckel/slatebox-community:latest` image on Docker Hub was last updated in July 2022. Its `latest` tag points to that historical release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
 
-The [current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) lists the verified app, engine and relay revisions. Under `platforms`, find your host’s architecture to get the exact archive filename, byte count and SHA-256 digest. The `distribution` field tells your agent how to obtain the kit. If you requested an older release, use its own checksum. [Release record mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
+The [current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) lists the verified app, engine and relay revisions. Under `platforms`, find your host’s architecture to get the exact archive filename, byte count and SHA-256 digest. The `distribution` field tells your agent how to obtain the kit. Keep the release ID printed in the record. You can fetch that same record later at `https://docs.slatebox.com/assets/self-host/releases/{release}.json`, substituting your release ID. For kits issued before these records were available, use the checksum supplied with that release. [Release record mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
 
 ## Start from a release kit
 

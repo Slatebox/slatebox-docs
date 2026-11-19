@@ -75,7 +75,7 @@ function promptFor(p) {
   if (p.section === 'Self-hosting') return [
     'Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at '+source+'.',
     'Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.',
-    'For a new install, read the current kit record at '+base+'/assets/self-host/release.json or its mirror at '+publishedFiles+'/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
+    'For a new install, read the current kit record at '+base+'/assets/self-host/release.json or its mirror at '+publishedFiles+'/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. Keep that release ID so we can verify the same kit even if a newer one appears. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
     'Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
   ].join('\n\n')
   const task = {
@@ -126,6 +126,10 @@ function render(p) {
   return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+agentTools(promptFor(p),'/'+p.file)+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+'<strong>On this page</strong>'+link('#agent-prompt','Agent prompt')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
+const kitRecords = path.join(out, 'assets/self-host/releases')
+const latestKit = (await readdir(kitRecords)).filter(name => /^\d{8}T\d{6}Z\.json$/.test(name)).sort().at(-1)
+if (!latestKit) throw new Error('The install guide needs a verified kit record.')
+await cp(path.join(kitRecords, latestKit), path.join(out, 'assets/self-host/release.json'))
 execFileSync('python3',['scripts/bundle-release-tools.py',path.join(out,'assets/self-host')])
 for (const p of pages) {
   await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas','/'+p.file))
