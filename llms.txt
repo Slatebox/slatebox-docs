@@ -4,6 +4,10 @@ Official guides for using the app, building with SlateboxJS, calling the HTTP AP
 
 The same files are available from the [published documentation repository](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt). To fetch a guide there, append its case-sensitive path to https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/.
 
+[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)
+
+For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.
+
 [Current self-host release record](https://docs.slatebox.com/assets/self-host/release.json)
 
 ## Using Slatebox

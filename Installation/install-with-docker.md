@@ -7,7 +7,7 @@ Help me install the current self-hosted Slatebox on my Docker host. Read the off
 
 Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.
 
-For a new install, read the current kit record at https://docs.slatebox.com/assets/self-host/release.json or its mirror at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.
+For a new install, read the current kit record at https://docs.slatebox.com/assets/self-host/release.json or its mirror at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. Keep that release ID so we can verify the same kit even if a newer one appears. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.
 
 Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.
 
@@ -29,7 +29,7 @@ The self-hosted release is called **Slatebox**. The whiteboard app and SlateboxJ
 
 The public `timheckel/slatebox-community:latest` image on Docker Hub was last updated in July 2022. Its `latest` tag points to that historical release. Its Compose setup predates the authenticated relay used by today's app. Use the matched release for this guide. [Legacy image tags](https://hub.docker.com/r/timheckel/slatebox-community/tags) · [Slatebox relay source](https://github.com/Slatebox/y-websocket)
 
-The [current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) lists the verified app, engine and relay revisions. Under `platforms`, find your host’s architecture to get the exact archive filename, byte count and SHA-256 digest. The `distribution` field tells your agent how to obtain the kit. If you requested an older release, use its own checksum. [Release record mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
+The [current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) lists the verified app, engine and relay revisions. Under `platforms`, find your host’s architecture to get the exact archive filename, byte count and SHA-256 digest. The `distribution` field tells your agent how to obtain the kit. Keep the release ID printed in the record. You can fetch that same record later at `https://docs.slatebox.com/assets/self-host/releases/{release}.json`, substituting your release ID. For kits issued before these records were available, use the checksum supplied with that release. [Release record mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
 
 ## Start from a release kit
 
@@ -41,7 +41,7 @@ Use Docker Engine and CLI 28.1 or newer with Compose v2 on a matching Linux Dock
 sha256sum -c slatebox-*.tar.sha256
 ```
 
-Continue once the checksum reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. Extract the kit and launch it on your Docker host.
+For a release listed in the public record, compare the digest in the supplied checksum file with `sha256` for your platform and check that `wc -c < slatebox-*.tar` reports the recorded byte count. Extract the archive once those values match and the checksum command reports `OK`. On macOS use `shasum -a 256 -c slatebox-*.tar.sha256`. Launch it on your Docker host.
 
 ```sh
 tar -xf slatebox-*.tar

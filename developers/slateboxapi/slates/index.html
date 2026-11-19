@@ -45,6 +45,23 @@ curl --fail-with-body --silent --show-error -X DELETE \
   &quot;$slate_url/operations&quot;
 </code></pre>
 <p>The preview returns HTTP 200 and includes <code>ok</code>, <code>dryRun</code>, <code>shareId</code>, <code>message</code>, materialized <code>operations</code> and a <code>report</code>. Inspect the report before applying a plan.</p>
+<h2 id="add-a-decision-and-its-outcome">Add a decision and its outcome</h2><p>On a native decision map, read <code>summary.workshop.revision</code> and find the source station ID in <code>summary.workshop.lanes</code>. Send the following JSON to the same operations endpoint with Bearer authentication and a JSON content type. Substitute the saved station ID and revision.</p>
+<pre><code class="language-json">{
+  &quot;dryRun&quot;: true,
+  &quot;plan&quot;: {
+    &quot;message&quot;: &quot;Give the reviewer a recovery path&quot;,
+    &quot;operations&quot;: [{
+      &quot;kind&quot;: &quot;add_map_branch&quot;,
+      &quot;fromStationId&quot;: &quot;source-station-id&quot;,
+      &quot;label&quot;: &quot;Repair missing rows&quot;,
+      &quot;outcome&quot;: &quot;reconcile the missing IDs and run the comparison again.&quot;,
+      &quot;expectedRevision&quot;: 0
+    }]
+  }
+}
+</code></pre>
+<p>The preview reports the proposed station in <code>report.addedBranches</code>. Its ID appears in the source station’s <code>next</code> list in the returned <code>workshop.lanes</code>. To save, set <code>dryRun</code> to false and provide a fresh <code>Idempotency-Key</code> header, keeping the same plan and revision. The path and its instruction save in a single revision. If another editor saves first, read the new revision and preview again.</p>
+<p>To revise an existing arrival instruction, send a single <code>update_map_outcome</code> operation with <code>stationId</code>, <code>outcome</code> and <code>expectedRevision</code> in the same envelope. On a self-hosted instance, check its own <code>/api/v1/openapi.json</code> for these operation kinds. <a href="/developers/slateboxapi/terminal-and-agents/#add-a-path-and-an-arrival-instruction">Shell and MCP examples</a></p>
 <h2 id="apply-the-change">Apply the change</h2><p>This request <strong>writes to the slate</strong>. Use it on an editable test board first. Generate an idempotency key once per intended mutation, and keep the same key when retrying that exact request. Keys are scoped to the token, so use a new key for a different slate or edit.</p>
 <pre><code class="language-sh">request_id=$(uuidgen)
 curl --fail-with-body --silent --show-error \
@@ -83,4 +100,4 @@ curl --fail-with-body --silent --show-error \
 <td>Pause before retrying requests for this token.</td>
 </tr>
 </tbody></table>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#v1slates-endpoint" >/v1/slates endpoint</a><a href="#manage-an-invitation-link" >Manage an invitation link</a><a href="#response" >Response</a><a href="#preview-one-change" >Preview one change</a><a href="#apply-the-change" >Apply the change</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#v1slates-endpoint" >/v1/slates endpoint</a><a href="#manage-an-invitation-link" >Manage an invitation link</a><a href="#response" >Response</a><a href="#preview-one-change" >Preview one change</a><a href="#add-a-decision-and-its-outcome" >Add a decision and its outcome</a><a href="#apply-the-change" >Apply the change</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

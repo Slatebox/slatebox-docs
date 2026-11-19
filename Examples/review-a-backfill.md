@@ -3,7 +3,7 @@
 ## Agent prompt
 
 ```text
-Help me create a private Slatebox decision map for reviewing a database backfill. Use the exact three-step route in this guide as the brief for create_slate. Keep one idempotency key for that request. Give me the editor link so I can add the repair path. Read the finished map and tell me which destinations follow Compare row counts. If I ask to invite a reviewer, ask which role they need, create the invitation and give me the URL and its invite ID.
+Help me create a private Slatebox decision map for reviewing a database backfill. Use the exact three-step route in this guide as the brief for create_slate. Keep one idempotency key for creation. Use add_map_branch to preview Repair missing rows after Compare row counts, with the arrival instruction “reconcile the missing IDs and run the comparison again.” Show me both choices. When I approve, save against the preview revision with a fresh key for this edit. If the map changes first, read it again and show me a fresh preview. Give me the editor URL and read back the two destinations and the repair instruction from the saved map. If I ask to invite a reviewer, ask which role they need, create the invitation and give me the URL and its invite ID.
 
 Read https://docs.slatebox.com/Examples/review-a-backfill.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -24,7 +24,11 @@ npx --no-install slatebox create "Backfill review → Compare row counts → App
 
 ## Give the reviewer a second choice
 
-Open the map. Type **Add Repair missing rows after Compare row counts** in its side conversation. Choose **Keep changes**. Then type **At Repair missing rows, reconcile the missing IDs and run the comparison again** and keep the new outcome.
+Open the map. Send this in the side conversation.
+
+> After Compare row counts, add Repair missing rows. On arrival, reconcile the missing IDs and run the comparison again.
+
+Look at the branch on the canvas, then choose **Keep changes** to save the path and its instruction together. You can also make this edit from a [terminal or connected agent](../Developers/SlateboxAPI/terminal-and-agents.md#add-a-path-and-an-arrival-instruction).
 
 Move **Team** onto **Compare row counts**. Both **Approve cutover** and **Repair missing rows** are now available. Drag the token onto **Repair missing rows** or choose that destination by keyboard. The map shows the reconciliation instruction.
 

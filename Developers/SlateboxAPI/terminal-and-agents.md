@@ -3,7 +3,7 @@
 ## Agent prompt
 
 ```text
-Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board or create a private decision map from my question. For a new map, create it once, reuse the same key on retries, and give me the editor URL. For an existing whiteboard, ask which note I want to add. For a note edit, read the board, preview my edit, and show me the result. When I ask to save it, reuse one idempotency key if you retry. Read the note back and show me where to find it on the whiteboard. Use my configured token without asking me to paste it into chat.
+Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board or create a private decision map from my question. For a new map, create it once, reuse the same key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction or move. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
 
 Read https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -22,7 +22,7 @@ Use Node.js 20 or later. Download the package and its checksum into the project 
 
 ```sh
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.3.tgz
+package=slatebox-mcp-0.2.4.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -41,7 +41,7 @@ On Linux, `sha256sum -c` can also verify the checksum. If the downloads host is 
 }
 ```
 
-[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.3.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.3.tgz.sha256)
+[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.4.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.4.tgz.sha256)
 
 ## Create a private decision map
 
@@ -54,6 +54,28 @@ npx --no-install slatebox create "Who can approve a customer refund?" \
 ```
 
 Open the returned `url` while signed in to that account. In the side conversation, type **Ask finance or ask the account owner**, then choose **Keep changes** to put both paths on the map. To start the same way from an MCP client, call `create_slate` with `brief` and `idempotency_key`. [Move the team token and present the decision](../../Examples/refund-approval.md)
+
+## Add a path and an arrival instruction
+
+On the backfill map, an editor can give the reviewer a recovery path. Use the share ID from creation. A station can be identified by its exact unique label or its ID. This command previews the change.
+
+```sh
+npx --no-install slatebox branch "$SLATEBOX_SHARE_ID" "Compare row counts" "Repair missing rows" \
+  --outcome "reconcile the missing IDs and run the comparison again."
+```
+
+Read `workshop.revision` from the preview. For a new map at revision 0, save that proposal with the following command. Keep its key for retries.
+
+```sh
+branch_key=$(node -p 'crypto.randomUUID()')
+npx --no-install slatebox branch "$SLATEBOX_SHARE_ID" "Compare row counts" "Repair missing rows" \
+  --outcome "reconcile the missing IDs and run the comparison again." \
+  --apply --revision 0 --idempotency-key "$branch_key"
+```
+
+The result includes the new station ID in `report.addedBranches`. To change just its instruction, preview `slatebox outcome "$SLATEBOX_SHARE_ID" "Repair missing rows" "Compare the repaired IDs with the source table."` and save against its preview revision with a fresh key. If someone saves first, read the slate and review a new preview.
+
+In MCP, call `add_map_branch` with `share_id`, `from_station`, `label` and `outcome`. To revise an instruction, call `update_map_outcome` with `share_id`, `station` and `outcome`. Both tools preview by default. To save, supply `dry_run: false`, `expected_revision` and `idempotency_key`. Use a token with read and write scopes and a board you can edit. [Try the backfill map](../../Examples/review-a-backfill.md)
 
 ## Invite a reviewer
 
@@ -117,4 +139,4 @@ Reopen the whiteboard in the browser. Find “Who owns deletion of the retained 
 | Preview the question | `apply_slate_operations` with `dry_run: true` | `POST /v1/slates/{shareId}/operations` with `dryRun: true` |
 | Save the question | `apply_slate_operations` with `dry_run: false` and an `idempotency_key` | POST the same plan with `dryRun: false` and an `Idempotency-Key` header |
 
-For `apply_slate_operations`, supply the board's `share_id`, the plan's `message` and `operations`, and a `user_message` describing your request. To try an agent with the saved board, tell it “Read my slate and find the note about the retained copy. Show me the change you would make to assign it to the data team.” Give it the board ID. It can read the note and preview the edit through MCP. For a playable map, use its side conversation to author branches. The `move_workshop_card` tool reads the same rules as the app and lets you preview or save a token’s move. [Move a refund decision from a terminal](../../Examples/refund-approval.md) A read-only collaborator can read the slate. Previewing or applying edits requires write scope and edit permission on that board. [HTTP request bodies, responses and retries](slates.md)
+For `apply_slate_operations`, supply the board's `share_id`, the plan's `message` and `operations`, and a `user_message` describing your request. To try an agent with the saved board, tell it “Read my slate and find the note about the retained copy. Show me the change you would make to assign it to the data team.” Give it the board ID. It can read the note and preview the edit through MCP. On a playable map, the side conversation, CLI and MCP tools can add a branch with an arrival instruction. The `move_workshop_card` tool reads the same rules as the app and lets you preview or save a token’s move. [Move a refund decision from a terminal](../../Examples/refund-approval.md) A read-only collaborator can read the slate. Previewing or applying edits requires write scope and edit permission on that board. [HTTP request bodies, responses and retries](slates.md)
