@@ -2,61 +2,61 @@
 
 Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.
 
-The same files are available from the [published documentation repository](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt). To fetch a guide there, append its case-sensitive path to https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/.
+Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt).
 
 [Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)
 
 For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.
 
-[Current self-host release record](https://docs.slatebox.com/assets/self-host/release.json)
+[Current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
 
 ## Using Slatebox
 
-- [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md)
+- [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
 
 ## SlateboxJS
 
-- [Apply a canvas theme](https://docs.slatebox.com/Developers/JavascriptLibrary/themeExample.md)
-- [Association properties](https://docs.slatebox.com/Developers/JavascriptLibrary/association-properties.md)
-- [Build with Slatebox](https://docs.slatebox.com/Developers/readme.md)
-- [Local development](https://docs.slatebox.com/Developers/development.md)
-- [Motion and easing](https://docs.slatebox.com/Developers/JavascriptLibrary/easing.md)
-- [Node methods](https://docs.slatebox.com/Developers/JavascriptLibrary/node-methods.md)
-- [Node properties](https://docs.slatebox.com/Developers/JavascriptLibrary/node-properties.md)
-- [Relationship methods](https://docs.slatebox.com/Developers/JavascriptLibrary/association-methods.md)
-- [Slate methods](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-methods.md)
-- [Slate options](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-properties.md)
-- [SlateboxJS](https://docs.slatebox.com/Developers/JavascriptLibrary/readme.md)
-- [SlateboxJS 2.x and the current canvas](https://docs.slatebox.com/Developers/slateboxjs-api.md)
-- [Use the interactive boards](https://docs.slatebox.com/Developers/JavascriptLibrary/creative-slates.md)
+- [Apply a canvas theme](https://docs.slatebox.com/Developers/JavascriptLibrary/themeExample.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/themeExample.md)
+- [Association properties](https://docs.slatebox.com/Developers/JavascriptLibrary/association-properties.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/association-properties.md)
+- [Build with Slatebox](https://docs.slatebox.com/Developers/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/readme.md)
+- [Local development](https://docs.slatebox.com/Developers/development.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/development.md)
+- [Motion and easing](https://docs.slatebox.com/Developers/JavascriptLibrary/easing.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/easing.md)
+- [Node methods](https://docs.slatebox.com/Developers/JavascriptLibrary/node-methods.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/node-methods.md)
+- [Node properties](https://docs.slatebox.com/Developers/JavascriptLibrary/node-properties.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/node-properties.md)
+- [Relationship methods](https://docs.slatebox.com/Developers/JavascriptLibrary/association-methods.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/association-methods.md)
+- [Slate methods](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-methods.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/slate-methods.md)
+- [Slate options](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-properties.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/slate-properties.md)
+- [SlateboxJS](https://docs.slatebox.com/Developers/JavascriptLibrary/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/readme.md)
+- [SlateboxJS 2.x and the current canvas](https://docs.slatebox.com/Developers/slateboxjs-api.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/slateboxjs-api.md)
+- [Use the interactive boards](https://docs.slatebox.com/Developers/JavascriptLibrary/creative-slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/creative-slates.md)
 
 ## HTTP API
 
-- [Edit a shared slate from a terminal or an agent](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md)
-- [Manage team access](https://docs.slatebox.com/Developers/SlateboxAPI/organizations.md)
-- [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md)
-- [Slatebox HTTP API](https://docs.slatebox.com/Developers/SlateboxAPI/readme.md)
+- [Edit a shared slate from a terminal or an agent](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md)
+- [Manage team access](https://docs.slatebox.com/Developers/SlateboxAPI/organizations.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/organizations.md)
+- [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/slates.md)
+- [Slatebox HTTP API](https://docs.slatebox.com/Developers/SlateboxAPI/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/readme.md)
 
 ## Self-hosting
 
-- [Host a Slatebox instance](https://docs.slatebox.com/Installation/install-with-docker.md)
+- [Host a Slatebox instance](https://docs.slatebox.com/Installation/install-with-docker.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md)
 
 ## Examples
 
-- [Build a community radio cue sheet](https://docs.slatebox.com/Examples/research-cue-sheet.md)
-- [Choose two objects for a loan case](https://docs.slatebox.com/Examples/museum-loans.md)
-- [Decide what a reviewer needs before a backfill](https://docs.slatebox.com/Examples/review-a-backfill.md)
-- [Give the planetarium crew a second try](https://docs.slatebox.com/Examples/telescope-retest.md)
-- [Hand an incident timeline to the next shift](https://docs.slatebox.com/Examples/incident-handoff.md)
-- [Hang the coast before the moon](https://docs.slatebox.com/Examples/gallery-prerequisite.md)
-- [Keep a connection when you reopen a slate](https://docs.slatebox.com/Examples/connected-notes.md)
-- [Mix two sound sculptures](https://docs.slatebox.com/Examples/listening-room.md)
-- [Move a refund decision from a terminal](https://docs.slatebox.com/Examples/refund-approval.md)
-- [Plan a design partner experiment](https://docs.slatebox.com/Examples/startup-experiments.md)
-- [Preview a triangle before editing the slate](https://docs.slatebox.com/Examples/preview-api-edit.md)
-- [Put a walkthrough in your team handbook](https://docs.slatebox.com/Examples/embed-a-walkthrough.md)
-- [Return focus to the print that opened the viewer](https://docs.slatebox.com/Examples/focus-return.md)
-- [Review two conflicting field notes](https://docs.slatebox.com/Examples/field-note-handoff.md)
-- [Show what changes when a cue moves](https://docs.slatebox.com/Examples/theatre-cues.md)
-- [Trace who can still use your product during a sign-in outage](https://docs.slatebox.com/Examples/sign-in-outage.md)
-- [Walk through evidence in a chosen order](https://docs.slatebox.com/Examples/present-the-evidence.md)
+- [Build a community radio cue sheet](https://docs.slatebox.com/Examples/research-cue-sheet.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/research-cue-sheet.md)
+- [Choose two objects for a loan case](https://docs.slatebox.com/Examples/museum-loans.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/museum-loans.md)
+- [Decide what a reviewer needs before a backfill](https://docs.slatebox.com/Examples/review-a-backfill.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/review-a-backfill.md)
+- [Give the planetarium crew a second try](https://docs.slatebox.com/Examples/telescope-retest.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/telescope-retest.md)
+- [Hand an incident timeline to the next shift](https://docs.slatebox.com/Examples/incident-handoff.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/incident-handoff.md)
+- [Hang the coast before the moon](https://docs.slatebox.com/Examples/gallery-prerequisite.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/gallery-prerequisite.md)
+- [Keep a connection when you reopen a slate](https://docs.slatebox.com/Examples/connected-notes.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/connected-notes.md)
+- [Mix two sound sculptures](https://docs.slatebox.com/Examples/listening-room.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/listening-room.md)
+- [Move a refund decision from a terminal](https://docs.slatebox.com/Examples/refund-approval.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/refund-approval.md)
+- [Plan a design partner experiment](https://docs.slatebox.com/Examples/startup-experiments.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/startup-experiments.md)
+- [Preview a triangle before editing the slate](https://docs.slatebox.com/Examples/preview-api-edit.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/preview-api-edit.md)
+- [Put a walkthrough in your team handbook](https://docs.slatebox.com/Examples/embed-a-walkthrough.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/embed-a-walkthrough.md)
+- [Return focus to the print that opened the viewer](https://docs.slatebox.com/Examples/focus-return.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/focus-return.md)
+- [Review two conflicting field notes](https://docs.slatebox.com/Examples/field-note-handoff.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/field-note-handoff.md)
+- [Show what changes when a cue moves](https://docs.slatebox.com/Examples/theatre-cues.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/theatre-cues.md)
+- [Trace who can still use your product during a sign-in outage](https://docs.slatebox.com/Examples/sign-in-outage.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/sign-in-outage.md)
+- [Walk through evidence in a chosen order](https://docs.slatebox.com/Examples/present-the-evidence.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/present-the-evidence.md)
