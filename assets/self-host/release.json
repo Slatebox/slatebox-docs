@@ -1,22 +1,22 @@
 {
   "product": "Slatebox",
-  "release": "20261119T004842Z",
+  "release": "20261119T013859Z",
   "distribution": "on-request",
   "source": {
-    "app": "7391cd7dc9859e1677fe4e0efbe48e3a40836ea7",
-    "engine": "a834f1f40f64b401ce3482c04a089370658af697",
+    "app": "2d1e4ba047278b348f42e9c8696da89f9f69e9a7",
+    "engine": "ee0f14c8f75913e4b614ee2a7e550f391d53f52e",
     "relay": "4e17643453dc82d89996189483d69841e9324768"
   },
   "platforms": {
     "linux/arm64": {
-      "filename": "slatebox-7391cd7dc985-a834f1f40f64-4e17643453dc-arm64.tar",
-      "bytes": 694651392,
-      "sha256": "4159ff5d85cfeb37db457964b9cb54db52c089993eacbdc107d24d97c985a13b"
+      "filename": "slatebox-2d1e4ba04727-ee0f14c8f759-4e17643453dc-arm64.tar",
+      "bytes": 694736896,
+      "sha256": "9a10aa7b3f15e18f81290a96ba038a10b42e5fa546ac3a667e8e87d825d2c06b"
     },
     "linux/amd64": {
-      "filename": "slatebox-7391cd7dc985-a834f1f40f64-4e17643453dc-amd64.tar",
-      "bytes": 707210752,
-      "sha256": "61f1843dc8f279e519e99dfff81f533584899efda4598fb371db1fd6c91d3f4a"
+      "filename": "slatebox-2d1e4ba04727-ee0f14c8f759-4e17643453dc-amd64.tar",
+      "bytes": 707293184,
+      "sha256": "67580063a4ff269927808301b19c970360efbc615554ede7208bfb5990e2f9e0"
     }
   },
   "packerSha256": "b4ed750abf68ca5ccb82f6c083fdff8f134db13797741902ffc52e712e866145"
