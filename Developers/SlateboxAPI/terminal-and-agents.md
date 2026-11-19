@@ -3,9 +3,10 @@ agentPrompt: >-
   Help me install the Slatebox shell and MCP tools from the checksummed package in this guide.
   Ask whether I want to open an existing board or create a private decision map from my question.
   For a new map, create it once, reuse the same key on retries, and give me the editor URL.
-  For an existing whiteboard, ask which note I want to add.
-  For a note edit, read the board, preview my edit, and show me the result. When I ask to save it, reuse one
-  idempotency key if you retry. Read the note back and show me where to find it on the whiteboard.
+  For an existing slate, read its summary and ask which change I want. For a playable map,
+  read its stations and legal destinations, then preview the requested branch, arrival instruction or move.
+  For a whiteboard, preview the requested note edit. Show me the result before saving.
+  When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL.
   Use my configured token without asking me to paste it into chat.
 ---
 
