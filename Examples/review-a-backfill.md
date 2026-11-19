@@ -10,6 +10,9 @@ agentPrompt: >-
   Show me both choices. When I approve, save against the preview revision with a fresh key for this edit.
   If the map changes first, read it again and show me a fresh preview. Give me the editor URL
   and read back the two destinations and the repair instruction from the saved map.
+  Help me open the walkthrough with Repair missing rows. Preview set_presentation_order using
+  every current station in the saved order, moving the repair scene to the front. Show me the sequence.
+  Save only when I confirm, with the preview revision and a separate idempotency key.
   If I ask to invite a reviewer, ask which role they need, create the invitation and give me the URL and its invite ID.
 ---
 
@@ -34,6 +37,14 @@ Open the map. Send this in the side conversation.
 Look at the branch on the canvas, then choose **Keep changes** to save the path and its instruction together. You can also make this edit from a [terminal or connected agent](../Developers/SlateboxAPI/terminal-and-agents.md#add-a-path-and-an-arrival-instruction).
 
 Move **Team** onto **Compare row counts**. Both **Approve cutover** and **Repair missing rows** are now available. Drag the token onto **Repair missing rows** or choose that destination by keyboard. The map shows the reconciliation instruction.
+
+## Open the review with the risk
+
+The person deciding whether to approve the cutover wants to see the recovery plan first. In the side conversation, send this message.
+
+> Present Repair missing rows first
+
+Read the numbered sequence and choose **Keep changes**. Choose **Present together** to open on the repair instruction. Use **Next station** to explain how the team reached that decision. **End presentation** returns you to the same map. The token stays where you placed it, and **Compare row counts** still offers both routes. [Set the same scene order from your terminal](../Developers/SlateboxAPI/terminal-and-agents.md#choose-the-opening-scene)
 
 ## Hand off the decision
 

@@ -97,6 +97,10 @@ The preview reports the proposed station in `report.addedBranches`. Its ID appea
 
 To revise an existing arrival instruction, send a single `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision` in the same envelope. On a self-hosted instance, check its own `/api/v1/openapi.json` for these operation kinds. [Shell and MCP examples](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
 
+## Order presentation scenes
+
+Read `summary.workshop.presentationOrder` for the current scene IDs in playback order. It also supplies the effective order for older workshops. In the same preview envelope, submit one operation with `kind: "set_presentation_order"`, `laneIds` containing every current scene ID once, and `expectedRevision`. A successful preview returns the sequence in `report.presentationOrder`. Save using the reviewed revision and a new idempotency key. The board keeps its layout, routes and token positions. [Shell and MCP commands](terminal-and-agents.md#choose-the-opening-scene)
+
 ## Apply the change
 
 This request **writes to the slate**. Use it on an editable test board first. Generate an idempotency key once per intended mutation, and keep the same key when retrying that exact request. Keys are scoped to the token, so use a new key for a different slate or edit.
