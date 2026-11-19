@@ -46,6 +46,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Build a community radio cue sheet](https://docs.slatebox.com/Examples/research-cue-sheet.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/research-cue-sheet.md)
 - [Choose two objects for a loan case](https://docs.slatebox.com/Examples/museum-loans.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/museum-loans.md)
 - [Decide what a reviewer needs before a backfill](https://docs.slatebox.com/Examples/review-a-backfill.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/review-a-backfill.md)
+- [Decide what happens when an agent hits its budget](https://docs.slatebox.com/Examples/agent-spend-cap.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/agent-spend-cap.md)
 - [Give the planetarium crew a second try](https://docs.slatebox.com/Examples/telescope-retest.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/telescope-retest.md)
 - [Hand an incident timeline to the next shift](https://docs.slatebox.com/Examples/incident-handoff.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/incident-handoff.md)
 - [Hang the coast before the moon](https://docs.slatebox.com/Examples/gallery-prerequisite.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/gallery-prerequisite.md)
