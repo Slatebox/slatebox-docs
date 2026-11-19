@@ -257,10 +257,35 @@ Initialization writes your private `.state/instance.env` and `.state/settings.js
 | Draw, save, reopen and collaborate on boards | The app, its WebSocket relay and persistent MongoDB from the Compose stack. |
 | Email invitations, verification links and password resets | Configure your SMTP URL in private `mailGun.server` settings and verify delivery to a test account. |
 | AI-authored workshops | Enable drafting for registered users with `selfHosted.workshopAI` in private settings. The default provider uses your `API_KEY_DEEP_INFRA` in `.state/instance.env` and bills your DeepInfra account. You can also [connect a model server you operate](#run-workshop-ai-on-your-own-infrastructure). |
-| Audio and video calls | Configure your own Daily account in private `daily.apiKey` settings. Daily hosts the media rooms. Camera and microphone access requires HTTPS or localhost. Without a Daily key, calls are unavailable and board collaboration continues. |
+| Audio and video calls | [Configure and check your Daily connection](#configure-audio-and-video-calls). Daily hosts the media rooms. Board editing and presence work independently. |
 | Published presentation images | Configure `aws.region`, `aws.accessKey`, `aws.secretKey`, `aws.imageBucket` and `aws.cloudUrl` for your image bucket and viewer-accessible HTTPS asset origin. |
 
 The app’s `public` settings are delivered to browsers. Keep secrets in server settings. Apply app configuration changes with `./run up -d --no-deps --force-recreate --wait app`. Your cloud subscription, provider credentials and existing hosted slates are separate from the fresh installation.
+
+## Configure audio and video calls
+
+Use a Daily API key issued to the organization operating this instance. From the extracted kit’s `self-host/` directory, open `.state/settings.json` in your local editor (or the settings directory you selected with `SLATEBOX_STATE`). Add `apiKey` under a top-level `daily` object. The `public` object is delivered to browsers. Keep the key in the server-only section.
+
+Apply the change to the app, then run this read-only check from the same directory. Keep the same `COMPOSE_PROJECT_NAME` you used to start the kit.
+
+```sh
+./run up -d --no-deps --force-recreate --wait --pull never app
+curl -fSLo check-calls.cjs https://raw.githubusercontent.com/Slatebox/slatebox-docs/57d83e4a67e90cf88ec2cfda48232e9f7dbc7b8b/assets/self-host/check-calls.cjs
+printf '%s  %s\n' '1dbb4b62768a5d60a1c7d7dddc6f30f207f580099e90292cc1b565fb5fa7db36' 'check-calls.cjs' > check-calls.sha256
+if command -v sha256sum >/dev/null; then
+  sha256sum -c check-calls.sha256
+else
+  shasum -a 256 -c check-calls.sha256
+fi && ./run exec -T app node - < check-calls.cjs
+```
+
+The download is pinned to a source revision. Verify the digest before granting the script access to the app container. [Read the diagnostic source](https://docs.slatebox.com/assets/self-host/check-calls.cjs)
+
+The check uses the app container’s mounted settings to request Daily’s domain configuration. It prints a status and discards the response. A missing key, a rejected credential, and an unreachable provider have separate messages. A successful check confirms HTTPS access to the Daily API. The media path also needs a test from the network your colleagues use. [Daily domain configuration endpoint](https://docs.daily.co/reference/rest-api/domain/get-domain-config)
+
+Open a saved slate as its owner. In slate settings, select **Allow Audio-Only Huddles** or **Allow Full Video Huddles**. Invite a colleague with edit access and open the same slate on a second device. Both people can turn on **Huddle** in the header, allow microphone or camera access, then unmute. Ask each person to say something the other can repeat. For video, check that each person sees the other move. Leave the huddle, join again, and confirm a board edit survives a reload. Read-only participants can listen.
+
+Use HTTPS for people joining from another device. Browsers also allow microphone and camera access on localhost for a single-machine test. If the API check passes but media fails, check browser device permissions and review the firewall and WebRTC requirements on each participant’s network. [Daily networking guide](https://docs.daily.co/docs/guides/privacy-and-security/corporate-firewalls-nats-allowed-ip-list)
 
 ## Run workshop AI on your own infrastructure
 

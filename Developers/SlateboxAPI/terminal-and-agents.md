@@ -3,7 +3,7 @@
 ## Agent prompt
 
 ```text
-Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board or create a private decision map from my question. For a new map, create it once, reuse the same key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction, token move or presentation order. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
+Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board, draw a flow, or build a playable decision map. For a drawing use kind diagram. For a playable map use kind map. Create it once, keep the same arguments and key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction, token move or presentation order. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
 
 Read https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -22,7 +22,7 @@ Use Node.js 20 or later. Download the package and its checksum into the project 
 
 ```sh
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.5.tgz
+package=slatebox-mcp-0.2.6.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -41,7 +41,22 @@ On Linux, `sha256sum -c` can also verify the checksum. If the downloads host is 
 }
 ```
 
-[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.5.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.5.tgz.sha256)
+[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.6.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.6.tgz.sha256)
+
+## Create a diagram from source material
+
+Which customers can still talk to support during a call-service outage? Use the public call-status example to start with two paths. New sessions failed to start while existing sessions stayed connected. This command saves the five notes and four arrows to your own private canvas.
+
+```sh
+create_key=$(node -p 'crypto.randomUUID()')
+brief='What should support tell someone starting a new call during the outage?'
+npx --no-install slatebox create "$brief" --kind diagram --source call-status \
+  --idempotency-key "$create_key"
+```
+
+Open the returned `url` to edit a note, add your team’s fallback or present the drawing. `diagram.nodes` and `diagram.connections` describe what the command created. An agent can call `create_slate` with `kind: "diagram"`, `source: "call-status"`, the same `brief` and the same `idempotency_key` to retrieve the original creation result. Read the slate again to see subsequent edits.
+
+To draw your own flow, omit `--source` and pass steps such as `Request -> Review -> Release` as the brief. Each new line can begin a separate path or a standalone note. A diagram brief accepts up to 1,200 characters. The other available public sources are `interview-notes` and `sign-in-outage`. [See the example drawing](https://slatebox.com/product/intelligence/) · [HTTP request](slates.md#create-a-native-diagram)
 
 ## Create a private decision map
 
