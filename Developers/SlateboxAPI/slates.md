@@ -1,5 +1,21 @@
 # Read and edit a slate
 
+## Create a native diagram
+
+Send a brief and `"kind":"diagram"` to create a native drawing that the token owner can open in the editor. Load a token with `slates:write` into `SLATEBOX_TOKEN`. Generate one key for the drawing and reuse it on retries.
+
+```sh
+create_key=$(uuidgen)
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_TOKEN" \
+  -H "Idempotency-Key: $create_key" \
+  -H 'Content-Type: application/json' \
+  --data '{"kind":"diagram","source":"call-status","brief":"What should support tell someone starting a new call during the outage?"}' \
+  https://api.slatebox.com/v1/slates
+```
+
+HTTP 201 returns `shareId`, `url` and `diagram`. This example has five native notes and four directed connections. Omit `source` to draw from your own steps. Retrying the same request with the same key returns HTTP 200 and the original result. Changing the source, kind or brief with that key returns HTTP 409. Use the returned URL to continue in the canvas conversation. [Shell and MCP examples](terminal-and-agents.md#create-a-diagram-from-source-material)
+
 ## Create a private decision map
 
 Load a personal token with `slates:write` into `SLATEBOX_TOKEN`. Generate one key for the intended board and keep it until you have the response.

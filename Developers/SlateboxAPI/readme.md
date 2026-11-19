@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Create a private decision map from a team question, read a slate or submit an edit from your own application. A public route directory lists the endpoints and scopes the hosted service currently serves.
+Create a private drawing or decision map from a team question, read a slate or submit an edit from your own application. A public route directory lists the endpoints and scopes the hosted service currently serves.
 
 ```sh
 curl --fail --silent --show-error https://api.slatebox.com/v1
@@ -10,7 +10,7 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 
 | Request | Use | Required access |
 | --- | --- | --- |
-| `POST /v1/slates` | Create a private decision map from a brief | `slates:write` and an `Idempotency-Key` |
+| `POST /v1/slates` | Create a private diagram or decision map | `slates:write` and an `Idempotency-Key` |
 | `GET /v1/slates/{shareId}` | Read a summary, optionally the full slate | `slates:read` and permission to view the slate |
 | `POST /v1/slates/{shareId}/operations` | Preview or apply an edit | `slates:write` and permission to edit the slate |
 | `POST /v1/slates/{shareId}/invite` | Issue or change an unlisted invitation link | Owner with `slates:share` and an `Idempotency-Key` |
@@ -26,6 +26,7 @@ The canvas, CLI, MCP and HTTP API work on the same saved slate. The HTTP paths b
 
 | In the app | Shell command | MCP tool | HTTP operation |
 | --- | --- | --- | --- |
+| Draw a flow from a brief or public source | `slatebox create --kind diagram` | `create_slate` with `kind: "diagram"` | `POST /slates` with `kind: "diagram"` |
 | Start a private map from a brief | `slatebox create` | `create_slate` | `POST /slates` |
 | Open the saved map | `slatebox read` | `get_slate` | `GET /slates/{shareId}` |
 | Ask the side conversation to add a branch | `slatebox branch` | `add_map_branch` | Submit `add_map_branch` |
