@@ -56,6 +56,8 @@ npx --no-install slatebox create "$brief" --kind diagram --source call-status \
 
 Open the returned `url` to edit a note, add your team’s fallback or present the drawing. `diagram.nodes` and `diagram.connections` describe what the command created. An agent can call `create_slate` with `kind: "diagram"`, `source: "call-status"`, the same `brief` and the same `idempotency_key` to retrieve the original creation result. Read the slate again to see subsequent edits.
 
+With a source selected, a question such as “Who owns the callback?” opens in the conversation beside the drawing. To put the fallback on the canvas immediately, use the brief `New session → Offer a callback`. Slatebox reuses the existing **New session** note and draws an arrow to the new note. Paste additional paths or evidence notes on separate lines.
+
 To draw your own flow, omit `--source` and pass steps such as `Request -> Review -> Release` as the brief. Each new line can begin a separate path or a standalone note. A diagram brief accepts up to 1,200 characters. The other available public sources are `interview-notes` and `sign-in-outage`. [See the example drawing](https://slatebox.com/product/intelligence/) · [Draw two spend-cap policies from a brief](../../Examples/agent-spend-cap.md) · [HTTP request](slates.md#create-a-native-diagram)
 
 ## Create a private decision map
@@ -166,5 +168,7 @@ Reopen the whiteboard in the browser. Find “Who owns deletion of the retained 
 | Read the board | `get_slate` with `share_id` and optional `include_full` | `GET /v1/slates/{shareId}` with optional `?include=full` |
 | Preview the question | `apply_slate_operations` with `dry_run: true` | `POST /v1/slates/{shareId}/operations` with `dryRun: true` |
 | Save the question | `apply_slate_operations` with `dry_run: false` and an `idempotency_key` | POST the same plan with `dryRun: false` and an `Idempotency-Key` header |
+
+For creating, sharing or presenting a map, see the [editor, CLI, MCP and HTTP operation table](readme.md#work-on-the-same-decision-map). On a self-hosted instance, read `/api/v1/openapi.json` to discover the operations available on that release.
 
 For `apply_slate_operations`, supply the board's `share_id`, the plan's `message` and `operations`, and a `user_message` describing your request. To try an agent with the saved board, tell it “Read my slate and find the note about the retained copy. Show me the change you would make to assign it to the data team.” Give it the board ID. It can read the note and preview the edit through MCP. On a playable map, the side conversation, CLI and MCP tools can add a branch with an arrival instruction. The `move_workshop_card` tool reads the same rules as the app and lets you preview or save a token’s move. [Move a refund decision from a terminal](../../Examples/refund-approval.md) A read-only collaborator can read the slate. Previewing or applying edits requires write scope and edit permission on that board. [HTTP request bodies, responses and retries](slates.md)

@@ -1,0 +1,23 @@
+{
+  "product": "Slatebox",
+  "release": "20261119T024845Z",
+  "distribution": "on-request",
+  "source": {
+    "app": "a7895e5b96ce8a2961f621b9bc19dbef4df70cc4",
+    "engine": "cba73ae5e3075d5ffcabc3fb4d76f20da97a3ec7",
+    "relay": "4e17643453dc82d89996189483d69841e9324768"
+  },
+  "platforms": {
+    "linux/arm64": {
+      "filename": "slatebox-a7895e5b96ce-cba73ae5e307-4e17643453dc-arm64.tar",
+      "bytes": 694750208,
+      "sha256": "3bd9c8490c3d6d2ccf0c03c24f885df3c0f573352c4f6745bfa2bb4fa267146d"
+    },
+    "linux/amd64": {
+      "filename": "slatebox-a7895e5b96ce-cba73ae5e307-4e17643453dc-amd64.tar",
+      "bytes": 707318272,
+      "sha256": "d6211448a2a5d4c3afc4079f15e7b7fb486713714e4a564712ea781851e15429"
+    }
+  },
+  "packerSha256": "b4ed750abf68ca5ccb82f6c083fdff8f134db13797741902ffc52e712e866145"
+}
