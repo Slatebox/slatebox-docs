@@ -4,6 +4,8 @@
 
 Choose **Create slate**. Sketch on the canvas or describe the work in the conversation beside it. Try “Draw a flow from Request to Review to Approve” for three connected, editable notes. Paste steps or interview notes to give the conversation material to work with. [Create a slate](https://app.slatebox.com/new)
 
+On Pro or a paid Team plan, ask a follow-up about the drawing. For example, “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” Slatebox can use the notes and connections already on the canvas. Review the proposed notes and arrows, then choose **Keep changes** to add them.
+
 To see a source and its diagram together, open the call-status example. The two paths show what happened to new and existing calls during an outage. **Open the call diagram in a private slate** gives you the same drawing to edit. [See the call diagram](https://slatebox.com/product/intelligence/)
 
 Select a shape and tap one of its round connection handles to add a blank shape beside it. To place the new shape somewhere specific, drag the handle into open space. Double-tap the new shape to name it, or select it and press **F2**. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
@@ -25,11 +27,11 @@ To add artwork, send “For Review duplicates, set image https://example.org/rev
 
 ## Start a blank workshop
 
-A field-recording team has one recorder on Friday. Give everyone a place to pitch sounds, then let the team choose which one gets the slot. [Start a blank workshop](https://app.slatebox.com/new/workshop)
+A field-recording team has one recorder on Friday. Open **Create slate**, then send “Make a workshop with Pitches and Record on Friday, limit Record on Friday to one card.” Check the names and capacity in the preview, then choose **Keep changes**. The workshop and your original drawing share one private URL. [Create a slate](https://app.slatebox.com/new)
 
 Send each change in the conversation beside the board. Check the preview and choose **Keep changes** when it looks right.
 
-1. Send `Rename lane Lane 1 to Pitches`, then `Rename lane Lane 2 to Record on Friday`. Send `Set capacity of Record on Friday to 1` for the single recorder.
+1. If you want a different limit later, send `Set capacity of Record on Friday to 2`. Keep the single slot for this example.
 2. Send `Add card Dawn chorus to Pitches`. Add “Ferry horn” and “Rain on glass” the same way.
 3. Give a teammate an edit link. Drag “Dawn chorus” to **Record on Friday** or send `Move Dawn chorus to Record on Friday`. To choose “Ferry horn” instead, move the chorus back to **Pitches** first. [Share an edit link](#work-with-a-team)
 
