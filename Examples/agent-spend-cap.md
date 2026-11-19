@@ -25,7 +25,7 @@ Job reaches spend cap → Save checkpoint → Ask owner to resume
 
 ## Make the handoff specific
 
-Open **Share** and invite the engineer who owns the job. Have them select **Ask owner to resume**, press F2 and replace it with the name of the role that actually makes that call. Press Enter to save. Follow the two paths together and decide what the on-call engineer should do during the next interrupted import. [Share and present a slate](../Using-Slatebox/readme.md#work-with-a-team)
+Open **Share** and invite the engineer who owns the job. Have them double-click **Ask owner to resume** and replace it with the name of the role that actually makes that call. Press Enter to save. Follow the two paths together and decide what the on-call engineer should do during the next interrupted import. [Share and present a slate](../Using-Slatebox/readme.md#work-with-a-team)
 
 ## Create it from a terminal
 
