@@ -18,9 +18,23 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 | `GET /embed/{publishedSlateId}` | Display a published presentation snapshot | A published image |
 | `GET /healthz` | Check the edge service | Public |
 
-The shell CLI and MCP tools can read the same board and submit the same edit plan. [Edit from a terminal or an agent](terminal-and-agents.md)
-
 Download the OpenAPI 3.1 document for the request bodies, response schemas and operation IDs. Self-hosted instances serve their own version at `/api/v1/openapi.json`. The document can be read before issuing a token. [OpenAPI for Slatebox Cloud](https://api.slatebox.com/v1/openapi.json)
+
+## Work on the same decision map
+
+The canvas, CLI, MCP and HTTP API work on the same saved slate. The HTTP paths below are relative to `/v1` in Slatebox Cloud or `/api/v1` on your own instance. Check the OpenAPI schema on the instance you plan to use.
+
+| In the app | Shell command | MCP tool | HTTP operation |
+| --- | --- | --- | --- |
+| Start a private map from a brief | `slatebox create` | `create_slate` | `POST /slates` |
+| Open the saved map | `slatebox read` | `get_slate` | `GET /slates/{shareId}` |
+| Ask the side conversation to add a branch | `slatebox branch` | `add_map_branch` | Submit `add_map_branch` |
+| Change the instruction at a station | `slatebox outcome` | `update_map_outcome` | Submit `update_map_outcome` |
+| Drag the token to a connected station or choose it by keyboard | `slatebox move` | `move_workshop_card` | Submit `move_workshop_card` |
+| Create an invitation from **Share** | `slatebox share` | `create_slate_invite` | `POST /slates/{shareId}/invite` |
+| Withdraw that link | `slatebox unshare` | `revoke_slate_invite` | `DELETE /slates/{shareId}/invite/{inviteId}` |
+
+Submit map edits and moves to `POST /slates/{shareId}/operations`. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use **Manage Team**. To reorder presentation views, open the slate in the app. [Run the backfill review](../../Examples/review-a-backfill.md) · [CLI and MCP setup](terminal-and-agents.md) · [Team enrollment](organizations.md)
 
 ## Authentication
 
