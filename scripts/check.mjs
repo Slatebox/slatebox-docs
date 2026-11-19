@@ -7,6 +7,25 @@ const root='dist'
 async function walk(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(entry=>entry.isDirectory()?walk(join(dir,entry.name)):join(dir,entry.name)))).flat()}
 const files=(await walk(root)).filter(f=>f.endsWith('.html')), errors=[]
 const guideIndex=await readFile(join(root,'llms.txt'),'utf8')
+const releasePath = '/assets/self-host/release.json'
+const release = JSON.parse(await readFile(join(root, releasePath), 'utf8'))
+if (!guideIndex.includes(releasePath) || release.product !== 'Slatebox' ||
+    !/^\d{8}T\d{6}Z$/.test(release.release) || release.distribution !== 'on-request') {
+  errors.push('The current self-host release needs an indexed, identifiable kit.')
+}
+const revisions = ['app', 'engine', 'relay'].map(name => release.source?.[name])
+if (!revisions.every(rev => typeof rev === 'string' && /^[a-f0-9]{40}$/.test(rev))) {
+  errors.push('The kit needs all three exact source revisions.')
+} else {
+  for (const arch of ['arm64', 'amd64']) {
+    const archive = release.platforms?.['linux/' + arch]
+    const expectedName = ['slatebox', ...revisions.map(rev => rev.slice(0, 12)), arch].join('-') + '.tar'
+    if (archive?.filename !== expectedName || !Number.isSafeInteger(archive.bytes) ||
+        archive.bytes <= 0 || !/^[a-f0-9]{64}$/.test(archive.sha256)) {
+      errors.push('Missing or mismatched ' + arch + ' archive in the self-host release record.')
+    }
+  }
+}
 const guideLinks=new Set([...guideIndex.matchAll(/\]\((https:\/\/docs\.slatebox\.com\/[^)]+\.md)\)/g)].map(match=>match[1]))
 for(const file of files){
   const doc=await readFile(file,'utf8')

@@ -75,8 +75,8 @@ function promptFor(p) {
   if (p.section === 'Self-hosting') return [
     'Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at '+source+'.',
     'Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.',
-    'For a new install, use the matching Slatebox release kit and its SHA-256 checksum. If I do not have both, tell me exactly what to request and pause there. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
-    'Verify the checksum, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
+    'For a new install, read the current kit record at '+base+'/assets/self-host/release.json or its mirror at '+publishedFiles+'/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
+    'Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
   ].join('\n\n')
   const task = {
     Examples: 'Help me try the Slatebox example “'+p.title+'”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.',
@@ -135,6 +135,7 @@ for (const p of pages) {
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'The same files are available from the [published documentation repository]('+publishedFiles+'/llms.txt). To fetch a guide there, append its case-sensitive path to '+publishedFiles+'/.', '']
+agentIndex.push('[Current self-host release record]('+base+'/assets/self-host/release.json)', '')
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+')'),'')
 }
