@@ -73,6 +73,30 @@ curl --fail-with-body --silent --show-error \
 
 The preview returns HTTP 200 and includes `ok`, `dryRun`, `shareId`, `message`, materialized `operations` and a `report`. Inspect the report before applying a plan.
 
+## Add a decision and its outcome
+
+On a native decision map, read `summary.workshop.revision` and find the source station ID in `summary.workshop.lanes`. Send the following JSON to the same operations endpoint with Bearer authentication and a JSON content type. Substitute the saved station ID and revision.
+
+```json
+{
+  "dryRun": true,
+  "plan": {
+    "message": "Give the reviewer a recovery path",
+    "operations": [{
+      "kind": "add_map_branch",
+      "fromStationId": "source-station-id",
+      "label": "Repair missing rows",
+      "outcome": "reconcile the missing IDs and run the comparison again.",
+      "expectedRevision": 0
+    }]
+  }
+}
+```
+
+The preview reports the proposed station in `report.addedBranches`. Its ID appears in the source station’s `next` list in the returned `workshop.lanes`. To save, set `dryRun` to false and provide a fresh `Idempotency-Key` header, keeping the same plan and revision. The path and its instruction save in a single revision. If another editor saves first, read the new revision and preview again.
+
+To revise an existing arrival instruction, send a single `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision` in the same envelope. On a self-hosted instance, check its own `/api/v1/openapi.json` for these operation kinds. [Shell and MCP examples](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
+
 ## Apply the change
 
 This request **writes to the slate**. Use it on an editable test board first. Generate an idempotency key once per intended mutation, and keep the same key when retrying that exact request. Keys are scoped to the token, so use a new key for a different slate or edit.
