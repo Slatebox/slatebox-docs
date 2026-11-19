@@ -41,10 +41,11 @@ The canvas, CLI, MCP and HTTP API work on the same saved slate. The HTTP paths b
 | Ask the side conversation to add a branch | `slatebox branch` | `add_map_branch` | Submit `add_map_branch` |
 | Change the instruction at a station | `slatebox outcome` | `update_map_outcome` | Submit `update_map_outcome` |
 | Drag the token to a connected station or choose it by keyboard | `slatebox move` | `move_workshop_card` | Submit `move_workshop_card` |
+| Ask the conversation to present a scene first | `slatebox order` | `set_presentation_order` | Submit `set_presentation_order` |
 | Create an invitation from **Share** | `slatebox share` | `create_slate_invite` | `POST /slates/{shareId}/invite` |
 | Withdraw that link | `slatebox unshare` | `revoke_slate_invite` | `DELETE /slates/{shareId}/invite/{inviteId}` |
 
-Submit map edits and moves to `POST /slates/{shareId}/operations`. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use **Manage Team**. To reorder presentation views, open the slate in the app. [Run the backfill review](../../Examples/review-a-backfill.md) · [CLI and MCP setup](terminal-and-agents.md) · [Team enrollment](organizations.md)
+Submit map edits and moves to `POST /slates/{shareId}/operations`. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use **Manage Team**. Use **Present together** in the app to start the live session. [Run the backfill review](../../Examples/review-a-backfill.md) · [CLI and MCP setup](terminal-and-agents.md) · [Team enrollment](organizations.md)
 
 ## Authentication
 

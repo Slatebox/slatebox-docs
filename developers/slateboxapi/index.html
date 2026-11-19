@@ -91,6 +91,12 @@ If your client cannot fetch the documentation, read the same published file at h
 <td>Submit <code>move_workshop_card</code></td>
 </tr>
 <tr>
+<td>Ask the conversation to present a scene first</td>
+<td><code>slatebox order</code></td>
+<td><code>set_presentation_order</code></td>
+<td>Submit <code>set_presentation_order</code></td>
+</tr>
+<tr>
 <td>Create an invitation from <strong>Share</strong></td>
 <td><code>slatebox share</code></td>
 <td><code>create_slate_invite</code></td>
@@ -103,7 +109,7 @@ If your client cannot fetch the documentation, read the same published file at h
 <td><code>DELETE /slates/{shareId}/invite/{inviteId}</code></td>
 </tr>
 </tbody></table>
-<p>Submit map edits and moves to <code>POST /slates/{shareId}/operations</code>. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use <strong>Manage Team</strong>. To reorder presentation views, open the slate in the app. <a href="/examples/review-a-backfill/">Run the backfill review</a> · <a href="/developers/slateboxapi/terminal-and-agents/">CLI and MCP setup</a> · <a href="/developers/slateboxapi/organizations/">Team enrollment</a></p>
+<p>Submit map edits and moves to <code>POST /slates/{shareId}/operations</code>. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use <strong>Manage Team</strong>. Use <strong>Present together</strong> in the app to start the live session. <a href="/examples/review-a-backfill/">Run the backfill review</a> · <a href="/developers/slateboxapi/terminal-and-agents/">CLI and MCP setup</a> · <a href="/developers/slateboxapi/organizations/">Team enrollment</a></p>
 <h2 id="authentication">Authentication</h2><p>Sign in, open <strong>Profile → Developer access</strong>, and create a personal token. Copy it into a local secret store when issued. Send it in the <code>Authorization: Bearer</code> header. The service checks the token&#39;s scopes and the account&#39;s current access on every request. Revoke unused tokens in the same profile panel. <a href="https://app.slatebox.com/profile">Developer access</a></p>
 <p>For the shell examples, set <code>SLATEBOX_TOKEN</code> in your terminal through your secret manager and set <code>SLATEBOX_SHARE_ID</code> to the identifier following <code>/canvas/</code> in a slate you can access. Public web pages should call their own backend when requests require personal credentials. The Worker also accepts the original app-style <code>/api/v1/slates/…</code> paths. <a href="/developers/slateboxapi/slates/">Read, preview and apply an edit</a></p>
 <h2 id="embed-a-published-board">Embed a published board</h2><p>For an interactive walkthrough, open <strong>View previous versions</strong> in the presentation editor and select <strong>Copy embed code</strong> on the published version. Readers can advance through the viewpoints inside your page. <a href="/examples/embed-a-walkthrough/">Try a walkthrough in a handbook</a></p>

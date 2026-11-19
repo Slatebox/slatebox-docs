@@ -3,7 +3,7 @@
 ## Agent prompt
 
 ```text
-Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board or create a private decision map from my question. For a new map, create it once, reuse the same key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction or move. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
+Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board or create a private decision map from my question. For a new map, create it once, reuse the same key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction, token move or presentation order. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
 
 Read https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -22,7 +22,7 @@ Use Node.js 20 or later. Download the package and its checksum into the project 
 
 ```sh
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.4.tgz
+package=slatebox-mcp-0.2.5.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -41,7 +41,7 @@ On Linux, `sha256sum -c` can also verify the checksum. If the downloads host is 
 }
 ```
 
-[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.4.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.4.tgz.sha256)
+[Download the tools](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.5.tgz) · [SHA-256 checksum](https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.5.tgz.sha256)
 
 ## Create a private decision map
 
@@ -76,6 +76,19 @@ npx --no-install slatebox branch "$SLATEBOX_SHARE_ID" "Compare row counts" "Repa
 The result includes the new station ID in `report.addedBranches`. To change just its instruction, preview `slatebox outcome "$SLATEBOX_SHARE_ID" "Repair missing rows" "Compare the repaired IDs with the source table."` and save against its preview revision with a fresh key. If someone saves first, read the slate and review a new preview.
 
 In MCP, call `add_map_branch` with `share_id`, `from_station`, `label` and `outcome`. To revise an instruction, call `update_map_outcome` with `share_id`, `station` and `outcome`. Both tools preview by default. To save, supply `dry_run: false`, `expected_revision` and `idempotency_key`. Use a token with read and write scopes and a board you can edit. [Try the backfill map](../../Examples/review-a-backfill.md)
+
+## Choose the opening scene
+
+On the backfill map, put the recovery instruction first for a reviewer. Supply every scene once, using its ID or exact unique label. Preview the order before saving.
+
+```sh
+npx --no-install slatebox order "$SLATEBOX_SHARE_ID" \
+  "Repair missing rows" "Backfill review" "Compare row counts" "Approve cutover"
+```
+
+Read `report.presentationOrder` and `workshop.revision`. To commit the sequence you reviewed, repeat the command with `--apply --revision N --idempotency-key "$order_key"`. Replace `N` with that revision and generate `order_key` once for this change. Use the same key and IDs on retry. If another editor saved a change first, read the slate and preview the order again.
+
+In MCP, call `set_presentation_order` with `share_id` and `scenes`. To commit, add `dry_run: false`, `expected_revision` and `idempotency_key`. Open **Present together** on the saved slate. Your reviewer can follow through their read link. A previously published walkthrough gets the new order when its owner republishes. [Run the team walkthrough](../../Examples/review-a-backfill.md#open-the-review-with-the-risk)
 
 ## Invite a reviewer
 

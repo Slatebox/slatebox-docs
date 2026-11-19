@@ -82,11 +82,11 @@ For a solo rehearsal, choose **Present**. [Try the three views on the product pa
 
 ### Present a workshop together
 
-A curator and a reviewer can visit the same detail at the same time. In the gallery guide, add **Look at the brushwork**, then choose **Open my guide in Slatebox** to save your map. [Build a gallery guide](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
+When a reviewer needs the recovery plan first, open the conversation beside your map and type **Present Repair missing rows first**, using the scene name on your board. Check the numbered sequence, then choose **Keep changes**. To move a later scene, type **Present Approve cutover after Compare row counts**. [Try the backfill review](../Examples/review-a-backfill.md)
 
-1. On the saved map, choose **Share** and give the reviewer a link with **read** access. They can follow with that permission.
-2. As an editor, choose **Present together**. Ask the reviewer to open the shared board link and choose **Follow presentation**.
-3. Advance to **Look at the brushwork**. The reviewer’s player follows you to the same detail and arrival text. The reviewer can choose **Leave presentation** to return to the board. Choose **End presentation** when you’re done to return the remaining followers to the board.
+1. Choose **Share** and give your reviewer a link with **read** access.
+2. Choose **Present together**. The reviewer opens the shared slate and chooses **Follow presentation**.
+3. Use **Next station** and **Previous** to walk through the decision together. The reviewer follows your scene and its arrival instruction. **Leave presentation** returns the reviewer to the board. **End presentation** ends the live session.
 
 This also works on saved workshops with lanes and cards. Choose **Present** for a self-paced rehearsal.
 
