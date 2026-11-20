@@ -128,7 +128,7 @@ docker rm -f slatebox
 docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data ghcr.io/slatebox/slatebox
 ```
 
-Use the same options you started with. The volume carries your slates, accounts and secrets to the new container. Take a backup first.
+Use the same options you started with. The volume carries your slates, accounts, uploaded files and secrets to the new container. Take a backup first.
 
 ## Back up and restore
 
@@ -138,7 +138,7 @@ Back up while Slatebox is running:
 docker exec slatebox slatebox backup > slatebox-backup.gz
 ```
 
-The file holds every slate and account. Keep it somewhere private.
+The file holds every slate, account and uploaded file (pictures, chat attachments, team logos). Keep it somewhere private.
 
 Restore into the same installation, or into a new one on another machine after starting it with the `docker run` command:
 
