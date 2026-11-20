@@ -114,6 +114,7 @@ Every option is optional. Give one with `-e NAME=value` in the `docker run` comm
 | `SLATEBOX_AI_URL` and `SLATEBOX_AI_MODEL` | Use your own OpenAI-compatible endpoint and model for AI drafts. `SLATEBOX_AI_KEY` is then that endpoint's bearer token, if it needs one. |
 | `SLATEBOX_SSO` | Set to `keycloak` to turn on single sign-on with the Keycloak bundled in the image. Off by default. See [Single sign-on](single-sign-on.md). |
 | `SLATEBOX_SSO_ONLY` | Set to `true`, together with `SLATEBOX_SSO=keycloak`, so that people can only sign in with single sign-on: no passwords and no guests. |
+| `SLATEBOX_SSO_ADMIN` | `open` (default) or `closed`, together with `SLATEBOX_SSO=keycloak`. `closed` keeps Keycloak's admin console off the published port once your company's sign-in is set up. |
 | `SLATEBOX_SETTINGS` | A JSON object with further app settings. `{"daily":{"apiKey":"..."}}` supplies the [Daily](https://www.daily.co) key that audio and video calls need. |
 | `MONGO_URL` | Use a MongoDB replica set you run elsewhere. The bundled database is then not started. `MONGO_OPLOG_URL` is passed to the app as well when set. |
 
