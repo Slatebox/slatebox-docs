@@ -23,8 +23,8 @@ Open [http://localhost:7070](http://localhost:7070) on the machine that runs Doc
   ```
 
   On ARM the first line reads `This processor cannot run MongoDB 8.0: it needs ARMv8.2-A or newer (a Raspberry Pi 5 works; a Raspberry Pi 4 or older does not).`
-- **Memory:** Slatebox uses about half a gigabyte while a few people work in it. Give the machine at least 1 GB of free memory, and 2 GB for a team.
-- **Disk:** about 360 MB to download, 1.9 GB once unpacked, plus your slates.
+- **Memory:** Slatebox uses about half a gigabyte while a few people work in it. Give the machine at least 1 GB of free memory, and 2 GB for a team. [Single sign-on](single-sign-on.md) adds about 0.5 GB while it is on.
+- **Disk:** about 585 MB to download, 2.5 GB once unpacked, plus your slates. About 225 MB of the download is Keycloak and its Java runtime, for [single sign-on](single-sign-on.md); they take no memory while single sign-on is off.
 
 ## First run
 
@@ -47,6 +47,7 @@ Everything Slatebox stores is in the Docker volume `slatebox-data`, mounted at `
 | `db` | The database: slates, accounts, invitations |
 | `secrets` | Secrets generated on the first start, readable only inside the container |
 | `caddy` | HTTPS certificates, when built-in HTTPS is on |
+| `keycloak` | Single sign-on: Keycloak's database of people, company sign-in providers and sign-in events, when [single sign-on](single-sign-on.md) is on |
 
 The container itself holds no state. You can remove it and start a new one on the same volume at any time. Removing the volume deletes your slates.
 
@@ -111,6 +112,8 @@ Every option is optional. Give one with `-e NAME=value` in the `docker run` comm
 | `SLATEBOX_MAIL_FROM` | The address mail is sent from, for example `Slatebox <boards@example.com>`. Use an address your mail service accepts as a sender. When the user name in `SLATEBOX_MAIL_URL` is itself an address, that address is used and this option can be left out. |
 | `SLATEBOX_AI_KEY` | A [DeepInfra](https://deepinfra.com) API key. Turns on AI drafts. |
 | `SLATEBOX_AI_URL` and `SLATEBOX_AI_MODEL` | Use your own OpenAI-compatible endpoint and model for AI drafts. `SLATEBOX_AI_KEY` is then that endpoint's bearer token, if it needs one. |
+| `SLATEBOX_SSO` | Set to `keycloak` to turn on single sign-on with the Keycloak bundled in the image. Off by default. See [Single sign-on](single-sign-on.md). |
+| `SLATEBOX_SSO_ONLY` | Set to `true`, together with `SLATEBOX_SSO=keycloak`, so that people can only sign in with single sign-on: no passwords and no guests. |
 | `SLATEBOX_SETTINGS` | A JSON object with further app settings. `{"daily":{"apiKey":"..."}}` supplies the [Daily](https://www.daily.co) key that audio and video calls need. |
 | `MONGO_URL` | Use a MongoDB replica set you run elsewhere. The bundled database is then not started. `MONGO_OPLOG_URL` is passed to the app as well when set. |
 
@@ -138,7 +141,7 @@ Back up while Slatebox is running:
 docker exec slatebox slatebox backup > slatebox-backup.gz
 ```
 
-The file holds every slate, account and uploaded file (pictures, chat attachments, team logos). Keep it somewhere private.
+The file holds every slate, account and uploaded file (pictures, chat attachments, team logos). With single sign-on on, it also holds Keycloak's database and the secrets that open it. Keep it somewhere private.
 
 Restore into the same installation, or into a new one on another machine after starting it with the `docker run` command:
 
@@ -183,6 +186,8 @@ docker logs slatebox
 | Edits do not appear in a second browser | Live editing uses a WebSocket on the same address. If your own proxy is in front, make sure it forwards WebSocket upgrades. |
 | A restore says the file is not a complete backup | The backup file is empty or cut short. Make a new backup and check that the command printed `Backup complete`. |
 
+With single sign-on on, also see [Single sign-on](single-sign-on.md#troubleshooting).
+
 `docker exec slatebox slatebox health` prints the reason when Slatebox is not healthy, and `docker exec slatebox slatebox version` prints the exact source revisions the image was built from.
 
 ## What is inside, and its licenses
@@ -193,7 +198,8 @@ The Slatebox app, the SlateboxJS canvas engine and the collaboration relay are M
 | --- | --- |
 | Slatebox app, SlateboxJS, collaboration relay | MIT |
 | MongoDB Community Server | Server Side Public License (SSPL) v1 |
-| MongoDB Database Tools, Caddy | Apache License 2.0 |
+| MongoDB Database Tools, Caddy, Keycloak | Apache License 2.0 |
+| Eclipse Temurin Java runtime (runs Keycloak) | GPL 2.0 with the Classpath Exception |
 | Node.js, Meteor, tini | MIT |
 | Fonts for the interface and for rendering slate images | SIL Open Font License 1.1 or Apache License 2.0, per family |
 | Ubuntu base system and npm packages | Each under its own license |

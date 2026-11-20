@@ -71,11 +71,13 @@ function list(rows) {
 }
 function promptFor(p) {
   const source = base+'/'+p.file
+  if (p.section === 'Self-hosting' && p.agentPrompt) return p.agentPrompt+'\n\nRead the official guide at '+source+' first. Tell me what you verified and which steps I still need to do.'
   if (p.section === 'Self-hosting') return [
     'Help me run my own Slatebox with Docker. Read the official installation guide at '+source+'.',
     'Check that Docker is running on the target host, which address people will use to reach Slatebox, and whether a container named slatebox or a volume named slatebox-data already exists. If one exists, keep the volume and follow the upgrade steps in the guide instead of starting over.',
+    'Ask whether people should sign in with their company account (Microsoft Entra ID, Okta, Google Workspace, SAML, LDAP or Active Directory). Single sign-on comes with the image: Keycloak is bundled in it and is off by default. If they should, add -e SLATEBOX_SSO=keycloak, and -e SLATEBOX_SSO_ONLY=true only if passwords and guests must be switched off, then follow the single sign-on guide at '+base+'/Installation/single-sign-on.md. Never print the Keycloak admin password or the SCIM secret; tell me the docker exec slatebox slatebox sso command that shows it.',
     'For a new installation, run the one docker run command from the guide, wait until docker ps reports the container as healthy, and give me the address to open. Add only the settings from the guide that my answers call for.',
-    'Then show me how to confirm that a slate survives a reload and that a second browser sees my edits as I make them. Report which checks actually ran and what still needs my input.'
+    'Then show me how to confirm that a slate survives a reload and that a second browser sees my edits as I make them. With single sign-on on, also give me the admin console address from docker exec slatebox slatebox sso. Report which checks actually ran and what still needs my input.'
   ].join('\n\n')
   const task = {
     Examples: 'Help me try the Slatebox example “'+p.title+'”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.',
