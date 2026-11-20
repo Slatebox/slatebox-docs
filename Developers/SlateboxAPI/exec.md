@@ -108,6 +108,8 @@ A save is held, not made, when the script:
 - would show content to more people than the slates it read (for example, copying a private slate's text onto a public one);
 - grants access, such as creating an invitation link.
 
+These rules hold exec runs only: `slatebox exec`, `POST /api/v1/exec` and the MCP `exec` tool. A single `POST /api/v1/slates/{shareId}/operations` call made outside exec is not held. It saves with the token's scopes and the `expectedRevision` it sends, so give a token that should never make large rewrites `slates:read` only, or run its edits through exec.
+
 A held call throws `SlateboxError` with code `confirmation_required`. Calls before it have saved, and the result lists them. The result has `status: "confirmation_required"` and a `confirmation` with an id, an expiry and the reasons. To go ahead, run the same code again with `confirm` set to that id and the same `idempotencyKey`. A confirmation works once, for that code, for 10 minutes.
 
 | Where you run exec | Who confirms |

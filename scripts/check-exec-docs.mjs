@@ -183,6 +183,14 @@ test('the confirmation rules say exactly what the gate counts', () => {
   assert.match(exec, /\| Note text rewrites in one script before confirmation \| 10 \|/)
 })
 
+// Review F3 (release/agentic): the owner's rule is about scripts. Say that a direct API call is
+// not held, so nobody reads the rule as covering every write.
+test('the confirmation rules say they hold scripts, not a direct API call', () => {
+  const rules = section(exec, 'Saves that wait for confirmation')
+  assert.match(rules, /hold exec runs only/, 'the rules name what they hold')
+  assert.match(rules, /`POST \/api\/v1\/slates\/\{shareId\}\/operations` call made outside exec is not held/, 'a direct API call is not held')
+})
+
 // Restated (release/agentic): every edit names its revision; a canvas edit without one is
 // refused, and with one it conflicts only on what it changes.
 test('the exec page says when a save in between is caught and when it is not', () => {
