@@ -18,7 +18,7 @@ From a terminal or an agent, you work with Slatebox by running a short script ag
 
 ## Connect to your board
 
-In **Profile → Developer access**, choose the token permissions you need. **Read slates** and **Create and edit slates** are selected by default. To issue or withdraw invitation links for your own boards, also select **Manage invitation links on slates I own** (`slates:share`). Load the token from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set `SLATEBOX_BASE_URL` to the HTTPS origin of your Slatebox instance. [Developer access](https://app.slatebox.com/profile)
+In **Profile → Developer access**, choose the token permissions you need. **Read slates** and **Create and edit slates** are selected by default. To issue or withdraw invitation links for your own boards, also select **Manage invitation links on slates I own** (`slates:share`). Load the token from your secret manager into the environment variable `SLATEBOX_API_TOKEN`. An MCP client can pass that variable to its child process through its secret settings. Set `SLATEBOX_BASE_URL` to your Slatebox origin: `https://app.slatebox.com` for Slatebox Cloud, or the HTTPS origin of your own instance. [Developer access](https://app.slatebox.com/profile)
 
 ## Install the package
 
@@ -47,16 +47,17 @@ Point your MCP client's stdio server at the installed executable. Replace the ex
     "slatebox": {
       "command": "/absolute/path/to/project/node_modules/.bin/slatebox-mcp",
       "env": {
-        "SLATEBOX_API_TOKEN": "${SLATEBOX_API_TOKEN}"
+        "SLATEBOX_API_TOKEN": "${SLATEBOX_API_TOKEN}",
+        "SLATEBOX_BASE_URL": "${SLATEBOX_BASE_URL:-https://app.slatebox.com}"
       }
     }
   }
 }
 ```
 
-The `${SLATEBOX_API_TOKEN}` form is how Claude Code reads the token from your environment; other clients have their own secret settings. To run scripts on your Slatebox instance instead, connect the client to the instance's `/mcp` endpoint with a bearer token. Nothing is installed locally then, and scripts run in the instance's sealed runner. [Connect an agent](exec.md#connect-an-agent)
+The `${SLATEBOX_API_TOKEN}` form is how Claude Code reads the token and the origin from your environment; other clients have their own secret settings. To run scripts on your Slatebox instance instead, connect the client to the instance's `/mcp` endpoint with a bearer token. Nothing is installed locally then, and scripts run in the instance's sealed runner. [Connect an agent](exec.md#connect-an-agent)
 
-The agent gets two tools. `describe` lists the methods your token can use and returns their full types. `exec` runs a script with `intent`, `code` and optionally `mode: "preview"`, `confirm` and `idempotencyKey`.
+The agent gets two tools. `describe` lists every method in the client with the scope it needs, and returns their full types. `exec` runs a script with `intent`, `code` and optionally `mode: "preview"`, `confirm` and `idempotencyKey`.
 
 ## Run a script from the terminal
 
@@ -86,11 +87,11 @@ When a save is held for confirmation in a terminal, the CLI prints the reasons a
 | 0 | The script completed |
 | 1 | Any other failure |
 | 2 | The command line was not understood |
-| 3 | The token was refused (401) |
-| 4 | Access was refused or the slate was not found (403 or 404) |
-| 5 | The run was refused before it started (409 or 422) |
+| 3 | The run was refused before the script ran because the token was refused (401), as `--remote` can be |
+| 4 | The run was refused before the script ran because access was refused (403 or 404), as `--remote` can be |
+| 5 | The run was refused before the script ran (409 or 422), as `--remote` can be |
 | 6 | A save is waiting for confirmation |
-| 7 | The script failed; the error has its line and column |
+| 7 | The script failed, including when a call in it was refused (for example 401 for the token or 404 for a slate); the error names the call and has its line and column |
 
 ## Create a diagram from source material
 
@@ -185,7 +186,7 @@ Run it with `--preview` first and read `order`. To commit the sequence you revie
 
 ## Invite a reviewer
 
-On your own instance, run `npx --no-install slatebox describe invite`. If it lists no invitation methods, the owner can issue the link from **Share** in the canvas or upgrade the instance first.
+Run `npx --no-install slatebox describe invite` to see the two invitation methods and the scope they need, `slates:share`. A token without **Manage invitation links on slates I own** gets `403 insufficient_scope` from them; the owner can still issue the link from **Share** in the canvas.
 
 An invitation turns a private slate into an unlisted slate. Anyone with the invitation URL can use its role. Choose `read` for someone reviewing a decision, `comment` for feedback, or `edit` for someone making changes on the board.
 
@@ -245,11 +246,11 @@ Reopen the whiteboard in the browser. Find “Who owns deletion of the retained 
 
 | Action | In an exec script | HTTP request |
 | --- | --- | --- |
-| Read the board | `slatebox.slates.get({ shareId, include: "full" })` | `GET /v1/slates/{shareId}` with optional `?include=full` |
-| Preview the question | `slatebox.slates.applyOperations({ shareId, plan, mode: "preview" })`, or the whole script with `--preview` | `POST /v1/slates/{shareId}/operations` with `mode: "preview"` |
+| Read the board | `slatebox.slates.get({ shareId, include: "full" })` | `GET /api/v1/slates/{shareId}` with optional `?include=full` |
+| Preview the question | `slatebox.slates.applyOperations({ shareId, plan, mode: "preview" })`, or the whole script with `--preview` | `POST /api/v1/slates/{shareId}/operations` with `mode: "preview"` |
 | Save the question | The same call without `mode`, run with an `idempotencyKey` | POST the same plan with an `Idempotency-Key` header |
 | Run a whole script on the instance | `slatebox exec FILE --remote` | `POST /api/v1/exec` with `intent` and `code` |
 
-For creating, sharing or presenting a map, see the [editor, exec and HTTP table](readme.md#work-on-the-same-decision-map). On a self-hosted instance, run `npx --no-install slatebox describe` to see the methods available on that release.
+For creating, sharing or presenting a map, see the [editor, exec and HTTP table](readme.md#work-on-the-same-decision-map). `npx --no-install slatebox describe` lists the methods of the package you installed. A self-hosted instance older than the package answers a method it does not have yet with `404`.
 
 To try an agent with the saved board, tell it “Read my slate and find the note about the retained copy. Show me the change you would make to assign it to the data team.” Give it the board ID. It reads the note and previews the edit in one `exec` call. On a playable map, the same script can add a branch with an arrival instruction or move a token, under the same rules as the app. [Move a refund decision from a terminal](../../Examples/refund-approval.md) A read-only collaborator can read the slate. Previewing or saving edits requires write scope and edit permission on that board.

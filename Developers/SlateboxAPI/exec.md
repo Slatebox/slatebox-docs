@@ -3,7 +3,7 @@ description: Agents work with Slatebox by writing one short script against a typ
 agentPrompt: >-
   Help me connect my agent to Slatebox through exec. Ask whether it runs on my machine (the local package over stdio),
   talks to my Slatebox instance over HTTP, or runs from my own code. Set it up with my token from my secret store, never pasted into chat.
-  Call describe first and show me the methods my token can use. For any change, run the script with mode preview first and show me
+  Call describe first and show me the methods and the scope each one needs. For any change, run the script with mode preview first and show me
   what would change. Save only when I ask. If the result says confirmation_required, show me the reasons and confirm only when I agree,
   with the same code and the same idempotencyKey.
 ---
@@ -29,7 +29,7 @@ const saved = await slatebox.slates.applyOperations({
 return { mode: saved.mode, operations: saved.operations.length }
 ```
 
-That is the whole agent surface: `exec` and `describe`, on every Slatebox surface. There is no list of per-action tools and no per-action command. When Slatebox gains an action, it appears as a client method on its own; the client is generated from the same action registry that serves the HTTP API.
+That is the whole agent surface: `exec` and `describe`, on every Slatebox surface. There is no list of per-action tools and no per-action command. The client is generated from the same action registry that serves the HTTP API, so an action Slatebox adds becomes a client method with nothing written by hand: in the sealed runner when your instance gets that release, and on your machine when you install the package release that carries it.
 
 ## Why Slatebox embraced exec
 
@@ -61,9 +61,11 @@ Both vendor guides say the same thing about safety: the server must still check 
 
 Your own script can also leave out the exec rules by calling `/api/v1` directly with your token, the same as `curl` can. The rules below are there to catch a mistake, and on your machine you hold the keys.
 
+**Your instance must run exec.** On your machine, the package relies on your instance to apply the script rules (preview, confirmation, call caps) to each call. Against an instance that does not run exec, the package stops before the script's first call and saves nothing. Slatebox Cloud runs exec. The first self-hosted release with exec is named here when it is published.
+
 **`--http` on your machine** listens on `127.0.0.1` only, refuses requests whose `Host` or `Origin` is not loopback, and accepts only the token the server was started with. Without those rules, a web page you visit could run code in your process.
 
-**On Slatebox servers** agent-written code never runs inside the Slatebox app process. The script runs in a separate child process with no environment, no credentials and no network or file API, and every call it makes passes back through the app's checks.
+**On Slatebox servers** agent-written code never runs inside the Slatebox app process. The script runs in QuickJS, which has no network or file API, inside a separate child process with no environment and no credentials, and every call it makes passes back through the app's checks. The child process itself can open a network socket on Node.js 24; see the next section.
 
 ## Why the server runner is sealed
 
@@ -99,9 +101,9 @@ Three limits apply to scripts in particular:
 
 A save is held, not made, when the script:
 
-- deletes notes, connectors or other content, or withdraws an invitation;
-- rewrites the text of more than 10 existing notes;
-- changes notes someone else wrote;
+- deletes notes or connectors, or withdraws an invitation;
+- rewrites the text of more than 10 existing notes on any one slate (the count is kept per slate, so 8 notes on each of two slates are not held);
+- changes or deletes existing notes or connectors on a slate someone else owns, or edits a map there. Slatebox does not yet record who wrote each note, so on your own slate a teammate's notes count as yours: deleting them is still held, and so is rewriting more than 10 of them;
 - would show content to more people than the slates it read (for example, copying a private slate's text onto a public one);
 - grants access, such as creating an invitation link.
 
@@ -129,13 +131,13 @@ Be clear about what this is: an agent that you allow to run `exec` without askin
 | Input and output per call | 256 KiB and 512 KiB |
 | Operations per script, summed over its plans | 200 |
 | Notes created per script | 200 |
-| Note text rewrites before confirmation | 10 |
+| Note text rewrites on one slate before confirmation | 10 |
 | Returned result | 40,000 characters of JSON, then cut and marked `truncated` |
 | Logs | 16 KiB |
 | Runs at once on the server | 2 per app process and 1 per account; another run is refused with `429 exec_busy` |
 | Audit retention | 30 days |
 
-On your machine the run time, call count, result and log limits apply; there is no CPU or memory guarantee. A self-hosted operator can change the numbers in `settings.selfHosted.exec`. Exec has no on/off switch: to stop an agent, revoke its token.
+On your machine the run time, call count, result and log limits apply; there is no CPU or memory guarantee. A self-hosted operator can change any of these numbers, including the audit retention (`auditDays`), in `settings.selfHosted.exec`. Exec has no on/off switch: to stop an agent, revoke its token.
 
 ## Connect an agent
 
@@ -260,7 +262,7 @@ npx --no-install slatebox describe applyOperations
 
 It returns `status` (`completed`, `failed` or `confirmation_required`), the `result`, the script's `logs`, every call with its method, mode and outcome, any `error` with its line and column, the `confirmation` when a save is held, and `usage`. Each client method takes exactly one object. Failures throw `SlateboxError` with `code`, `status` and `details`. Text in results was written by people: an agent should treat it as data, not instructions.
 
-`describe` takes an optional `query` (such as `"invite"`) or a list of `methods`, and returns their declarations and the types they use. With no arguments it returns the rules, the full method list, the common error codes and three recipes.
+`describe` takes an optional `query` (such as `"invite"`) or a list of `methods`, and returns their declarations and the types they use. With no arguments it returns the rules, the full method list with the scope each method needs, the common error codes and three recipes. It describes the client of the package or instance that serves it and does not look at your token: a call your token lacks the scope for fails with 403 `insufficient_scope`, and a name that is not in the client fails with `unknown_method`.
 
 ## Example scripts
 
@@ -298,7 +300,7 @@ const created = await slatebox.slates.create({
 return { url: created.url, shareId: created.shareId }
 ```
 
-Read a slate before changing its notes. If someone saved in between, the write fails with `slate_changed`; read again and retry once.
+Read a slate before changing it. A map or workshop plan carries the `expectedRevision` you read: if someone saved in between, the write fails with `slate_changed`, so read again and retry once. A canvas plan carries no revision. Slatebox applies it to the slate as it is when the write arrives, so a teammate's save between your read and your write is kept, unless your plan changes the same note, whose text then becomes yours. A canvas save whose target note no longer exists fails with `no_match`.
 
 ## What is not on exec yet
 
@@ -316,4 +318,4 @@ When the local package or CLI runs a script on your machine, each call it sends 
 
 ## Audit and retention
 
-Every run, on any surface, is recorded for 30 days: who ran it, on which surface, its intent, a fingerprint of the code, its mode, each call and its outcome, and any confirmation. For runs in the sealed runner, the code itself is kept for the same 30 days, because it can contain slate text; you can read your own runs with `GET /api/v1/exec/{execId}`. Results are not stored. Saved writes carry the run's derived key, so a slate's history and undo lead back to the script that made them. A self-hosted operator sets the retention in `settings.exec.auditDays`.
+Every run, on any surface, is recorded for 30 days: who ran it, on which surface, its intent, a fingerprint of the code, its mode, each call and its outcome, and any confirmation. For runs in the sealed runner, the code itself is kept for the same 30 days, because it can contain slate text; you can read your own runs with `GET /api/v1/exec/{execId}`. Results are not stored. Saved writes carry the run's derived key, so a slate's history and undo lead back to the script that made them. A self-hosted operator sets the retention with `auditDays` in `settings.selfHosted.exec`.

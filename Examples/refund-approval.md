@@ -55,4 +55,4 @@ npx --no-install slatebox exec refund-move.js --idempotency-key "$move_key"
 
 Reopen the same private map. Look for **Team · Ask finance**. A colleague with a read invitation can open the map and present the decision. If a teammate changes the map after you read it, the save fails with `slate_changed`. Run the script again: it reads the current paths before it moves the token.
 
-An agent runs the same script with one `exec` call, first with `mode: "preview"`, then in save mode when you agree. The HTTP API accepts the same plan at `POST /v1/slates/{shareId}/operations`. [Exec, HTTP and the CLI side by side](../Developers/SlateboxAPI/terminal-and-agents.md#run-the-same-edit-over-http)
+An agent runs the same script with one `exec` call, first with `mode: "preview"`, then in save mode when you agree. The HTTP API accepts the same plan at `POST /api/v1/slates/{shareId}/operations`. [Exec, HTTP and the CLI side by side](../Developers/SlateboxAPI/terminal-and-agents.md#run-the-same-edit-over-http)

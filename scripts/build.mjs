@@ -140,7 +140,7 @@ for (const p of pages) {
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
-agentIndex.push('[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)', '',
+agentIndex.push('[Slatebox Cloud OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)', '',
   'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '',
   '[Current self-host release record]('+base+'/assets/self-host/release.json) · [GitHub mirror]('+publishedFiles+'/assets/self-host/release.json)', '')
 for (const section of sections) {

@@ -4,7 +4,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
-import {readFile, readdir, stat} from 'node:fs/promises'
+import {execFile} from 'node:child_process'
+import {createServer} from 'node:http'
+import {mkdtemp, readFile, readdir, rm, stat} from 'node:fs/promises'
+import {tmpdir} from 'node:os'
 import path from 'node:path'
 import {marked} from 'marked'
 
@@ -123,10 +126,183 @@ test('a script never passes a second argument or an idempotency key to a client 
   }
 })
 
-test('the guides are not published before the exec package they install exists here', async () => {
+// What the exec page and the terminal guide say must be what the package and the app do.
+// Each check below names the behaviour it pins, read from the code at exec/app and exec/mcp.
+const terminal = () => text['Developers/SlateboxAPI/terminal-and-agents.md']
+const section = (source, heading) => source.split(/^## /m).find(s => s.startsWith(heading)) ?? ''
+
+test('every request and every MCP config points at the app origin, never the embed host', async () => {
+  // api.slatebox.com is the embed Worker: it answers GET /embed/{id} only, and 410 for /v1/.
+  // The HTTP API is /api/v1 on the app origin (https://app.slatebox.com on Cloud).
+  const build = await readFile('scripts/build.mjs', 'utf8')
+  for (const [file, source] of Object.entries({...text, 'scripts/build.mjs': build})) {
+    assert.doesNotMatch(source, /https:\/\/api\.slatebox\.com(?!\/embed\/)/, file + ' sends API requests to the embed host')
+    // A /v1 path may be named only to say it was retired.
+    for (const line of source.split('\n').filter(l => !/retired/.test(l))) {
+      assert.doesNotMatch(line, /`(GET|POST|DELETE) \/v1\/|relative to `\/v1`/, file + ' names a /v1 path the app does not serve')
+    }
+  }
+  for (const [file, source] of Object.entries(text)) {
+    for (const block of codeBlocks(source).filter(b => b.lang === 'json')) {
+      const servers = Object.values(JSON.parse(block.text).mcpServers ?? {})
+      for (const server of servers.filter(s => /slatebox-mcp$/.test(s.command ?? ''))) {
+        assert.ok(server.env?.SLATEBOX_BASE_URL, file + ': a slatebox-mcp config must set SLATEBOX_BASE_URL, so no one inherits a default origin')
+      }
+    }
+  }
+})
+
+test('no HTTP example sends dryRun: the operations request takes mode', () => {
+  for (const [file, source] of Object.entries(text)) assert.doesNotMatch(source, /dryRun/, file + ' sends dryRun, which answers 400 invalid_request')
+  assert.match(text['Developers/SlateboxAPI/slates.md'], /"mode":"preview"/)
+})
+
+test('describe is described as what it is: the client list with each method\'s scope', () => {
+  for (const file of [EXEC_PAGE, 'Developers/SlateboxAPI/terminal-and-agents.md']) {
+    for (const claim of [/methods your token can use/i, /available on that release/i, /lists no invitation methods/i, /appears as a client method on its own/i]) {
+      assert.doesNotMatch(text[file], claim, file + ' says describe depends on the token or the instance; it returns the package\'s own list')
+    }
+  }
+  assert.match(exec, /the scope (it|each method) needs/i)
+  assert.match(exec, /403 `insufficient_scope`/)
+  assert.match(exec, /`unknown_method`/)
+})
+
+test('the exit codes say which ones come from a refused run and which from a refused call', () => {
+  const rows = Object.fromEntries([...terminal().matchAll(/^\| (\d) \| (.+) \|$/gm)].map(m => [m[1], m[2]]))
+  for (const code of ['3', '4', '5']) assert.match(rows[code] ?? '', /before the script ran|--remote/, 'exit ' + code + ' applies to a refused run, not to a call inside the script')
+  assert.match(rows['7'] ?? '', /call/i, 'exit 7 covers a call the instance refused, such as 401 or 404 inside the script')
+})
+
+test('the confirmation rules say exactly what the gate counts', () => {
+  const rules = section(exec, 'Saves that wait for confirmation')
+  assert.match(rules, /more than 10 existing notes on any one slate/, 'the text rule counts per slate')
+  assert.match(rules, /slate someone else owns/, 'the others-notes rule is about the slate owner')
+  assert.match(rules, /does not yet record who wrote each note/, 'say what happens to teammates\' notes on your own slate')
+  assert.match(exec, /\| Note text rewrites on one slate before confirmation \| 10 \|/)
+})
+
+test('the exec page says when a save in between is caught and when it is not', () => {
+  assert.doesNotMatch(exec, /If someone saved in between, the write fails with `slate_changed`/)
+  assert.match(exec, /A canvas plan carries no revision/)
+  assert.match(exec, /`expectedRevision`/)
+})
+
+test('the sealed runner sentence does not promise a network-free child process on Node.js 24', () => {
+  assert.doesNotMatch(exec, /child process with no environment, no credentials and no network/)
+  assert.match(exec, /QuickJS, which has no network or file API/)
+})
+
+test('one setting holds each exec number', () => {
+  for (const [file, source] of Object.entries(text)) assert.doesNotMatch(source, /settings\.exec\.auditDays/, file + ' names a second key for the audit days')
+  assert.match(exec, /`settings\.selfHosted\.exec`/)
+})
+
+test('the exec page says what happens against an instance that does not run exec', () => {
+  assert.match(exec, /instance that does not run exec/)
+  assert.match(exec, /stops before the script's first call and saves nothing/)
+})
+
+// The release gate. The guides install slatebox-mcp 0.3.0 and describe an instance that runs
+// exec, so they are not published before both exist. Every check below runs the archive itself.
+const LAST_RELEASE_BEFORE_EXEC = '20261119T030029Z'
+
+function run(file, args, env) {
+  return new Promise(resolve => execFile(process.execPath, [file, ...args], {env: {PATH: process.env.PATH, ...env}, timeout: 60000}, (error, stdout, stderr) =>
+    resolve({code: error ? (typeof error.code === 'number' ? error.code : 1) : 0, stdout, stderr})))
+}
+
+// An instance from before exec: it ignores Slatebox-Exec-* headers and saves what it is sent.
+async function olderInstance(t) {
+  const saves = []
+  const server = createServer(async (req, res) => {
+    let body = ''
+    for await (const chunk of req) body += chunk
+    const send = (status, value) => { res.writeHead(status, {'content-type': 'application/json'}); res.end(JSON.stringify(value)) }
+    if (req.headers.authorization !== 'Bearer release-check') return send(401, {error: {code: 'unauthorized', message: 'A valid Slatebox API token is required.'}})
+    if (req.method === 'GET' && req.url === '/api/v1/slates/canvas') return send(200, {shareId: 'canvas', summary: {nodes: [{id: 'a', text: 'Alpha'}]}})
+    if (req.method === 'POST' && req.url === '/api/v1/slates/canvas/operations') {
+      const input = JSON.parse(body || '{}')
+      const result = {ok: true, shareId: 'canvas', message: input.plan?.message ?? '', operations: input.plan?.operations ?? [], report: {}}
+      if (input.mode === 'preview') return send(200, {...result, mode: 'preview'})
+      saves.push(input)
+      return send(201, {...result, mode: 'save'})
+    }
+    send(404, {error: {code: 'unknown_route', message: 'There is no such API route.'}})
+  })
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+  t.after(() => server.close())
+  return {saves, origin: 'http://127.0.0.1:' + server.address().port}
+}
+
+test('the guides are not published before the exec package and an exec release exist', async t => {
   const archive = path.join('assets/downloads', PACKAGE)
   const exists = await stat(archive).then(() => true, () => false)
   assert.ok(exists, 'Release step: build ' + PACKAGE + ' and its .sha256 into assets/downloads before publishing these guides')
   const expected = (await readFile(archive + '.sha256', 'utf8')).trim().split(/\s+/)[0]
   assert.equal(createHash('sha256').update(await readFile(archive)).digest('hex'), expected)
+
+  const project = await mkdtemp(path.join(tmpdir(), 'slatebox-exec-docs-'))
+  t.after(() => rm(project, {recursive: true, force: true}))
+  const pkg = path.join(project, 'node_modules', 'slatebox-mcp')
+  await new Promise((resolve, reject) => execFile('tar', ['xzf', path.resolve(archive), '-C', project], error => error ? reject(error) : resolve()))
+  await new Promise((resolve, reject) => execFile('mkdir', ['-p', path.join(project, 'node_modules')], e => e ? reject(e) : resolve()))
+  await new Promise((resolve, reject) => execFile('mv', [path.join(project, 'package'), pkg], e => e ? reject(e) : resolve()))
+  const manifest = JSON.parse(await readFile(path.join(pkg, 'package.json'), 'utf8'))
+  const cli = path.join(pkg, manifest.bin?.slatebox ?? 'missing')
+
+  await t.test('the archive is the 0.3.0 package the guides describe', async () => {
+    assert.equal(manifest.version, '0.3.0')
+    assert.equal(manifest.engines?.node, '>=22.13.0')
+    assert.ok(manifest.exports?.['./client'], 'slatebox-mcp/client must resolve')
+    for (const file of ['generated/client.json', 'generated/exec-tool.json']) await stat(path.join(pkg, file))
+    const imported = await new Promise(resolve => execFile(process.execPath, ['--input-type=module', '-e', 'const m = await import("slatebox-mcp/client"); console.log(typeof m.createClient)'], {cwd: project}, (e, out) => resolve(out.trim())))
+    assert.equal(imported, 'function')
+    const described = await run(cli, ['describe'], {SLATEBOX_API_TOKEN: 'release-check', SLATEBOX_BASE_URL: 'http://127.0.0.1:9'})
+    assert.equal(described.code, 0, 'slatebox describe must run from the archive: ' + described.stderr)
+  })
+
+  await t.test('both executables default to the app origin', async () => {
+    for (const file of (await walk(path.join(pkg, 'src'))).filter(f => f.endsWith('.js'))) {
+      for (const [origin] of (await readFile(file, 'utf8')).matchAll(/https:\/\/(?:api|app)\.slatebox\.com/g)) {
+        assert.equal(origin, 'https://app.slatebox.com', path.relative(pkg, file) + ' defaults to ' + origin)
+      }
+    }
+  })
+
+  await t.test('against an instance that does not run exec, the package saves nothing', async st => {
+    const instance = await olderInstance(st)
+    const env = {SLATEBOX_API_TOKEN: 'release-check', SLATEBOX_BASE_URL: instance.origin}
+    const add = 'return await slatebox.slates.applyOperations({ shareId: "canvas", plan: { message: "Add", operations: [{ kind: "add_nodes", count: 1, shape: "rectangle", text: "Q" }] } })'
+    const previewed = await run(cli, ['exec', '-e', add, '--preview'], env)
+    assert.deepEqual(instance.saves, [], '--preview saved on an instance that ignores the exec headers:\n' + previewed.stdout + previewed.stderr)
+    const remove = 'return await slatebox.slates.applyOperations({ shareId: "canvas", plan: { message: "Remove", operations: [{ kind: "delete_nodes", target: { ids: ["a"] } }] } })'
+    const removed = await run(cli, ['exec', '-e', remove], env)
+    assert.deepEqual(instance.saves, [], 'a delete saved without confirmation on an instance that ignores the exec headers')
+    assert.notEqual(removed.code, 0, 'a run that could not apply the exec rules must not report success')
+  })
+
+  await t.test('the limits table is the one the app generated into the package', async () => {
+    const {limits} = JSON.parse(await readFile(path.join(pkg, 'generated/client.json'), 'utf8'))
+    const row = label => (exec.match(new RegExp('^\\| ' + label + ' \\| (.+) \\|$', 'm')) ?? [])[1]
+    assert.equal(row('Run time'), limits.wallSeconds + ' seconds')
+    assert.equal(row('CPU time in the sealed runner'), limits.cpuSeconds + ' seconds')
+    assert.match(row('Memory and stack in the sealed runner') ?? '', new RegExp('^' + limits.memoryMiB + ' MiB'))
+    assert.equal(row('Code size'), limits.codeKiB + ' KiB')
+    assert.equal(row('Calls per script'), String(limits.callsPerScript))
+    assert.equal(row('Calls in flight at once'), String(limits.callsInFlight))
+    assert.equal(row('Operations per script, summed over its plans'), String(limits.operationsPerScript))
+    assert.equal(row('Notes created per script'), String(limits.notesCreatedPerScript))
+    assert.equal(row('Note text rewrites on one slate before confirmation'), String(limits.textRewritesBeforeConfirm))
+    assert.match(row('Returned result') ?? '', new RegExp('^' + limits.resultChars.toLocaleString('en-US') + ' characters'))
+    assert.equal(row('Logs'), limits.logKiB + ' KiB')
+    assert.equal(row('Audit retention'), limits.auditDays + ' days')
+    assert.match(exec, new RegExp('for ' + limits.confirmationMinutes + ' minutes'))
+  })
+
+  await t.test('a self-hosted release with exec is published and the page names it', async () => {
+    const releases = (await readdir('assets/self-host/releases')).map(f => f.replace(/\.json$/, '')).filter(id => id > LAST_RELEASE_BEFORE_EXEC).sort()
+    assert.ok(releases.length, 'Release step: publish the first self-host release built with exec into assets/self-host/releases')
+    assert.match(exec, new RegExp('first self-hosted release with exec is `' + releases[0] + '`'))
+  })
 })
