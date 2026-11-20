@@ -1,6 +1,6 @@
 ---
 title: Give the planetarium crew a second try
-description: Add one route to a Pro-generated map and give a teammate the exact lens position you chose.
+description: Add one route to an AI-generated map and give a teammate the exact lens position you chose.
 group: Interactions
 demo: telescope
 ---

@@ -1,6 +1,6 @@
 # Host a Slatebox instance
 
-Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docker host you manage. Browser clients connect to your app and relay. Board data lives in a persistent MongoDB volume. If you want Slatebox to operate the service, start in Slatebox Cloud. [Open the hosted app](https://app.slatebox.com/start)
+Run the whiteboard, its authenticated collaboration relay and MongoDB on a Docker host you manage. Browser clients connect to your app and relay. Board data lives in a persistent MongoDB volume. If you want Slatebox to operate the service, start in Slatebox Cloud. A self-hosted Slatebox has no meters: AI and calls use your own provider and Daily account. [Open the hosted app](https://app.slatebox.com/start) · [No meters on your own server](self-host-meters.md)
 
 ## Get the release
 
@@ -246,7 +246,7 @@ Initialization writes your private `.state/instance.env` and `.state/settings.js
 | Audio and video calls | [Configure and check your Daily connection](#configure-audio-and-video-calls). Daily hosts the media rooms. Board editing and presence work independently. |
 | Published presentation images | Configure `aws.region`, `aws.accessKey`, `aws.secretKey`, `aws.imageBucket` and `aws.cloudUrl` for your image bucket and viewer-accessible HTTPS asset origin. |
 
-The app’s `public` settings are delivered to browsers. Keep secrets in server settings. Apply app configuration changes with `./run up -d --no-deps --force-recreate --wait app`. Your cloud subscription, provider credentials and existing hosted slates are separate from the fresh installation.
+The app’s `public` settings are delivered to browsers. Keep secrets in server settings. Apply app configuration changes with `./run up -d --no-deps --force-recreate --wait app`. Your Slatebox Cloud account, provider credentials and existing hosted slates are separate from the fresh installation.
 
 ## Configure audio and video calls
 
