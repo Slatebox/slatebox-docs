@@ -12,6 +12,6 @@ A Slatebox you run yourself has no free amounts, no top-ups and no limits from u
 
 ## If you want limits
 
-An operator who wants limits can turn on the same meter that Slatebox Cloud uses. Set `metering.enabled` to `true` in the server settings, with your own free amounts and monthly budget. Leave it out, and the server has no meters.
+An operator who wants limits can turn on the same meter that Slatebox Cloud uses. Set `metering.enabled` to `true` in the server settings; that switch is the only setting. The free amounts start at the Cloud's amounts, and an admin changes the monthly budget and the hold on video paid from a top-up in **Admin → Free budget**. Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` in the environment, and top-ups need your own Stripe keys. Leave the switch out, and the server has no meters.
 
 [Install with Docker](install-with-docker.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

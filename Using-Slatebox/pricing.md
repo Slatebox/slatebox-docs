@@ -11,7 +11,7 @@ Slatebox is free. Unlimited slates, live editing, guests without accounts, teams
 
 | | Free for every signed-in person | After that |
 | --- | --- | --- |
-| AI drafting and image search | 30 drafts a day | Use your own AI key, or top up |
+| AI drafting | 30 drafts a day | Use your own AI key, or top up |
 | Voice calls you start | About 10 hours of four-person calls a month | Use your own Daily key, or top up |
 | Video calls you start | About 2 hours of four-person video a month | Use your own Daily key, or top up |
 
@@ -21,7 +21,7 @@ To use the free amount, sign in with an account whose email address is confirmed
 
 ## How we count
 
-**A draft is one request.** Each message that AI answers, each image search and each image generation is one draft. Typed steps with arrows, pasted lines and named lanes are drawn without AI and count for nothing.
+**A draft is one request.** Each message that AI answers is one draft. Image search and image generation use the month's free AI, not the daily count: each image search costs very little, and about 33 generated images use a month's free AI. Typed steps with arrows, pasted lines and named lanes are drawn without AI and count for nothing.
 
 **The month's free AI also has a cost limit.** Most drafts cost very little. A very large request costs more, and uses more of the month's free AI. When the month's free AI is used up, the profile says so, even if you have drafts left today.
 
@@ -47,9 +47,9 @@ There is also a limit on how much one person can start in a day, so that one acc
 
 Nothing is ever charged to a card that you did not top up. When a balance reaches $0, paid use stops; there is no bill afterwards.
 
-## Limits on every call
+## Limits on calls from your free amount or balance
 
-A call holds up to 20 people and runs for up to 3 hours. A call ends when one person has been alone on it for 10 minutes. Everyone sees a notice 2 minutes before a call ends.
+A call paid from your free amount or your balance holds up to 20 people and runs for up to 3 hours. It ends when one person has been alone on it for 10 minutes, or when the free amount or balance paying for it runs out; everyone sees a notice 2 minutes before either. A call on your own Daily key has Daily's limits and none of ours.
 
 ## The monthly budget
 

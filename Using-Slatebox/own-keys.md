@@ -5,7 +5,7 @@ description: Add your own AI key or Daily key. Slatebox then charges nothing and
 
 # Use your own keys
 
-With your own key, the provider bills you directly. Slatebox charges nothing and sets no limit on what the key pays for. Your free amount and your balance are left untouched.
+With your own key, the provider bills you directly. Slatebox charges nothing and sets no limit on what the key pays for. Image search and image generation are not covered by an AI key: they use your free amount, then your balance.
 
 ## Add a key
 
@@ -19,8 +19,8 @@ A team admin adds keys for the whole team in **Team settings**, under **Team key
 
 | Key | What it pays for |
 | --- | --- |
-| DeepInfra key | Every AI feature: drafts, conversation, presentations, image generation and image search. The models stay the same; only the key changes. |
-| OpenAI-compatible endpoint | A base URL, a model name and, if your server needs one, a key. Used for drafts and conversation. Presentations and image search use your free amount or your balance. |
+| DeepInfra key | AI drafts, conversation and presentations. The models stay the same; only the key changes. |
+| OpenAI-compatible endpoint | A base URL, a model name and, if your server needs one, a key. It must use https on a public host. Used for drafts and conversation. Presentations use your free amount or your balance. |
 | Daily key | Calls you start. They run on your Daily domain, with Daily's limits and none of ours. |
 
 ## How keys are kept

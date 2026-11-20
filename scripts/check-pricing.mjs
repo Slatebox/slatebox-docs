@@ -80,3 +80,32 @@ test('Developers links to the app source on GitHub only when that repository ans
   const linked = /github\.com\/Slatebox\/slatebox[)\s#"]/.test(read('Developers/readme.md'))
   assert.equal(linked, open, open ? 'the app repository is public: link it' : 'the app repository is not public: do not link it')
 })
+
+// What the docs say about money must be what the app does (the metering in the app's feat/pricing branch).
+test('the money claims match the app: own keys, images, the card fee, refunds, call limits and self-host settings', () => {
+  const pricing = read('Using-Slatebox/pricing.md'), top = read('Using-Slatebox/top-ups.md')
+  const keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
+  // An own AI key covers AI only (policy.mjs ownKeyCovers): image search and image generation use the free amount, then the balance.
+  const deepinfra = keys.split('\n').find(line => line.startsWith('| DeepInfra key')) || ''
+  assert.doesNotMatch(deepinfra, /image/i, 'own-keys.md: a DeepInfra key does not pay for image search or image generation')
+  assert.doesNotMatch(keys, /Your free amount and your balance are left untouched\./, 'own-keys.md: images still use the free amount and the balance')
+  assert.match(keys, /Image search and image generation[^.]*free amount, then your balance/, 'own-keys.md: say images use the free amount, then the balance')
+  // Images are not drafts (holds.mjs: a draft is kind ai): they use the month's free AI.
+  assert.doesNotMatch(pricing, /each image search and each image generation is one draft/i, 'pricing.md: images are not drafts')
+  assert.doesNotMatch(pricing, /\| AI drafting and image search \|/, 'pricing.md: image search is not in the 30 drafts a day')
+  assert.match(pricing, /Image search and image generation use the month's free AI, not the daily count/, 'pricing.md: images use the month\'s free AI')
+  // The card fee on a $10 top-up (ledger.mjs cardFeeCents(1000) = 61).
+  assert.match(top, /You pay \$10\.61: \$10\.00 of balance and a \$0\.61 card fee/, 'top-ups.md: the dialog example is $10.61 with a $0.61 fee')
+  assert.doesNotMatch(top, /\$10\.59|\$0\.59/, 'top-ups.md: no $10.59 example')
+  // The refundable part goes down in proportion as a balance is spent, and a refund waits while the balance is in use.
+  assert.doesNotMatch(top, /refunded to your card at any time/, 'top-ups.md: the refundable part is not fixed')
+  assert.match(top, /goes down as you spend/, 'top-ups.md: say the refundable part goes down as you spend')
+  assert.match(top, /while a call or a request is being paid from it/, 'top-ups.md: a refund waits while the balance is in use')
+  // Call limits apply to calls we pay for; an own Daily key has Daily's limits (calls.mjs, own-keys.md).
+  assert.doesNotMatch(pricing, /## Limits on every call/, 'pricing.md: the limits are not on every call: own Daily keys have none of ours')
+  assert.doesNotMatch(pricing, /Everyone sees a notice 2 minutes before a call ends\./, 'pricing.md: the 3-hour end has no notice')
+  // Self-host: only metering.enabled is a setting; the free amounts are not set in the settings file.
+  assert.doesNotMatch(host, /with your own free amounts/, 'self-host-meters.md: the free amounts are not a server setting')
+  assert.match(host, /Admin → Free budget/, 'self-host-meters.md: the budget is changed in Admin → Free budget')
+  assert.match(host, /SLATEBOX_KEY_ENCRYPTION_KEY/, 'self-host-meters.md: own keys need the encryption key')
+})
