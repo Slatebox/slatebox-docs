@@ -14,7 +14,7 @@ curl --fail-with-body --silent --show-error \
   https://api.slatebox.com/v1/slates
 ```
 
-HTTP 201 returns `shareId`, `url` and `diagram`. This example has five native notes and four directed connections. Omit `source` to draw from your own steps. Retrying the same request with the same key returns HTTP 200 and the original result. Changing the source, kind or brief with that key returns HTTP 409. Use the returned URL to continue in the canvas conversation. [Shell and MCP examples](terminal-and-agents.md#create-a-diagram-from-source-material)
+HTTP 201 returns `shareId`, `url` and `diagram`. This example has five native notes and four directed connections. Omit `source` to draw from your own steps. Retrying the same request with the same key returns HTTP 200 and the original result. Changing the source, kind or brief with that key returns HTTP 409. Use the returned URL to continue in the canvas conversation. [The same diagram from an exec script](terminal-and-agents.md#create-a-diagram-from-source-material)
 
 ## Create a private decision map
 
@@ -69,7 +69,7 @@ curl --fail-with-body --silent --show-error -X DELETE \
   "$slate_url/invite/$SLATEBOX_INVITE_ID"
 ```
 
-After revocation the original invitation URL stops granting access. The board is private again, with any private team-member permissions applying. [Use the shell or MCP](terminal-and-agents.md#invite-a-reviewer)
+After revocation the original invitation URL stops granting access. The board is private again, with any private team-member permissions applying. [The same invitation from an exec script](terminal-and-agents.md#invite-a-reviewer)
 
 ## Response
 
@@ -111,7 +111,7 @@ On a native decision map, read `summary.workshop.revision` and find the source s
 
 The preview reports the proposed station in `report.addedBranches`. Its ID appears in the source station’s `next` list in the returned `workshop.lanes`. To save, set `dryRun` to false and provide a fresh `Idempotency-Key` header, keeping the same plan and revision. The path and its instruction save in a single revision. If another editor saves first, read the new revision and preview again.
 
-To revise an existing arrival instruction, send a single `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision` in the same envelope. On a self-hosted instance, check its own `/api/v1/openapi.json` for these operation kinds. [Shell and MCP examples](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
+To revise an existing arrival instruction, send a single `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision` in the same envelope. On a self-hosted instance, check its own `/api/v1/openapi.json` for these operation kinds. [The same edit from an exec script](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
 
 ## Order presentation scenes
 

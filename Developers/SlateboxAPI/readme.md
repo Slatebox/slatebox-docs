@@ -16,27 +16,34 @@ curl --fail --silent --show-error https://api.slatebox.com/v1
 | `POST /v1/slates/{shareId}/invite` | Issue or change an unlisted invitation link | Owner with `slates:share` and an `Idempotency-Key` |
 | `DELETE /v1/slates/{shareId}/invite/{inviteId}` | Withdraw that invitation | Owner with `slates:share` and an `Idempotency-Key` |
 | `GET /embed/{publishedSlateId}` | Display a published presentation snapshot | A published image |
+| `POST /api/v1/exec` | Run an agent script against the typed client in the instance's sealed runner | A token; each call inside is checked with that token's scopes |
+| `GET /api/v1/exec/{execId}` | Read the record of one of your own script runs | The token that ran it |
+| `POST /mcp` | The MCP endpoint for agents: the `exec` and `describe` tools | `Authorization: Bearer` with a token |
 | `GET /healthz` | Check the edge service | Public |
 
 Download the OpenAPI 3.1 document for the request bodies, response schemas and operation IDs. Self-hosted instances serve their own version at `/api/v1/openapi.json`. The document can be read before issuing a token. [OpenAPI for Slatebox Cloud](https://api.slatebox.com/v1/openapi.json)
 
 ## Work on the same decision map
 
-The canvas, CLI, MCP and HTTP API work on the same saved slate. The HTTP paths below are relative to `/v1` in Slatebox Cloud or `/api/v1` on your own instance. Check the OpenAPI schema on the instance you plan to use.
+The canvas, exec scripts and the HTTP API work on the same saved slate. An agent, the CLI (`slatebox exec`) and the MCP endpoint all run scripts that call the client methods below; each method is one HTTP operation, checked the same way. The HTTP paths below are relative to `/v1` in Slatebox Cloud or `/api/v1` on your own instance. Check the OpenAPI schema on the instance you plan to use. [Exec: how agents work with Slatebox](exec.md)
 
-| In the app | Shell command | MCP tool | HTTP operation |
-| --- | --- | --- | --- |
-| Draw a flow from a brief or public source | `slatebox create --kind diagram` | `create_slate` with `kind: "diagram"` | `POST /slates` with `kind: "diagram"` |
-| Start a private map from a brief | `slatebox create` | `create_slate` | `POST /slates` |
-| Open the saved map | `slatebox read` | `get_slate` | `GET /slates/{shareId}` |
-| Ask the side conversation to add a branch | `slatebox branch` | `add_map_branch` | Submit `add_map_branch` |
-| Change the instruction at a station | `slatebox outcome` | `update_map_outcome` | Submit `update_map_outcome` |
-| Drag the token to a connected station or choose it by keyboard | `slatebox move` | `move_workshop_card` | Submit `move_workshop_card` |
-| Ask the conversation to present a scene first | `slatebox order` | `set_presentation_order` | Submit `set_presentation_order` |
-| Create an invitation from **Share** | `slatebox share` | `create_slate_invite` | `POST /slates/{shareId}/invite` |
-| Withdraw that link | `slatebox unshare` | `revoke_slate_invite` | `DELETE /slates/{shareId}/invite/{inviteId}` |
+| In the app | In an exec script | HTTP operation |
+| --- | --- | --- |
+| Draw a flow from a brief or public source | `slatebox.slates.create({ kind: "diagram", brief })` | `POST /slates` with `kind: "diagram"` |
+| Start a private map from a brief | `slatebox.slates.create({ brief })` | `POST /slates` |
+| Open the saved map | `slatebox.slates.get({ shareId })` | `GET /slates/{shareId}` |
+| Ask the side conversation to add a branch | `applyOperations` with an `add_map_branch` operation | Submit `add_map_branch` |
+| Change the instruction at a station | `applyOperations` with `update_map_outcome` | Submit `update_map_outcome` |
+| Drag the token to a connected station or choose it by keyboard | `applyOperations` with `move_workshop_card` | Submit `move_workshop_card` |
+| Ask the conversation to present a scene first | `applyOperations` with `set_presentation_order` | Submit `set_presentation_order` |
+| Create an invitation from **Share** | `slatebox.slates.issueInvite({ shareId, role })` | `POST /slates/{shareId}/invite` |
+| Withdraw that link | `slatebox.slates.revokeInvite({ shareId, inviteId })` | `DELETE /slates/{shareId}/invite/{inviteId}` |
 
-Submit map edits and moves to `POST /slates/{shareId}/operations`. Preview against the current revision, then use the same revision to save. The invitation links above grant access to one slate. To enroll a named team member, use **Manage Team**. Use **Present together** in the app to start the live session. [Run the backfill review](../../Examples/review-a-backfill.md) · [CLI and MCP setup](terminal-and-agents.md) · [Team enrollment](organizations.md)
+Submit map edits and moves to `POST /slates/{shareId}/operations`. Preview against the current revision, then use the same revision to save. In a script, creating an invitation or withdrawing one waits for your confirmation. The invitation links above grant access to one slate. To enroll a named team member, use **Manage Team**. Use **Present together** in the app to start the live session. [Run the backfill review](../../Examples/review-a-backfill.md) · [Install the package and CLI](terminal-and-agents.md) · [Team enrollment](organizations.md)
+
+## Run agent scripts over HTTP
+
+`POST /api/v1/exec` takes `intent`, `code` and optionally `mode`, `confirm` and `idempotencyKey`, and returns `200` whenever the script ran, with its `status`, `result`, `logs`, each call and any held save. `POST /mcp` serves the same `exec` tool to MCP clients. When the package or CLI runs a script on your own machine instead, each call it sends carries `Slatebox-Exec-*` headers (`Id`, `Key`, `Call`, `Code-Sha256`, `Mode`, `Intent` and, when confirming, `Confirm`), and the instance applies the same script rules to it. Do not combine those headers with `Idempotency-Key`. [Exec over HTTP](exec.md#use-exec-over-http)
 
 ## Authentication
 

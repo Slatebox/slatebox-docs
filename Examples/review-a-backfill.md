@@ -4,28 +4,28 @@ description: Give a reviewer a choice when the row counts differ, and leave the 
 group: Integrations
 agentPrompt: >-
   Help me create a private Slatebox decision map for reviewing a database backfill.
-  Use the exact three-step route in this guide as the brief for create_slate. Keep one
-  idempotency key for creation. Use add_map_branch to preview Repair missing rows after Compare row counts,
-  with the arrival instruction “reconcile the missing IDs and run the comparison again.”
-  Show me both choices. When I approve, save against the preview revision with a fresh key for this edit.
-  If the map changes first, read it again and show me a fresh preview. Give me the editor URL
+  Use exec scripts. Create the map with slatebox.slates.create, using the exact three-step route in this guide as the brief,
+  and keep one idempotencyKey for that run. In one script, read the map and add an add_map_branch operation for Repair missing rows
+  after Compare row counts, with the arrival instruction “reconcile the missing IDs and run the comparison again.”
+  Run it with mode preview and show me both choices. When I approve, run the same script in save mode with a fresh idempotencyKey.
+  If the map changes first, run it again so it reads the new revision. Give me the editor URL
   and read back the two destinations and the repair instruction from the saved map.
-  Help me open the walkthrough with Repair missing rows. Preview set_presentation_order using
-  every current station in the saved order, moving the repair scene to the front. Show me the sequence.
-  Save only when I confirm, with the preview revision and a separate idempotency key.
-  If I ask to invite a reviewer, ask which role they need, create the invitation and give me the URL and its invite ID.
+  Help me open the walkthrough with Repair missing rows: preview a set_presentation_order operation using
+  every current station, moving the repair scene to the front. Show me the sequence and save only when I confirm.
+  If I ask to invite a reviewer, ask which role they need, create the invitation with slatebox.slates.issueInvite,
+  show me the confirmation reason, and give me the URL and its invite ID once I agree.
 ---
 
 A backfill copies customer records into a new table. The reviewer needs to know what to do if a comparison comes up short. Put that decision on a slate the next engineer can reopen.
 
 ## Draw the expected path
 
-[Open the three steps in a private slate](https://app.slatebox.com/new#play=1&brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover). If you work from a terminal, use the same three steps as the brief. Slatebox uses the arrows you supply to connect the stations. [Install the CLI](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-tools)
+[Open the three steps in a private slate](https://app.slatebox.com/new#play=1&brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover). If you work from a terminal, use the same three steps as the brief. Slatebox uses the arrows you supply to connect the stations. [Install the package](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-package)
 
 ```sh
 create_key=$(node -p 'crypto.randomUUID()')
-npx --no-install slatebox create "Backfill review → Compare row counts → Approve cutover" \
-  --idempotency-key "$create_key"
+npx --no-install slatebox exec --idempotency-key "$create_key" --intent "Create the backfill review map" \
+  -e 'const map = await slatebox.slates.create({ brief: "Backfill review → Compare row counts → Approve cutover" }); return { url: map.url, shareId: map.shareId }'
 ```
 
 ## Give the reviewer a second choice
