@@ -74,17 +74,19 @@ After revocation the original invitation URL stops granting access. The board is
 
 ## Response
 
-A successful read returns JSON with `shareId` and `summary`. Append `?include=full` to receive a `slate` field with the full document. Treat the response as private board data.
+A successful read returns the slate as one JSON object: its `shareId` and `revision` (its save count), `name`, every note in `nodes` with every key a write sets, its `connections`, what you may do there in `access`, its address and comment counts, and on a map or workshop its `workshop`, with that board's own `revision`. Narrow the notes with `fields`, `ids`, `within`, `groupId` or `q`, and page with `limit` and `cursor`. Append `?include=full` to receive a `document` field with the slate as the engine loads it. Treat the response as private board data.
 
 ## Preview one change
 
-This request previews a triangle on the existing slate. `"mode":"preview"` keeps the change out of the saved document. Previewing still requires edit permission.
+This request previews a triangle on the existing slate. `"mode":"preview"` keeps the change out of the saved document. Previewing still requires edit permission. Every edit names the revision it was made on: read the slate's `revision` first and send it as `expectedRevision`. Without it the request is refused with HTTP 400 `invalid_request`.
 
 ```sh
+revision=$(curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | node -p 'JSON.parse(require("fs").readFileSync(0, "utf8")).revision')
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
   -H 'Content-Type: application/json' \
-  --data '{"mode":"preview","userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
+  --data '{"mode":"preview","expectedRevision":'"$revision"',"userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
   "$slate_url/operations"
 ```
 
@@ -92,7 +94,7 @@ The preview returns HTTP 200 and includes `ok`, `mode`, `shareId`, `message`, ma
 
 ## Add a decision and its outcome
 
-On a native decision map, read `summary.workshop.revision` and find the source station ID in `summary.workshop.lanes`. Send the following JSON to the same operations endpoint with Bearer authentication and a JSON content type. Substitute the saved station ID and revision.
+On a native decision map, read `workshop.revision` and find the source station ID in `workshop.lanes`. Send the following JSON to the same operations endpoint with Bearer authentication and a JSON content type. Substitute the saved station ID and revision.
 
 ```json
 {
@@ -116,7 +118,7 @@ To revise an existing arrival instruction, send a single `update_map_outcome` op
 
 ## Order presentation scenes
 
-Read `summary.workshop.presentationOrder` for the current scene IDs in playback order. It also supplies the effective order for older workshops. In the same preview envelope, submit one operation with `kind: "set_presentation_order"`, `laneIds` containing every current scene ID once, and `expectedRevision`. A successful preview returns the sequence in `report.presentationOrder`. Save using the reviewed revision and a new idempotency key. The board keeps its layout, routes and token positions. [Shell and MCP commands](terminal-and-agents.md#choose-the-opening-scene)
+Read `workshop.presentationOrder` for the current scene IDs in playback order. It also supplies the effective order for older workshops. In the same preview envelope, submit one operation with `kind: "set_presentation_order"`, `laneIds` containing every current scene ID once, and `expectedRevision`. A successful preview returns the sequence in `report.presentationOrder`. Save using the reviewed revision and a new idempotency key. The board keeps its layout, routes and token positions. [Shell and MCP commands](terminal-and-agents.md#choose-the-opening-scene)
 
 ## Apply the change
 
@@ -128,7 +130,7 @@ curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
   -H "Idempotency-Key: $request_id" \
   -H 'Content-Type: application/json' \
-  --data '{"userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
+  --data '{"expectedRevision":'"$revision"',"userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
   "$slate_url/operations"
 ```
 
@@ -136,7 +138,7 @@ A new write returns HTTP 201. A replay of a recorded key returns the prior resul
 
 | HTTP status | What to check |
 | --- | --- |
-| 400 | Inspect `error.message` for an invalid operation plan. |
+| 400 | Inspect `error.message` for an invalid operation plan, or a canvas edit sent without `expectedRevision` (`error.details.field`). |
 | 401 | Confirm that the bearer token is current and has the required scope. |
 | 403 or 404 | Check the share ID and the account's permission on that slate. |
 | 409 | Another save changed the slate while this one was applied, or a map edit's `expectedRevision` is out of date. Read it again and preview against its current state. |

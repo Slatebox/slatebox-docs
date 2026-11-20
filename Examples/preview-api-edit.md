@@ -10,10 +10,14 @@ Open a slate you can edit, copy its ID from the canvas URL, and load a personal 
 : "${SLATEBOX_API_TOKEN:?Load your personal token into the environment}"
 : "${SLATEBOX_BASE_URL:=https://app.slatebox.com}"
 : "${SLATEBOX_SHARE_ID:?Set the ID from your editable canvas URL}"
+slate_url="$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
+# Every edit names the revision it was made on: the slate's revision, read first.
+revision=$(curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | node -p 'JSON.parse(require("fs").readFileSync(0, "utf8")).revision')
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
   -H 'Content-Type: application/json' \
-  --data '{"mode":"preview","userMessage":"Add one triangle","plan":{"message":"Place a triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
+  --data '{"mode":"preview","expectedRevision":'"$revision"',"userMessage":"Add one triangle","plan":{"message":"Place a triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
   "$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID/operations"
 ```
 

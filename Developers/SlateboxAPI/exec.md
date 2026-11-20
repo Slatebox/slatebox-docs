@@ -14,9 +14,10 @@ An agent works with Slatebox by writing a short JavaScript or TypeScript program
 
 ```js
 const shareId = "your-share-id"
-const { summary } = await slatebox.slates.get({ shareId })
+const { revision } = await slatebox.slates.get({ shareId })
 const saved = await slatebox.slates.applyOperations({
   shareId,
+  expectedRevision: revision,
   plan: {
     message: "Add the open question and link it to the decision",
     operations: [
@@ -102,7 +103,7 @@ Three limits apply to scripts in particular:
 A save is held, not made, when the script:
 
 - deletes notes or connectors, or withdraws an invitation;
-- rewrites the text of more than 10 existing notes on any one slate (the count is kept per slate, so 8 notes on each of two slates are not held);
+- rewrites the text of more than 10 existing notes in all (the count is kept for the whole script, so 8 notes on each of two slates are held);
 - changes or deletes existing notes or connectors on a slate someone else owns, or edits a map there. Slatebox does not yet record who wrote each note, so on your own slate a teammate's notes count as yours: deleting them is still held, and so is rewriting more than 10 of them;
 - would show content to more people than the slates it read (for example, copying a private slate's text onto a public one);
 - grants access, such as creating an invitation link.
@@ -131,7 +132,7 @@ Be clear about what this is: an agent that you allow to run `exec` without askin
 | Input and output per call | 256 KiB and 512 KiB |
 | Operations per script, summed over its plans | 200 |
 | Notes created per script | 200 |
-| Note text rewrites on one slate before confirmation | 10 |
+| Note text rewrites in one script before confirmation | 10 |
 | Returned result | 40,000 characters of JSON, then cut and marked `truncated` |
 | Logs | 16 KiB |
 | Runs at once on the server | 2 per app process and 1 per account; another run is refused with `429 exec_busy` |
@@ -234,7 +235,7 @@ To call Slatebox from your own server code without a model, import the same type
 import { createClient } from "slatebox-mcp/client"
 
 const slatebox = createClient({ baseUrl: process.env.SLATEBOX_BASE_URL, token: process.env.SLATEBOX_API_TOKEN })
-const { summary } = await slatebox.slates.get({ shareId: "your-share-id" })
+const { nodes } = await slatebox.slates.get({ shareId: "your-share-id" })
 ```
 
 ### The CLI
@@ -244,7 +245,7 @@ const { summary } = await slatebox.slates.get({ shareId: "your-share-id" })
 ```sh
 npx --no-install slatebox exec add-question.js --preview
 cat add-question.js | npx --no-install slatebox exec - --intent "Add the retention question"
-npx --no-install slatebox exec -e 'return (await slatebox.slates.get({ shareId: "your-share-id" })).summary'
+npx --no-install slatebox exec -e 'return (await slatebox.slates.get({ shareId: "your-share-id" })).nodeCount'
 npx --no-install slatebox describe applyOperations
 ```
 
@@ -270,8 +271,7 @@ Preview a move on a decision map, and report the legal stations when the move is
 
 ```js
 const shareId = "your-share-id"
-const { summary } = await slatebox.slates.get({ shareId })
-const map = summary.workshop
+const { workshop: map } = await slatebox.slates.get({ shareId })
 const team = map.cards.find(card => card.label === "Team")
 const finance = map.lanes.find(lane => lane.label === "Ask finance")
 try {
@@ -300,7 +300,7 @@ const created = await slatebox.slates.create({
 return { url: created.url, shareId: created.shareId }
 ```
 
-Read a slate before changing it. A map or workshop plan carries the `expectedRevision` you read: if someone saved in between, the write fails with `slate_changed`, so read again and retry once. A canvas plan carries no revision. Slatebox applies it to the slate as it is when the write arrives, so a teammate's save between your read and your write is kept, unless your plan changes the same note, whose text then becomes yours. A canvas save whose target note no longer exists fails with `no_match`.
+Read a slate before changing it, and name the revision you read: every edit carries an `expectedRevision`. A canvas plan sends the slate's `revision` beside the plan; a map or workshop plan puts the workshop's `revision` in its operation. A canvas edit without one is refused with `invalid_request`. A map or workshop write fails with `slate_changed` if someone saved in between, so read again and retry once. A canvas write fails with `slate_changed` only if a note or setting it changes was changed after your revision: a teammate's save to other notes is kept, and adding notes never conflicts. A canvas save whose target note no longer exists fails with `no_match`.
 
 ## What is not on exec yet
 

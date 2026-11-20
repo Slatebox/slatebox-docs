@@ -176,16 +176,35 @@ test('the exit codes say which ones come from a refused run and which from a ref
 
 test('the confirmation rules say exactly what the gate counts', () => {
   const rules = section(exec, 'Saves that wait for confirmation')
-  assert.match(rules, /more than 10 existing notes on any one slate/, 'the text rule counts per slate')
+  // Restated (release/agentic): the owner's rule counts per script, over every slate it writes.
+  assert.match(rules, /more than 10 existing notes in all \(the count is kept for the whole script/, 'the text rule counts per script')
   assert.match(rules, /slate someone else owns/, 'the others-notes rule is about the slate owner')
   assert.match(rules, /does not yet record who wrote each note/, 'say what happens to teammates\' notes on your own slate')
-  assert.match(exec, /\| Note text rewrites on one slate before confirmation \| 10 \|/)
+  assert.match(exec, /\| Note text rewrites in one script before confirmation \| 10 \|/)
 })
 
+// Restated (release/agentic): every edit names its revision; a canvas edit without one is
+// refused, and with one it conflicts only on what it changes.
 test('the exec page says when a save in between is caught and when it is not', () => {
   assert.doesNotMatch(exec, /If someone saved in between, the write fails with `slate_changed`/)
-  assert.match(exec, /A canvas plan carries no revision/)
-  assert.match(exec, /`expectedRevision`/)
+  assert.doesNotMatch(exec, /A canvas plan carries no revision/)
+  assert.match(exec, /every edit carries an `expectedRevision`/)
+  assert.match(exec, /A canvas edit without one is refused with `invalid_request`/)
+  assert.match(exec, /only if a note or setting it changes was changed after your revision/)
+})
+
+test('every canvas edit in the guides names the revision it was made on', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const pages = ['Developers/SlateboxAPI/exec.md', 'Developers/SlateboxAPI/terminal-and-agents.md', 'Developers/SlateboxAPI/slates.md', 'Examples/preview-api-edit.md', 'Examples/refund-approval.md']
+  for (const page of pages) {
+    const text = await readFile(new URL('../' + page, import.meta.url), 'utf8')
+    assert.doesNotMatch(text, /\bsummary\.(workshop|nodes)|\{ summary \}|\)\.summary'/, page + ' reads the flat slate read, not summary')
+    for (const block of text.matchAll(/```(?:js|ts|sh)\n([\s\S]*?)```/g)) {
+      const code = block[1]
+      const canvas = /applyOperations|\/operations"/.test(code) && /"?kind"?: ?"(add_nodes|update_nodes|delete_nodes|connect_nodes)"/.test(code)
+      if (canvas) assert.match(code, /expectedRevision/, page + ': a canvas edit names expectedRevision')
+    }
+  }
 })
 
 test('the sealed runner sentence does not promise a network-free child process on Node.js 24', () => {

@@ -19,8 +19,7 @@ Ask your connected agent, “Create a private Slatebox decision map called Who c
 
 ```js
 const shareId = "your-share-id"
-const { summary } = await slatebox.slates.get({ shareId })
-const map = summary.workshop
+const { workshop: map } = await slatebox.slates.get({ shareId })
 const team = map.cards.find(card => card.label === "Team")
 const finance = map.lanes.find(lane => lane.label === "Ask finance")
 try {
@@ -42,7 +41,7 @@ try {
 npx --no-install slatebox exec refund-move.js --preview
 ```
 
-The result shows the token at its proposed station, with `mode` set to `preview`. The token is still at the starting station in the browser. If two cards or stations share a name, use their IDs from `summary.workshop` instead of the labels.
+The result shows the token at its proposed station, with `mode` set to `preview`. The token is still at the starting station in the browser. If two cards or stations share a name, use their IDs from `workshop` instead of the labels.
 
 ## Save the choice and show a colleague
 

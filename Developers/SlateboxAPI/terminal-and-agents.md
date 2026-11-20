@@ -66,7 +66,7 @@ Save a script to a file, pipe it on standard input with `-`, or pass a line with
 ```sh
 npx --no-install slatebox exec add-question.js --preview
 npx --no-install slatebox exec - --intent "Add the retention question" < add-question.js
-npx --no-install slatebox exec -e 'return (await slatebox.slates.get({ shareId: "your-share-id" })).summary'
+npx --no-install slatebox exec -e 'return (await slatebox.slates.get({ shareId: "your-share-id" })).nodeCount'
 npx --no-install slatebox describe invite
 ```
 
@@ -135,8 +135,7 @@ On the backfill map, an editor can give the reviewer a recovery path. This scrip
 
 ```js
 const shareId = "your-share-id"
-const { summary } = await slatebox.slates.get({ shareId })
-const map = summary.workshop
+const { workshop: map } = await slatebox.slates.get({ shareId })
 const compare = map.lanes.find(lane => lane.label === "Compare row counts")
 const result = await slatebox.slates.applyOperations({
   shareId,
@@ -168,8 +167,7 @@ On the backfill map, put the recovery instruction first for a reviewer. The plan
 
 ```js
 const shareId = "your-share-id"
-const { summary } = await slatebox.slates.get({ shareId })
-const map = summary.workshop
+const { workshop: map } = await slatebox.slates.get({ shareId })
 const repair = map.lanes.find(lane => lane.label === "Repair missing rows")
 const order = [repair.id, ...map.presentationOrder.filter(id => id !== repair.id)]
 const result = await slatebox.slates.applyOperations({
@@ -212,8 +210,10 @@ On an ordinary whiteboard you can edit, copy the ID following `/canvas/` in its 
 
 ```js
 const shareId = "your-share-id"
+const { revision } = await slatebox.slates.get({ shareId })
 const result = await slatebox.slates.applyOperations({
   shareId,
+  expectedRevision: revision,
   userMessage: "Add a question for the architecture review",
   plan: {
     message: "Add a question for the architecture review",
