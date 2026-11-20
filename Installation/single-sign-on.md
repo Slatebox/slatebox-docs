@@ -88,7 +88,7 @@ Slatebox accepts an SSO sign-in only with a verified email address, and uses tha
 
 ### People who exist in Keycloak before their first company sign-in
 
-When someone already exists in Keycloak with the same address (provisioned with [SCIM](#provisioning-with-scim), or made by hand), Keycloak's default first sign-in through a company provider stops at "Account already exists" and asks for a Keycloak password that person does not have. For a provider with **Trust Email** on, open the provider's settings and set **First login flow override** to `link by trusted email`. Slatebox creates that flow in the `slatebox` realm: the person is linked to the existing Keycloak user with the same address, and anyone else is created as usual. Do not choose it for a provider with **Trust Email** off.
+When someone already exists in Keycloak with the same address (provisioned with [SCIM](#provisioning-with-scim), or made by hand), Keycloak's default first sign-in through a company provider stops at "Account already exists" and asks for a Keycloak password that person does not have. For a provider with **Trust Email** on, open the provider's settings, set **First login flow override** to `link by trusted email`, and set **Sync mode** to `Force`. Slatebox creates that flow in the `slatebox` realm: the person is linked to the existing Keycloak user with the same address, and anyone else is created as usual. **Sync mode** `Force` makes Keycloak take the address from the provider at each sign-in and mark it verified; without it, a user SCIM created keeps an unverified address and Slatebox refuses them. Do not choose the flow for a provider with **Trust Email** off.
 
 To send people straight to your company's sign-in instead of Keycloak's page, open **Authentication** → the `browser` flow → **Identity Provider Redirector** → settings, and enter the provider's alias as the default.
 
@@ -140,7 +140,7 @@ Keycloak has a SCIM 2.0 endpoint, and Slatebox turns it on for the `slatebox` re
 | Client ID | `scim` |
 | Client secret | `docker exec slatebox slatebox sso scim-secret` |
 
-Your provider creates, updates and deactivates people in Keycloak through it. A provisioned person signs in through your company's provider, which needs **Trust Email** and the `link by trusted email` first login flow on that provider (see [People who exist in Keycloak before their first company sign-in](#people-who-exist-in-keycloak-before-their-first-company-sign-in)). Their Slatebox account is created the first time they sign in to Slatebox, and a person your provider deactivates loses access to Slatebox as described in [Removing access](#removing-access).
+Your provider creates, updates and deactivates people in Keycloak through it. A provisioned person signs in through your company's provider, which needs **Trust Email**, **Sync mode** `Force` and the `link by trusted email` first login flow on that provider (see [People who exist in Keycloak before their first company sign-in](#people-who-exist-in-keycloak-before-their-first-company-sign-in)). Their Slatebox account is created the first time they sign in to Slatebox, and a person your provider deactivates loses access to Slatebox as described in [Removing access](#removing-access).
 
 The SCIM address follows `SLATEBOX_URL`: Slatebox updates it at every start, including after a restore at another address. Update the SCIM base URL and token URL in your provider when you change the address.
 
@@ -194,7 +194,7 @@ Single sign-on adds Keycloak and a Java runtime to the running container: about 
 | The sign-in page has no **Sign in with SSO** button | The container was started without `-e SLATEBOX_SSO=keycloak`. `docker logs slatebox` shows `SSO: off` near the top. |
 | The log says `SLATEBOX_SSO_ONLY=true also needs SLATEBOX_SSO=keycloak` | Add both options. |
 | After signing in at your provider, the sign-in page says the account cannot be used | `docker logs slatebox` gives the reason on a `sso: sign-in refused` line. The provider has not verified the address (turn on **Trust Email** for the identity provider or the LDAP provider, or **Email verified** for the person); or a Slatebox account with that address exists but its address was never verified (its owner can confirm it from the verification mail, or change that account's address); or it belongs to an account linked to another SSO identity. |
-| Keycloak says "Account already exists" after the company sign-in | The person was provisioned ahead (SCIM, LDAP or by hand). Set the provider's **First login flow override** to `link by trusted email`, with **Trust Email** on. |
+| Keycloak says "Account already exists" after the company sign-in | The person was provisioned ahead (SCIM, LDAP or by hand). Set the provider's **First login flow override** to `link by trusted email` and **Sync mode** to `Force`, with **Trust Email** on. |
 | Every directory user is refused | Turn on **Trust Email** in the LDAP provider's settings. |
 | `/auth/admin/` answers "not found" | The container runs with `SLATEBOX_SSO_ADMIN=closed`. Run it again without it to use the console. |
 | Keycloak shows `HTTPS required` | You opened Slatebox over plain HTTP from outside your network. Use an `https://` address in `SLATEBOX_URL`. |
