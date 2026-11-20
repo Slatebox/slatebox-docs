@@ -8,6 +8,24 @@ docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data ghcr.io/slateb
 
 Open [http://localhost:7070](http://localhost:7070) on the machine that runs Docker.
 
+## What you need
+
+- **Docker** on Linux, or Docker Desktop on macOS or Windows. The image is published for 64-bit Intel and AMD processors (`linux/amd64`) and 64-bit ARM processors (`linux/arm64`); Docker picks the right one.
+- **A processor that MongoDB 8.0 supports.** The database inside the image needs:
+  - on Intel and AMD: the AVX instruction set, which every Intel processor since Sandy Bridge (2011) and every AMD processor since Bulldozer (2011) has. In a virtual machine, give the guest the host's CPU type (for example `host` in Proxmox or QEMU) so that AVX is passed through.
+  - on ARM: ARMv8.2-A or newer, for example Apple silicon, AWS Graviton 2 or later, Ampere Altra or a Raspberry Pi 5. A Raspberry Pi 4 or older cannot run it.
+
+  On a processor without these, the container stops at once and its log says so:
+
+  ```
+  [slatebox] This processor cannot run MongoDB 8.0: it needs the AVX instruction set (Intel Sandy Bridge, AMD Bulldozer or newer). In a virtual machine, give the guest the host CPU type so that AVX is passed through.
+  [slatebox] Run Slatebox on a newer machine, or keep the database on a MongoDB server elsewhere and set MONGO_URL.
+  ```
+
+  On ARM the first line reads `This processor cannot run MongoDB 8.0: it needs ARMv8.2-A or newer (a Raspberry Pi 5 works; a Raspberry Pi 4 or older does not).`
+- **Memory:** Slatebox uses about half a gigabyte while a few people work in it. Give the machine at least 1 GB of free memory, and 2 GB for a team.
+- **Disk:** about 360 MB to download, 1.9 GB once unpacked, plus your slates.
+
 ## First run
 
 A start usually takes well under a minute. Until Slatebox is ready, the page says that it is starting and opens by itself. You can also watch from the terminal:
@@ -155,6 +173,7 @@ docker logs slatebox
 | The page says "Slatebox is starting" for more than a few minutes | Read `docker logs slatebox`. The last `[slatebox]` lines say which part did not come up. |
 | The page says "Slatebox is set up for another address" | You opened Slatebox at an address other than `SLATEBOX_URL`. Remove the container and run your `docker run` command again with `-e SLATEBOX_URL=` and the address you want to use; `docker start` cannot add an option. This also happens when you publish a port other than 7070 without setting `SLATEBOX_URL`. |
 | `docker ps` shows the container restarting or exited | A required part stopped. `docker logs slatebox` names it in a line that says `stopped unexpectedly`. |
+| The log says `This processor cannot run MongoDB 8.0` | The processor lacks AVX (Intel or AMD) or ARMv8.2-A (ARM); see [What you need](#what-you-need). Use a newer machine, pass the host CPU type through to a virtual machine, or set `MONGO_URL` to a MongoDB server that runs elsewhere. |
 | The log says `Unknown setting` | An option name is misspelled. The message lists the valid names. |
 | The log says `/data is not writable` | The log names the owner of the folder mounted at `/data`. Add `--user` with that owner to the `docker run` command, or mount a Docker volume at `/data` instead. |
 | The log says `SLATEBOX_MAIL_URL also needs SLATEBOX_MAIL_FROM` | Add `-e SLATEBOX_MAIL_FROM=` with an address your mail service accepts as a sender. |
