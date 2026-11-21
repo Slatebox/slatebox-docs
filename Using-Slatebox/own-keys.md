@@ -11,24 +11,24 @@ With your own key, the provider bills you directly. Slatebox charges nothing and
 
 1. Open your profile and choose **Free this month**.
 2. Under **Your own keys**, choose **Add an AI key** or **Add a Daily key**.
-3. Paste the key and save. Slatebox checks it once with the provider. If the provider refuses it, the reason is shown under the key.
+3. Paste the key and save. Slatebox checks it once with the provider and shows any refusal under the key.
 
-A team admin adds keys for the whole team in **Team settings**, under **Team keys**. A person's own key is used before their team's key.
+A team admin adds keys for the whole team in **Team settings → Team balance and keys**. Your own key is used before your team's.
 
-## Which key covers what
+## What each key covers
 
-| Key | What it pays for |
+| Key | Pays for |
 | --- | --- |
-| DeepInfra key | AI drafts, conversation and presentations. The models stay the same; only the key changes. |
-| OpenAI-compatible endpoint | A base URL, a model name and, if your server needs one, a key. It must use https on a public host. Used for drafts and conversation. Presentations use your free amount or your balance. |
-| Daily key | Calls you start. They run on your Daily domain, with Daily's limits and none of ours. |
+| DeepInfra key | AI drafts, conversation and presentations, on the same models. |
+| OpenAI-compatible endpoint | Drafts and conversation. Give a base URL, a model name and a key if your server needs one. It must use https on a public host. Presentations use your free amount or balance. |
+| Daily key | Calls you start, on your Daily domain, with Daily's limits and none of ours. |
 
 ## How keys are kept
 
-Keys are encrypted at rest with AES-256-GCM. Each key is bound to its owner, so a key copied to another account cannot be read. After you save a key it is never shown again: the profile shows only its last four characters, for example "DeepInfra key ending 4f2a".
-
-If a Slatebox server has no encryption key set, the **Your own keys** section does not appear and keys cannot be saved.
+- Keys are encrypted at rest with AES-256-GCM and bound to their owner; a key copied to another account cannot be read.
+- A saved key is never shown again. The profile shows its last four characters, for example "DeepInfra key ending 4f2a".
+- A server with no encryption key set hides **Your own keys**.
 
 ## Remove a key
 
-Open **Free this month** and choose **Remove** beside the key. Slatebox stops using it at once and deletes it. Your free amount, then your balance, are used again.
+In **Free this month**, choose **Remove** beside the key. Slatebox stops using it and deletes it at once.

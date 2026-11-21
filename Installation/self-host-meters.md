@@ -5,13 +5,19 @@ description: On your own server there are no free amounts, no top-ups and no lim
 
 # A self-hosted Slatebox has no meters
 
-A Slatebox you run yourself has no free amounts, no top-ups and no limits from us. Nobody on your server sees a balance or a count of drafts.
+A Slatebox you run yourself has no free amounts, no top-ups and no limits from us. Nobody sees a balance or a draft count.
 
-- **AI** uses the provider you set up for the server, in `selfHosted.workshopProvider`: a key, or a model server on your own network. Your provider bills you, or nobody does.
-- **Calls** use your own Daily account, with the Daily key in your server settings. A free Daily account includes 10,000 participant-minutes a month.
+| | Paid by |
+| --- | --- |
+| AI | The provider you set with `SLATEBOX_AI_KEY` or `SLATEBOX_AI_URL` (the server's `selfHosted.workshopProvider`): a key, or a model server on your network. |
+| Calls | Your own Daily account, with its key in `SLATEBOX_SETTINGS`. A free Daily account includes 10,000 participant-minutes a month. |
 
-## If you want limits
+## Turn on limits
 
-An operator who wants limits can turn on the same meter that Slatebox Cloud uses. Set `metering.enabled` to `true` in the server settings; that switch is the only setting. The free amounts start at the Cloud's amounts, and an admin changes the monthly budget and the hold on video paid from a top-up in **Admin → Free budget**. Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` in the environment, and top-ups need your own Stripe keys. Leave the switch out, and the server has no meters.
+To limit use, turn on the same meter Slatebox Cloud uses: set `metering.enabled` to `true` in the server settings, for example `SLATEBOX_SETTINGS='{"metering":{"enabled":true}}'`. It is the only setting.
+
+- The free amounts start at the Cloud's. An admin changes the monthly budget and the hold on top-up video in **Admin → Free budget**.
+- Top-ups need your own Stripe keys.
+- Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64) in the app's environment. The Docker image does not accept that variable, so a metered server in the image runs without own keys.
 
 [Install with Docker](install-with-docker.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

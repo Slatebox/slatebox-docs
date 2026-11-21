@@ -43,7 +43,7 @@ test('the free amounts, the margin and the budget are stated, and match the pric
 
 test('top-ups, own keys and self-host say what builder A built', () => {
   const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
-  for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance', '1.5 times', '12 months']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
+  for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
   for (const words of ['Free this month', 'Team settings', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'last four characters', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
   for (const words of ['no meters', 'selfHosted.workshopProvider', '10,000', 'metering']) assert.ok(host.includes(words), 'self-host-meters.md does not say ' + words)
   assert.match(read('Installation/install-with-docker.md'), /\(self-host-meters\.md\)/, 'the Docker guide links the no-meters page')
@@ -55,7 +55,7 @@ const banned = [
   [/\bPro\b(?![-/]Con)/, 'the Pro plan'], [/\bTeam plans?\b/i, 'the Team plan'], [/\b(paid|free) (hosted )?plan\b/i, 'a plan'],
   [/\bplan chooser\b|\bPlans →|app\.slatebox\.com\/plans/i, 'the plan chooser'], [/\bguest (day )?pass|\bday pass/i, 'guest passes'],
   [/\bper seat\b/i, 'seats'], [/\$8\b|\$12\b/, 'the old prices'], [/\bupgrade (to|now|today)\b|\bunlock (AI|video|more|features)/i, 'upgrade prompts'],
-  [/Compare (the )?plans/i, 'plan comparison'], [/\bsubscription\b/i, 'subscriptions (outside the former-subscriber note)'],
+  [/Compare (the )?plans/i, 'plan comparison'], [/\bsubscription\b/i, 'subscriptions'],
   [/\b(AI|image) credits?\b/i, 'credits'], [/\btiers?\b/i, 'tiers'],
 ]
 test('no docs page speaks of plans, passes, seats or upgrade prompts', () => {
@@ -63,7 +63,6 @@ test('no docs page speaks of plans, passes, seats or upgrade prompts', () => {
   for (const file of docs) read(file).split('\n').forEach((line, index) => {
     for (const [pattern, what] of banned) {
       if (!pattern.test(line)) continue
-      if (what.startsWith('subscriptions') && file === 'Using-Slatebox/top-ups.md') continue
       found.push(file + ':' + (index + 1) + ' ' + what + ': ' + line.slice(0, 100))
     }
   })
@@ -97,9 +96,9 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   // The card fee on a $10 top-up (ledger.mjs cardFeeCents(1000) = 61).
   assert.match(top, /You pay \$10\.61: \$10\.00 of balance and a \$0\.61 card fee/, 'top-ups.md: the dialog example is $10.61 with a $0.61 fee')
   assert.doesNotMatch(top, /\$10\.59|\$0\.59/, 'top-ups.md: no $10.59 example')
-  // The refundable part goes down in proportion as a balance is spent, and a refund waits while the balance is in use.
+  // A refund waits while the balance is in use. The docs carry no former-subscriber notice (greenfield).
   assert.doesNotMatch(top, /refunded to your card at any time/, 'top-ups.md: the refundable part is not fixed')
-  assert.match(top, /goes down as you spend/, 'top-ups.md: say the refundable part goes down as you spend')
+  assert.doesNotMatch(top, /former subscriber|1\.5 times/i, 'top-ups.md: no former-subscriber notice')
   assert.match(top, /while a call or a request is being paid from it/, 'top-ups.md: a refund waits while the balance is in use')
   // Call limits apply to calls we pay for; an own Daily key has Daily's limits (calls.mjs, own-keys.md).
   assert.doesNotMatch(pricing, /## Limits on every call/, 'pricing.md: the limits are not on every call: own Daily keys have none of ours')
