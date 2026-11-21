@@ -14,9 +14,17 @@ Build a two-note decision map in a single HTML file. Move the notes, give one a 
 
 To run it on your computer, open a terminal in the folder containing the downloaded file and start a local server.
 
-```sh
+<!-- tabs -->
+
+```sh Node.js
+npx --yes http-server -p 8000 -a 127.0.0.1
+```
+
+```sh Python
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
+
+<!-- /tabs -->
 
 Open `http://127.0.0.1:8000/quick-slate.html`. The downloadable example includes its MIT license and imports the same public SlateboxJS browser module and stylesheet used in the docs. It needs an internet connection to load them. The board saves to this browser on this origin. To use your own subject, change the two `text` values in the HTML before the first save, or rename the notes on the canvas.
 

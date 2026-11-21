@@ -57,3 +57,47 @@ for (const panel of document.querySelectorAll('.agent-tools')) {
     }
   })
 }
+
+// Language picker: one choice for every example on every page. The first tab (Node.js) is the
+// default until a reader picks another; the pick is kept in this browser and synced across tabs.
+const LANG_KEY = 'slatebox-docs-lang'
+function storedLang() { try { return localStorage.getItem(LANG_KEY) } catch { return null } }
+function showLang(group, label) {
+  const panels = [...group.querySelectorAll(':scope > .code')]
+  const pick = panels.find(p => p.dataset.label === label) || panels[0]
+  for (const panel of panels) panel.hidden = panel !== pick
+  for (const tab of group.querySelectorAll(':scope > [role=tablist] > button')) {
+    const on = tab.dataset.label === pick.dataset.label
+    tab.setAttribute('aria-selected', String(on))
+    tab.tabIndex = on ? 0 : -1
+  }
+}
+function pickLang(label) {
+  try { localStorage.setItem(LANG_KEY, label) } catch {}
+  for (const group of document.querySelectorAll('[data-tabs]')) showLang(group, label)
+}
+for (const group of document.querySelectorAll('[data-tabs]')) {
+  const panels = [...group.querySelectorAll(':scope > .code')]
+  if (panels.length < 2) continue
+  const list = document.createElement('div')
+  list.setAttribute('role', 'tablist')
+  list.setAttribute('aria-label', 'Language')
+  for (const panel of panels) {
+    const tab = document.createElement('button')
+    tab.type = 'button'
+    tab.setAttribute('role', 'tab')
+    tab.dataset.label = panel.dataset.label
+    tab.textContent = panel.dataset.label
+    tab.onclick = () => pickLang(panel.dataset.label)
+    tab.onkeydown = e => {
+      const tabs = [...list.children], i = tabs.indexOf(tab)
+      const next = e.key === 'ArrowRight' ? tabs[(i+1) % tabs.length] : e.key === 'ArrowLeft' ? tabs[(i-1+tabs.length) % tabs.length] : null
+      if (next) { e.preventDefault(); pickLang(next.dataset.label); next.focus() }
+    }
+    list.append(tab)
+  }
+  group.prepend(list)
+  group.classList.add('ready')
+  showLang(group, storedLang())
+}
+addEventListener('storage', e => { if (e.key === LANG_KEY && e.newValue) for (const group of document.querySelectorAll('[data-tabs].ready')) showLang(group, e.newValue) })

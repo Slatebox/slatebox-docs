@@ -102,9 +102,24 @@ function layout(title,desc,url,main,hasCanvas = false, source) {
 async function write(url, content) {
   const dir=path.join(out,url); await mkdir(dir,{recursive:true}); await writeFile(path.join(dir,'index.html'),content)
 }
+// A fenced block's info string is "language Label words". The label names the tab in a
+// language picker; without one, the language picks a default name.
+const codeLabels = {js:'JavaScript', mjs:'JavaScript', javascript:'JavaScript', ts:'TypeScript', typescript:'TypeScript', jsx:'JSX', tsx:'TSX', sh:'Shell', bash:'Shell', shell:'Shell', python:'Python', py:'Python', json:'JSON', html:'HTML', css:'CSS', text:'Text', yaml:'YAML', yml:'YAML'}
+function codeLabel(language, label) { return label || codeLabels[language.toLowerCase()] || language || 'Text' }
 function render(p) {
   const headings=[], slugger=new GithubSlugger()
   const parser=new Marked({renderer:{
+    code({text,lang}) {
+      const [language='', ...rest] = String(lang ?? '').trim().split(/\s+/)
+      const label = codeLabel(language, rest.join(' '))
+      return '<div class="code" data-label="'+html(label)+'"><div class="code-label">'+html(label)+'</div><pre><code'+(language?' class="language-'+html(language)+'"':'')+'>'+html(text)+'</code></pre></div>'
+    },
+    html({text}) {
+      const t = text.trim()
+      if (t === '<!-- tabs -->') return '<div class="code-tabs" data-tabs>'
+      if (t === '<!-- /tabs -->') return '</div>'
+      return text
+    },
     heading({tokens,depth,text}) { const id=slugger.slug(text.replace(/<[^>]+>/g,'')); if(depth===2)headings.push({id,text}); return '<h'+depth+' id="'+html(id)+'">'+this.parser.parseInline(tokens)+'</h'+depth+'>' },
     link({href,tokens}) {
       let target=href

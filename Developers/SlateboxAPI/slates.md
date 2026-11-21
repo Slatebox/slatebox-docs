@@ -20,7 +20,36 @@ HTTP 201 returns `shareId`, `url` and `diagram`. This example has five native no
 
 Load a personal token with `slates:write` into `SLATEBOX_API_TOKEN` and your origin into `SLATEBOX_BASE_URL`. Generate one key for the intended board and keep it until you have the response.
 
-```sh
+<!-- tabs -->
+
+```js Node.js
+const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/slates`, {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    'Idempotency-Key': crypto.randomUUID(),
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ brief: 'Who can approve a customer refund?' }),
+})
+console.log(res.status, await res.json())
+```
+
+```python Python
+import os, uuid, requests
+
+res = requests.post(
+    f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates",
+    headers={
+        "Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}",
+        "Idempotency-Key": str(uuid.uuid4()),
+    },
+    json={"brief": "Who can approve a customer refund?"},
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
 create_key=$(uuidgen)
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
@@ -29,6 +58,8 @@ curl --fail-with-body --silent --show-error \
   --data '{"brief":"Who can approve a customer refund?"}' \
   "$SLATEBOX_BASE_URL/api/v1/slates"
 ```
+
+<!-- /tabs -->
 
 HTTP 201 returns the new board's `shareId`, editor `url` and `workshop` summary. The board is private to the token owner. Open the editor to give the team alternative paths through the side conversation. A retry with the same token, key and brief returns HTTP 200 and the original board. Reusing the key for another brief returns HTTP 409.
 
