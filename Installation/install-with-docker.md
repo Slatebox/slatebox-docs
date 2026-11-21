@@ -215,6 +215,16 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 - To change an option, run the container again with the new value (Docker: `docker rm -f slatebox`, then your `docker run`; Compose: edit the file, then `docker compose up -d`). Your data stays in the volume.
 - A feature without its service says so and everything else keeps working. Without mail, share by link and [make reset links yourself](#forgotten-passwords). Without an AI key, drafts say the administrator can turn them on. Without a Daily key, calls say they are unavailable.
 
+## Agents and exec
+
+The image runs exec, so agents can work on your instance the same way they work on Slatebox Cloud. Point them at your address instead of `https://app.slatebox.com`.
+
+- `POST /api/v1/exec` runs a script in the sealed runner inside the container.
+- `/mcp` on your address is the hosted MCP endpoint.
+- The `slatebox-mcp` package and the `slatebox` CLI work against your address with `SLATEBOX_BASE_URL`.
+
+Exec limits are set with `SLATEBOX_SETTINGS`, for example `{"selfHosted":{"exec":{"auditDays":90}}}`. [How exec works](../Developers/SlateboxAPI/exec.md)
+
 ## Upgrade
 
 Take a [backup](#back-up-and-restore), then pull the new image and start it with the same options:

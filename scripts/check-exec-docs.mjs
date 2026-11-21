@@ -226,9 +226,26 @@ test('the exec page says what happens against an instance that does not run exec
   assert.match(exec, /stops before the script's first call and saves nothing/)
 })
 
-// The release gate. The guides install slatebox-mcp 0.3.0 and describe an instance that runs
-// exec, so they are not published before both exist. Every check below runs the archive itself.
-const LAST_RELEASE_BEFORE_EXEC = '20261119T030029Z'
+// Self-hosting is one image, ghcr.io/slatebox/slatebox, and that image runs exec. There are no
+// numbered self-host releases to name: the install page says so, and the exec page agrees.
+test('the one-container page documents exec, and no page names a self-host release', () => {
+  const install = text['Installation/install-with-docker.md']
+  const part = section(install, 'Agents and exec')
+  assert.ok(part, 'Installation/install-with-docker.md needs an "Agents and exec" section')
+  assert.match(part, /\]\(\.\.\/Developers\/SlateboxAPI\/exec\.md(#[^)]*)?\)/, 'the section links the exec page')
+  assert.match(part, /runs exec/, 'the section says the image runs exec')
+  for (const surface of ['POST /api/v1/exec', '/mcp']) assert.ok(part.includes(surface), 'the section names ' + surface)
+  assert.match(part, /`SLATEBOX_SETTINGS`/, 'the section says where the exec limits are set')
+  assert.match(part, /selfHosted.+exec/, 'the section names settings.selfHosted.exec')
+  assert.match(exec, /ghcr\.io\/slatebox\/slatebox/, 'the exec page names the self-host image')
+  assert.match(exec, /the self-host image run exec/, 'the exec page says the self-host image runs exec')
+  for (const [file, source] of Object.entries(text)) {
+    assert.doesNotMatch(source, /self-host(ed)? release|release with exec|\b20\d{6}T\d{6}Z\b/i, file + ' names a self-host release; there is one image')
+  }
+})
+
+// The release gate. The guides install slatebox-mcp 0.3.0, so they are not published before the
+// archive and its checksum exist here. Every check below runs the archive itself.
 
 function run(file, args, env) {
   return new Promise(resolve => execFile(process.execPath, [file, ...args], {env: {PATH: process.env.PATH, ...env}, timeout: 60000}, (error, stdout, stderr) =>
@@ -258,7 +275,7 @@ async function olderInstance(t) {
   return {saves, origin: 'http://127.0.0.1:' + server.address().port}
 }
 
-test('the guides are not published before the exec package and an exec release exist', async t => {
+test('the guides are not published before the exec package exists', async t => {
   const archive = path.join('assets/downloads', PACKAGE)
   const exists = await stat(archive).then(() => true, () => false)
   assert.ok(exists, 'Release step: build ' + PACKAGE + ' and its .sha256 into assets/downloads before publishing these guides')
@@ -323,9 +340,4 @@ test('the guides are not published before the exec package and an exec release e
     assert.match(exec, new RegExp('for ' + limits.confirmationMinutes + ' minutes'))
   })
 
-  await t.test('a self-hosted release with exec is published and the page names it', async () => {
-    const releases = (await readdir('assets/self-host/releases')).map(f => f.replace(/\.json$/, '')).filter(id => id > LAST_RELEASE_BEFORE_EXEC).sort()
-    assert.ok(releases.length, 'Release step: publish the first self-host release built with exec into assets/self-host/releases')
-    assert.match(exec, new RegExp('first self-hosted release with exec is `' + releases[0] + '`'))
-  })
 })
