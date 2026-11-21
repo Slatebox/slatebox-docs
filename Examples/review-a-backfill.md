@@ -16,36 +16,85 @@ agentPrompt: >-
   show me the confirmation reason, and give me the URL and its invite ID once I agree.
 ---
 
-A backfill copies customer records into a new table. The reviewer needs to know what to do if a comparison comes up short. Put that decision on a slate the next engineer can reopen.
+A backfill copies customer records into a new table. If the row counts differ, the reviewer needs to know what to do. Put that decision on a map the next engineer can reopen.
 
 ## Draw the expected path
 
-[Open the three steps in a private slate](https://app.slatebox.com/new#play=1&brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover). If you work from a terminal, use the same three steps as the brief. Slatebox uses the arrows you supply to connect the stations. [Install the package](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-package)
+[Open the three steps in a private slate](https://app.slatebox.com/new#play=1&brief=Backfill%20review%20%E2%86%92%20Compare%20row%20counts%20%E2%86%92%20Approve%20cutover), or create the same map from code. The arrows in the brief connect the stations.
 
-```sh
-create_key=$(node -p 'crypto.randomUUID()')
-npx --no-install slatebox exec --idempotency-key "$create_key" --intent "Create the backfill review map" \
+<!-- tabs -->
+
+```js Node.js
+const base = process.env.SLATEBOX_BASE_URL ?? "https://app.slatebox.com"
+const response = await fetch(`${base}/api/v1/slates`, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    "Content-Type": "application/json",
+    "Idempotency-Key": crypto.randomUUID(),
+  },
+  body: JSON.stringify({ brief: "Backfill review → Compare row counts → Approve cutover" }),
+})
+const { url, shareId } = await response.json()
+console.log({ url, shareId })
+```
+
+```python Python
+import os, uuid, requests
+
+base = os.environ.get("SLATEBOX_BASE_URL", "https://app.slatebox.com")
+response = requests.post(
+    f"{base}/api/v1/slates",
+    headers={"Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}", "Idempotency-Key": str(uuid.uuid4())},
+    json={"brief": "Backfill review → Compare row counts → Approve cutover"},
+)
+created = response.json()
+print({"url": created["url"], "shareId": created["shareId"]})
+```
+
+```sh curl
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  --data '{"brief": "Backfill review → Compare row counts → Approve cutover"}' \
+  "${SLATEBOX_BASE_URL:-https://app.slatebox.com}/api/v1/slates" | jq '{url, shareId}'
+```
+
+```sh CLI
+npx --no-install slatebox exec --idempotency-key "$(uuidgen)" --intent "Create the backfill review map" \
   -e 'const map = await slatebox.slates.create({ brief: "Backfill review → Compare row counts → Approve cutover" }); return { url: map.url, shareId: map.shareId }'
 ```
 
+<!-- /tabs -->
+
+You get the private editor `url` and the `shareId`. To retry a failed request, send the same idempotency key so you get the same map, not a second one. [Install the package](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-package)
+
 ## Give the reviewer a second choice
 
-Open the map. Send this in the side conversation.
+1. Open the map and send this in the side conversation:
 
-> After Compare row counts, add Repair missing rows. On arrival, reconcile the missing IDs and run the comparison again.
+   > After Compare row counts, add Repair missing rows. On arrival, reconcile the missing IDs and run the comparison again.
 
-Look at the branch on the canvas, then choose **Keep changes** to save the path and its instruction together. You can also make this edit from a [terminal or connected agent](../Developers/SlateboxAPI/terminal-and-agents.md#add-a-path-and-an-arrival-instruction).
+2. Check the new branch on the canvas, then choose **Keep changes**. The path and its instruction save together.
+3. Move **Team** onto **Compare row counts**. Both **Approve cutover** and **Repair missing rows** are now open.
+4. Drag the token onto **Repair missing rows**, or pick it with the keyboard. The map shows the reconciliation instruction.
 
-Move **Team** onto **Compare row counts**. Both **Approve cutover** and **Repair missing rows** are now available. Drag the token onto **Repair missing rows** or choose that destination by keyboard. The map shows the reconciliation instruction.
+[Make the same edit from a terminal or an agent](../Developers/SlateboxAPI/terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
 
 ## Open the review with the risk
 
-The person deciding whether to approve the cutover wants to see the recovery plan first. In the side conversation, send this message.
+The person approving the cutover wants to see the recovery plan first.
 
-> Present Repair missing rows first
+1. Send `Present Repair missing rows first` in the side conversation.
+2. Check the numbered sequence and choose **Keep changes**.
+3. Choose **Presentation options → Present to everyone here**. Everyone on the slate follows. The presentation opens on **Repair missing rows**; **Next** walks through the rest.
+4. **End presentation** returns everyone to the map. The token stays where you put it, and **Compare row counts** still offers both routes.
 
-Read the numbered sequence and choose **Keep changes**. Choose **Present together** to open on the repair instruction. Use **Next station** to explain how the team reached that decision. **End presentation** returns you to the same map. The token stays where you placed it, and **Compare row counts** still offers both routes. [Set the same scene order from your terminal](../Developers/SlateboxAPI/terminal-and-agents.md#choose-the-opening-scene)
+[Set the scene order from your terminal](../Developers/SlateboxAPI/terminal-and-agents.md#choose-the-opening-scene)
 
 ## Hand off the decision
 
-As the owner, choose **Share → Create edit link** or ask your connected agent to create an unlisted edit link for this map. Give that URL to the engineer reviewing the migration. [Create or withdraw a reviewer’s link](../Developers/SlateboxAPI/terminal-and-agents.md#invite-a-reviewer) Ask them to follow the path for a missing record and read the instruction back. The slate records the decision and the check your team chose. Your database tools supply the actual comparison. [Share a slate and present the decision](../Using-Slatebox/readme.md)
+Choose **Share → Create edit link**, or ask your connected agent to create an unlisted edit link. Send it to the engineer reviewing the backfill and ask them to follow the path for a missing record. The map records the decision; your database tools run the comparison.
+
+[Create or withdraw a reviewer’s link](../Developers/SlateboxAPI/terminal-and-agents.md#invite-a-reviewer) · [Share and present a slate](../Using-Slatebox/readme.md#work-with-a-team)

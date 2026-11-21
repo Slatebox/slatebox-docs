@@ -4,23 +4,75 @@ description: Send an authenticated preview and inspect the operation report whil
 group: Integrations
 ---
 
-Open a slate you can edit, copy its ID from the canvas URL, and load a personal API token into your shell from your secret manager. Set `SLATEBOX_BASE_URL` to your own instance's address, or leave it unset for Slatebox Cloud. This recipe uses the HTTP API and runs without an engine installation.
+Preview an edit over the HTTP API and see exactly what it would do. Nothing is saved, and nothing needs installing.
 
-```sh
-: "${SLATEBOX_API_TOKEN:?Load your personal token into the environment}"
-: "${SLATEBOX_BASE_URL:=https://app.slatebox.com}"
-: "${SLATEBOX_SHARE_ID:?Set the ID from your editable canvas URL}"
-slate_url="$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
-# Every edit names the revision it was made on: the slate's revision, read first.
-revision=$(curl --fail-with-body --silent --show-error \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | node -p 'JSON.parse(require("fs").readFileSync(0, "utf8")).revision')
-curl --fail-with-body --silent --show-error \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H 'Content-Type: application/json' \
-  --data '{"mode":"preview","expectedRevision":'"$revision"',"userMessage":"Add one triangle","plan":{"message":"Place a triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
-  "$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID/operations"
+## Before you start
+
+| Variable | Value |
+| --- | --- |
+| `SLATEBOX_API_TOKEN` | A personal API token, loaded from your secret manager |
+| `SLATEBOX_SHARE_ID` | The ID after `/canvas/` in the address of a slate you can edit |
+| `SLATEBOX_BASE_URL` | Your Slatebox origin. Leave it unset for `https://app.slatebox.com` |
+
+## Send the preview
+
+Every edit names the revision it was made on, so read the slate first, then send the plan with `mode: "preview"`.
+
+<!-- tabs -->
+
+```js Node.js
+const base = process.env.SLATEBOX_BASE_URL ?? "https://app.slatebox.com"
+const slate = `${base}/api/v1/slates/${process.env.SLATEBOX_SHARE_ID}`
+const headers = { Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`, "Content-Type": "application/json" }
+
+const { revision } = await (await fetch(slate, { headers })).json()
+const response = await fetch(`${slate}/operations`, {
+  method: "POST",
+  headers,
+  body: JSON.stringify({
+    mode: "preview",
+    expectedRevision: revision,
+    userMessage: "Add one triangle",
+    plan: { message: "Place a triangle", operations: [{ kind: "add_nodes", count: 1, shape: "triangle" }] },
+  }),
+})
+console.log(response.status, await response.json())
 ```
 
-Expect HTTP 200 and JSON with `ok`, `mode: "preview"`, the slate ID, the materialized operations, and a report. Open the board again. Its saved note count stays the same. A committed edit is a separate request with its own idempotency key.
+```python Python
+import os, requests
+
+base = os.environ.get("SLATEBOX_BASE_URL", "https://app.slatebox.com")
+slate = f"{base}/api/v1/slates/{os.environ['SLATEBOX_SHARE_ID']}"
+headers = {"Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}"}
+
+revision = requests.get(slate, headers=headers).json()["revision"]
+response = requests.post(f"{slate}/operations", headers=headers, json={
+    "mode": "preview",
+    "expectedRevision": revision,
+    "userMessage": "Add one triangle",
+    "plan": {"message": "Place a triangle", "operations": [{"kind": "add_nodes", "count": 1, "shape": "triangle"}]},
+})
+print(response.status_code, response.json())
+```
+
+```sh curl
+slate="${SLATEBOX_BASE_URL:-https://app.slatebox.com}/api/v1/slates/$SLATEBOX_SHARE_ID"
+revision=$(curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate" | jq .revision)
+jq -n --argjson revision "$revision" '{mode: "preview", expectedRevision: $revision,
+  userMessage: "Add one triangle",
+  plan: {message: "Place a triangle", operations: [{kind: "add_nodes", count: 1, shape: "triangle"}]}}' |
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data @- "$slate/operations"
+```
+
+<!-- /tabs -->
+
+You get HTTP 200 with `ok`, `mode: "preview"`, the slate ID, the operations it would run and a `report`. Reopen the board: its note count is unchanged.
+
+To save the edit, send the same body without `mode`. Add an `Idempotency-Key` header so a retry cannot apply it twice.
 
 [Open your slate](https://app.slatebox.com/new) · [Personal tokens and authentication](../Developers/SlateboxAPI/readme.md#authentication)
