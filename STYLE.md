@@ -27,6 +27,8 @@ There is one Slatebox: the current one. Never write about earlier versions.
 - Hardware limits are not version caveats ("a Raspberry Pi 4 cannot run it" is fine).
 - Invisible redirect anchors in `scripts/legacy-routes.json` stay (they keep old links working). If you
   delete a page, delete its entry there too.
+- A deleted page keeps its address: add it to `scripts/redirects.json` (old path → the page that now
+  answers). The build writes a small page there with a canonical link and a meta refresh.
 
 ## Facts that must stay consistent
 

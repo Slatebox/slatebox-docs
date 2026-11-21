@@ -165,6 +165,15 @@ const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home,true))
 await write('/examples/',layout('Canvas examples','Hands-on guides for using Slatebox and building with SlateboxJS.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a working example, then follow the steps in the app or build it with SlateboxJS.</p>'+agentTools('Read '+base+'/llms.txt. Ask what my team wants to do, choose a runnable example and help me try it on my own slate.','/llms.txt','Read agent index')+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
+// A removed page keeps its address: a small page with a canonical link and a meta refresh to the
+// page that now answers (scripts/redirects.json). Not in the sitemap or search.
+const redirects = JSON.parse(await readFile('scripts/redirects.json','utf8'))
+for (const [from,to] of Object.entries(redirects)) {
+  if (pages.some(p=>p.url===from)) throw Error('scripts/redirects.json: '+from+' is still a page')
+  const target = pages.find(p=>p.url===to.split('#')[0])
+  if (!target) throw Error('scripts/redirects.json: '+to+' is not a page')
+  await write(from,'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>'+html(target.title)+' · Slatebox Docs</title><link rel="canonical" href="'+html(base+target.url)+'"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url='+html(to)+'"></head><body><h1>'+html(target.title)+'</h1><p><a href="'+html(to)+'">Open '+html(target.title)+'</a></p></body></html>')
+}
 await writeFile(path.join(out,'404.html'),layout('Page not found','','/404.html','<section class="examples"><h1>Page not found.</h1><p>'+link('/','Browse the documentation')+' or '+link('/examples/','try an example')+'.</p></section>'))
 await writeFile(path.join(out,'CNAME'),'docs.slatebox.com\n')
 await writeFile(path.join(out,'.nojekyll'),'')
