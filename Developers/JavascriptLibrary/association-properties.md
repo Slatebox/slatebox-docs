@@ -1,15 +1,15 @@
 # Association properties
 
-Supply style overrides as the second argument to `source.relationships.addAssociation(destination, options)`. The manager assigns the source, destination and connection IDs.
+Pass style options as the second argument to `source.relationships.addAssociation(destination, options)`. The engine sets the IDs.
 
 | Property | Meaning |
 | --- | --- |
-| `id` | Identity of this connection, including when several connect the same nodes |
-| `parentId`, `childId` | Source and destination node IDs |
+| `id` | This connection's identity, even when several join the same notes |
+| `parentId`, `childId` | Source and destination note IDs |
 | `lineColor`, `lineWidth`, `lineOpacity` | Stroke color, thickness and opacity |
-| `lineType` | Connector routing, for example `'straight'` or `'orthogonal'` |
-| `showParentArrow`, `showChildArrow` | Arrowheads at the source or destination |
-| `label` | Text displayed on the edge |
-| `sourceAnchor`, `targetAnchor` | Optional normalized point on a node, with each axis from 0 to 1 |
+| `lineType` | Routing: `'bezier'` (curved, the default), `'straight'` or `'orthogonal'` |
+| `showParentArrow`, `showChildArrow` | Arrowhead at the source or destination |
+| `label` | Text shown on the line |
+| `sourceAnchor`, `targetAnchor` | Fixed point on a note, each axis from 0 to 1 |
 
-An anchor of `{x: 1, y: 0.5}` pins that end to the center of the node’s right edge. An automatic anchor allows the engine to choose the attachment point as nodes move. [Create and update a connection](association-methods.md)
+An anchor of `{x: 1, y: 0.5}` pins that end to the middle of the note's right edge. Without an anchor, the engine picks the attachment point as notes move. [Connect two notes](association-methods.md)

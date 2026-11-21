@@ -2,20 +2,24 @@
 
 ## Quickstart
 
-For a running instance, start the Slatebox image. One container runs the app, the collaboration relay and MongoDB. [Run your own Slatebox](../Installation/install-with-docker.md)
+To run Slatebox, start the image: one container runs the app, the relay and MongoDB. [Run your own Slatebox](../Installation/install-with-docker.md)
 
-For engine development, open the root of a SlateboxJS checkout and run:
+To work on the engine, run this in a SlateboxJS checkout:
 
-```sh
+<!-- tabs -->
+
+```sh Node.js
 npm ci
 npm run build
 npm run dev
 ```
 
-The build produces ESM, CommonJS, CSS and TypeScript declarations in `dist/`. Open the local Vite URL printed by the final command. Run `npm test -- tests/unit/Node.test.ts` for the node unit suite. [Add a slate to a web page](JavascriptLibrary/readme.md)
+<!-- /tabs -->
 
-To try app, engine and relay changes together, build the image from your three checkouts. The build compiles the engine afresh and labels the image with all three revisions. [Build the image yourself](../Installation/install-with-docker.md#build-the-image-yourself)
+You get ESM, CommonJS, CSS and TypeScript declarations in `dist/`, and a local Vite URL to open. Run one unit suite with `npm test -- tests/unit/Node.test.ts`. [Add a slate to a web page](JavascriptLibrary/readme.md)
+
+To try app, engine and relay changes together, build the image from your three checkouts. It builds the engine fresh and labels the image with all three revisions. [Build the image yourself](../Installation/install-with-docker.md#build-the-image-yourself)
 
 ## Environment variables
 
-The image needs none. Its optional settings, such as the public address, mail and AI drafts, are listed in one table. The app's browser-visible settings are public; the image keeps service credentials in server-side settings. [Options](../Installation/install-with-docker.md#options)
+The image needs none. Its optional settings (address, mail, AI drafts, single sign-on) are in one table. Browser-visible settings are public; service credentials stay in server-side settings. [Options](../Installation/install-with-docker.md#options)

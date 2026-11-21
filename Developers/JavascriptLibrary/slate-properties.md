@@ -1,19 +1,21 @@
 # Slate options
 
-## Slate Properties
-
-Pass options as the second argument to `new Slate(container, options)`. The container can be an element or a selector. Give it measurable dimensions before initialization.
+Pass options as the second argument to `new Slate(container, options)`. The container is an element or a selector, and it needs a visible size before you create the slate.
 
 | Option | Purpose |
 | --- | --- |
-| `name`, `description` | Identify the board in serialized metadata. |
-| `containerStyle.backgroundColor` | Set the canvas background. |
-| `viewPort.showGrid`, `viewPort.gridSize` | Show a grid and choose its spacing. |
-| `viewPort.snapToGrid` | Align movement to the grid. |
-| `showbirdsEye`, `showZoom`, `showUndoRedo` | Configure the corresponding canvas controls. |
-| `allowDrag` | Configure drag interaction on the slate. |
+| `name`, `description` | Names the board in its saved JSON |
+| `containerStyle.backgroundColor` | Sets the canvas background |
+| `viewPort.showGrid`, `viewPort.gridSize` | Shows a grid and sets its spacing |
+| `viewPort.snapToGrid` | Snaps moves to the grid |
+| `showbirdsEye`, `showZoom`, `showUndoRedo` | Shows the birds-eye view, zoom and undo controls |
+| `allowDrag` | Turns dragging on or off |
 
-```js
+<!-- tabs -->
+
+```js JavaScript
+import { Slate } from 'slateboxjs'
+
 const slate = new Slate('#board', {
   name: 'Station plan',
   containerStyle: { backgroundColor: '#f8f6ef' },
@@ -21,4 +23,16 @@ const slate = new Slate('#board', {
 })
 ```
 
-Visibility and collaboration settings on a browser object do not grant a user access to a stored slate. Enforce access in the host and its relay when sharing documents. [Create the first nodes](readme.md#quick-slate)
+```ts TypeScript
+import { Slate } from 'slateboxjs'
+
+const slate: Slate = new Slate('#board', {
+  name: 'Station plan',
+  containerStyle: { backgroundColor: '#f8f6ef' },
+  viewPort: { showGrid: true, gridSize: 20, snapToGrid: true }
+})
+```
+
+<!-- /tabs -->
+
+You get a cream canvas with a 20-unit grid that notes snap to. These options do not control who can open a stored slate: enforce access in your server and relay. [Create the first notes](readme.md#quick-slate)
