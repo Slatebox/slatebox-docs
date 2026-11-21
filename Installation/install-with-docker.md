@@ -23,7 +23,7 @@ volumes:
 
 <!-- /tabs -->
 
-You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Your own Slatebox has no meters; AI and calls use your own keys. [No meters on your own server](self-host-meters.md)
+You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Your own Slatebox has no meters. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. [No meters on your own server](self-host-meters.md)
 
 Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
 
@@ -203,8 +203,11 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 | `SLATEBOX_ACME_CA` | The ACME directory URL of your own certificate authority. |
 | `SLATEBOX_MAIL_URL` | An `smtp://` or `smtps://` URL, such as `smtp://user:password@mail.example.com:587`. Turns on invitations, email verification and password-reset mail. |
 | `SLATEBOX_MAIL_FROM` | The sender, such as `Slatebox <boards@example.com>`. Needed unless the user name in `SLATEBOX_MAIL_URL` is itself an address. |
-| `SLATEBOX_AI_KEY` | A [DeepInfra](https://deepinfra.com) API key. Turns on AI drafts. |
-| `SLATEBOX_AI_URL`, `SLATEBOX_AI_MODEL` | Your own OpenAI-compatible endpoint and model. `SLATEBOX_AI_KEY` is then its bearer token, if it needs one. |
+| `SLATEBOX_AI_URL`, `SLATEBOX_AI_MODEL` | Any OpenAI-compatible endpoint and the model it serves, for every AI feature. `SLATEBOX_AI_KEY` is then its bearer token, if it needs one. [Connect AI](#connect-ai) |
+| `SLATEBOX_AI_KEY` | Without `SLATEBOX_AI_URL`: a [DeepInfra](https://deepinfra.com) API key for the built-in AI. |
+| `SLATEBOX_AI_CONFIG` | Any mix of AI as JSON: several connections, and which one each feature uses. [Set the server's AI](../Using-Slatebox/choose-your-ai.md#set-the-servers-ai) |
+| `SLATEBOX_AI_OWN_PROVIDERS` | `off` keeps everyone on the AI set here. Default `on`: people and teams may connect their own in **Profile → AI**, and their choice wins. |
+| `SLATEBOX_AI_PRIVATE_ENDPOINTS` | `off` lets people and teams connect models at public addresses only. Default `on`: they may also use your network and `host.docker.internal`. Your own connections are not affected. |
 | `SLATEBOX_SSO` | `keycloak` turns on [single sign-on](single-sign-on.md). Off by default. |
 | `SLATEBOX_SSO_ONLY` | `true`, with `SLATEBOX_SSO=keycloak`: single sign-on is the only way in. |
 | `SLATEBOX_SSO_ADMIN` | `open` (default) or `closed`, with `SLATEBOX_SSO=keycloak`. `closed` takes the Keycloak admin console off the published port. |
@@ -214,7 +217,16 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 
 - A misspelled or lower-case option stops the container and lists the valid names.
 - To change an option, run the container again with the new value (Docker: `docker rm -f slatebox`, then your `docker run`; Compose: edit the file, then `docker compose up -d`). Your data stays in the volume.
-- A feature without its service says so and everything else keeps working. Without mail, share by link and [make reset links yourself](#forgotten-passwords). Without an AI key, drafts say the administrator can turn them on. Without a Daily key, calls say they are unavailable.
+- A feature without its service says so and everything else keeps working. Without mail, share by link and [make reset links yourself](#forgotten-passwords). With no AI connected, drafts say the administrator can turn them on. Without a Daily key, calls say they are unavailable.
+
+## Connect AI
+
+Your Slatebox's AI is whatever you and your people connect, local or cloud, mixed per feature. Set the server's default with `SLATEBOX_AI_URL` and `SLATEBOX_AI_MODEL` (one endpoint for every feature) or `SLATEBOX_AI_CONFIG` (a mix). People connect their own in **Profile → AI**, unless you set `SLATEBOX_AI_OWN_PROVIDERS=off`. [Choose your AI](../Using-Slatebox/choose-your-ai.md)
+
+- Inside the container, `localhost` is the container itself. A model server on this machine is at `host.docker.internal`, such as `http://host.docker.internal:8000/v1`.
+- On a Mac, run the model server on the Mac itself, not in Docker: Docker on a Mac cannot use the Mac's GPU.
+- On Linux, add `--add-host=host.docker.internal:host-gateway` to `docker run` (Compose: `extra_hosts: ["host.docker.internal:host-gateway"]`), and have the model server listen beyond `127.0.0.1`.
+- `docker exec slatebox slatebox ai check` tests each server connection: reached, key accepted, model listed, answered and called tools.
 
 ## Agents and exec
 

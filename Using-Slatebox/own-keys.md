@@ -1,34 +1,41 @@
 ---
 title: Use your own keys
-description: Add your own AI key or Daily key. Slatebox then charges nothing and sets no limit on what that key pays for.
+description: Connect your own AI, a cloud key or any OpenAI-compatible endpoint, or add your own Daily key. Slatebox then charges nothing and sets no limit on what it pays for.
 ---
 
 # Use your own keys
 
-With your own key, the provider bills you directly. Slatebox charges nothing and sets no limit on what the key pays for. Image search and image generation are not covered by an AI key: they use your free amount, then your balance.
+With your own AI or Daily key, the provider bills you directly, or nobody does for a model you run. Slatebox charges nothing and sets no limit on what it pays for.
 
-## Add a key
+## Connect your own AI
+
+Open **Profile → AI** and choose **Connect a model**: a cloud provider with your key (OpenAI, Anthropic or DeepInfra), or any OpenAI-compatible endpoint with its address, a key if it needs one and a model name. Choose it for every feature or only some. [Choose your AI](choose-your-ai.md)
+
+A team admin connects AI for the whole team under **Your team's** in the same tab. Your own choice is used before your team's.
+
+## Add a Daily key
 
 1. Open your profile and choose **Free this month**.
-2. Under **Your own keys**, choose **Add an AI key** or **Add a Daily key**.
-3. Paste the key and save. Slatebox checks it once with the provider and shows any refusal under the key.
+2. Under **Your own keys**, choose **Add a Daily key**.
+3. Paste the key and save. Slatebox checks it once with Daily and shows any refusal under the key.
 
-A team admin adds keys for the whole team in **Team settings → Team balance and keys**. Your own key is used before your team's.
+A team admin adds a Daily key for the whole team in **Team settings → Team balance and keys**. Your own key is used before your team's.
 
-## What each key covers
+## What each covers
 
-| Key | Pays for |
+| Yours | Pays for |
 | --- | --- |
-| DeepInfra key | AI drafts, conversation and presentations, on the same models. |
-| OpenAI-compatible endpoint | Drafts and conversation. Give a base URL, a model name and a key if your server needs one. It must use https on a public host. Presentations use your free amount or balance. |
+| Your own AI connection | Each AI feature you choose it for: conversation and edits, drafts and layouts, presentation planning, reading images and diagrams, and generating images when the model makes images. |
 | Daily key | Calls you start, on your Daily domain, with Daily's limits and none of ours. |
+
+Image search always uses your free amount, then your balance. Image generation does too, unless you choose a connection that makes images for **Generating images**.
 
 ## How keys are kept
 
 - Keys are encrypted at rest with AES-256-GCM and bound to their owner; a key copied to another account cannot be read.
-- A saved key is never shown again. The profile shows its last four characters, for example "DeepInfra key ending 4f2a".
-- A server with no encryption key set hides **Your own keys**.
+- A saved key is never shown again. An AI connection says "key saved"; a Daily key shows its last four characters, for example "Daily key ending 4f2a".
+- A server with no encryption key set hides **Your own keys** and refuses AI keys. An endpoint that needs no key still works.
 
 ## Remove a key
 
-In **Free this month**, choose **Remove** beside the key. Slatebox stops using it and deletes it at once.
+Choose **Remove** beside the AI connection in **Profile → AI**, or beside the Daily key in **Free this month**. Slatebox stops using it and deletes it at once.
