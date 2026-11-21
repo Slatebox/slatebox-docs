@@ -38,6 +38,7 @@ const entries = [
   {url:'/using-slatebox/', title:'Use the app',desc:'Create a private slate, invite a teammate and present your work.'},
   {url:'/developers/javascriptlibrary/', title:'Build with SlateboxJS',desc:'Draw a node, connect two ideas and save the canvas as JSON.'},
   {url:'/developers/slateboxapi/', title:'Connect your application',desc:'Read a slate and preview a change with a scoped API token.'},
+  {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
   {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one Docker command.'}
 ]
 const demos = {
@@ -135,7 +136,7 @@ for (const p of pages) {
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
-agentIndex.push('[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)', '',
+agentIndex.push('[OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)', '',
   'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '')
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+') · [GitHub mirror]('+publishedFiles+'/'+p.file+')'),'')

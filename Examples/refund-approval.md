@@ -1,13 +1,12 @@
 ---
 title: Move a refund decision from a terminal
-description: Ask who can approve a refund, give the team two paths, and move its token from a shell or an MCP client.
+description: Ask who can approve a refund, give the team two paths, and move its token with one exec script from a terminal or an agent.
 group: Integrations
 agentPrompt: >-
-  Help me map who can approve a customer refund. Use create_slate with my question and one idempotency key to make a private Slatebox map.
-  Give me its editor URL and the words to type to add two approval paths in the side conversation. Read the saved map through the CLI or MCP,
-  show me where the team token can move, and preview my choice. When I ask you to save it,
-  apply that one move with the revision you read and an idempotency key. Show me the decision
-  in the reopened map.
+  Help me map who can approve a customer refund. Run an exec script that calls slatebox.slates.create with my question, and keep one
+  idempotencyKey for the run and its retries. Give me its editor URL and the words to type to add two approval paths in the side conversation.
+  Then, in one exec script, read the saved map, show me where the team token can move, and preview my choice with mode preview.
+  When I ask you to save it, run the same script in save mode. Show me the decision in the reopened map.
 ---
 
 ## Give the team two paths
@@ -16,26 +15,43 @@ Ask your connected agent, “Create a private Slatebox decision map called Who c
 
 ## Preview the finance path
 
-[Install the Slatebox tools](../Developers/SlateboxAPI/terminal-and-agents.md), load your token into `SLATEBOX_API_TOKEN`, and set `SLATEBOX_SHARE_ID` to the map ID. Preview moving the team's token to the station named **Ask finance**.
+[Install the Slatebox package](../Developers/SlateboxAPI/terminal-and-agents.md#install-the-package) and load your token into `SLATEBOX_API_TOKEN`. Save this script as `refund-move.js`, with the map ID in place of `your-share-id`. It reads the map, finds the team's token and the **Ask finance** station by name, and moves the token against the revision it just read. If the move is not allowed, it lists the stations the token can reach.
 
-```sh
-npx --no-install slatebox move "$SLATEBOX_SHARE_ID" Team "Ask finance" | tee refund-preview.json
+```js
+const shareId = "your-share-id"
+const { workshop: map } = await slatebox.slates.get({ shareId })
+const team = map.cards.find(card => card.label === "Team")
+const finance = map.lanes.find(lane => lane.label === "Ask finance")
+try {
+  const result = await slatebox.slates.applyOperations({
+    shareId,
+    plan: {
+      message: "Move Team to Ask finance",
+      operations: [{ kind: "move_workshop_card", cardId: team.id, laneId: finance.id, expectedRevision: map.revision }],
+    },
+  })
+  return { mode: result.mode, team: result.workshop.cards.find(card => card.id === team.id) }
+} catch (error) {
+  if (error.code !== "move_refused") throw error
+  return { refused: error.message, canReach: team.legalLaneIds.map(id => map.lanes.find(lane => lane.id === id).label) }
+}
 ```
 
-The result identifies the token, its proposed destination and the revision you just reviewed. The token is still at the starting station in the browser. To see all available paths, run `npx --no-install slatebox read "$SLATEBOX_SHARE_ID"`. If two cards or stations share a name, use their IDs from that summary.
+```sh
+npx --no-install slatebox exec refund-move.js --preview
+```
+
+The result shows the token at its proposed station, with `mode` set to `preview`. The token is still at the starting station in the browser. If two cards or stations share a name, use their IDs from `workshop` instead of the labels.
 
 ## Save the choice and show a colleague
 
-Inspect the proposed source and destination. To save that move, generate a key once. Keep it for retries of this request.
+Inspect the proposed destination. To save that move, run the same script without `--preview`. Generate a key once and keep it for retries of this move.
 
 ```sh
-revision=$(node -p "require('./refund-preview.json').operations[0].expectedRevision")
 move_key=$(node -p 'crypto.randomUUID()')
-npx --no-install slatebox move "$SLATEBOX_SHARE_ID" Team "Ask finance" \
-  --apply --revision "$revision" --idempotency-key "$move_key"
-npx --no-install slatebox read "$SLATEBOX_SHARE_ID"
+npx --no-install slatebox exec refund-move.js --idempotency-key "$move_key"
 ```
 
-Reopen the same private map. Look for **Team · Ask finance**. A colleague with a read invitation can open the map and present the decision. If a teammate changes the map after you read it, read it again and choose among the current paths before preparing a fresh move.
+Reopen the same private map. Look for **Team · Ask finance**. A colleague with a read invitation can open the map and present the decision. If a teammate changes the map after you read it, the save fails with `slate_changed`. Run the script again: it reads the current paths before it moves the token.
 
-An MCP client can read the same choices with `get_slate`. Call `move_workshop_card` with `share_id`, `card_id`, `lane_id` and `expected_revision`. The tool previews by default. To save it, repeat the call with `dry_run: false` and an `idempotency_key`. The HTTP API accepts the plan at `POST /v1/slates/{shareId}/operations`. [MCP and HTTP request formats](../Developers/SlateboxAPI/terminal-and-agents.md#run-the-same-edit-through-mcp-or-http)
+An agent runs the same script with one `exec` call, first with `mode: "preview"`, then in save mode when you agree. The HTTP API accepts the same plan at `POST /api/v1/slates/{shareId}/operations`. [Exec, HTTP and the CLI side by side](../Developers/SlateboxAPI/terminal-and-agents.md#run-the-same-edit-over-http)

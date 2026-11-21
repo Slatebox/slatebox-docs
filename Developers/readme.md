@@ -6,7 +6,8 @@ Choose the interface that owns the data you want to change.
 | --- | --- |
 | Draw a board in your own web page and control its storage | [SlateboxJS quick slate](JavascriptLibrary/readme.md) |
 | Read a hosted slate or preview a repeatable edit | [HTTP API](SlateboxAPI/readme.md) |
-| Edit a private board from a shell or an MCP client | [Terminal and agent tools](SlateboxAPI/terminal-and-agents.md) |
+| Let an agent read and edit your slates with one tool | [Exec: how agents work with Slatebox](SlateboxAPI/exec.md) |
+| Edit a private board from a terminal or an MCP client | [Install the package and CLI](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
 | Run your own Slatebox | [One Docker command](../Installation/install-with-docker.md) |
