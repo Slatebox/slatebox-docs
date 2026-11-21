@@ -108,3 +108,11 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   assert.match(host, /Admin → Free budget/, 'self-host-meters.md: the budget is changed in Admin → Free budget')
   assert.match(host, /SLATEBOX_KEY_ENCRYPTION_KEY/, 'self-host-meters.md: own keys need the encryption key')
 })
+
+// Every subscription was cancelled with no conversion and no balance, so there is nothing for a
+// former subscriber to read: the top-ups page carries no hidden former-subscribers anchor either.
+test('the top-ups page has no former-subscribers anchor', () => {
+  const legacy = JSON.parse(read('scripts/legacy-routes.json'))
+  assert.ok(!Object.values(legacy).flat().includes('former-subscribers'), 'scripts/legacy-routes.json keeps a former-subscribers anchor')
+  assert.doesNotMatch(read('dist/using-slatebox/top-ups/index.html'), /id="former-subscribers"/, 'the built top-ups page has a former-subscribers anchor')
+})
