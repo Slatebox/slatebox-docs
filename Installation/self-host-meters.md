@@ -18,6 +18,6 @@ To limit use, turn on the same meter Slatebox Cloud uses: set `metering.enabled`
 
 - The free amounts start at the Cloud's. An admin changes the monthly budget and the hold on top-up video in **Admin → Free budget**.
 - Top-ups need your own Stripe keys.
-- Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64) in the app's environment. The Docker image does not accept that variable, so a metered server in the image runs without own keys.
+- Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, as in [Options](install-with-docker.md#options).
 
 [Install with Docker](install-with-docker.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

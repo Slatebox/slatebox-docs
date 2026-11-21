@@ -208,6 +208,7 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 | `SLATEBOX_SSO` | `keycloak` turns on [single sign-on](single-sign-on.md). Off by default. |
 | `SLATEBOX_SSO_ONLY` | `true`, with `SLATEBOX_SSO=keycloak`: single sign-on is the only way in. |
 | `SLATEBOX_SSO_ADMIN` | `open` (default) or `closed`, with `SLATEBOX_SSO=keycloak`. `closed` takes the Keycloak admin console off the published port. |
+| `SLATEBOX_KEY_ENCRYPTION_KEY` | 32 random bytes in base64, made with `openssl rand -base64 32`. Lets people and teams save their own AI and call keys, encrypted. Keep it for the life of the server and store it with your backups: after a change, saved keys must be added again. |
 | `SLATEBOX_SETTINGS` | A JSON object of further app settings. `{"daily":{"apiKey":"your-daily-key"}}` turns on audio and video calls. |
 | `MONGO_URL` | A MongoDB replica set you run elsewhere. The bundled database then does not start. `MONGO_OPLOG_URL` is passed on too, when set. |
 

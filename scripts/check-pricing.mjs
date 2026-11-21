@@ -116,3 +116,11 @@ test('the top-ups page has no former-subscribers anchor', () => {
   assert.ok(!Object.values(legacy).flat().includes('former-subscribers'), 'scripts/legacy-routes.json keeps a former-subscribers anchor')
   assert.doesNotMatch(read('dist/using-slatebox/top-ups/index.html'), /id="former-subscribers"/, 'the built top-ups page has a former-subscribers anchor')
 })
+
+// The image accepts SLATEBOX_KEY_ENCRYPTION_KEY (self-host configure.mjs: 32 bytes of base64, written to
+// the app's environment only), so the install page lists it and no page says the image refuses it.
+test('the image takes SLATEBOX_KEY_ENCRYPTION_KEY, and the docs say so', () => {
+  const install = read('Installation/install-with-docker.md')
+  assert.match(install, /^\| `SLATEBOX_KEY_ENCRYPTION_KEY` \|.*openssl rand -base64 32/m, 'install-with-docker.md: the Options table lists the key and how to make it')
+  for (const file of docs) assert.doesNotMatch(read(file), /does not accept that variable|runs without own keys/, file + ': the image accepts SLATEBOX_KEY_ENCRYPTION_KEY')
+})
