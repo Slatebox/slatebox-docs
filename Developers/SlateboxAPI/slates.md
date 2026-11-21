@@ -1,24 +1,70 @@
 # Read and edit a slate
 
+Create a slate, read it, and preview or save an edit over plain HTTP. Set `SLATEBOX_API_TOKEN`, `SLATEBOX_BASE_URL` and `SLATEBOX_SHARE_ID` first. [Authentication](readme.md#authentication)
+
 ## Create a native diagram
 
-Send a brief and `"kind":"diagram"` to create a native drawing that the token owner can open in the editor. Load a token with `slates:write` into `SLATEBOX_API_TOKEN`, and set `SLATEBOX_BASE_URL` to your Slatebox origin: `https://app.slatebox.com` for Slatebox Cloud, or your own instance's address. Generate one key for the drawing and reuse it on retries.
+Send a brief with `"kind": "diagram"`. You need `slates:write` and one `Idempotency-Key` per drawing; keep it for retries.
 
-```sh
-create_key=$(uuidgen)
+<!-- tabs -->
+
+```js Node.js
+const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/slates`, {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    'Idempotency-Key': crypto.randomUUID(),
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    kind: 'diagram',
+    source: 'call-status',
+    brief: 'What should support tell someone starting a new call during the outage?',
+  }),
+})
+console.log(res.status, await res.json())
+```
+
+```python Python
+import os, uuid, requests
+
+res = requests.post(
+    f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates",
+    headers={
+        "Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}",
+        "Idempotency-Key": str(uuid.uuid4()),
+    },
+    json={
+        "kind": "diagram",
+        "source": "call-status",
+        "brief": "What should support tell someone starting a new call during the outage?",
+    },
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H "Idempotency-Key: $create_key" \
+  -H "Idempotency-Key: $(uuidgen)" \
   -H 'Content-Type: application/json' \
   --data '{"kind":"diagram","source":"call-status","brief":"What should support tell someone starting a new call during the outage?"}' \
   "$SLATEBOX_BASE_URL/api/v1/slates"
 ```
 
-HTTP 201 returns `shareId`, `url` and `diagram`. This example has five native notes and four directed connections. Omit `source` to draw from your own steps. Retrying the same request with the same key returns HTTP 200 and the original result. Changing the source, kind or brief with that key returns HTTP 409. Use the returned URL to continue in the canvas conversation. [The same diagram from an exec script](terminal-and-agents.md#create-a-diagram-from-source-material)
+<!-- /tabs -->
+
+You get `201` with `shareId`, the editor `url` and `diagram`: here five native notes and four directed connections.
+
+- **Retry.** The same key and body return `200` and the original result. The same key with a different body returns `409`.
+- **Your own steps.** Leave out `source` and send steps such as `Request -> Review -> Release`, up to 1,200 characters.
+- **Sources.** `call-status`, `interview-notes`, `sign-in-outage` and `friday-launch`.
+
+[The same diagram from an exec script](terminal-and-agents.md#create-a-diagram-from-source-material)
 
 ## Create a private decision map
 
-Load a personal token with `slates:write` into `SLATEBOX_API_TOKEN` and your origin into `SLATEBOX_BASE_URL`. Generate one key for the intended board and keep it until you have the response.
+Send a team question as the brief, up to 160 characters.
 
 <!-- tabs -->
 
@@ -50,10 +96,9 @@ print(res.status_code, res.json())
 ```
 
 ```sh curl
-create_key=$(uuidgen)
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H "Idempotency-Key: $create_key" \
+  -H "Idempotency-Key: $(uuidgen)" \
   -H 'Content-Type: application/json' \
   --data '{"brief":"Who can approve a customer refund?"}' \
   "$SLATEBOX_BASE_URL/api/v1/slates"
@@ -61,59 +106,98 @@ curl --fail-with-body --silent --show-error \
 
 <!-- /tabs -->
 
-HTTP 201 returns the new board's `shareId`, editor `url` and `workshop` summary. The board is private to the token owner. Open the editor to give the team alternative paths through the side conversation. A retry with the same token, key and brief returns HTTP 200 and the original board. Reusing the key for another brief returns HTTP 409.
+You get `201` with the new map's `shareId`, editor `url` and `workshop` summary. The map is private to the token's owner. Open the editor to add paths through the side conversation. Retries work as for a diagram.
 
-## /api/v1/slates endpoint
+## Read a slate
 
-Use a personal token and a slate you control. The following shell examples use the same environment variables. Run them in a single session. [Set up a token](readme.md#authentication)
+<!-- tabs -->
 
-```sh
-: "${SLATEBOX_SHARE_ID:?Set this to the ID in your canvas URL}"
-: "${SLATEBOX_API_TOKEN:?Load your personal token from your secret manager}"
-: "${SLATEBOX_BASE_URL:=https://app.slatebox.com}"
-slate_url="$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
-curl --fail-with-body --silent --show-error \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url"
+```js Node.js
+const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/slates/${process.env.SLATEBOX_SHARE_ID}`, {
+  headers: { Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}` },
+})
+const slate = await res.json()
+console.log(slate.revision, slate.nodeCount)
 ```
 
-## Manage an invitation link
+```python Python
+import os, requests
 
-Create a token with **Manage invitation links on slates I own**. Use the owner’s `shareId` in `slate_url`. To let a teammate contribute, create an unlisted edit link. Use `read` for a viewer or `comment` for a reviewer who needs to leave feedback.
+res = requests.get(
+    f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates/{os.environ['SLATEBOX_SHARE_ID']}",
+    headers={"Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}"},
+)
+slate = res.json()
+print(slate["revision"], slate["nodeCount"])
+```
 
-```sh
-invite_key=$(uuidgen)
+```sh curl
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H "Idempotency-Key: $invite_key" \
-  -H 'Content-Type: application/json' \
-  --data '{"role":"edit"}' "$slate_url/invite"
+  "$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
 ```
 
-The returned `url` opens the slate with the chosen role. The `inviteId` identifies this invitation for revocation. The board has one active unlisted link, so changing its role also changes what existing holders can do. If the board is public, manage its visibility in the app.
+<!-- /tabs -->
 
-To close access through this link, set `SLATEBOX_INVITE_ID` to the returned ID. Use a new idempotency key for revocation. A retry of either request uses its original key.
+You get the slate as one JSON object. Treat it as private board data.
 
-```sh
-revoke_key=$(uuidgen)
-curl --fail-with-body --silent --show-error -X DELETE \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H "Idempotency-Key: $revoke_key" \
-  "$slate_url/invite/$SLATEBOX_INVITE_ID"
-```
+| Field | Holds |
+| --- | --- |
+| `shareId`, `revision` | The slate and its save count. Send `revision` as `expectedRevision` with a canvas edit |
+| `name`, `url` | Its name and editor address |
+| `nodes`, `nodeCount` | Every matching note, with every key a write sets |
+| `connections` | Its connectors |
+| `access` | Your role and what you may do |
+| `workshop` | On a map or workshop only: lanes, cards, `presentationOrder` and the board's own `revision` |
 
-After revocation the original invitation URL stops granting access. The board is private again, with any private team-member permissions applying. [The same invitation from an exec script](terminal-and-agents.md#invite-a-reviewer)
-
-## Response
-
-A successful read returns the slate as one JSON object: its `shareId` and `revision` (its save count), `name`, every note in `nodes` with every key a write sets, its `connections`, what you may do there in `access`, its address and comment counts, and on a map or workshop its `workshop`, with that board's own `revision`. Narrow the notes with `fields`, `ids`, `within`, `groupId` or `q`, and page with `limit` and `cursor`. Append `?include=full` to receive a `document` field with the slate as the engine loads it. Treat the response as private board data.
+Narrow the notes with `fields`, `ids`, `within`, `groupId` or `q`, and page with `limit` and `cursor`. Add `?include=full` to get a `document` field with the slate as the engine loads it. A public slate reads without a token.
 
 ## Preview one change
 
-This request previews a triangle on the existing slate. `"mode":"preview"` keeps the change out of the saved document. Previewing still requires edit permission. Every edit names the revision it was made on: read the slate's `revision` first and send it as `expectedRevision`. Without it the request is refused with HTTP 400 `invalid_request`.
+Every edit names the revision it was made on: read the slate's `revision` and send it as `expectedRevision`. Without it the request is refused with `400 invalid_request`. `"mode": "preview"` saves nothing, but still needs edit permission.
 
-```sh
+<!-- tabs -->
+
+```js Node.js
+const slateUrl = `${process.env.SLATEBOX_BASE_URL}/api/v1/slates/${process.env.SLATEBOX_SHARE_ID}`
+const auth = { Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}` }
+const { revision } = await (await fetch(slateUrl, { headers: auth })).json()
+const res = await fetch(`${slateUrl}/operations`, {
+  method: 'POST',
+  headers: { ...auth, 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    mode: 'preview',
+    expectedRevision: revision,
+    userMessage: 'Add a triangle',
+    plan: { message: 'Add one triangle', operations: [{ kind: 'add_nodes', count: 1, shape: 'triangle' }] },
+  }),
+})
+console.log(res.status, await res.json())
+```
+
+```python Python
+import os, requests
+
+slate_url = f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates/{os.environ['SLATEBOX_SHARE_ID']}"
+auth = {"Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}"}
+revision = requests.get(slate_url, headers=auth).json()["revision"]
+res = requests.post(
+    f"{slate_url}/operations",
+    headers=auth,
+    json={
+        "mode": "preview",
+        "expectedRevision": revision,
+        "userMessage": "Add a triangle",
+        "plan": {"message": "Add one triangle", "operations": [{"kind": "add_nodes", "count": 1, "shape": "triangle"}]},
+    },
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
+slate_url="$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
 revision=$(curl --fail-with-body --silent --show-error \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | node -p 'JSON.parse(require("fs").readFileSync(0, "utf8")).revision')
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | jq .revision)
 curl --fail-with-body --silent --show-error \
   -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
   -H 'Content-Type: application/json' \
@@ -121,13 +205,81 @@ curl --fail-with-body --silent --show-error \
   "$slate_url/operations"
 ```
 
-The preview returns HTTP 200 and includes `ok`, `mode`, `shareId`, `message`, materialized `operations` and a `report`. Inspect the report before applying a plan.
+<!-- /tabs -->
+
+You get `200` with `ok`, `mode`, `shareId`, `message`, the materialized `operations` and a `report`. Check the report before you save.
+
+## Apply the change
+
+This request **writes to the slate**: without `mode`, an edit saves. Try it on a test board first. Send one `Idempotency-Key` per edit, and the same key when you retry that exact request. Keys are scoped to the token.
+
+<!-- tabs -->
+
+```js Node.js
+const slateUrl = `${process.env.SLATEBOX_BASE_URL}/api/v1/slates/${process.env.SLATEBOX_SHARE_ID}`
+const auth = { Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}` }
+const { revision } = await (await fetch(slateUrl, { headers: auth })).json()
+const res = await fetch(`${slateUrl}/operations`, {
+  method: 'POST',
+  headers: { ...auth, 'Idempotency-Key': crypto.randomUUID(), 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    expectedRevision: revision,
+    userMessage: 'Add a triangle',
+    plan: { message: 'Add one triangle', operations: [{ kind: 'add_nodes', count: 1, shape: 'triangle' }] },
+  }),
+})
+console.log(res.status, await res.json())
+```
+
+```python Python
+import os, uuid, requests
+
+slate_url = f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates/{os.environ['SLATEBOX_SHARE_ID']}"
+auth = {"Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}"}
+revision = requests.get(slate_url, headers=auth).json()["revision"]
+res = requests.post(
+    f"{slate_url}/operations",
+    headers={**auth, "Idempotency-Key": str(uuid.uuid4())},
+    json={
+        "expectedRevision": revision,
+        "userMessage": "Add a triangle",
+        "plan": {"message": "Add one triangle", "operations": [{"kind": "add_nodes", "count": 1, "shape": "triangle"}]},
+    },
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
+slate_url="$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID"
+revision=$(curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" "$slate_url" | jq .revision)
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  -H 'Content-Type: application/json' \
+  --data '{"expectedRevision":'"$revision"',"userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
+  "$slate_url/operations"
+```
+
+<!-- /tabs -->
+
+A new write returns `201`. A replay of a recorded key returns the earlier result with `200`. Read the slate again to see the edit.
+
+| Status | Check |
+| --- | --- |
+| 400 | `error.message`: an invalid plan, or a canvas edit without `expectedRevision` (`error.details.field`) |
+| 401 | The token is current and has the scope |
+| 403 or 404 | The share ID and your permission on that slate |
+| 409 | Someone saved a change this edit touches, or a map edit's `expectedRevision` is out of date. Read again and preview |
+| 429 | Wait before retrying with this token |
 
 ## Add a decision and its outcome
 
-On a native decision map, read `workshop.revision` and find the source station ID in `workshop.lanes`. Send the following JSON to the same operations endpoint with Bearer authentication and a JSON content type. Substitute the saved station ID and revision.
+On a decision map, read `workshop.revision` and find the source station's ID in `workshop.lanes`. Send this body to the same `/operations` endpoint, with your station ID and revision:
 
-```json
+<!-- tabs -->
+
+```json JSON
 {
   "mode": "preview",
   "plan": {
@@ -143,34 +295,93 @@ On a native decision map, read `workshop.revision` and find the source station I
 }
 ```
 
-The preview reports the proposed station in `report.addedBranches`. Its ID appears in the source station’s `next` list in the returned `workshop.lanes`. To save, leave out `mode` (or send `"mode": "save"`) and provide a fresh `Idempotency-Key` header, keeping the same plan and revision. The path and its instruction save in a single revision. If another editor saves first, read the new revision and preview again.
+<!-- /tabs -->
 
-To revise an existing arrival instruction, send a single `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision` in the same envelope. On a self-hosted instance, check its own `/api/v1/openapi.json` for these operation kinds. [The same edit from an exec script](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
+The preview lists the new station in `report.addedBranches`, and its ID appears in the source station's `next` list. To save, leave out `mode` and send an `Idempotency-Key` (a map save needs one), with the same plan and revision. The path and its instruction save in one revision.
+
+To change an existing arrival instruction, send one `update_map_outcome` operation with `stationId`, `outcome` and `expectedRevision`. [The same edit from an exec script](terminal-and-agents.md#add-a-path-and-an-arrival-instruction)
 
 ## Order presentation scenes
 
-Read `workshop.presentationOrder` for the current scene IDs in playback order. It also supplies the effective order for older workshops. In the same preview envelope, submit one operation with `kind: "set_presentation_order"`, `laneIds` containing every current scene ID once, and `expectedRevision`. A successful preview returns the sequence in `report.presentationOrder`. Save using the reviewed revision and a new idempotency key. The board keeps its layout, routes and token positions. [Shell and MCP commands](terminal-and-agents.md#choose-the-opening-scene)
+`workshop.presentationOrder` lists the scene IDs in playback order. To change it, send one `set_presentation_order` operation with `laneIds` (every current scene ID, once) and `expectedRevision`. The preview returns the order in `report.presentationOrder`; save with the same revision and a new key. Layout, routes and token positions stay as they are. [The same change from an exec script](terminal-and-agents.md#choose-the-opening-scene)
 
-## Apply the change
+## Manage an invitation link
 
-This request **writes to the slate**: without `mode`, an edit saves. Use it on an editable test board first. Generate an idempotency key once per intended mutation, and keep the same key when retrying that exact request. Keys are scoped to the token, so use a new key for a different slate or edit.
+Issuing a link needs a token with **Manage invitation links on slates I own** (`slates:share`), on a slate you own. Choose `edit` for a contributor, `comment` for a reviewer or `read` for a viewer.
 
-```sh
-request_id=$(uuidgen)
-curl --fail-with-body --silent --show-error \
-  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
-  -H "Idempotency-Key: $request_id" \
-  -H 'Content-Type: application/json' \
-  --data '{"expectedRevision":'"$revision"',"userMessage":"Add a triangle","plan":{"message":"Add one triangle","operations":[{"kind":"add_nodes","count":1,"shape":"triangle"}]}}' \
-  "$slate_url/operations"
+<!-- tabs -->
+
+```js Node.js
+const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/slates/${process.env.SLATEBOX_SHARE_ID}/invite`, {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    'Idempotency-Key': crypto.randomUUID(),
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ role: 'edit' }),
+})
+console.log(res.status, await res.json())
 ```
 
-A new write returns HTTP 201. A replay of a recorded key returns the prior result with HTTP 200. Re-read the board to see the saved edit.
+```python Python
+import os, uuid, requests
 
-| HTTP status | What to check |
-| --- | --- |
-| 400 | Inspect `error.message` for an invalid operation plan, or a canvas edit sent without `expectedRevision` (`error.details.field`). |
-| 401 | Confirm that the bearer token is current and has the required scope. |
-| 403 or 404 | Check the share ID and the account's permission on that slate. |
-| 409 | Another save changed the slate while this one was applied, or a map edit's `expectedRevision` is out of date. Read it again and preview against its current state. |
-| 429 | Pause before retrying requests for this token. |
+res = requests.post(
+    f"{os.environ['SLATEBOX_BASE_URL']}/api/v1/slates/{os.environ['SLATEBOX_SHARE_ID']}/invite",
+    headers={
+        "Authorization": f"Bearer {os.environ['SLATEBOX_API_TOKEN']}",
+        "Idempotency-Key": str(uuid.uuid4()),
+    },
+    json={"role": "edit"},
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
+curl --fail-with-body --silent --show-error \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  -H 'Content-Type: application/json' \
+  --data '{"role":"edit"}' \
+  "$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID/invite"
+```
+
+<!-- /tabs -->
+
+You get the invitation `url` and an `inviteId`. A slate has one unlisted link, so changing its role changes it for everyone who holds it. A public slate's visibility is managed in the app.
+
+To withdraw it, set `SLATEBOX_INVITE_ID` to the returned ID and send a `DELETE` with a new key:
+
+<!-- tabs -->
+
+```js Node.js
+const { SLATEBOX_BASE_URL, SLATEBOX_SHARE_ID, SLATEBOX_INVITE_ID, SLATEBOX_API_TOKEN } = process.env
+const res = await fetch(`${SLATEBOX_BASE_URL}/api/v1/slates/${SLATEBOX_SHARE_ID}/invite/${SLATEBOX_INVITE_ID}`, {
+  method: 'DELETE',
+  headers: { Authorization: `Bearer ${SLATEBOX_API_TOKEN}`, 'Idempotency-Key': crypto.randomUUID() },
+})
+console.log(res.status, await res.json())
+```
+
+```python Python
+import os, uuid, requests
+
+e = os.environ
+res = requests.delete(
+    f"{e['SLATEBOX_BASE_URL']}/api/v1/slates/{e['SLATEBOX_SHARE_ID']}/invite/{e['SLATEBOX_INVITE_ID']}",
+    headers={"Authorization": f"Bearer {e['SLATEBOX_API_TOKEN']}", "Idempotency-Key": str(uuid.uuid4())},
+)
+print(res.status_code, res.json())
+```
+
+```sh curl
+curl --fail-with-body --silent --show-error -X DELETE \
+  -H "Authorization: Bearer $SLATEBOX_API_TOKEN" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  "$SLATEBOX_BASE_URL/api/v1/slates/$SLATEBOX_SHARE_ID/invite/$SLATEBOX_INVITE_ID"
+```
+
+<!-- /tabs -->
+
+The invitation URL stops granting access and the slate is private again. Private team-member permissions still apply. [The same invitation from an exec script](terminal-and-agents.md#invite-a-reviewer)

@@ -22,7 +22,13 @@ async function walk(dir) {
 const guides = (await Promise.all(['Using-Slatebox', 'Examples', 'Developers', 'Installation'].map(walk))).flat().filter(f => f.endsWith('.md'))
 const text = Object.fromEntries(await Promise.all(guides.map(async f => [f, await readFile(f, 'utf8')])))
 const exec = text[EXEC_PAGE] ?? ''
-const codeBlocks = source => marked.lexer(source).filter(t => t.type === 'code')
+// A fence's info string is "lang Label" (```js JavaScript). lang is the first word; the label names
+// the picker tab. A js block labelled Node.js is a program that calls the API, not an exec script.
+const codeBlocks = source => marked.lexer(source).filter(t => t.type === 'code').map(t => {
+  const [lang = '', ...label] = (t.lang ?? '').trim().split(/\s+/)
+  return {...t, lang, label: label.join(' ')}
+})
+const isScript = block => block.lang === 'js' && block.label !== 'Node.js'
 
 test('the exec page exists and every developer entry point leads to it', async () => {
   assert.ok(exec.startsWith('---') || exec.startsWith('# '), EXEC_PAGE + ' is missing')
@@ -70,19 +76,9 @@ test('the exec page says where code runs on every surface and what the sealed ru
   }
 })
 
-test('every vendor comparison links its primary source with the date it was read', () => {
-  const sources = [
-    'https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling',
-    'https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling',
-    'https://www.anthropic.com/engineering/code-execution-with-mcp',
-    'https://blog.cloudflare.com/code-mode-mcp/',
-    'https://ai-sdk.dev/docs/ai-sdk-core/code-mode',
-  ]
-  const why = exec.split(/^## /m).find(s => s.startsWith('Why Slatebox')) ?? ''
-  for (const url of sources) {
-    const line = why.split('\n').find(l => l.includes('](' + url + ')'))
-    assert.ok(line, 'the comparison must link ' + url)
-    assert.match(line, /read 2026-11-19/, url + ' needs the date it was read')
+test('the exec page makes no vendor comparison (STYLE.md: no vendor comparisons, quotes or logos)', () => {
+  for (const host of ['openai.com', 'anthropic.com', 'claude.com', 'cloudflare.com', 'ai-sdk.dev', 'vercel.com']) {
+    assert.ok(!exec.includes(host), 'the exec page links ' + host)
   }
 })
 
@@ -98,7 +94,7 @@ test('every script, JSON and TypeScript example on the agent pages parses', () =
   for (const file of pages) {
     for (const block of codeBlocks(text[file])) {
       if (block.lang === 'json') assert.doesNotThrow(() => JSON.parse(block.text), file + ' has invalid JSON')
-      if (block.lang === 'js') {
+      if (isScript(block)) {
         // A script for exec is a function body with top-level await and return.
         assert.doesNotThrow(() => new AsyncFunction('slatebox', 'SlateboxError', block.text), file + ' has a script that does not parse:\n' + block.text)
         scripts++
@@ -110,7 +106,7 @@ test('every script, JSON and TypeScript example on the agent pages parses', () =
 
 test('a script never passes a second argument or an idempotency key to a client method', () => {
   for (const file of [EXEC_PAGE, 'Developers/SlateboxAPI/terminal-and-agents.md', 'Examples/refund-approval.md', 'Examples/review-a-backfill.md', 'Examples/agent-spend-cap.md']) {
-    for (const block of codeBlocks(text[file]).filter(b => b.lang === 'js')) {
+    for (const block of codeBlocks(text[file]).filter(isScript)) {
       assert.doesNotMatch(block.text, /idempotencyKey/, file + ': keys inside scripts are derived by Slatebox')
       for (const m of block.text.matchAll(/slatebox\.\w+\.\w+\(\{/g)) {
         let depth = 0, i = m.index + m[0].length - 1
@@ -207,7 +203,7 @@ test('every canvas edit in the guides names the revision it was made on', async 
   for (const page of pages) {
     const text = await readFile(new URL('../' + page, import.meta.url), 'utf8')
     assert.doesNotMatch(text, /\bsummary\.(workshop|nodes)|\{ summary \}|\)\.summary'/, page + ' reads the flat slate read, not summary')
-    for (const block of text.matchAll(/```(?:js|ts|sh)\n([\s\S]*?)```/g)) {
+    for (const block of text.matchAll(/```(?:js|ts|sh|python)(?: [^\n]*)?\n([\s\S]*?)```/g)) {
       const code = block[1]
       const canvas = /applyOperations|\/operations"/.test(code) && /"?kind"?: ?"(add_nodes|update_nodes|delete_nodes|connect_nodes)"/.test(code)
       if (canvas) assert.match(code, /expectedRevision/, page + ': a canvas edit names expectedRevision')
