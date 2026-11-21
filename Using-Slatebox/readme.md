@@ -4,7 +4,7 @@
 
 Choose **Create slate**. Sketch on the canvas or describe the work in the conversation beside it. Try “Draw a flow from Request to Review to Approve” for three connected, editable notes. Paste steps or interview notes to give the conversation material to work with. [Create a slate](https://app.slatebox.com/new)
 
-On Pro or a paid Team plan, ask a follow-up about the drawing. For example, “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” Slatebox can use the notes and connections already on the canvas. Review the proposed notes and arrows, then choose **Keep changes** to add them.
+Ask a follow-up about the drawing. It uses your free AI for the day. For example, “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” Slatebox can use the notes and connections already on the canvas. Review the proposed notes and arrows, then choose **Keep changes** to add them.
 
 To see a source and its diagram together, open the call-status example. The two paths show what happened to new and existing calls during an outage. **Open the call diagram in a private slate** gives you the same drawing to edit. [See the call diagram](https://slatebox.com/product/intelligence/)
 
@@ -16,7 +16,7 @@ If a teammate sends you an older template bookmark, the preview shows the templa
 
 ## Add a branch to an interactive map
 
-Ask the side conversation to make the flow interactive. A map has stations, paths between them and a token the team can move. The conversation can name a station, add a branch and change what happens on arrival. Pro and paid Team accounts can also ask Canvas AI to draft changes in their own words. [Open a slate](https://app.slatebox.com/new)
+Ask the side conversation to make the flow interactive. A map has stations, paths between them and a token the team can move. The conversation can name a station, add a branch and change what happens on arrival. You can also ask Canvas AI to draft changes in your own words, from your free AI for the day. [Open a slate](https://app.slatebox.com/new)
 
 1. Send `First upload → Preview 10 rows → Import clients`. Try the path in the preview, then choose **Keep changes**.
 2. Send `Add Review duplicates after Preview 10 rows`. Try the new branch. Choose **Keep changes** to save it or **Discard** to return to the saved map.
@@ -90,10 +90,4 @@ Choose **Publish presentation** on a saved workshop to share its current scenes 
 
 ## Choose where to work
 
-Individuals can create unlimited slates on the free hosted plan. Pro adds AI capabilities. Team plans support a shared organization. Open the plan chooser for current features and billing options. Organizations with their own infrastructure can operate the app, relay and database together. [Hosted plans](https://app.slatebox.com/plans) · [Self-host with Docker](../Installation/install-with-docker.md)
-
-## Manage a hosted subscription
-
-To change an individual monthly Pro subscription, sign in and open **Plans → Annually**. If your Pro card offers **Switch to annual billing**, choose it to review the change in Stripe. Check the annual renewal price and the amount due today. Stripe can credit unused time from your monthly plan. You can leave the review and keep monthly billing, or confirm to switch your existing subscription. On return, the Pro card under **Annually** shows **Current plan · billed annually** once Stripe’s update arrives. If the card offers **Manage billing**, use that to see the options for your subscription. [Open hosted plans](https://app.slatebox.com/plans)
-
-Open **Profile → Billing** to see your subscription in Stripe. If you schedule a cancellation, the portal shows the date your subscription ends. You can keep using paid workshop tools until then. When a Pro subscription ends, your individual account returns to Free. [Open your profile](https://app.slatebox.com/profile)
+Slatebox Cloud is free. AI and calls you start come with a free amount each month. [Pricing and free amounts](pricing.md) · [Self-host with Docker](../Installation/install-with-docker.md)

@@ -1,6 +1,6 @@
 # Run your own Slatebox
 
-One container is a complete Slatebox: the app, live collaboration and the database. Install Docker, run one command and open one address. If you would rather not run anything, [use Slatebox Cloud](https://app.slatebox.com/start).
+One container is a complete Slatebox: the app, live collaboration and the database. Install Docker, run one command and open one address. If you would rather not run anything, [use Slatebox Cloud](https://app.slatebox.com/start). Your own Slatebox has no meters: AI and calls use your own keys. [No meters on your own server](self-host-meters.md)
 
 ```sh
 docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data ghcr.io/slatebox/slatebox
