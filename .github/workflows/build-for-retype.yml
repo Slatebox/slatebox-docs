@@ -17,6 +17,8 @@ jobs:
       - run: npm ci && npm run build && npm test
       # The install guide's first command pulls the image; never publish it first.
       - run: node scripts/check-image-published.mjs
+      # Its first command is npx slatebox@latest install; never publish it before the package.
+      - run: node scripts/check-installer-published.mjs
       - name: Update the existing static publishing branch
         run: |
           git fetch origin retype

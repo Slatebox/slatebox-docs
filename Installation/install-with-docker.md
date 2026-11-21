@@ -1,4 +1,204 @@
+---
+description: Run your own Slatebox with one command, on this computer, a server or Kubernetes, with any AI or none.
+agentPrompt: >-
+  Help me install my own Slatebox with the slatebox installer from npm (npx -y slatebox@latest).
+  First run npx -y slatebox@latest agent-prompt and follow the brief it prints exactly.
+  Ask me, do not guess: where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes with which context and namespace, or files only),
+  the domain name for HTTPS or the port, the admin email, and the AI: none for now, or which providers and models.
+  Slatebox has no default AI provider: any of OpenAI, Anthropic, DeepInfra, OpenRouter, Groq, Together, Mistral, or an OpenAI-compatible endpoint I run (Ollama, vLLM, LM Studio).
+  Never write a key into a file or a flag: ask me to export each key in an environment variable and pass key=env:NAME.
+  Write slatebox.yaml, run npx -y slatebox@latest plan --answers slatebox.yaml --json, and show me the whole plan.
+  Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them.
+  Report the address, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
+---
 # Run your own Slatebox
+
+One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox@latest install
+```
+
+<!-- /tabs -->
+
+You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox has no meters, and its AI is whatever you connect, or none. [No meters on your own server](self-host-meters.md)
+
+Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
+
+## Install with one command
+
+Pick where Slatebox runs. You need Node.js 22.13 or newer where you type the command, and Docker where Slatebox runs.
+
+<!-- tabs -->
+
+```sh Docker
+# This computer
+npx slatebox@latest install
+```
+
+```sh Remote server
+# A Linux server over SSH
+npx slatebox@latest install ssh root@203.0.113.5 --domain boards.example.com
+```
+
+```sh Kubernetes
+# Your current kubectl context
+npx slatebox@latest install k8s --route ingress \
+  --domain boards.example.com --tls-issuer ClusterIssuer/letsencrypt
+```
+
+```sh Files only
+# compose, manifests or helm; nothing is applied
+npx slatebox@latest install export --format helm --out ./slatebox-deploy
+```
+
+<!-- /tabs -->
+
+| Where | What you get |
+| --- | --- |
+| This computer (Docker) | The first free port from 7070, published on `127.0.0.1` only. `--listen 0.0.0.0` opens it to your network. Files in `~/.slatebox/installs/<name>/`. |
+| Remote server | Root or passwordless sudo over SSH. With `--domain`, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without it, `http://<server>:7070`. Files in `/opt/slatebox`, owned by root. Docker is installed only with `--install-docker`. |
+| Kubernetes | kubectl and your current context; a context whose name looks like production must be named with `--k8s-context`. Namespace `slatebox`. One StatefulSet with a volume, a Service, the Secret `<name>-env`, a backups sidecar, and an Ingress or Gateway API HTTPRoute with `--route ingress` or `--route gateway`. |
+| Files only | A compose file, Kubernetes manifests or a Helm chart for GitOps, with placeholders where secrets go. |
+
+- Nothing changes before the plan is shown. On a server or a cluster nothing changes without a yes.
+- The install waits for health. If it fails, the previous state is put back (exit 5).
+- Running it again with the same answers changes nothing. `--name <id>` keeps several installs side by side.
+- Flags for every question: `npx slatebox@latest --help`.
+
+## Let an agent install it
+
+Give your coding agent the brief, or copy this page's agent prompt:
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox@latest agent-prompt
+```
+
+<!-- /tabs -->
+
+The agent writes an answers file, shows you the plan and installs only after your yes. An agent never gets a question on screen: a missing answer is exit 3 with each question, its choices and the flag that answers it.
+
+<!-- tabs -->
+
+```yaml slatebox.yaml
+version: 1
+target: ssh                # local | ssh | k8s | export
+ssh: { host: 203.0.113.5, user: root }
+address: { domain: boards.example.com }
+adminEmail: ops@example.com
+ai:
+  mode: providers          # or: none
+  providers:
+    - { id: local, kind: ollama, model: "qwen3:8b" }
+    - { id: claude, kind: anthropic, model: claude-sonnet-4-5, keyFrom: "env:ANTHROPIC_API_KEY" }
+  default: local
+sso: { enabled: false }
+```
+
+<!-- /tabs -->
+
+<!-- tabs -->
+
+```sh Shell
+npx -y slatebox@latest plan --answers slatebox.yaml --json            # changes nothing
+npx -y slatebox@latest install --answers slatebox.yaml --yes --json   # after the person says yes
+```
+
+<!-- /tabs -->
+
+With `--json`, each line is one event (`plan`, `step`, `done`, `error`). The last line, `done`, carries `address` and `secretsFile`.
+
+| Exit | Meaning |
+| --- | --- |
+| 0 | Done, or nothing to change |
+| 2 | Bad flags or answers; the `error` event lists each field |
+| 3 | An answer or a confirmation is needed and nobody can be asked |
+| 4 | A precondition failed: no Docker, no cluster access, CPU too old, port taken, image unavailable, key encryption key missing |
+| 5 | The change failed its health check and was rolled back |
+| 6 | The rollback failed too; the `error` event lists the commands a person must run |
+| 7 | Cancelled |
+
+`--yes`, `--install-docker`, `--new-encryption-key`, `--delete-data` and `--confirm` count only when typed on the command line, never from the environment or an answers file.
+
+## Choose the AI when you install
+
+Slatebox is not tied to any AI provider, and the installer never picks one. Answer **None for now**, or give any mix of cloud and local models:
+
+| `kind` | Needs |
+| --- | --- |
+| `openai`, `anthropic`, `deepinfra`, `openrouter`, `groq`, `together`, `mistral` | `model` and a key |
+| `ollama`, `lmstudio` | `model`; no key |
+| `openai-compatible` | `url` and `model` of any OpenAI-compatible endpoint you run (vLLM, a company gateway); a key if it needs one |
+
+<!-- tabs -->
+
+```sh Cloud
+export OPENAI_API_KEY=your-openai-key
+npx slatebox@latest install --ai-provider "kind=openai,model=gpt-5-mini,key=env:OPENAI_API_KEY"
+```
+
+```sh Local
+npx slatebox@latest install --ai-provider "kind=ollama,model=qwen3:8b"
+```
+
+```sh Both
+npx slatebox@latest install \
+  --ai-provider "id=local,kind=ollama,model=qwen3:8b" \
+  --ai-provider "kind=anthropic,model=claude-sonnet-4-5,key=env:ANTHROPIC_API_KEY" \
+  --ai-default local
+```
+
+```sh None
+npx slatebox@latest install --ai none
+```
+
+<!-- /tabs -->
+
+- A key is never typed into a flag or an answers file. Give `key=env:NAME`, `key=file:/path`, or `key=prompt` (typed, hidden). It is stored with the other secrets.
+- An endpoint on `localhost` is reached from the container as `host.docker.internal`; the plan says so.
+- An image that takes one AI connection at a time says so before anything changes when you give several.
+
+Change it later, from the computer that installed:
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox ai add "kind=groq,model=llama-3.3-70b-versatile,key=env:GROQ_API_KEY"
+npx slatebox ai use local       # the default; also: list, remove <id>, off
+npx slatebox ai test            # from inside the container: model, tool calls, latency
+```
+
+<!-- /tabs -->
+
+## Where the encryption key lives
+
+The installer makes `SLATEBOX_KEY_ENCRYPTION_KEY` once. It encrypts the AI and call keys people save. It is kept outside your data:
+
+| Where Slatebox runs | Where the key is |
+| --- | --- |
+| This computer | `~/.slatebox/installs/<name>/secrets.env`, mode 0600 |
+| Remote server | `/opt/slatebox/secrets.env` on the server, root only, mode 0600 |
+| Kubernetes | The Secret `<name>-env` in the install's namespace |
+| Files only | Wherever you put it: the exported files hold placeholders you fill in |
+
+Back it up in your password manager now. Backups do not contain it, and without it the keys people saved cannot be read after a restore.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox secrets path                                   # where it is
+npx slatebox secrets reveal SLATEBOX_KEY_ENCRYPTION_KEY     # prints it to a terminal only
+```
+
+<!-- /tabs -->
+
+Running the installer again never makes a new key. If the data exists but its key cannot be read, the install stops with exit 4 and changes nothing. Put the file or Secret back; only `--new-encryption-key` starts over, and every saved key must then be added again.
+
+## Run the container yourself
 
 One container is a complete Slatebox: the app, live collaboration and the database. Run it, then open [http://localhost:7070](http://localhost:7070) on the same machine.
 
@@ -23,15 +223,15 @@ volumes:
 
 <!-- /tabs -->
 
-You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Your own Slatebox has no meters; AI and calls use your own keys. [No meters on your own server](self-host-meters.md)
-
-Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
+There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Add AI, mail and HTTPS with [options](#options).
 
 ## What you need
 
 | | |
 | --- | --- |
-| Docker | Docker Engine on Linux, or Docker Desktop on macOS or Windows. The image runs on `linux/amd64` and `linux/arm64`. |
+| Installer | Node.js 22.13 or newer on the computer you type it on. On Windows, run it in WSL 2 for this computer or a server; Kubernetes and files only work anywhere. |
+| Docker | Docker Engine on Linux, or Docker Desktop on macOS or Windows. The image runs on `linux/amd64` and `linux/arm64`. On a server the installer adds Docker only with `--install-docker`. |
+| Kubernetes | kubectl with access to the namespace, a default or named storage class, and for a route, an ingress class or Gateway and a cert-manager issuer. The installer checks each before applying. |
 | Processor | Intel or AMD with AVX (Sandy Bridge or Bulldozer and later), or ARMv8.2-A (Apple silicon, Raspberry Pi 5). A Raspberry Pi 4 cannot run it. In a virtual machine, give the guest the host's CPU type so AVX is passed through. |
 | Memory | 1 GB free, 2 GB for a team. [Single sign-on](single-sign-on.md) adds about 0.5 GB while it is on. |
 | Disk | About 585 MB to download and 2.5 GB unpacked, plus your slates. |
@@ -45,7 +245,7 @@ On a processor without AVX or ARMv8.2-A, the container stops at once and its log
 
 ## First run
 
-A start usually takes under a minute. Until then the page says Slatebox is starting and opens by itself. The status reads `healthy` once a slate can be opened:
+A start usually takes under a minute. Until then the page says Slatebox is starting and opens by itself. The installer waits for it; `npx slatebox status` shows the address, version, health, AI, single sign-on and last backup. On a container you run yourself, the status reads `healthy` once a slate can be opened:
 
 <!-- tabs -->
 
@@ -228,7 +428,20 @@ Exec limits are set with `SLATEBOX_SETTINGS`, for example `{"selfHosted":{"exec"
 
 ## Upgrade
 
-Take a [backup](#back-up-and-restore), then pull the new image and start it with the same options:
+The installer backs up, upgrades, waits for health, and on a failure puts the previous version and the backup back:
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox upgrade                 # the install's own image tag, fetched again
+npx slatebox upgrade --to ghcr.io/slatebox/slatebox:latest
+```
+
+<!-- /tabs -->
+
+The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret.
+
+Without the installer, take a [backup](#back-up-and-restore), then pull the new image and start it with the same options:
 
 <!-- tabs -->
 
@@ -249,7 +462,20 @@ The volume carries your slates, accounts, files and secrets to the new container
 
 ## Back up and restore
 
-Back up while Slatebox runs:
+The installer schedules a backup every day at 03:00 and keeps the last 14. Choose with `--backups default|<folder>|s3://bucket/prefix|off`, `--backup-schedule` and `--backup-keep`. On Kubernetes, backups go to a volume in the namespace. `npx slatebox status` shows the last backup and warns when one is late.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox backup --to ./backups      # writes ./backups/slatebox-<date>-<time>.gz on this computer
+npx slatebox restore ./backups/slatebox-20261121-090000.gz
+```
+
+<!-- /tabs -->
+
+A restore shows its plan first: it replaces every slate and account with the backup's.
+
+Without the installer, back up while Slatebox runs:
 
 <!-- tabs -->
 
@@ -263,9 +489,9 @@ docker compose exec -T slatebox slatebox backup > slatebox-backup.gz
 
 <!-- /tabs -->
 
-You get one file with every slate, account and uploaded file, and, with single sign-on on, Keycloak's database and its secrets. The command prints `Backup complete`. Keep the file private.
+You get one file with every slate, account and uploaded file, and, with single sign-on on, Keycloak's database and its secrets. The command prints `Backup complete`. Keep the file private. It does not hold `SLATEBOX_KEY_ENCRYPTION_KEY`: [keep that with it](#where-the-encryption-key-lives).
 
-Restore into this installation, or into a new one started with the commands above:
+Restore into this installation, or into a new one:
 
 <!-- tabs -->
 
@@ -280,6 +506,18 @@ docker compose exec -T slatebox slatebox restore < slatebox-backup.gz
 <!-- /tabs -->
 
 The restore checks the file first, pauses Slatebox for a few seconds, replaces the data and starts again. If the file cannot be loaded, Slatebox keeps the data it had. On a new address, set `SLATEBOX_URL` to it. With `MONGO_URL`, back up that database with its own tools.
+
+## Move to another server
+
+Give the new install its own name, such as `boards`, so both stay listed in `npx slatebox installs`.
+
+1. Back up the old install to this computer: `npx slatebox backup --to ./backups`. It prints the file it wrote.
+2. Before installing, put the old key where the new install keeps it: copy `secrets.env` to `~/.slatebox/installs/boards/` on this computer or `/opt/slatebox/` on the new server (mode 0600), or create the Secret `boards-env` holding `SLATEBOX_KEY_ENCRYPTION_KEY` in the new namespace.
+3. Install with `--name boards` on the new target. The plan says the existing key is kept.
+4. Restore into it: `npx slatebox restore ./backups/slatebox-20261121-090000.gz --name boards`.
+5. Point DNS at the new address. Then `npx slatebox uninstall` removes the old install and keeps its data until you add `--delete-data --confirm slatebox`.
+
+Skip step 2 and everything else still moves: people add their saved AI and call keys again.
 
 ## Forgotten passwords
 
@@ -331,6 +569,9 @@ docker compose exec slatebox slatebox version
 | `/data is not writable` | The log names the folder's owner. Run as that owner with `--user`, or use a Docker volume. |
 | `SLATEBOX_MAIL_URL also needs SLATEBOX_MAIL_FROM` | Add `SLATEBOX_MAIL_FROM` with an address your mail service accepts. |
 | `holds a database but /data/secrets/secrets.json is missing` | `db` and `secrets` belong together. Use the complete volume, or start on an empty one and restore a backup. |
+| Installer exit 4: the data has no `SLATEBOX_KEY_ENCRYPTION_KEY` | Put the backed-up `secrets.env` or Secret back and run again. See [Where the encryption key lives](#where-the-encryption-key-lives). |
+| Installer: `Host key verification failed` | Run `ssh user@host` once yourself, compare the fingerprint the installer printed, then run again. |
+| Installer exit 5 | The change failed its health check and the previous state is running. The `error` event and `npx slatebox status` say why. |
 | `port is already allocated` | Port 7070 is taken. Publish another, such as `-p 8080:7070 -e SLATEBOX_URL=http://localhost:8080`. |
 | Certificate error with built-in HTTPS | The certificate is not issued yet. Check that DNS points here and ports 80 and 443 reach the container. `[proxy]` log lines give the reason. |
 | Edits do not reach a second browser | Your proxy must forward WebSocket upgrades. |
