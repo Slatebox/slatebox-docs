@@ -36,7 +36,7 @@ There is one Slatebox: the current one. Never write about earlier versions.
 | --- | --- |
 | Self-host image | `ghcr.io/slatebox/slatebox`: one container with the app, the relay and MongoDB. All images are `ghcr.io/slatebox/*`. Never Docker Hub, never `timheckel/*`. |
 | Single sign-on | Keycloak is built into the image, off until `SLATEBOX_SSO=keycloak`. |
-| Price | Slatebox is free. No plans, tiers or subscriptions. Only AI and video/voice calls are metered; your own keys are free. A self-hosted Slatebox has no meters. |
+| Price | Slatebox is free. No plans or tiers. "No feature or seat subscriptions. Ever." Only AI and video/voice calls are metered; your own keys are free. A self-hosted Slatebox has no meters. Slatebox Private (one company, hosted by us) is billed yearly by size: Small $6,000, Medium $24,000 (coming soon), Large from $60,000 by quote. |
 | Agents | One `exec` tool (plus `describe`) on every surface: API (`POST /api/v1/exec`), CLI (`slatebox exec`), MCP. |
 | API base | `/api/v1` on your Slatebox origin; `https://app.slatebox.com` for Slatebox Cloud. OpenAPI at `/api/v1/openapi.json`. |
 | Company | Slatebox LLC. MIT licensed app, engine and relay. |

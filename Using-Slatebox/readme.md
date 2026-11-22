@@ -101,4 +101,4 @@ Choose **Publish presentation** on a saved workshop. Readers step through its sc
 
 ## Choose where to work
 
-Slatebox Cloud is free. AI and calls come with a free amount each month. [Pricing and free amounts](pricing.md) · [Run your own Slatebox](../Installation/install-with-docker.md)
+Slatebox Cloud is free. AI and calls come with a free amount each month. [Pricing and free amounts](pricing.md) · [Run your own Slatebox](../Installation/install-with-docker.md) · [Have us run one for your company](slatebox-private.md)
