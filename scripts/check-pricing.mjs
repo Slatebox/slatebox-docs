@@ -67,8 +67,15 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.match(pricing, /AI and calls work free with your own keys/, 'pricing.md: own keys are free, with or without Pro')
   assert.match(pricing, /every feature is free/i, 'pricing.md: every feature is free')
   // The subscription page: price, credits, cancelling, failed payments, refunds as the terms say, deleting the account.
-  for (const words of [...PRO, 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first', 'Credits', 'confirm', '30 days\' notice'])
+  for (const words of [...PRO, 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])
     assert.ok(pro.toLowerCase().includes(words.toLowerCase()), 'slatebox-pro.md does not say ' + words)
+  // Buying Pro: the app sells it only once its Pro date is set, so the steps are held by the pro-checkout switch.
+  const proCheckoutOn = JSON.parse(read('scripts/features.json'))['pro-checkout'] === true
+  assert.match(pro, /<!-- feature:pro-checkout -->\n1\. Confirm your email address[\s\S]*?pay by card\.[\s\S]*?<!-- \/feature:pro-checkout -->/, 'the steps to buy Pro are held by the pro-checkout switch')
+  assert.match(pro, /<!-- feature:!pro-checkout -->\nSlatebox Pro goes on sale in your profile on the date we email to every account/, 'while the switch is off, the page says when Pro goes on sale')
+  const builtPro = read('dist/using-slatebox/slatebox-pro/index.html')
+  assert.equal(builtPro.includes('pay by card'), proCheckoutOn, 'the built Pro page carries the steps to buy only while pro-checkout is on')
+  assert.equal(builtPro.includes('goes on sale in your profile'), !proCheckoutOn, 'the built Pro page says when Pro goes on sale only while pro-checkout is off')
   assert.match(pricing, /\(slatebox-pro\.md\)/, 'the pricing page links Slatebox Pro')
   const site = resolve(process.env.SITE_DIR || '../../slatebox-home-session')
   const page = join(site, 'plans/index.html')

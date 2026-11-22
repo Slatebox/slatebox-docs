@@ -24,11 +24,17 @@ Image search and image generation use the month's AI, not the daily count. [How 
 
 ## Get Pro
 
+<!-- feature:!pro-checkout -->
+Slatebox Pro goes on sale in your profile on the date we email to every account, at least 30 days ahead. Until then, the amounts above are free for every signed-in person, and there is nothing to buy.
+
+<!-- /feature:!pro-checkout -->
+<!-- feature:pro-checkout -->
 1. Confirm your email address, if you have not yet.
 2. Open your profile and choose **Credits**.
 3. Under **Slatebox Pro**, choose monthly or yearly and pay by card.
 
 Pro credits are ready as soon as the payment goes through.
+<!-- /feature:pro-checkout -->
 
 ## Change or cancel
 
@@ -49,7 +55,7 @@ Manage Pro in **Credits**, under **Slatebox Pro**.
 ## Refunds and deleting your account
 
 - Fees for the current month or year are not refunded. If we seriously break the terms and do not fix it within 30 days of your notice, or if we stop offering Pro or Slatebox Cloud, we refund the unused part of the period you paid for, pro rata. If you are a consumer, the rights the law where you live gives you also apply. [Terms of service](https://slatebox.com/terms/)
-- Deleting your account ends Pro at once, without a refund of the current period. Your unused top-up balance is refunded first.
+- Deleting your account ends Pro at once, without a refund of the current period. Your unused top-up balance is refunded first; then Pro ends and the account is removed. If the refund cannot be made, nothing changes: Pro stays on and nothing is removed.
 
 ## Agents
 
