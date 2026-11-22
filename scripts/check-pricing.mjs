@@ -44,8 +44,8 @@ test('the free amounts, the margin and the budget are stated, and match the pric
 
 test('Slatebox Private: three yearly sizes, Medium not for sale, nothing to buy, and the site says the same', () => {
   const priv = read('Using-Slatebox/slatebox-private.md')
-  for (const words of ['$6,000 a year ($500/mo, billed yearly)', '$24,000 a year', 'Coming soon, not for sale yet', 'From $60,000 a year, by quote', '15,000 participant-minutes', 'About $30 of AI', 'about $30 of AI a month', '100 GB',
-    'one provider', 'Your own keys are free', '$2,400 a year', 'plus 20%', '30 days of go-live', 'Leave any time with everything, in one command', 'No feature or seat subscriptions. Ever.', 'mailto:tim@slatebox.com?subject=Slatebox%20Private%20waitlist'])
+  for (const words of ['$6,000 a year ($500/mo, billed yearly)', '$24,000 a year', 'Coming soon, not for sale yet', 'From $60,000 a year, by quote', '15,000 participant-minutes', 'About $100 of AI', 'About $400 of AI', 'about $100 of AI a month', '100 GB',
+    'one provider', 'Your own keys are free', '$2,400 a year', 'plus 5%, the same as Cloud top-ups', 'renews as another two years at the same 10% off', '30 days of go-live', 'Leave any time with everything, in one command', 'No feature or seat subscriptions. Ever.', 'mailto:tim@slatebox.com?subject=Slatebox%20Private%20waitlist'])
     assert.ok(priv.includes(words), 'slatebox-private.md does not say ' + words)
   assert.doesNotMatch(priv, /checkout|buy now|\]\(https:\/\/[^)]*stripe/i, 'Private sells nothing yet')
   assert.match(read('Using-Slatebox/pricing.md'), /\(slatebox-private\.md\)/, 'the pricing page links Slatebox Private')
@@ -53,9 +53,12 @@ test('Slatebox Private: three yearly sizes, Medium not for sale, nothing to buy,
   if (!existsSync(page)) return console.log('SKIPPED: no marketing site at ' + site)
   const text = read(page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
   if (!text.includes('Slatebox Private')) return console.log('SKIPPED: the marketing site at ' + site + ' has no Private section yet')
-  for (const words of ['$6,000', '$500/mo, billed yearly', '$24,000', '$60,000', '15,000 participant-minutes', 'About $30 of AI a month', '$2,400 a year', 'plus 20%', 'No feature or seat subscriptions. Ever.']) assert.ok(text.includes(words), 'the site pricing page does not say ' + words)
+  for (const words of ['$6,000', '$500/mo, billed yearly', '$24,000', '$60,000', '15,000 participant-minutes', 'About $100 of AI a month', 'About $400 of AI a month', 'about $100 of AI a month', '$2,400 a year', 'plus 5%, the same as Cloud top-ups', 'No feature or seat subscriptions. Ever.']) assert.ok(text.includes(words), 'the site pricing page does not say ' + words)
   // AI on Private is counted in dollars of provider cost, as the app catalogue states it, never in drafts.
   assert.doesNotMatch(priv, /\d drafts/, 'slatebox-private.md counts AI in dollars')
+  // Private overage is Cloud's +5%; the self-host top-up does not exist in the app, so neither page offers one.
+  assert.doesNotMatch(priv, /plus 20%|35%/, 'slatebox-private.md: no +20% overage, no self-host top-up')
+  assert.doesNotMatch(text.slice(text.indexOf('Slatebox Private')), /plus 20%|35%/, 'the site Private section: no +20% overage, no self-host top-up')
   assert.doesNotMatch(text.slice(text.indexOf('Slatebox Private')), /\d drafts/, 'the site Private section counts AI in dollars')
 })
 
