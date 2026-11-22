@@ -1,6 +1,6 @@
 ---
 title: Pricing
-description: Slatebox is free, MIT-licensed and open source. AI and calls are free with your own keys, or come with Slatebox Pro at $5 a month. Top up at cost plus 5%.
+description: Slatebox is free, MIT-licensed and open source. AI and calls are free with your own keys, or come with Slatebox Pro at $5 a month. Top up at cost plus 5%. Teams can choose Slatebox Business.
 ---
 
 # Pricing
@@ -9,7 +9,7 @@ Slatebox is free. It is MIT-licensed and open source, free for individuals and c
 
 ## Free for everyone
 
-On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. No feature or seat is ever sold separately.
+On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. No feature is ever sold separately.
 
 AI and calls work free with your own keys: your own AI connection, and your own Daily key for calls. We charge nothing for them and set no limit. [Use your own keys](own-keys.md)
 
@@ -17,30 +17,29 @@ Only the AI and calls that Slatebox pays for cost money. They come with Slatebox
 
 ## Slatebox Pro
 
-Slatebox Pro is $5 a month or $50 a year (two months free), for one person. Tax is added where it applies. It includes Pro credits each month for the AI and calls Slatebox pays for:
+Slatebox Pro is $5 a month or $50 a year (two months free), for one person, plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $4.00 of what the AI provider and Daily charge us:
 
 | | Pro credits each month |
 | --- | --- |
-| AI drafting | 30 drafts a day |
-| Voice calls you start | About 10 hours of four-person calls a month |
-| Video calls you start | About 2 hours of four-person video a month |
+| AI drafting | 30 drafts a day, within about $1.00 of AI a month |
+| Voice calls you start | About 8 hours of four-person calls a month |
+| Video calls you start | About 1 hour of four-person video a month |
 
-- Each person chooses Pro for themselves. A team does not buy it for its members, and there are no seat plans.
+- Each person chooses Pro for themselves. A team that wants to pay for its members' AI and calls can choose [Slatebox Business](slatebox-business.md).
 - Pro credits are for the calendar month (UTC). They start again on the 1st and do not carry over. The daily count resets at 00:00 UTC.
 - **Credits**, in your profile, shows drafts left today and call hours left this month.
 - Pro needs an account with a confirmed email address.
 - Cancel any time. Pro stays on until the end of the month or year you paid for.
+- Need more? Top up, with or without Pro. [Top-ups and refunds](top-ups.md)
 
 [Slatebox Pro](slatebox-pro.md)
-
-Until the date we email to every account holder, at least 30 days ahead, every signed-in person with a confirmed email keeps these amounts at no cost.
 
 ## How we count
 
 - **A draft is one request**: each message AI answers. Typed steps with arrows, pasted lines and named lanes are drawn without AI and cost nothing.
 - **Images:** Image search and image generation use the month's AI from your Pro credits, not the daily count. An image search costs very little; about 33 generated images use a month's AI.
 - **The month's AI has a cost limit.** A very large request uses more of it. When it runs out, the profile says so, even with drafts left today.
-- **Calls are counted in participant-minutes**: people on the call times minutes. Pro credits hold 2,400 participant-minutes of voice and 500 participant-minutes of video a month. A two-person call lasts twice as long as a four-person one.
+- **Calls are counted in participant-minutes**: people on the call times minutes. Pro credits hold 2,000 participant-minutes of voice and 250 participant-minutes of video a month. A two-person call lasts twice as long as a four-person one.
 - **When the month's video runs out, the call carries on as voice** on the same slate. Nobody rejoins.
 - **Slatebox asks before a camera turns on**, because a camera makes the whole call a video call.
 - **A daily limit** stops one account using a month in an afternoon. It never cuts a running call short.
@@ -72,23 +71,16 @@ Such a call holds up to 20 people and runs up to 3 hours. It ends when one perso
 
 ## The shared budget
 
-Free presentation plans come from a shared budget of $1,000 a month. Until the date above, so do the included amounts of people without Pro. Pro credits never shrink or pause because of it. If free use runs high, these free amounts change until the 1st of the next month:
+Free presentation plans come from a shared budget of $1,000 a month. If free use passes 110% of it, free presentation plans pause until the 1st of the next month; Present still lays out a slate without AI. Pro credits never shrink or pause because of it, and your own keys and your balance work at every stage.
 
-| Free use this month | What changes |
-| --- | --- |
-| 70% of the budget | New free video calls start as voice. Running calls carry on. |
-| 90% | Free AI drops from 30 to 10 drafts a day. |
-| 100% | New free calls pause, and running free calls end within 10 minutes. AI stays at 10 drafts a day. |
-| 110% | Free AI and free presentation plans pause. |
+## Price changes
 
-The 100% rules also apply for the rest of any day (UTC) in which free use reaches one twentieth of the monthly budget. Your own keys, your Pro credits and your balance work at every stage. We announce changes to the free amounts, and to the price of Slatebox Pro, 30 days ahead.
+We announce any change to the price of Slatebox Pro, or to what Pro credits include, 30 days ahead. A new price applies from your next renewal.
 
 ## Self-hosted Slatebox
 
-A Slatebox you run yourself has no meters and needs no Slatebox Pro. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
 
-<!-- feature:private -->
-## Slatebox Private
+## Slatebox Business
 
-A private Slatebox for one company, run by us on its own server and billed yearly by size: Small $6,000 a year, Medium $24,000 a year (coming soon), Large from $60,000 a year by quote. A company can buy Small directly, without running Slatebox itself first. Each size includes video calls and AI each month; your own keys stay free. [Slatebox Private](slatebox-private.md)
-<!-- /feature:private -->
+Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold through our contact form for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](https://slatebox.com/contact/?topic=business)

@@ -1,4 +1,5 @@
 {
   "/developers/slateboxjs-api/": "/developers/javascriptlibrary/",
-  "/developers/slateboxapi/organizations/": "/using-slatebox/#work-with-a-team"
+  "/developers/slateboxapi/organizations/": "/using-slatebox/#work-with-a-team",
+  "/using-slatebox/slatebox-private/": "/using-slatebox/slatebox-business/"
 }

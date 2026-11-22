@@ -1,31 +1,31 @@
 ---
 title: Slatebox Pro
-description: Slatebox Pro is $5 a month or $50 a year for one person. It includes Pro credits for the AI and calls Slatebox pays for. Cancel any time.
+description: Slatebox Pro is $5 a month or $50 a year for one person, plus tax where applicable. It includes Pro credits for the AI and calls Slatebox pays for. Cancel any time.
 ---
 
 # Slatebox Pro
 
-Slatebox Pro is an optional personal subscription on Slatebox Cloud: $5 a month or $50 a year (two months free), plus tax where it applies. It includes Pro credits each month for the AI and calls Slatebox pays for. Everything else in Slatebox is free, with or without Pro, and your own keys are always free. [Pricing](pricing.md)
+Slatebox Pro is an optional personal subscription on Slatebox Cloud: $5 a month or $50 a year (two months free), plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $4.00 of what the AI provider and Daily charge us. When they run out, top up. Everything else in Slatebox is free, with or without Pro, and your own keys are always free. [Pricing](pricing.md)
 
 ## What Pro credits include
 
 | | Each month |
 | --- | --- |
-| AI drafting | 30 drafts a day |
-| Voice calls you start | About 10 hours of four-person calls a month |
-| Video calls you start | About 2 hours of four-person video a month |
+| AI drafting | 30 drafts a day, within about $1.00 of AI a month |
+| Voice calls you start | About 8 hours of four-person calls a month (2,000 participant-minutes) |
+| Video calls you start | About 1 hour of four-person video a month (250 participant-minutes) |
 
 Image search and image generation use the month's AI, not the daily count. [How we count](pricing.md#how-we-count)
 
 - Pro credits are for the calendar month (UTC) and start again on the 1st.
 - Unused Pro credits do not carry over. They have no cash value, cannot be moved to another account and end when Pro ends.
-- Pro is for one account. A team does not buy it for its members; each person chooses. A team admin can still top up a team balance that members draw on. [Top-ups and refunds](top-ups.md)
+- Pro is for one account; each person chooses. A team that wants to pay for its members' AI and calls can choose [Slatebox Business](slatebox-business.md). A team admin can also top up a team balance that members draw on. [Top-ups and refunds](top-ups.md)
 - When Pro credits run out, your own keys still work, and your balance pays if you have one.
 
 ## Get Pro
 
 <!-- feature:!pro-checkout -->
-Slatebox Pro goes on sale in your profile on the date we email to every account, at least 30 days ahead. Until then, the amounts above are free for every signed-in person, and there is nothing to buy.
+Slatebox Pro is not on sale in your profile yet. Meanwhile your own keys are free, and a top-up pays for AI and calls.
 
 <!-- /feature:!pro-checkout -->
 <!-- feature:pro-checkout -->
@@ -44,7 +44,7 @@ Manage Pro in **Credits**, under **Slatebox Pro**.
 - **Monthly to yearly** takes effect at once, with credit for the unused part of the month.
 - **Yearly to monthly** takes effect at the end of the year.
 - Pro renews automatically until you cancel. We email you before a yearly renewal.
-- We change the price only with at least 30 days' notice, and the new price applies from your next renewal.
+- We change the price, or what Pro credits include, only with at least 30 days' notice, and a new price applies from your next renewal.
 
 ## When a payment fails
 

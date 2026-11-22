@@ -101,4 +101,4 @@ Choose **Publish presentation** on a saved workshop. Readers step through its sc
 
 ## Choose where to work
 
-Slatebox Cloud is free. AI and calls are free with your own keys, or come with Slatebox Pro. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · <!-- feature:self-host -->[Run your own Slatebox](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host --><!-- feature:private --> · [Have us run one for your company](slatebox-private.md)<!-- /feature:private -->
+Slatebox Cloud is free. AI and calls are free with your own keys, or come with Slatebox Pro. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · <!-- feature:self-host -->[Run your own Slatebox](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host --> · [Slatebox Business for teams](slatebox-business.md)

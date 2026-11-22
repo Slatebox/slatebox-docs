@@ -1,5 +1,6 @@
 // Pricing in the docs: Slatebox is free (MIT, open source). AI and calls are free with your own keys, or come with
-// Slatebox Pro ($5 a month or $50 a year, Pro credits each month); top-ups work with or without Pro (owner, 2026-11-22).
+// Slatebox Pro ($5 a month or $50 a year plus tax, Pro credits worth about $4.00 of provider cost each month, on sale now);
+// top-ups work with or without Pro; teams can choose Slatebox Business, sold through the contact form (owner, 2026-11-22).
 //   node --test scripts/check-pricing.mjs        (after npm run build, so dist/ holds the built pages)
 // SITE_DIR is a checkout of the marketing site (default ../../slatebox-home-session); its pricing page must state the
 // same numbers. When it is missing, that comparison is skipped and says so.
@@ -16,12 +17,8 @@ const pages = {
   'Using-Slatebox/own-keys.md': ['Use your own keys', '/using-slatebox/own-keys/'],
   'Using-Slatebox/top-ups.md': ['Top-ups and refunds', '/using-slatebox/top-ups/'],
   'Installation/self-host-meters.md': ['A self-hosted Slatebox has no meters', '/installation/self-host-meters/'],
+  'Using-Slatebox/slatebox-business.md': ['Slatebox Business', '/using-slatebox/slatebox-business/'],
 }
-// Slatebox Private is written but not published until a measured load test backs its figures: scripts/features.json
-// switches it (default off), and the build leaves the page and every <!-- feature:private --> block out while it is off.
-const privateOn = JSON.parse(read('scripts/features.json')).private === true
-const privatePage = ['Using-Slatebox/slatebox-private.md', ['Slatebox Private', '/using-slatebox/slatebox-private/']]
-if (privateOn) pages[privatePage[0]] = privatePage[1]
 const walk = dir => readdirSync(dir).flatMap(name => statSync(join(dir, name)).isDirectory() ? walk(join(dir, name)) : [join(dir, name)])
 const docs = ['Using-Slatebox', 'Examples', 'Developers', 'Installation'].flatMap(walk).filter(file => file.endsWith('.md'))
 
@@ -35,33 +32,15 @@ test('the pricing pages exist, carry their titles and are in the built navigatio
   }
 })
 
-test('Slatebox Private is published only when its switch is on', () => {
-  const [file, [title, url]] = privatePage
-  assert.match(read(file), /^feature: private$/m, file + ' is held by the private switch')
-  assert.match(read(file), new RegExp('^# ' + title + '$', 'm'))
-  const built = ['dist/using-slatebox/index.html', 'dist/using-slatebox/pricing/index.html', 'dist/search.json', 'dist/sitemap.xml', 'dist/llms.txt'].map(read).join('\n')
-  if (privateOn) {
-    assert.ok(existsSync(join('dist', url, 'index.html')), url + ' was not built')
-    assert.match(read('dist/using-slatebox/pricing/index.html'), /Slatebox Private/)
-    return
-  }
-  assert.ok(!existsSync(join('dist', url)), url + ' was built while Private is switched off')
-  assert.ok(!existsSync(join('dist', file)), file + ' was mirrored while Private is switched off')
-  assert.doesNotMatch(built, /slatebox-private|Slatebox Private|\$6,000|\$24,000|\$60,000|waitlist/i, 'a built page, the search index, the sitemap or the agent index mentions Private')
-  for (const page of docs.filter(page => page !== file)) {
-    const text = read(page).replace(/<!-- feature:private -->[\s\S]*?<!-- \/feature:private -->/g, '')
-    assert.doesNotMatch(text, /slatebox-private\.md|Slatebox Private/, page + ' mentions Private outside a <!-- feature:private --> block')
-  }
-})
-
 // The headline and subheading are the owner's words (2026-11-22), on the site's plans page and here.
 const HEADLINE = ['Slatebox is free', 'MIT-licensed and open source, free for individuals and companies alike']
-// What Slatebox Pro costs and includes: one price for one person, the former free amounts as Pro credits.
-const PRO = ['$5 a month', '$50 a year', 'two months free', '30 drafts a day', 'about 10 hours', 'about 2 hours']
+// What Slatebox Pro costs and includes: one price for one person, plus tax, with Pro credits sized to about $4.00 of
+// provider cost a month (owner, 2026-11-22): $1.00 of AI, 2,000 voice and 250 video participant-minutes ($3.98 at full use).
+const PRO = ['$5 a month', '$50 a year', 'two months free', 'plus tax where applicable', 'about $4.00', '30 drafts a day', 'about 8 hours', 'about 1 hour']
 test('Slatebox is free, Slatebox Pro and its credits are stated, and match the pricing page', () => {
   const pricing = read('Using-Slatebox/pricing.md'), pro = read('Using-Slatebox/slatebox-pro.md')
   for (const words of [...HEADLINE, ...PRO, '5%', '$1,000']) assert.ok(pricing.toLowerCase().includes(words.toLowerCase()), 'pricing.md does not say ' + words)
-  for (const words of ['2,400', '500 participant-minutes', 'carries on as voice', 'Joining a call', 'never pay', 'own key', 'top up', 'with or without Pro', 'Pro credits never shrink or pause', '5 a day for each person', 'do not carry over', 'Cancel any time', '30 days ahead'])
+  for (const words of ['2,000', '250 participant-minutes', 'carries on as voice', 'Joining a call', 'never pay', 'own key', 'top up', 'with or without Pro', 'Pro credits never shrink or pause', '5 a day for each person', 'do not carry over', 'Cancel any time', '30 days ahead', '(slatebox-business.md)', 'contact/?topic=business'])
     assert.ok(pricing.includes(words), 'pricing.md does not say ' + words)
   // Own keys are free for everyone; nothing but AI and calls Slatebox pays for needs money.
   assert.match(pricing, /AI and calls work free with your own keys/, 'pricing.md: own keys are free, with or without Pro')
@@ -72,10 +51,10 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   // Buying Pro: the app sells it only once its Pro date is set, so the steps are held by the pro-checkout switch.
   const proCheckoutOn = JSON.parse(read('scripts/features.json'))['pro-checkout'] === true
   assert.match(pro, /<!-- feature:pro-checkout -->\n1\. Confirm your email address[\s\S]*?pay by card\.[\s\S]*?<!-- \/feature:pro-checkout -->/, 'the steps to buy Pro are held by the pro-checkout switch')
-  assert.match(pro, /<!-- feature:!pro-checkout -->\nSlatebox Pro goes on sale in your profile on the date we email to every account/, 'while the switch is off, the page says when Pro goes on sale')
+  assert.match(pro, /<!-- feature:!pro-checkout -->\nSlatebox Pro is not on sale in your profile yet\./, 'while the switch is off, the page says Pro is not on sale yet')
   const builtPro = read('dist/using-slatebox/slatebox-pro/index.html')
   assert.equal(builtPro.includes('pay by card'), proCheckoutOn, 'the built Pro page carries the steps to buy only while pro-checkout is on')
-  assert.equal(builtPro.includes('goes on sale in your profile'), !proCheckoutOn, 'the built Pro page says when Pro goes on sale only while pro-checkout is off')
+  assert.equal(builtPro.includes('not on sale in your profile yet'), !proCheckoutOn, 'the built Pro page says Pro is not on sale only while pro-checkout is off')
   assert.match(pricing, /\(slatebox-pro\.md\)/, 'the pricing page links Slatebox Pro')
   const site = resolve(process.env.SITE_DIR || '../../slatebox-home-session')
   const page = join(site, 'plans/index.html')
@@ -85,44 +64,31 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.ok(text.includes('plus 5%') && pricing.includes('plus 5%'), 'both say "plus 5%"')
 })
 
-// The old promise is gone everywhere: Slatebox Pro is a subscription, so no page may say there are none.
-test('no docs page promises "no subscriptions" or a free monthly amount for everyone', () => {
+// The old promise is gone everywhere: Slatebox Pro is a subscription, so no page may say there are none. Pro is on sale
+// now (owner, 2026-11-22: no notice period), so no page promises free amounts until an emailed date or a trial.
+test('no docs page promises "no subscriptions", a free monthly amount for everyone, or free amounts until a date', () => {
   for (const file of docs) {
     const text = read(file)
     assert.doesNotMatch(text, /No feature or seat subscriptions|we will not add one|free amount each month|Free this month|Admin → Free budget/i, file + ' still describes the old free amounts')
+    assert.doesNotMatch(text, /date we email|Until the date above|free trial|trial until/i, file + ' still promises free amounts until a switch date')
   }
 })
 
-test('Slatebox Private: three yearly sizes, Small for sale directly, Medium not for sale, and the site says the same', () => {
-  const priv = read('Using-Slatebox/slatebox-private.md')
-  for (const words of ['$6,000 a year ($500/mo, billed yearly)', '$24,000 a year', 'Coming soon, not for sale yet', 'From $60,000 a year, by quote', '15,000 participant-minutes', 'About $100 of AI', 'About $400 of AI', 'about $100 of AI a month', 'teams of 50 to 100', 'teams of 200 to 400', 'adds 20,000 participant-minutes', '100 GB',
-    'one provider', 'Your own keys are free', '$2,400 a year', 'plus 5%, the same as Cloud top-ups', 'renews as another two years at the same 10% off', '30 days of go-live', 'Leave any time with everything, in one command', 'Every feature, free everywhere. No seat plans.', 'On sale now', 'without running Slatebox itself first', 'you do not need to run Slatebox yourself first', 'mailto:tim@slatebox.com?subject=Slatebox%20Private%20Medium'])
-    assert.ok(priv.includes(words), 'slatebox-private.md does not say ' + words)
-  // Small is bought directly. The self-serve link goes through the app's redirect, never a payment vendor's address, and
-  // only while the private-checkout switch is on (with the app's public.privateCheckout); while off, people write to us.
-  assert.doesNotMatch(priv, /waitlist|stripe/i, 'slatebox-private.md: no waitlist and no payment vendor address')
-  assert.match(priv, /<!-- feature:private-checkout --> \[Buy Small, \$6,000 a year\]\(https:\/\/app\.slatebox\.com\/buy\/private-small\)<!-- \/feature:private-checkout -->/, 'the self-serve link is held by the private-checkout switch')
-  assert.match(priv, /<!-- feature:!private-checkout --> \[Write to us to buy Small\]\(mailto:tim@slatebox\.com\?subject=Slatebox%20Private%20Small\)<!-- \/feature:!private-checkout -->/, 'while the switch is off, people write to us to buy Small')
-  const checkoutOn = JSON.parse(read('scripts/features.json'))['private-checkout'] === true
-  if (privateOn) {
-    const built = read('dist/using-slatebox/slatebox-private/index.html')
-    assert.equal(built.includes('app.slatebox.com/buy/private-small'), checkoutOn, 'the built Private page carries the buy link only while private-checkout is on')
-    assert.equal(built.includes('Write to us to buy Small'), !checkoutOn, 'the built Private page asks people to write only while private-checkout is off')
+// Slatebox Private (a dedicated server billed yearly by size) is replaced by Slatebox Business (owner, 2026-11-22): a team
+// inside the shared Cloud at $6 a person a month or $60 a person a year, sold through the contact form until its billing ships.
+test('Slatebox Business replaces Slatebox Private, and is sold through the contact form', () => {
+  const biz = read('Using-Slatebox/slatebox-business.md')
+  for (const words of ['$6 a person a month', '$60 a person a year', 'plus tax where applicable', 'shared, fully managed', 'shared pool of AI and calls', 'same amount as Pro credits', 'Single sign-on and the audit log', 'Hands-on help for large teams', 'is coming', 'Your own keys stay free', 'not on sale in the app yet', '[Talk to us about Business](https://slatebox.com/contact/?topic=business)'])
+    assert.ok(biz.includes(words), 'slatebox-business.md does not say ' + words)
+  assert.doesNotMatch(biz, /app\.slatebox\.com\/buy|stripe|checkout/i, 'slatebox-business.md: no Business checkout or payment link')
+  assert.equal(JSON.parse(read('scripts/redirects.json'))['/using-slatebox/slatebox-private/'], '/using-slatebox/slatebox-business/', 'the old Private address redirects to Business')
+  const built = ['dist/using-slatebox/index.html', 'dist/using-slatebox/pricing/index.html', 'dist/search.json', 'dist/sitemap.xml', 'dist/llms.txt'].map(read).join('\n')
+  assert.doesNotMatch(built, /Slatebox Private|\$6,000|\$24,000|\$60,000|dedicated server/i, 'a built page, the search index, the sitemap or the agent index still mentions Private')
+  for (const file of [...docs, 'STYLE.md', 'readme.md']) {
+    const text = read(file).replace(/Never "dedicated server", sizes, or "Slatebox Private"\./, '')
+    assert.doesNotMatch(text, /Slatebox Private|slatebox-private\.md|dedicated server|\$6,000|Billed yearly by size|by size, never by person|No seat plans|feature:private/i, file + ' still describes Slatebox Private')
   }
-  assert.match(read('Using-Slatebox/pricing.md'), /\(slatebox-private\.md\)/, 'the pricing page links Slatebox Private')
-  const site = resolve(process.env.SITE_DIR || '../../slatebox-home-session'), page = join(site, 'plans/index.html')
-  if (!existsSync(page)) return console.log('SKIPPED: no marketing site at ' + site)
-  // The site keeps Private behind its own switch (site/features.json); its section then lives in a partial.
-  const partial = join(site, 'site/features/private/plans-section.html')
-  const text = read(existsSync(partial) ? partial : page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
-  if (!text.includes('Slatebox Private')) return console.log('SKIPPED: the marketing site at ' + site + ' has no Private section yet')
-  for (const words of ['$6,000', '$500/mo, billed yearly', '$24,000', '$60,000', '15,000 participant-minutes', 'About $100 of AI a month', 'About $400 of AI a month', 'about $100 of AI a month', 'teams of 50 to 100', 'teams of 200 to 400', 'adds 20,000 participant-minutes', '$2,400 a year', 'plus 5%, the same as Cloud top-ups', 'Every feature, free everywhere. No seat plans.']) assert.ok(text.includes(words), 'the site pricing page does not say ' + words)
-  // AI on Private is counted in dollars of provider cost, as the app catalogue states it, never in drafts.
-  assert.doesNotMatch(priv, /\d drafts/, 'slatebox-private.md counts AI in dollars')
-  // Private overage is Cloud's +5%; the self-host top-up does not exist in the app, so neither page offers one.
-  assert.doesNotMatch(priv, /plus 20%|35%/, 'slatebox-private.md: no +20% overage, no self-host top-up')
-  assert.doesNotMatch(text.slice(text.indexOf('Slatebox Private')), /plus 20%|35%/, 'the site Private section: no +20% overage, no self-host top-up')
-  assert.doesNotMatch(text.slice(text.indexOf('Slatebox Private')), /\d drafts/, 'the site Private section counts AI in dollars')
+  assert.ok(!('private' in JSON.parse(read('scripts/features.json'))), 'scripts/features.json has no Private switch')
 })
 
 test('top-ups, own keys and self-host say what builder A built', () => {
@@ -138,7 +104,7 @@ test('top-ups, own keys and self-host say what builder A built', () => {
 // The old plans, in words a person reads. Software upgrades of a release kit and operation plans of the API are not plans.
 // Slatebox Pro (owner, 2026-11-22) is one personal subscription, not a plan: pages say "Slatebox Pro" or "Pro credits".
 // A bare "Pro" is for the pages about Pro and money only, and "subscription" for the Slatebox Pro page only.
-const PRO_PAGES = ['Using-Slatebox/pricing.md', 'Using-Slatebox/slatebox-pro.md', 'Using-Slatebox/top-ups.md']
+const PRO_PAGES = ['Using-Slatebox/pricing.md', 'Using-Slatebox/slatebox-pro.md', 'Using-Slatebox/top-ups.md', 'Using-Slatebox/slatebox-business.md']
 const named = line => line.replace(/Slatebox Pro\b|\bPro credits\b|Admin → Budget and Pro\*\*/g, '')
 const banned = [
   [/\bPro\b(?![-/]Con)/, 'a bare "Pro"', (file, line) => !PRO_PAGES.includes(file) && /\bPro\b(?![-/]Con)/.test(named(line))],
