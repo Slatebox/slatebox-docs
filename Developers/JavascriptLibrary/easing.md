@@ -1,10 +1,23 @@
 # Motion and easing
 
-To animate a move, pass a duration in milliseconds as the fifth argument to `node.position`. The SVG.js-based implementation moves in board coordinates using an ease-in-out quadratic curve. Its fourth argument is retained for compatibility. The historical list of named easing strings belongs to the earlier renderer.
+To animate a move, pass a duration in milliseconds as the fifth argument to `node.position(x, y, callback, easing, duration)`. The note glides on an ease-in-out curve. The curve is fixed, so pass `undefined` as the fourth argument.
 
-```js
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-decision.position(340, 150, undefined, undefined, reduceMotion ? 0 : 240)
+<!-- tabs -->
+
+```js JavaScript
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+decision.position(340, 150, () => console.log('Moved'), undefined, reduceMotion ? 0 : 240)
 ```
 
-For an immediate move use `decision.position(340, 150)`. To perform work when the move finishes, supply a callback as the third argument. [Node methods](node-methods.md)
+```ts TypeScript
+import type { Node } from 'slateboxjs'
+
+declare const decision: Node
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+decision.position(340, 150, () => console.log('Moved'), undefined, reduceMotion ? 0 : 240)
+```
+
+<!-- /tabs -->
+
+The callback runs when the note arrives. A duration of `0`, or `decision.position(340, 150)`, moves it at once. `node.setRotation(angle, duration)` uses the same curve. [Node methods](node-methods.md)

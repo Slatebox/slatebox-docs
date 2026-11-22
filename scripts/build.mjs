@@ -3,7 +3,6 @@ import path from 'node:path'
 import {Marked} from 'marked'
 import {museumExample} from './museum-example.mjs'
 import {gzipSync} from 'node:zlib'
-import {execFileSync} from 'node:child_process'
 import GithubSlugger from 'github-slugger'
 import {parse as yaml} from 'yaml'
 const root = process.cwd()
@@ -39,7 +38,8 @@ const entries = [
   {url:'/using-slatebox/', title:'Use the app',desc:'Create a private slate, invite a teammate and present your work.'},
   {url:'/developers/javascriptlibrary/', title:'Build with SlateboxJS',desc:'Draw a node, connect two ideas and save the canvas as JSON.'},
   {url:'/developers/slateboxapi/', title:'Connect your application',desc:'Read a slate and preview a change with a scoped API token.'},
-  {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Bring up the app and collaboration services with Docker.'}
+  {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
+  {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one Docker command.'}
 ]
 const demos = {
   river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
@@ -72,11 +72,13 @@ function list(rows) {
 }
 function promptFor(p) {
   const source = base+'/'+p.file
+  if (p.section === 'Self-hosting' && p.agentPrompt) return p.agentPrompt+'\n\nRead the official guide at '+source+' first. Tell me what you verified and which steps I still need to do.'
   if (p.section === 'Self-hosting') return [
-    'Help me install the current self-hosted Slatebox on my Docker host. Read the official installation guide at '+source+'.',
-    'Check the target host, Docker server architecture, Engine and Compose versions, and whether an existing Slatebox instance or data volume is present. If an instance exists, identify its version and use the documented upgrade or recovery path before changing it.',
-    'For a new install, read the current kit record at '+base+'/assets/self-host/release.json or its mirror at '+publishedFiles+'/assets/self-host/release.json. Match my Linux architecture under platforms, and tell me the release ID, filename and SHA-256. Keep that release ID so we can verify the same kit even if a newer one appears. If I need the kit, give me the request link from the guide. Keep the initial trial on loopback unless I ask for team hostnames and HTTPS.',
-    'Once I have the kit, verify its byte count and SHA-256 against the record, start the matched app, collaboration relay and database using the guide, and check readiness. Give me the working URL and show me how to confirm a private board survives reopening and an invited teammate can edit it. Report which checks actually ran and what still needs my input.'
+    'Help me run my own Slatebox with Docker. Read the official installation guide at '+source+'.',
+    'Check that Docker is running on the target host, which address people will use to reach Slatebox, and whether a container named slatebox or a volume named slatebox-data already exists. If one exists, keep the volume and follow the upgrade steps in the guide instead of starting over.',
+    'Ask whether people should sign in with their company account (Microsoft Entra ID, Okta, Google Workspace, SAML, LDAP or Active Directory). Single sign-on comes with the image: Keycloak is bundled in it and is off by default. If they should, add -e SLATEBOX_SSO=keycloak, and -e SLATEBOX_SSO_ONLY=true only if passwords and guests must be switched off, then follow the single sign-on guide at '+base+'/Installation/single-sign-on.md, including its advice on Trust Email and on closing the admin console with -e SLATEBOX_SSO_ADMIN=closed once sign-in works. Never print the Keycloak admin password or the SCIM secret; tell me the docker exec slatebox slatebox sso command that shows it.',
+    'For a new installation, ask whether I use plain Docker or Docker Compose, run the guide\'s docker run command or write its compose.yaml, wait until docker ps reports the container as healthy, and give me the address to open. Add only the settings from the guide that my answers call for.',
+    'Then show me how to confirm that a slate survives a reload and that a second browser sees my edits as I make them. With single sign-on on, also give me the admin console address from docker exec slatebox slatebox sso. Report which checks actually ran and what still needs my input.'
   ].join('\n\n')
   const task = {
     Examples: 'Help me try the Slatebox example “'+p.title+'”. Use the linked example and guide to reproduce its main interaction. Show me the resulting slate or observable behavior.',
@@ -100,9 +102,24 @@ function layout(title,desc,url,main,hasCanvas = false, source) {
 async function write(url, content) {
   const dir=path.join(out,url); await mkdir(dir,{recursive:true}); await writeFile(path.join(dir,'index.html'),content)
 }
+// A fenced block's info string is "language Label words". The label names the tab in a
+// language picker; without one, the language picks a default name.
+const codeLabels = {js:'JavaScript', mjs:'JavaScript', javascript:'JavaScript', ts:'TypeScript', typescript:'TypeScript', jsx:'JSX', tsx:'TSX', sh:'Shell', bash:'Shell', shell:'Shell', python:'Python', py:'Python', json:'JSON', html:'HTML', css:'CSS', text:'Text', yaml:'YAML', yml:'YAML'}
+function codeLabel(language, label) { return label || codeLabels[language.toLowerCase()] || language || 'Text' }
 function render(p) {
   const headings=[], slugger=new GithubSlugger()
   const parser=new Marked({renderer:{
+    code({text,lang}) {
+      const [language='', ...rest] = String(lang ?? '').trim().split(/\s+/)
+      const label = codeLabel(language, rest.join(' '))
+      return '<div class="code" data-label="'+html(label)+'"><div class="code-label">'+html(label)+'</div><pre><code'+(language?' class="language-'+html(language)+'"':'')+'>'+html(text)+'</code></pre></div>'
+    },
+    html({text}) {
+      const t = text.trim()
+      if (t === '<!-- tabs -->') return '<div class="code-tabs" data-tabs>'
+      if (t === '<!-- /tabs -->') return '</div>'
+      return text
+    },
     heading({tokens,depth,text}) { const id=slugger.slug(text.replace(/<[^>]+>/g,'')); if(depth===2)headings.push({id,text}); return '<h'+depth+' id="'+html(id)+'">'+this.parser.parseInline(tokens)+'</h'+depth+'>' },
     link({href,tokens}) {
       let target=href
@@ -126,11 +143,6 @@ function render(p) {
   return '<div class="manual">'+sidebar(p)+'<article><div class="crumb">'+link('/','Docs')+' / '+(p.section==='Examples'?link('/examples/','Examples'):html(p.section))+'</div><h1'+titleId+'>'+html(p.title)+'</h1>'+agentTools(promptFor(p),'/'+p.file)+(p.section==='Examples' && p.desc?'<p class="intro">'+html(p.desc)+'</p>':'')+embed(p.demo)+'<div class="prose">'+body+'</div></article><nav class="on-page" aria-label="On this page">'+'<strong>On this page</strong>'+link('#agent-prompt','Agent prompt')+headings.map(h=>link('#'+h.id,h.text)).join('')+'</nav></div>'
 }
 await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true}); await cp('assets',path.join(out,'assets'),{recursive:true})
-const kitRecords = path.join(out, 'assets/self-host/releases')
-const latestKit = (await readdir(kitRecords)).filter(name => /^\d{8}T\d{6}Z\.json$/.test(name)).sort().at(-1)
-if (!latestKit) throw new Error('The install guide needs a verified kit record.')
-await cp(path.join(kitRecords, latestKit), path.join(out, 'assets/self-host/release.json'))
-execFileSync('python3',['scripts/bundle-release-tools.py',path.join(out,'assets/self-host')])
 for (const p of pages) {
   await write(p.url,layout(p.title,p.desc,p.url,render(p),p.demo === 'canvas','/'+p.file))
   const markdown = path.join(out,p.file)
@@ -139,9 +151,8 @@ for (const p of pages) {
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
 const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
-agentIndex.push('[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)', '',
-  'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '',
-  '[Current self-host release record]('+base+'/assets/self-host/release.json) · [GitHub mirror]('+publishedFiles+'/assets/self-host/release.json)', '')
+agentIndex.push('[OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)', '',
+  'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '')
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+') · [GitHub mirror]('+publishedFiles+'/'+p.file+')'),'')
 }
@@ -154,6 +165,15 @@ const home='<section class="hero"><div><p class="eyebrow">Slatebox documentation
 await write('/',layout('Slatebox documentation','Guides and runnable examples for the Slatebox canvas, API and self-hosted app.','/',home,true))
 await write('/examples/',layout('Canvas examples','Hands-on guides for using Slatebox and building with SlateboxJS.','/examples/','<section class="examples"><div class="crumb">'+link('/','Docs')+' / Examples</div><h1>Canvas examples.</h1><p class="intro">Try a working example, then follow the steps in the app or build it with SlateboxJS.</p>'+agentTools('Read '+base+'/llms.txt. Ask what my team wants to do, choose a runnable example and help me try it on my own slate.','/llms.txt','Read agent index')+['Interactions','Canvas','Integrations'].map(group=>'<section class="recipe-group"><h2>'+group+'</h2>'+list(examples.filter(p=>p.group===group))+'</section>').join('')+'</section>'))
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
+// A removed page keeps its address: a small page with a canonical link and a meta refresh to the
+// page that now answers (scripts/redirects.json). Not in the sitemap or search.
+const redirects = JSON.parse(await readFile('scripts/redirects.json','utf8'))
+for (const [from,to] of Object.entries(redirects)) {
+  if (pages.some(p=>p.url===from)) throw Error('scripts/redirects.json: '+from+' is still a page')
+  const target = pages.find(p=>p.url===to.split('#')[0])
+  if (!target) throw Error('scripts/redirects.json: '+to+' is not a page')
+  await write(from,'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>'+html(target.title)+' · Slatebox Docs</title><link rel="canonical" href="'+html(base+target.url)+'"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url='+html(to)+'"></head><body><h1>'+html(target.title)+'</h1><p><a href="'+html(to)+'">Open '+html(target.title)+'</a></p></body></html>')
+}
 await writeFile(path.join(out,'404.html'),layout('Page not found','','/404.html','<section class="examples"><h1>Page not found.</h1><p>'+link('/','Browse the documentation')+' or '+link('/examples/','try an example')+'.</p></section>'))
 await writeFile(path.join(out,'CNAME'),'docs.slatebox.com\n')
 await writeFile(path.join(out,'.nojekyll'),'')

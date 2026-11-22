@@ -5,7 +5,7 @@ import {decodeWorkshopFragment, moveWorkshopCard, workshopPresentationLanes} fro
 
 const recipe = await readFile(new URL('../Examples/museum-loans.md', import.meta.url), 'utf8')
 const modelURL = new URL('../assets/vendor/workshop-model.mjs', import.meta.url).href
-const code = [...recipe.matchAll(/```js\n([\s\S]*?)\n```/g)].map(match => match[1]).join('\n')
+const code = [...recipe.matchAll(/```js(?: [^\n]*)?\n([\s\S]*?)\n```/g)].map(match => match[1]).join('\n')
 const executable = code.replaceAll("'slateboxjs/workshops/model'", JSON.stringify(modelURL))
 const capture = 'export const output = []; const console = {log: value => output.push(value)};\n'
 const moduleURL = 'data:text/javascript;charset=utf-8,' + encodeURIComponent(capture + executable + '\nexport {initial, full, vacancy, openInSlatebox}')

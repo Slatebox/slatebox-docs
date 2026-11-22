@@ -5,17 +5,41 @@ group: Interactions
 demo: listening
 ---
 
-Roll the horn from the copper roof toward the glass chimes. Hold it halfway. The caption changes to “Rain and glass chimes overlap.” Choose **Enable sound** to hear the two loops at that position. Press Escape while holding the horn to return to the saved mix.
+## Try it
 
-To set the starting mix in your own host, run this JavaScript in a project using the pinned SlateboxJS file build. The creative model exports belong to that build.
+1. Roll the horn from the copper roof toward the glass chimes and hold it halfway. The caption reads “Rain and glass chimes overlap.”
+2. Choose **Enable sound** to hear both loops at that position.
+3. Press Escape while holding the horn to return to the saved mix.
 
-```js
+The horn also moves with the arrow keys, Home and End.
+
+## Set the starting mix in your app
+
+Run this with Node.js in a project with [the `slateboxjs` package](../Developers/JavascriptLibrary/readme.md) installed.
+
+<!-- tabs -->
+
+```js Node.js
 import { listeningRoom, normalizeListeningRoom, listeningRoomCaption } from 'slateboxjs/workshops/model'
 
 const room = normalizeListeningRoom({ ...listeningRoom, mix: 0.46 })
 console.log(room.mix, listeningRoomCaption(room))
 ```
 
-Expect `0.46 Rain and glass chimes overlap.` Pass the object to `ListeningRoomBoard` as its `value`. Save the next object from `onChange` to keep a visitor’s final position. The horn also responds to arrow keys, Home and End.
+```ts TypeScript
+import { listeningRoom, normalizeListeningRoom, listeningRoomCaption } from 'slateboxjs/workshops/model'
+
+const room = normalizeListeningRoom({ ...listeningRoom, mix: 0.46 })
+if (!room) throw new Error('The mix is not valid')
+console.log(room.mix, listeningRoomCaption(room))
+```
+
+<!-- /tabs -->
+
+```text Output
+0.46 Rain and glass chimes overlap.
+```
+
+Pass `room` to `ListeningRoomBoard` as its `value`. Save the object `onChange` gives you to keep a visitor’s final position.
 
 [Keep this mix in a new slate](https://app.slatebox.com/new/listening-room?mix=0.46)

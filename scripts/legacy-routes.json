@@ -1,7 +1,4 @@
 {
-  "/developers/slateboxjs-api/": [
-    "slateboxjs-api"
-  ],
   "/developers/development/": [
     "slatebox-app-development",
     "quickstart",
@@ -82,14 +79,6 @@
     "introduction",
     "authentication"
   ],
-  "/developers/slateboxapi/organizations/": [
-    "organizations",
-    "v1organization-endpoint",
-    "v1organizationusers",
-    "response",
-    "v1organization",
-    "response-1"
-  ],
   "/developers/slateboxapi/slates/": [
     "slates",
     "v1slates-endpoint",
@@ -100,5 +89,8 @@
   ],
   "/using-slatebox/": [
     "slatebox-user-guide"
+  ],
+  "/using-slatebox/top-ups/": [
+    "top-ups-and-refunds"
   ]
 }

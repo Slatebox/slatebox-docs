@@ -1,14 +1,15 @@
 # Build with Slatebox
 
-Choose the interface that owns the data you want to change.
+Pick the interface that owns the data you want to change.
 
-| Goal | Starting point |
+| Goal | Start here |
 | --- | --- |
 | Draw a board in your own web page and control its storage | [SlateboxJS quick slate](JavascriptLibrary/readme.md) |
 | Read a hosted slate or preview a repeatable edit | [HTTP API](SlateboxAPI/readme.md) |
-| Edit a private board from a shell or an MCP client | [Terminal and agent tools](SlateboxAPI/terminal-and-agents.md) |
+| Let an agent read and edit your slates with one tool | [Exec: how agents work with Slatebox](SlateboxAPI/exec.md) |
+| Run exec from a terminal or an MCP client | [Install the CLI and MCP server](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
-| Run an installation for your organization | [Install with Docker](../Installation/install-with-docker.md) |
+| Run your own Slatebox | [One Docker command](../Installation/install-with-docker.md) |
 
-The app and SVG.js engine are MIT licensed. Request their source or a matched Docker release from Slatebox. The collaboration relay source is public. [Get a self-host release](../Installation/install-with-docker.md#get-the-release) · [Read the relay source](https://github.com/Slatebox/y-websocket)
+The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. One Docker image runs all three with a database. [What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · [Relay source](https://github.com/Slatebox/y-websocket)

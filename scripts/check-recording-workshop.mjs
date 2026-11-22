@@ -4,7 +4,7 @@ import { availableLanes, decodeWorkshopFragment, moveWorkshopCard } from '../ass
 
 const guide = await readFile(new URL('../Developers/JavascriptLibrary/creative-slates.md', import.meta.url), 'utf8')
 const section = guide.split('## Build a workshop with one recording slot\n')[1].split('\n## ')[0]
-const code = section.match(/```js\n([\s\S]*?)\n```/)[1]
+const code = section.match(/```js(?: [^\n]*)?\n([\s\S]*?)\n```/)[1]
 const modelURL = new URL('../assets/vendor/workshop-model.mjs', import.meta.url).href
 const executable = code.replace("'slateboxjs/workshops/model'", JSON.stringify(modelURL))
 const { ready, openInSlatebox } = await import('data:text/javascript,' +

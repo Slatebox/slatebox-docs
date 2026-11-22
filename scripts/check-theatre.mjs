@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 
 const recipe = await readFile(new URL('../Examples/theatre-cues.md', import.meta.url), 'utf8')
-const code = recipe.match(/```js\n([\s\S]*?)\n```/)[1]
+const code = recipe.match(/```js(?: [^\n]*)?\n([\s\S]*?)\n```/)[1]
 const modelURL = new URL('../assets/vendor/workshop-model.mjs', import.meta.url).href
 const executable = code.replace("'slateboxjs/workshops/model'", JSON.stringify(modelURL))
 const capture = 'export const rows = []; const console = {log: (...args) => rows.push(args)};'

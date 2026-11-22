@@ -5,14 +5,22 @@ group: Interactions
 demo: museum
 ---
 
-Mount the carved shell and tin lantern. Try to add the star chart, then return one object to free a mount. **Open this slate in Slatebox** keeps your arrangement and the two-mount limit in a private, editable workshop.
+## Try it
 
-## Apply the capacity rule
+1. Mount the carved shell and the tin lantern.
+2. Try to add the star chart. The case is full.
+3. Return one object to free a mount.
 
-Run this in a project using the file-based SlateboxJS package.
+**Open this slate in Slatebox** keeps your arrangement and the two-mount limit in a private, editable workshop.
 
-```js
-import { validateWorkshop, moveWorkshopCard, availableLanes } from 'slateboxjs/workshops/model'
+## Apply the capacity rule in code
+
+This script builds the case, fills it, checks where the star chart can go, and prints a link that opens the filled case in Slatebox. Run it with Node.js in a project with [the `slateboxjs` package](../Developers/JavascriptLibrary/readme.md) installed.
+
+<!-- tabs -->
+
+```js Node.js
+import { validateWorkshop, moveWorkshopCard, availableLanes, encodeWorkshopFragment } from 'slateboxjs/workshops/model'
 
 const initial = validateWorkshop({
   version: 1,
@@ -25,29 +33,54 @@ const initial = validateWorkshop({
     { id: 'chart', label: 'Star chart', laneId: 'store' }
   ]
 })
-const one = moveWorkshopCard(initial, 'shell', 'case')
-const full = moveWorkshopCard(one, 'lamp', 'case')
+const full = moveWorkshopCard(moveWorkshopCard(initial, 'shell', 'case'), 'lamp', 'case')
 const chart = full.cards.find(card => card.id === 'chart')
 console.log(availableLanes(full, chart).map(lane => lane.id))
+
 const vacancy = moveWorkshopCard(full, 'shell', 'store')
 console.log(availableLanes(vacancy, chart).map(lane => lane.id))
-```
-
-Expect `['store']` for the full case and `['store', 'case']` after returning the shell. Mount `WorkshopBoard` from `slateboxjs/workshops` with the validated `initial` value and save the model passed to `onChange`.
-
-## Open your own workshop in the app
-
-Use the same link format for a different validated workshop. The app creates a private copy under the visitor’s account or guest session. The fragment contains the workshop itself, so anyone with the link can import its contents. Keep private source data out of links you distribute.
-
-```js
-import { encodeWorkshopFragment } from 'slateboxjs/workshops/model'
 
 const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopFragment(full)
 console.log(openInSlatebox)
 ```
 
-The link opens the filled case. Select **Present** to show the two objects you mounted. Advance once to see what stayed in storage. Use `vacancy` instead of `full` to make the shell available and leave one mount free.
+```ts TypeScript
+import { validateWorkshop, moveWorkshopCard, availableLanes, encodeWorkshopFragment, type Workshop } from 'slateboxjs/workshops/model'
 
-## Fit two lanes on a phone and preview a radio cue sheet
+const initial: Workshop = validateWorkshop({
+  version: 1,
+  title: 'Loans for the shoreline case',
+  lanes: [{ id: 'store', label: 'Available objects' }, { id: 'case', label: 'Two mounts', capacity: 2 }],
+  presentationOrder: ['case', 'store'],
+  cards: [
+    { id: 'shell', label: 'Carved shell', laneId: 'store' },
+    { id: 'lamp', label: 'Tin lantern', laneId: 'store' },
+    { id: 'chart', label: 'Star chart', laneId: 'store' }
+  ]
+})
+const full = moveWorkshopCard(moveWorkshopCard(initial, 'shell', 'case'), 'lamp', 'case')
+const chart = full.cards.find(card => card.id === 'chart')!
+console.log(availableLanes(full, chart).map(lane => lane.id))
 
-For a responsive two-lane workshop with a preview that changes while you drag, build the [community radio cue sheet](/examples/research-cue-sheet/).
+const vacancy = moveWorkshopCard(full, 'shell', 'store')
+console.log(availableLanes(vacancy, chart).map(lane => lane.id))
+
+const openInSlatebox = 'https://app.slatebox.com/new/workshop' + encodeWorkshopFragment(full)
+console.log(openInSlatebox)
+```
+
+<!-- /tabs -->
+
+You get `[ 'store' ]` for the full case, `[ 'store', 'case' ]` after the shell goes back, and the link.
+
+To show the same board in your own page, mount `WorkshopBoard` from `slateboxjs/workshops` with `initial` as its value, and save the model `onChange` gives you.
+
+## Open the case in Slatebox
+
+The printed link creates a private copy for whoever opens it, under their account or guest session. Select **Present** to show the two mounted objects, then advance once to see what stayed in storage. Encode `vacancy` instead of `full` to leave one mount free.
+
+The link carries the whole workshop, so anyone who has it can import its contents. Keep private data out of links you share.
+
+## Fit two lanes on a phone
+
+For a responsive two-lane board with a preview that changes while you drag, build the [community radio cue sheet](research-cue-sheet.md).
