@@ -93,6 +93,7 @@ Inside the Slatebox container, `localhost` is the container itself. A model serv
 
 ## Set the server's AI
 
+<!-- feature:self-host -->
 An operator sets the AI everyone on a self-hosted server gets by default. One endpoint for every feature:
 
 <!-- tabs -->
@@ -190,6 +191,10 @@ docker compose exec slatebox slatebox ai check
 <!-- /tabs -->
 
 Each connection gets one line: reached, key accepted, model listed, answered and called tools. `docker exec slatebox slatebox ai` lists the connections and choices without keys. Administrators can also add server connections in **Profile → AI**.
+<!-- /feature:self-host -->
+<!-- feature:!self-host -->
+An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. Self-hosting is coming soon; this section shows how once the image is published. Administrators can also add server connections in **Profile → AI**. [Run your own Slatebox](../Installation/self-hosting.md)
+<!-- /feature:!self-host -->
 
 ## Set it up with an agent
 
@@ -289,5 +294,5 @@ You get `200` and the settings as `GET /api/v1/ai` returns them. `effective` nam
 | "The endpoint did not accept the key" | Enter the key again with **Change**. |
 | The model answers without calling the test tool | Conversation, drafts and presentation planning need a model that calls tools. Choose another for those features. |
 | "…cannot make images" | Choose a model with **Makes images**, or **The AI this server provides**, for **Generating images**. |
-| A key cannot be saved; "A connection without a key can still be saved" | The server has no `SLATEBOX_KEY_ENCRYPTION_KEY`. Keyless endpoints still work. [Options](../Installation/install-with-docker.md#options) |
+| A key cannot be saved; "A connection without a key can still be saved" | The server has no `SLATEBOX_KEY_ENCRYPTION_KEY`. Keyless endpoints still work.<!-- feature:self-host --> [Options](../Installation/install-with-docker.md#options)<!-- /feature:self-host --> |
 | "This server uses the AI its operator set up" | The operator has turned off people's own AI. |

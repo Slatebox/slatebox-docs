@@ -30,7 +30,7 @@ From the day Private opens, every size includes:
 
 
 - Every feature, the same as Slatebox Cloud and a self-hosted Slatebox.
-- Sign-in through your own identity provider. [Single sign-on](../Installation/single-sign-on.md)
+- Sign-in through your own identity provider.<!-- feature:self-host --> [Single sign-on](../Installation/single-sign-on.md)<!-- /feature:self-host -->
 - Hosting in the EU or the US.
 - Nightly backups, kept off-site for 30 days.
 - A status page and a 99.5% uptime target.
@@ -53,7 +53,7 @@ From the day Private opens, every size includes:
 ## Move in and leave
 
 - **Move in:** when Private opens, a self-hosted Slatebox moves across in one click from its **Admin** page. Your slates, files, accounts, passwords and sign-in settings come with it.
-- **Leave any time with everything, in one command,** from the day Private opens: slates, files, accounts, passwords and sign-in settings, back on your own server, at no cost. [Install with Docker](../Installation/install-with-docker.md)
+- **Leave any time with everything, in one command,** from the day Private opens: slates, files, accounts, passwords and sign-in settings, back on your own server, at no cost.<!-- feature:self-host --> [Install with Docker](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host --> [Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host -->
 - **If Slatebox LLC stops,** you get a working self-hosted copy and 90 days' notice.
 
 [Pricing and free amounts](pricing.md) · [See pricing](https://slatebox.com/plans/#private)

@@ -19,21 +19,27 @@ const files = (await Promise.all(['Using-Slatebox','Examples','Developers','Inst
 const legacy = JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
 // Features that are written but not yet published (scripts/features.json, one true or false each). A page whose front
 // matter says `feature: <name>` is built only while that switch is on: when it is off the page has no address, and is
-// in no navigation, search, sitemap, agent index or Markdown mirror. Inside any page, text between
-// <!-- feature:<name> --> and <!-- /feature:<name> --> is kept only while the switch is on. See readme.md.
+// in no navigation, search, sitemap, agent index or Markdown mirror. `feature: "!<name>"` is the reverse: the page is
+// built only while the switch is off (a stand-in such as "coming soon"). Inside any page, text between
+// <!-- feature:<name> --> and <!-- /feature:<name> --> is kept only while the switch is on, and text between
+// <!-- feature:!<name> --> and <!-- /feature:!<name> --> only while it is off. A held page whose front matter has
+// `whileHeld: /address/` keeps its own address as a redirect to that page while it is held. See readme.md.
 const features = JSON.parse(await readFile('scripts/features.json','utf8'))
-const gate = (text, file) => text.replace(/<!-- feature:([a-z][a-z0-9-]*) -->([\s\S]*?)<!-- \/feature:\1 -->/g, (whole, name, inner) => {
+const switched = (spec, file) => {
+  const name = String(spec).replace(/^!/,'')
   if (typeof features[name] !== 'boolean') throw Error(file+': feature "'+name+'" is not switched in scripts/features.json')
-  return features[name] ? inner : ''
-})
+  return String(spec).startsWith('!') ? !features[name] : features[name]
+}
+const gate = (text, file) => text.replace(/<!-- feature:(!?[a-z][a-z0-9-]*) -->([\s\S]*?)<!-- \/feature:\1 -->/g, (whole, spec, inner) => switched(spec, file) ? inner : '')
+const held = []
 const pages = []
 for (const file of files) {
   const raw = gate(await readFile(file, 'utf8'), file)
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/)
   const meta = match ? yaml(match[1]) : {}
-  if (meta.feature !== undefined) {
-    if (typeof features[meta.feature] !== 'boolean') throw Error(file+': feature "'+meta.feature+'" is not switched in scripts/features.json')
-    if (!features[meta.feature]) continue
+  if (meta.feature !== undefined && !switched(meta.feature, file)) {
+    if (meta.whileHeld) held.push([urlFor(file), meta.whileHeld])
+    continue
   }
   const text = raw.slice(match?.[0].length || 0)
   const title = meta.title || text.match(/^# (.+)$/m)?.[1] || meta.label || path.basename(file,'.md')
@@ -52,7 +58,9 @@ const entries = [
   {url:'/developers/javascriptlibrary/', title:'Build with SlateboxJS',desc:'Draw a node, connect two ideas and save the canvas as JSON.'},
   {url:'/developers/slateboxapi/', title:'Connect your application',desc:'Read a slate and preview a change with a scoped API token.'},
   {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
-  {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one command: this computer, a server or Kubernetes.'}
+  features['self-host']
+    ? {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one command: this computer, a server or Kubernetes.'}
+    : {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox on your own server. The installer and the image are coming soon.'}
 ]
 const demos = {
   river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
@@ -180,7 +188,12 @@ await write('/examples/',layout('Canvas examples','Hands-on guides for using Sla
 await writeFile(path.join(out,'search.json'),JSON.stringify([...pages.map(({url,title,desc,section,terms})=>({url,title,desc,section,terms})),{title:'Canvas examples',url:'/examples/',section:'Examples',desc:'Browse runnable examples.'}]))
 // A removed page keeps its address: a small page with a canonical link and a meta refresh to the
 // page that now answers (scripts/redirects.json). Not in the sitemap or search.
+// A page held by a switch (whileHeld in its front matter) redirects the same way while it is held.
 const redirects = JSON.parse(await readFile('scripts/redirects.json','utf8'))
+for (const [from,to] of held) {
+  if (redirects[from]) throw Error('scripts/redirects.json: '+from+' is a held page with its own whileHeld')
+  redirects[from] = to
+}
 for (const [from,to] of Object.entries(redirects)) {
   if (pages.some(p=>p.url===from)) throw Error('scripts/redirects.json: '+from+' is still a page')
   const target = pages.find(p=>p.url===to.split('#')[0])

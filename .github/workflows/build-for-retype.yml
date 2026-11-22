@@ -15,9 +15,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci && npm run build && npm test
-      # The install guide's first command pulls the image; never publish it first.
+      # The install guide pulls the image; never publish it first. Passes while the guide is held (scripts/features.json "self-host": false).
       - run: node scripts/check-image-published.mjs
-      # Its first command is npx slatebox@latest install; never publish it before the package.
+      # Its first command is npx slatebox@latest install; never publish it before the package. Same switch.
       - run: node scripts/check-installer-published.mjs
       - name: Update the existing static publishing branch
         run: |

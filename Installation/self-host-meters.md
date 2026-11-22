@@ -1,6 +1,9 @@
 ---
 title: A self-hosted Slatebox has no meters
 description: On your own server there are no free amounts, no top-ups and no limits from Slatebox. AI is whatever you and your people connect; calls use your Daily account.
+agentPrompt: >-
+  Help me understand what a Slatebox I run myself pays for and how to turn on limits.
+  Ask whether I want limits at all; if I do, show me the one setting and where an admin changes the free budget.
 ---
 
 # A self-hosted Slatebox has no meters
@@ -18,6 +21,6 @@ To limit use, turn on the same meter Slatebox Cloud uses: set `metering.enabled`
 
 - The free amounts start at the Cloud's. An admin changes the monthly budget and the hold on top-up video in **Admin → Free budget**.
 - Top-ups need your own Stripe keys.
-- Own keys, for AI and calls, need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, as in [Options](install-with-docker.md#options).
+- Own keys, for AI and calls, need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`<!-- feature:self-host -->, as in [Options](install-with-docker.md#options)<!-- /feature:self-host -->.
 
-[Install with Docker](install-with-docker.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)
+<!-- feature:self-host -->[Install with Docker](install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](self-hosting.md)<!-- /feature:!self-host --> · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

@@ -1,4 +1,6 @@
 ---
+feature: self-host
+whileHeld: /installation/self-hosting/
 description: Let people sign in to your own Slatebox with their company account, through the Keycloak built into the image.
 agentPrompt: >-
   Help me turn on single sign-on for my own Slatebox, which runs the image ghcr.io/slatebox/slatebox with Docker or Docker Compose.

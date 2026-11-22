@@ -6,6 +6,14 @@
 //   node scripts/check-image-published.mjs
 import {readFile} from 'node:fs/promises'
 
+// While the install guide is held (scripts/features.json "self-host": false) it is not built, so there is nothing to
+// guard yet and this check passes. Switching the guide back on re-arms it: then the image (and the installer) must exist.
+const features = JSON.parse(await readFile(new URL('./features.json', import.meta.url), 'utf8'))
+if (features['self-host'] !== true) {
+  console.log('The install guide is held (scripts/features.json "self-host" is off); nothing to check until it is published.')
+  process.exit(0)
+}
+
 const guide = await readFile(new URL('../Installation/install-with-docker.md', import.meta.url), 'utf8')
 const names = [...new Set(guide.match(/ghcr\.io\/[a-z0-9._-]+\/[a-z0-9._-]+/g) || [])]
 if (names.length !== 1) {

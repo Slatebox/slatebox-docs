@@ -1,4 +1,6 @@
 ---
+feature: self-host
+whileHeld: /installation/self-hosting/
 description: Run your own Slatebox with one command, on this computer, a server or Kubernetes, with any AI or none.
 agentPrompt: >-
   Help me install my own Slatebox with the slatebox installer from npm (npx -y slatebox@latest).

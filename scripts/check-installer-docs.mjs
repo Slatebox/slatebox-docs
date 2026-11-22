@@ -61,3 +61,26 @@ test('upgrade, back up and move each start with the installer', () => {
   assert.match(move, /secrets\.env/)
   assert.match(move, /npx slatebox restore/)
 })
+
+// The guide is held until the installer and the image are published (scripts/features.json "self-host"). While it is
+// held, it and the single sign-on guide have no page of their own: their addresses redirect to the coming-soon page,
+// and no built page, search entry, sitemap or agent index names them. Switching it on reverses all of that.
+//   (after npm run build)
+test('the install guide is built only while the self-host switch is on', () => {
+  const on = JSON.parse(readFileSync(new URL('./features.json', import.meta.url), 'utf8'))['self-host'] === true
+  const dist = file => new URL('../dist/' + file, import.meta.url)
+  const built = file => { try { return readFileSync(dist(file), 'utf8') } catch { return '' } }
+  for (const file of ['Installation/install-with-docker.md', 'Installation/single-sign-on.md']) {
+    assert.match(readFileSync(new URL('../' + file, import.meta.url), 'utf8'), /^feature: self-host$/m, file + ' is held by the self-host switch')
+  }
+  const index = ['llms.txt', 'search.json', 'sitemap.xml'].map(built).join('\n')
+  for (const url of ['installation/install-with-docker/', 'installation/single-sign-on/']) {
+    const page = built(url + 'index.html')
+    if (on) { assert.ok(page && !page.includes('http-equiv="refresh"'), url + ' is built'); continue }
+    assert.ok(page.includes('<meta http-equiv="refresh" content="0; url=/installation/self-hosting/">'), url + ' redirects to the coming-soon page while held')
+    assert.ok(!index.includes(url) && !index.includes(url.replace('installation/', 'Installation/').replace(/\/$/, '')), url + ' is in an index while held')
+  }
+  const soon = built('installation/self-hosting/index.html')
+  if (on) assert.equal(soon, '', 'the coming-soon page is not built once the guide is published')
+  else assert.match(soon, /Self-hosting is coming soon/)
+})
