@@ -11,7 +11,7 @@ Slatebox is free: unlimited slates, live editing, guests, teams of any size, com
 
 | | Free for every signed-in person | After that |
 | --- | --- | --- |
-| AI drafting | 30 drafts a day | Your own AI key, or top up |
+| AI drafting | 30 drafts a day | Your own AI, or top up |
 | Voice calls you start | About 10 hours of four-person calls a month | Your own Daily key, or top up |
 | Video calls you start | About 2 hours of four-person video a month | Your own Daily key, or top up |
 
@@ -31,13 +31,13 @@ Slatebox is free: unlimited slates, live editing, guests, teams of any size, com
 
 ## Who pays
 
-- **AI:** the person who asks. Their own key is used first, then their free amount, then their balance.
+- **AI:** the person who asks. Their own AI, or their team's, costs nothing on Slatebox. Otherwise their free amount is used, then their balance.
 - **Calls:** the person who starts the call. Joining a call uses nothing of yours. Guests never pay and need no account.
 - Everyone else on the slate pays nothing.
 
 ## Three ways to pay for AI and calls
 
-1. **Your own key.** A DeepInfra key or an OpenAI-compatible endpoint for AI, a Daily key for calls. We charge nothing and set no limit. [Use your own keys](own-keys.md)
+1. **Your own key.** For AI, a cloud provider with your key or any OpenAI-compatible endpoint, chosen per feature. For calls, a Daily key. We charge nothing and set no limit. [Choose your AI](choose-your-ai.md) · [Use your own keys](own-keys.md)
 2. **The free amount** above, every month.
 3. **A balance you top up**, from $10, at what the AI provider or Daily charges us plus 5%. The card fee shows as its own line before you pay. [Top-ups and refunds](top-ups.md)
 

@@ -1,6 +1,6 @@
 ---
 title: A self-hosted Slatebox has no meters
-description: On your own server there are no free amounts, no top-ups and no limits from Slatebox. AI and calls use your own provider and Daily account.
+description: On your own server there are no free amounts, no top-ups and no limits from Slatebox. AI is whatever you and your people connect; calls use your Daily account.
 ---
 
 # A self-hosted Slatebox has no meters
@@ -9,7 +9,7 @@ A Slatebox you run yourself has no free amounts, no top-ups and no limits from u
 
 | | Paid by |
 | --- | --- |
-| AI | The provider you set with `SLATEBOX_AI_KEY` or `SLATEBOX_AI_URL` (the server's `selfHosted.workshopProvider`): a key, or a model server on your network. |
+| AI | Whatever you and your people connect, local or cloud. The server's AI is set with `SLATEBOX_AI_URL` or `SLATEBOX_AI_CONFIG` (the app's `settings.ai`); people add their own in **Profile → AI**. [Choose your AI](../Using-Slatebox/choose-your-ai.md) |
 | Calls | Your own Daily account, with its key in `SLATEBOX_SETTINGS`. A free Daily account includes 10,000 participant-minutes a month. |
 
 ## Turn on limits
@@ -18,6 +18,6 @@ To limit use, turn on the same meter Slatebox Cloud uses: set `metering.enabled`
 
 - The free amounts start at the Cloud's. An admin changes the monthly budget and the hold on top-up video in **Admin → Free budget**.
 - Top-ups need your own Stripe keys.
-- Own keys need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, as in [Options](install-with-docker.md#options).
+- Own keys, for AI and calls, need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, as in [Options](install-with-docker.md#options).
 
 [Install with Docker](install-with-docker.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

@@ -45,7 +45,8 @@ test('top-ups, own keys and self-host say what builder A built', () => {
   const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
   for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
   for (const words of ['Free this month', 'Team settings', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'last four characters', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
-  for (const words of ['no meters', 'selfHosted.workshopProvider', '10,000', 'metering']) assert.ok(host.includes(words), 'self-host-meters.md does not say ' + words)
+  // Restated (feat/any-ai-selfhost): the image writes the operator's AI to settings.ai (ai-config.mjs).
+  for (const words of ['no meters', 'settings.ai', '10,000', 'metering']) assert.ok(host.includes(words), 'self-host-meters.md does not say ' + words)
   assert.match(read('Installation/install-with-docker.md'), /\(self-host-meters\.md\)/, 'the Docker guide links the no-meters page')
   assert.match(read('Using-Slatebox/readme.md'), /\(pricing\.md\)/, 'the user guide links the pricing page')
 })
@@ -84,11 +85,14 @@ test('Developers links to the app source on GitHub only when that repository ans
 test('the money claims match the app: own keys, images, the card fee, refunds, call limits and self-host settings', () => {
   const pricing = read('Using-Slatebox/pricing.md'), top = read('Using-Slatebox/top-ups.md')
   const keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
-  // An own AI key covers AI only (policy.mjs ownKeyCovers): image search and image generation use the free amount, then the balance.
-  const deepinfra = keys.split('\n').find(line => line.startsWith('| DeepInfra key')) || ''
-  assert.doesNotMatch(deepinfra, /image/i, 'own-keys.md: a DeepInfra key does not pay for image search or image generation')
+  // Restated (feat/any-ai, connections.mjs): image search is always the built-in service, so it uses the free amount,
+  // then the balance. Image generation does too, unless the person chose for Generating images an own connection that
+  // makes images (capabilities.images true); an own key saved before choices existed never makes images (fromLegacy).
+  const ai = keys.split('\n').find(line => line.startsWith('| Your own AI')) || ''
+  assert.doesNotMatch(ai, /image search/i, 'own-keys.md: own AI does not pay for image search')
   assert.doesNotMatch(keys, /Your free amount and your balance are left untouched\./, 'own-keys.md: images still use the free amount and the balance')
-  assert.match(keys, /Image search and image generation[^.]*free amount, then your balance/, 'own-keys.md: say images use the free amount, then the balance')
+  assert.match(keys, /Image search[^.]*free amount, then your balance/, 'own-keys.md: say image search uses the free amount, then the balance')
+  assert.match(keys, /Image generation[^.]*unless you choose[^.]*makes images[^.]*\*\*Generating images\*\*/, 'own-keys.md: image generation is yours only with a connection that makes images, chosen for Generating images')
   // Images are not drafts (holds.mjs: a draft is kind ai): they use the month's free AI.
   assert.doesNotMatch(pricing, /each image search and each image generation is one draft/i, 'pricing.md: images are not drafts')
   assert.doesNotMatch(pricing, /\| AI drafting and image search \|/, 'pricing.md: image search is not in the 30 drafts a day')

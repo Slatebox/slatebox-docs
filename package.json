@@ -2,6 +2,6 @@
   "name": "slatebox-documentation",
   "private": true,
   "type": "module",
-  "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/check.mjs && node scripts/check-style.mjs && node --test scripts/check-exec-docs.mjs scripts/check-pricing.mjs scripts/check-redirects.mjs scripts/check-installer-docs.mjs"},
+  "scripts": {"build": "node scripts/build.mjs", "test": "node scripts/check.mjs && node scripts/check-style.mjs && node --test scripts/check-exec-docs.mjs scripts/check-pricing.mjs scripts/check-redirects.mjs scripts/check-installer-docs.mjs scripts/check-ai-docs.mjs"},
   "dependencies": {"marked":"15.0.12","github-slugger":"2.0.0","yaml":"2.8.1"}
 }
