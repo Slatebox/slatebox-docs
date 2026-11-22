@@ -5,7 +5,7 @@ description: Slatebox is free. AI and calls come with a free amount each month. 
 
 # Pricing and free amounts
 
-Slatebox is free: unlimited slates, live editing, guests, teams of any size, comments, presenting, publishing, the API, the CLI and the MCP server. Only AI and calls are metered, because each one costs us money. Every signed-in person gets a free amount of both each month. [See pricing](https://slatebox.com/plans/)
+Slatebox is free: unlimited slates, live editing, guests, teams of any size, comments, presenting, publishing, the API, the CLI and the MCP server. No feature or seat subscriptions. Ever. Only AI and calls are metered, because each one costs us money. Every signed-in person gets a free amount of both each month. [See pricing](https://slatebox.com/plans/)
 
 ## What is free
 
@@ -63,3 +63,7 @@ The 100% rules also apply for the rest of any day (UTC) in which free use reache
 ## Self-hosted Slatebox
 
 A Slatebox you run yourself has no meters. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+
+## Slatebox Private
+
+A private Slatebox for one company, run by us on its own server and billed yearly by size: Small $6,000 a year, Medium $24,000 a year (coming soon), Large from $60,000 a year by quote. Each size includes video calls and AI each month; your own keys stay free. [Slatebox Private](slatebox-private.md)

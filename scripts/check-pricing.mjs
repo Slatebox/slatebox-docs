@@ -14,11 +14,12 @@ const pages = {
   'Using-Slatebox/own-keys.md': ['Use your own keys', '/using-slatebox/own-keys/'],
   'Using-Slatebox/top-ups.md': ['Top-ups and refunds', '/using-slatebox/top-ups/'],
   'Installation/self-host-meters.md': ['A self-hosted Slatebox has no meters', '/installation/self-host-meters/'],
+  'Using-Slatebox/slatebox-private.md': ['Slatebox Private', '/using-slatebox/slatebox-private/'],
 }
 const walk = dir => readdirSync(dir).flatMap(name => statSync(join(dir, name)).isDirectory() ? walk(join(dir, name)) : [join(dir, name)])
 const docs = ['Using-Slatebox', 'Examples', 'Developers', 'Installation'].flatMap(walk).filter(file => file.endsWith('.md'))
 
-test('the four pricing pages exist, carry their titles and are in the built navigation', () => {
+test('the five pricing pages exist, carry their titles and are in the built navigation', () => {
   const index = read('dist/using-slatebox/index.html') // every guide page carries the documentation navigation
   for (const [file, [title, url]] of Object.entries(pages)) {
     assert.ok(existsSync(file), file + ' is missing')
@@ -39,6 +40,20 @@ test('the free amounts, the margin and the budget are stated, and match the pric
   const text = read(page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toLowerCase()
   for (const words of numbers) assert.ok(text.includes(words.toLowerCase()), 'the site pricing page does not say ' + words)
   assert.ok(text.includes('plus 5%') && pricing.includes('plus 5%'), 'both say "plus 5%"')
+})
+
+test('Slatebox Private: three yearly sizes, Medium not for sale, nothing to buy, and the site says the same', () => {
+  const priv = read('Using-Slatebox/slatebox-private.md')
+  for (const words of ['$6,000 a year ($500/mo, billed yearly)', '$24,000 a year', 'Coming soon, not for sale yet', 'From $60,000 a year, by quote', '15,000 participant-minutes', '3,000 drafts', '100 GB',
+    'one provider', 'Your own keys are free', '$2,400 a year', 'plus 20%', '30 days of go-live', 'Leave any time with everything, in one command', 'No feature or seat subscriptions. Ever.', 'mailto:tim@slatebox.com?subject=Slatebox%20Private%20waitlist'])
+    assert.ok(priv.includes(words), 'slatebox-private.md does not say ' + words)
+  assert.doesNotMatch(priv, /checkout|buy now|\]\(https:\/\/[^)]*stripe/i, 'Private sells nothing yet')
+  assert.match(read('Using-Slatebox/pricing.md'), /\(slatebox-private\.md\)/, 'the pricing page links Slatebox Private')
+  const site = resolve(process.env.SITE_DIR || '../../slatebox-home-session'), page = join(site, 'plans/index.html')
+  if (!existsSync(page)) return console.log('SKIPPED: no marketing site at ' + site)
+  const text = read(page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
+  if (!text.includes('Slatebox Private')) return console.log('SKIPPED: the marketing site at ' + site + ' has no Private section yet')
+  for (const words of ['$6,000', '$500/mo, billed yearly', '$24,000', '$60,000', '15,000 participant-minutes', '3,000 drafts a month', '$2,400 a year', 'plus 20%']) assert.ok(text.includes(words), 'the site pricing page does not say ' + words)
 })
 
 test('top-ups, own keys and self-host say what builder A built', () => {
