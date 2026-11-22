@@ -1,5 +1,6 @@
 ---
 title: Slatebox Private
+feature: private
 description: A private Slatebox for one company, run by us on its own server. Billed yearly by size. Join the waitlist.
 ---
 

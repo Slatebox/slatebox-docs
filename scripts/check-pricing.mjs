@@ -14,18 +14,41 @@ const pages = {
   'Using-Slatebox/own-keys.md': ['Use your own keys', '/using-slatebox/own-keys/'],
   'Using-Slatebox/top-ups.md': ['Top-ups and refunds', '/using-slatebox/top-ups/'],
   'Installation/self-host-meters.md': ['A self-hosted Slatebox has no meters', '/installation/self-host-meters/'],
-  'Using-Slatebox/slatebox-private.md': ['Slatebox Private', '/using-slatebox/slatebox-private/'],
 }
+// Slatebox Private is written but not published until a measured load test backs its figures: scripts/features.json
+// switches it (default off), and the build leaves the page and every <!-- feature:private --> block out while it is off.
+const privateOn = JSON.parse(read('scripts/features.json')).private === true
+const privatePage = ['Using-Slatebox/slatebox-private.md', ['Slatebox Private', '/using-slatebox/slatebox-private/']]
+if (privateOn) pages[privatePage[0]] = privatePage[1]
 const walk = dir => readdirSync(dir).flatMap(name => statSync(join(dir, name)).isDirectory() ? walk(join(dir, name)) : [join(dir, name)])
 const docs = ['Using-Slatebox', 'Examples', 'Developers', 'Installation'].flatMap(walk).filter(file => file.endsWith('.md'))
 
-test('the five pricing pages exist, carry their titles and are in the built navigation', () => {
+test('the pricing pages exist, carry their titles and are in the built navigation', () => {
   const index = read('dist/using-slatebox/index.html') // every guide page carries the documentation navigation
   for (const [file, [title, url]] of Object.entries(pages)) {
     assert.ok(existsSync(file), file + ' is missing')
     assert.match(read(file), new RegExp('^# ' + title + '$', 'm'), file + ' should be titled ' + title)
     assert.ok(existsSync(join('dist', url, 'index.html')), url + ' was not built')
     assert.ok(index.includes('href="' + url + '" '), url + ' is not in the navigation')
+  }
+})
+
+test('Slatebox Private is published only when its switch is on', () => {
+  const [file, [title, url]] = privatePage
+  assert.match(read(file), /^feature: private$/m, file + ' is held by the private switch')
+  assert.match(read(file), new RegExp('^# ' + title + '$', 'm'))
+  const built = ['dist/using-slatebox/index.html', 'dist/using-slatebox/pricing/index.html', 'dist/search.json', 'dist/sitemap.xml', 'dist/llms.txt'].map(read).join('\n')
+  if (privateOn) {
+    assert.ok(existsSync(join('dist', url, 'index.html')), url + ' was not built')
+    assert.match(read('dist/using-slatebox/pricing/index.html'), /Slatebox Private/)
+    return
+  }
+  assert.ok(!existsSync(join('dist', url)), url + ' was built while Private is switched off')
+  assert.ok(!existsSync(join('dist', file)), file + ' was mirrored while Private is switched off')
+  assert.doesNotMatch(built, /slatebox-private|Slatebox Private|\$6,000|\$24,000|\$60,000|waitlist/i, 'a built page, the search index, the sitemap or the agent index mentions Private')
+  for (const page of docs.filter(page => page !== file)) {
+    const text = read(page).replace(/<!-- feature:private -->[\s\S]*?<!-- \/feature:private -->/g, '')
+    assert.doesNotMatch(text, /slatebox-private\.md|Slatebox Private/, page + ' mentions Private outside a <!-- feature:private --> block')
   }
 })
 
@@ -51,7 +74,9 @@ test('Slatebox Private: three yearly sizes, Medium not for sale, nothing to buy,
   assert.match(read('Using-Slatebox/pricing.md'), /\(slatebox-private\.md\)/, 'the pricing page links Slatebox Private')
   const site = resolve(process.env.SITE_DIR || '../../slatebox-home-session'), page = join(site, 'plans/index.html')
   if (!existsSync(page)) return console.log('SKIPPED: no marketing site at ' + site)
-  const text = read(page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
+  // The site keeps Private behind its own switch (site/features.json); its section then lives in a partial.
+  const partial = join(site, 'site/features/private/plans-section.html')
+  const text = read(existsSync(partial) ? partial : page).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
   if (!text.includes('Slatebox Private')) return console.log('SKIPPED: the marketing site at ' + site + ' has no Private section yet')
   for (const words of ['$6,000', '$500/mo, billed yearly', '$24,000', '$60,000', '15,000 participant-minutes', 'About $100 of AI a month', 'About $400 of AI a month', 'about $100 of AI a month', 'teams of 50 to 100', 'teams of 200 to 400', 'adds 20,000 participant-minutes', '$2,400 a year', 'plus 5%, the same as Cloud top-ups', 'No feature or seat subscriptions. Ever.']) assert.ok(text.includes(words), 'the site pricing page does not say ' + words)
   // AI on Private is counted in dollars of provider cost, as the app catalogue states it, never in drafts.

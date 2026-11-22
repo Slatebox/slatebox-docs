@@ -64,6 +64,8 @@ The 100% rules also apply for the rest of any day (UTC) in which free use reache
 
 A Slatebox you run yourself has no meters. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
 
+<!-- feature:private -->
 ## Slatebox Private
 
 A private Slatebox for one company, run by us on its own server and billed yearly by size: Small $6,000 a year, Medium $24,000 a year (coming soon), Large from $60,000 a year by quote. Each size includes video calls and AI each month; your own keys stay free. [Slatebox Private](slatebox-private.md)
+<!-- /feature:private -->

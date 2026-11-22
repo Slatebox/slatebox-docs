@@ -17,11 +17,24 @@ async function walk(dir) {
 }
 const files = (await Promise.all(['Using-Slatebox','Examples','Developers','Installation'].map(walk))).flat().filter(f=>f.endsWith('.md'))
 const legacy = JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
+// Features that are written but not yet published (scripts/features.json, one true or false each). A page whose front
+// matter says `feature: <name>` is built only while that switch is on: when it is off the page has no address, and is
+// in no navigation, search, sitemap, agent index or Markdown mirror. Inside any page, text between
+// <!-- feature:<name> --> and <!-- /feature:<name> --> is kept only while the switch is on. See readme.md.
+const features = JSON.parse(await readFile('scripts/features.json','utf8'))
+const gate = (text, file) => text.replace(/<!-- feature:([a-z][a-z0-9-]*) -->([\s\S]*?)<!-- \/feature:\1 -->/g, (whole, name, inner) => {
+  if (typeof features[name] !== 'boolean') throw Error(file+': feature "'+name+'" is not switched in scripts/features.json')
+  return features[name] ? inner : ''
+})
 const pages = []
 for (const file of files) {
-  const raw = await readFile(file, 'utf8')
+  const raw = gate(await readFile(file, 'utf8'), file)
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/)
   const meta = match ? yaml(match[1]) : {}
+  if (meta.feature !== undefined) {
+    if (typeof features[meta.feature] !== 'boolean') throw Error(file+': feature "'+meta.feature+'" is not switched in scripts/features.json')
+    if (!features[meta.feature]) continue
+  }
   const text = raw.slice(match?.[0].length || 0)
   const title = meta.title || text.match(/^# (.+)$/m)?.[1] || meta.label || path.basename(file,'.md')
   const section = file.startsWith('Examples/') ? 'Examples' : file.startsWith('Installation/') ? 'Self-hosting' : file.startsWith('Using-Slatebox/') ? 'Using Slatebox' : file.includes('SlateboxAPI/') ? 'HTTP API' : 'SlateboxJS'
