@@ -86,8 +86,10 @@ test('agents set and test AI through exec and the API, with the right permission
   for (const route of ['GET /api/v1/ai', 'PUT /api/v1/ai', 'POST /api/v1/ai/check', 'slatebox.ai.update', 'slatebox.ai.check', 'slatebox.ai.get', '`ai:settings`', '`ai:admin`']) {
     assert.ok(text.includes(route), 'the page does not name ' + route)
   }
-  // The CLI is slatebox exec: the contract's command names ai, ai-set and ai-check are not CLI commands.
-  for (const file of docs) assert.doesNotMatch(read(file), /slatebox (ai-set|ai-check)\b|npx[^\n]*slatebox ai\b/, file + ' names a CLI command the slatebox CLI does not have')
+  // The CLI is slatebox exec: the contract's command names ai-set and ai-check are not CLI commands. The installer in the
+  // same package does have `slatebox ai add|use|test|list|remove|off` (packages/slatebox/src/cli.mjs), for the install it
+  // made; any other `slatebox ai` is not a command.
+  for (const file of docs) assert.doesNotMatch(read(file), /slatebox (ai-set|ai-check)\b|npx[^\n]*slatebox ai\b(?! (add|use|test|list|remove|off)\b)/, file + ' names a CLI command the slatebox CLI does not have')
   let scripts = 0
   for (const block of blocks(text)) {
     if (block.lang === 'json') assert.doesNotThrow(() => JSON.parse(block.text), PAGE + ' has invalid JSON')
@@ -107,8 +109,11 @@ test('agents set and test AI through exec and the API, with the right permission
 test('no page names a model, favours a runner or ties AI to a bundled local model', () => {
   const models = /\b(gpt-?\d|gpt-4o|claude-\d|claude-(3|sonnet|opus|haiku)|llama ?\d|llama3|qwen|deepseek|mistral|mixtral|gemma|phi-\d|inkling)\b/i
   const runners = /\b(ollama|lm ?studio|llama\.cpp|vllm)\b/i
+  // The installer's provider kinds are its interface (packages/slatebox/src/answers.mjs PROVIDER_KINDS): the self-host
+  // page lists them as `kind` values, which names no model and favours no runner. Prose and model names stay banned.
+  const installerKinds = /`(ollama|lmstudio|mistral)`|\bkind[=:] ?(ollama|lmstudio|mistral)\b/g
   for (const file of [PAGE, 'Installation/install-with-docker.md', 'Installation/self-host-meters.md', 'Using-Slatebox/own-keys.md', 'Using-Slatebox/pricing.md']) {
-    const text = existsSync(file) ? read(file) : ''
+    const text = existsSync(file) ? read(file).replace(file === 'Installation/install-with-docker.md' ? installerKinds : /$^/, '') : ''
     assert.doesNotMatch(text, models, file + ' names a model; use a placeholder such as your-model-name')
     assert.doesNotMatch(text, runners, file + ' names a model runner; any OpenAI-compatible endpoint works')
   }

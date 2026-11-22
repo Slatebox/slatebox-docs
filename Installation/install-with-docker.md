@@ -5,7 +5,7 @@ agentPrompt: >-
   First run npx -y slatebox@latest agent-prompt and follow the brief it prints exactly.
   Ask me, do not guess: where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes with which context and namespace, or files only),
   the domain name for HTTPS or the port, the admin email, and the AI: none for now, or which providers and models.
-  Slatebox has no default AI provider: any of OpenAI, Anthropic, DeepInfra, OpenRouter, Groq, Together, Mistral, or an OpenAI-compatible endpoint I run (Ollama, vLLM, LM Studio).
+  Slatebox has no default AI provider: any cloud provider the installer lists, or any OpenAI-compatible endpoint I run, on this computer or in my company.
   Never write a key into a file or a flag: ask me to export each key in an environment variable and pass key=env:NAME.
   Write slatebox.yaml, run npx -y slatebox@latest plan --answers slatebox.yaml --json, and show me the whole plan.
   Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them.
@@ -93,8 +93,8 @@ adminEmail: ops@example.com
 ai:
   mode: providers          # or: none
   providers:
-    - { id: local, kind: ollama, model: "qwen3:8b" }
-    - { id: claude, kind: anthropic, model: claude-sonnet-4-5, keyFrom: "env:ANTHROPIC_API_KEY" }
+    - { id: local, kind: ollama, model: your-local-model }
+    - { id: cloud, kind: anthropic, model: your-model-name, keyFrom: "env:ANTHROPIC_API_KEY" }
   default: local
 sso: { enabled: false }
 ```
@@ -132,23 +132,23 @@ Slatebox is not tied to any AI provider, and the installer never picks one. Answ
 | --- | --- |
 | `openai`, `anthropic`, `deepinfra`, `openrouter`, `groq`, `together`, `mistral` | `model` and a key |
 | `ollama`, `lmstudio` | `model`; no key |
-| `openai-compatible` | `url` and `model` of any OpenAI-compatible endpoint you run (vLLM, a company gateway); a key if it needs one |
+| `openai-compatible` | `url` and `model` of any OpenAI-compatible endpoint you run (a model server of your own, a company gateway); a key if it needs one |
 
 <!-- tabs -->
 
 ```sh Cloud
 export OPENAI_API_KEY=your-openai-key
-npx slatebox@latest install --ai-provider "kind=openai,model=gpt-5-mini,key=env:OPENAI_API_KEY"
+npx slatebox@latest install --ai-provider "kind=openai,model=your-model-name,key=env:OPENAI_API_KEY"
 ```
 
 ```sh Local
-npx slatebox@latest install --ai-provider "kind=ollama,model=qwen3:8b"
+npx slatebox@latest install --ai-provider "kind=ollama,model=your-local-model"
 ```
 
 ```sh Both
 npx slatebox@latest install \
-  --ai-provider "id=local,kind=ollama,model=qwen3:8b" \
-  --ai-provider "kind=anthropic,model=claude-sonnet-4-5,key=env:ANTHROPIC_API_KEY" \
+  --ai-provider "id=local,kind=ollama,model=your-local-model" \
+  --ai-provider "kind=anthropic,model=your-model-name,key=env:ANTHROPIC_API_KEY" \
   --ai-default local
 ```
 
@@ -167,7 +167,7 @@ Change it later, from the computer that installed:
 <!-- tabs -->
 
 ```sh Shell
-npx slatebox ai add "kind=groq,model=llama-3.3-70b-versatile,key=env:GROQ_API_KEY"
+npx slatebox ai add "kind=groq,model=your-model-name,key=env:GROQ_API_KEY"
 npx slatebox ai use local       # the default; also: list, remove <id>, off
 npx slatebox ai test            # from inside the container: model, tool calls, latency
 ```
