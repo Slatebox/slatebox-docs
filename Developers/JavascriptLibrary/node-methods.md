@@ -10,96 +10,93 @@ Read https://docs.slatebox.com/Developers/JavascriptLibrary/node-methods.md firs
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/node-methods.md.
 ```
 
-Edit the node returned by `slate.addNode()`. The examples extend the [quick slate](readme.md#quick-slate).
+Change a note through the node that `slate.addNode()` returns. The examples use `evidence` and `decision` from the [quick slate](readme.md#quick-slate).
 
-## position
+## Position, size and rotation
 
-```js
+<!-- tabs -->
+
+```js JavaScript
 decision.position(330, 140)
 decision.setSize(200, 80)
 decision.setRotation(12)
 ```
 
-Position is expressed in diagram coordinates and rotation in degrees. [Motion and easing](easing.md)
+```ts TypeScript
+import type { Node } from 'slateboxjs'
 
-## editor.set
+declare const decision: Node
 
-Older examples use nested editor, resize and color-picker helpers. The direct API accepts text and geometry through node methods.
+decision.position(330, 140)
+decision.setSize(200, 80)
+decision.setRotation(12)
+```
 
-```js
+<!-- /tabs -->
+
+Positions and sizes are in board coordinates. Angles are in degrees. To animate a rotation, add a duration in milliseconds: `decision.setRotation(90, 200)`. [Motion and easing](easing.md)
+
+## Text, colors and shape
+
+<!-- tabs -->
+
+```js JavaScript
 evidence.setText('Four rider interviews')
 evidence.setColors('#cbe8d2', '#385c49')
 evidence.setShape('ellipse')
 ```
 
-## toFront
+```ts TypeScript
+import type { Node } from 'slateboxjs'
 
-`decision.toFront()` raises the node above overlapping items.
+declare const evidence: Node
 
-## toBack
+evidence.setText('Four rider interviews')
+evidence.setColors('#cbe8d2', '#385c49')
+evidence.setShape('ellipse')
+```
 
-`decision.toBack()` sends it behind other items.
+<!-- /tabs -->
 
-## hide
+`setColors(backgroundColor, borderColor)` sets the fill and border. `setShape(shape, vectorPath)` takes optional SVG path data as its second argument.
 
-`decision.hide()` hides the rendered node.
+## Order, visibility and locks
 
-## show
+| Method | Effect |
+| --- | --- |
+| `toFront()` | Raises the note above overlapping items |
+| `toBack()` | Sends the note behind other items |
+| `hide()`, `show()` | Hides the rendered note, then shows it again |
+| `lock()`, `unlock()` | Locks the note against interactive edits, then releases it |
 
-`decision.show()` shows it again. To remove it from the document use `slate.removeNode(decision.id)`.
+To delete a note from the document, call `slate.removeNode(decision.id)`.
 
-## Lock and unlock
+## Images and links
 
-`decision.lock()` and `decision.unlock()` change its editing lock. For connections, operate on the node’s relationships manager. [Relationship methods](association-methods.md)
+<!-- tabs -->
 
-## move
+```js JavaScript
+decision.images.set('https://example.com/bench.png', 64, 64)
+decision.links.set({ type: 'url', data: 'https://slatebox.com' })
+```
 
-Migrate coordinate moves to `node.position(x, y)`. [Position](#position)
+```ts TypeScript
+import type { Node } from 'slateboxjs'
 
-## resize.set
+declare const decision: Node
 
-Use `node.setSize(width, height)` to resize the node in board coordinates.
+decision.images.set('https://example.com/bench.png', 64, 64)
+decision.links.set({ type: 'url', data: 'https://slatebox.com' })
+```
 
-## rotate.set
+<!-- /tabs -->
 
-Use `node.setRotation(angle)` for an absolute angle in degrees.
+`images.set(url, width, height)` fills the note with an image. Use an address your readers can load. `images.clear()` removes the image and `links.unset()` removes the link.
 
-## spin
+## Filters
 
-For a visible rotation to a target angle, supply a duration in milliseconds, for example `node.setRotation(90, 200)`.
+`node.filters.apply(name)` adds a named effect. `node.filters.isActive(name)` reports it and `node.filters.remove(name)` removes it. `getFilterNames()`, exported by `slateboxjs`, lists the registered names.
 
-## zoom
+## Zoom and connections
 
-Zoom belongs to the viewport. `slate.zoomAtPoint(level, point)` anchors a zoom at a point. [Viewport methods](slate-methods.md#canvaszoom)
-
-## disable
-
-Use `node.lock()` when the intent is to lock an item against interactive edits.
-
-## enable
-
-Use `node.unlock()` to release the lock.
-
-## colorPicker.set
-
-`node.setColors(backgroundColor, borderColor)` updates the fill and border in the direct API.
-
-## customShapes.set
-
-Use `node.setShape(shape, vectorPath)` to update a shape. The optional second argument supplies SVG path data.
-
-## images.set
-
-Use `node.images.set(url, width, height)` for an image fill and `node.images.clear()` to remove it. Use an image origin available to your readers.
-
-## links.set
-
-`node.links.set({type: 'url', data: 'https://slatebox.com'})` attaches a URL.
-
-## links.unset
-
-`node.links.unset()` removes the existing link.
-
-## toggleFilters
-
-When porting an old global filter toggle, identify the named filter being used. The current filter manager exposes per-filter state through `isActive(name)` and removal through `remove(name)`.
+Zoom belongs to the slate: see [zoom and pan](slate-methods.md#zoom-and-pan). Connections belong to the note's relationships: see [relationship methods](association-methods.md).

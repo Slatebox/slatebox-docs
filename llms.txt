@@ -4,15 +4,19 @@ Official guides for using the app, building with SlateboxJS, calling the HTTP AP
 
 Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt).
 
-[Hosted OpenAPI schema](https://api.slatebox.com/v1/openapi.json)
+[OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)
 
 For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.
 
-[Current self-host release record](https://docs.slatebox.com/assets/self-host/release.json) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/self-host/release.json)
-
 ## Using Slatebox
 
+- [Choose your AI](https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/choose-your-ai.md)
+- [Export and import Mermaid](https://docs.slatebox.com/Using-Slatebox/mermaid.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/mermaid.md)
+- [Pricing and free amounts](https://docs.slatebox.com/Using-Slatebox/pricing.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/pricing.md)
+- [Slatebox Private](https://docs.slatebox.com/Using-Slatebox/slatebox-private.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-private.md)
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
+- [Top-ups and refunds](https://docs.slatebox.com/Using-Slatebox/top-ups.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md)
+- [Use your own keys](https://docs.slatebox.com/Using-Slatebox/own-keys.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/own-keys.md)
 
 ## SlateboxJS
 
@@ -27,19 +31,19 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Slate methods](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-methods.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/slate-methods.md)
 - [Slate options](https://docs.slatebox.com/Developers/JavascriptLibrary/slate-properties.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/slate-properties.md)
 - [SlateboxJS](https://docs.slatebox.com/Developers/JavascriptLibrary/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/readme.md)
-- [SlateboxJS 2.x and the current canvas](https://docs.slatebox.com/Developers/slateboxjs-api.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/slateboxjs-api.md)
 - [Use the interactive boards](https://docs.slatebox.com/Developers/JavascriptLibrary/creative-slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/creative-slates.md)
 
 ## HTTP API
 
 - [Edit a shared slate from a terminal or an agent](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md)
-- [Manage team access](https://docs.slatebox.com/Developers/SlateboxAPI/organizations.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/organizations.md)
+- [Exec: how agents work with Slatebox](https://docs.slatebox.com/Developers/SlateboxAPI/exec.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/exec.md)
 - [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/slates.md)
 - [Slatebox HTTP API](https://docs.slatebox.com/Developers/SlateboxAPI/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/readme.md)
 
 ## Self-hosting
 
-- [Host a Slatebox instance](https://docs.slatebox.com/Installation/install-with-docker.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md)
+- [A self-hosted Slatebox has no meters](https://docs.slatebox.com/Installation/self-host-meters.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/self-host-meters.md)
+- [Run your own Slatebox](https://docs.slatebox.com/Installation/self-hosting.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/self-hosting.md)
 
 ## Examples
 

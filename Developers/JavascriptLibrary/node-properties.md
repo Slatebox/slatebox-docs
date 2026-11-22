@@ -10,7 +10,7 @@ Read https://docs.slatebox.com/Developers/JavascriptLibrary/node-properties.md f
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/JavascriptLibrary/node-properties.md.
 ```
 
-Pass node options to `slate.addNode(options)`. Supply unique IDs when linking imported records to a diagram.
+Pass these options to `slate.addNode(options)`. Give each note a unique ID when it stands for a record in your data.
 
 | Option | Example | Meaning |
 | --- | --- | --- |
@@ -22,4 +22,4 @@ Pass node options to `slate.addNode(options)`. Supply unique IDs when linking im
 | `fontFamily`, `fontSize`, `fontColor` | `'sans-serif'`, `16`, `'#19271c'` | Label typography |
 | `backgroundColor`, `borderColor`, `borderWidth` | `'#dbe9d8'`, `'#394a39'`, `2` | Shape appearance |
 
-When adapting a legacy integration, use `x` and `y` for `xPos` and `yPos`, `shape` for `shapeHint`, and `fontColor` for `foregroundColor`. Change a rendered node through its methods so the SVG and its model are updated together. [Node methods](node-methods.md)
+To change a note after it is drawn, use its methods. They update the drawing and the saved model together. [Node methods](node-methods.md)

@@ -12,28 +12,30 @@ If your client cannot fetch the documentation, read the same published file at h
 
 ## Turn interviews into a test
 
-In the research example, one customer wants a sample file and another wants to undo an import. Follow both arrows to the concern they share. The final note proposes a reversible preview. [See the research slate](https://slatebox.com/use-cases/research-synthesis/)
+In the [research example](https://slatebox.com/use-cases/research-synthesis/), one customer wants a sample file and another wants to undo an import. Both arrows lead to a shared concern, and the last note proposes a reversible preview.
 
-Choose **Open the research slate**. Replace one sample quote with words from your own interview. Move it and check where its connector leads. Invite your designer to edit the proposed test, then present the drawing together. [Share a slate](../Using-Slatebox/readme.md#work-with-a-team)
+1. Choose **Open the research slate**.
+2. Replace one sample quote with words from your own interview. Move it and check where its connector leads.
+3. Invite your designer to edit the proposed test, then present the drawing together.
+
+[Share a slate](../Using-Slatebox/readme.md#work-with-a-team)
 
 ## Allocate a pilot budget
 
-A founder has $600 for onboarding research. A $200 newsletter placement gets the team in front of a partner’s audience. The same $200 covers two assisted imports in which the team can watch customers use the product.
+A founder has $600 for onboarding research. $200 buys a newsletter placement in front of a partner’s audience, or two assisted imports where the team watches customers use the product.
 
-1. Choose **Open the $600 pilot budget** on the workshop page. Your private slate opens with $400 unallocated. [Open the workshop page](https://slatebox.com/product/workshops/)
-2. In your slate, drag **Second $200** to **Concierge onboarding**. With a keyboard, focus **Second $200**, press Enter, then focus **Concierge onboarding** and press Enter again. The lane now funds two assisted imports.
-3. Invite your cofounder to edit the slate. Move a different allocation together, then choose **Present** to review what each channel can fund. Reopen the slate after the first customer session to decide where the next $200 goes.
+1. On the [workshop page](https://slatebox.com/product/workshops/), choose **Open the $600 pilot budget**. Your private slate opens with $400 unallocated.
+2. Drag **Second $200** to **Concierge onboarding**. From the keyboard: focus **Second $200**, press Enter, focus **Concierge onboarding**, press Enter. The lane now funds two assisted imports.
+3. Invite your cofounder to edit. Move an allocation together, then choose **Present** to review what each channel funds.
+4. After the first customer session, reopen the slate and decide where the next $200 goes.
 
-## Render the same workshop in your app
+## Put the budget board in your app
 
-Give the SlateboxJS budget model to a DOM element. This example renders the allocations as movable cards and reports how many assisted imports the team can fund. Drag a $200 card into the concierge lane to update the total.
+`mountWorkshop` draws the budget as movable cards in a plain DOM element and reports how many assisted imports the plan funds. Your page needs `<div id="pilot-budget"></div>` and `<p id="assisted-imports" aria-live="polite"></p>`. Use a bundled project with [the `slateboxjs` package](../Developers/JavascriptLibrary/readme.md) and its React peers installed.
 
-```html
-<div id="pilot-budget"></div>
-<p aria-live="polite" id="assisted-imports"></p>
-```
+<!-- tabs -->
 
-```js
+```js JavaScript
 import 'slateboxjs/style.css'
 import { mountWorkshop } from 'slateboxjs/workshops/mount'
 import { createBudgetWorkshop, workshopBudgetResult } from 'slateboxjs/workshops/model'
@@ -51,4 +53,30 @@ const view = mountWorkshop(document.querySelector('#pilot-budget'), budget, {
 })
 ```
 
-Use `view.update(nextBudget)` to apply a teammate’s saved changes. Call `view.destroy()` when removing the embed. For a view-only preview, pass `readOnly: true` when mounting. The embedding code is plain JavaScript. The engine adapter uses its React peers internally. [Set up the SlateboxJS package](../Developers/JavascriptLibrary/creative-slates.md#mount-a-map-from-plain-javascript)
+```ts TypeScript
+import 'slateboxjs/style.css'
+import { mountWorkshop } from 'slateboxjs/workshops/mount'
+import { createBudgetWorkshop, workshopBudgetResult, type Workshop } from 'slateboxjs/workshops/model'
+
+const budget = createBudgetWorkshop()
+const result = document.querySelector<HTMLParagraphElement>('#assisted-imports')!
+
+function showAssistedImports(board: Workshop) {
+  result.textContent = workshopBudgetResult(board, 'pilot')?.description ?? ''
+}
+
+showAssistedImports(budget)
+const view = mountWorkshop(document.querySelector<HTMLDivElement>('#pilot-budget')!, budget, {
+  onChange: showAssistedImports
+})
+```
+
+<!-- /tabs -->
+
+Drag a $200 card into the concierge lane and the count updates.
+
+| To | Call |
+| --- | --- |
+| Apply a teammate’s saved changes | `view.update(nextBudget)` |
+| Show a view-only board | Pass `readOnly: true` to `mountWorkshop` |
+| Remove the board | `view.destroy()` |

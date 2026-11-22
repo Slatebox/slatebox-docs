@@ -1,113 +1,398 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edit a shared slate from a terminal or an agent · Slatebox Docs</title><meta name="description" content="Suppose two engineers are reviewing what happens to a customer&#39;s uploaded file. One engineer can add the next question from a terminal. The other can open the same private whiteboard, see the question and answer it beside the drawing."><link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/terminal-and-agents/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/slateboxjs-api/" >SlateboxJS 2.x and the current canvas</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details open><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/terminal-and-agents/" aria-current="page">Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/organizations/" >Manage team access</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/install-with-docker/" >Host a Slatebox instance</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / HTTP API</div><h1>Edit a shared slate from a terminal or an agent</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Developers/SlateboxAPI/terminal-and-agents.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me install the Slatebox shell and MCP tools from the checksummed package in this guide. Ask whether I want to open an existing board, draw a flow, or build a playable decision map. For a drawing use kind diagram. For a playable map use kind map. Create it once, keep the same arguments and key on retries, and give me the editor URL. For an existing slate, read its summary and ask which change I want. For a playable map, read its stations and legal destinations, then preview the requested branch, arrival instruction, token move or presentation order. For a whiteboard, preview the requested note edit. Show me the result before saving. When I ask to save it, reuse one idempotency key if you retry. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edit a shared slate from a terminal or an agent · Slatebox Docs</title><meta name="description" content="Run a short script against your slates from a terminal, or let an agent do it. The terminal has slatebox exec and slatebox describe; an agent gets the exec and describe tools. Every call in a script is checked as if you made it yourself. How exec works"><link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/terminal-and-agents/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/pricing/" >Pricing and free amounts</a><a href="/using-slatebox/slatebox-private/" >Slatebox Private</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details open><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/terminal-and-agents/" aria-current="page">Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / HTTP API</div><h1>Edit a shared slate from a terminal or an agent</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Developers/SlateboxAPI/terminal-and-agents.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me install the Slatebox package from the checksummed archive in this guide and connect my agent through exec. Call describe first to learn the client. Ask whether I want to open an existing board, draw a flow, or build a playable decision map. For a drawing use kind diagram; for a playable map use kind map. Create it once, keep the same exec idempotencyKey on retries, and give me the editor URL. For an existing slate, read it in the same script before changing it. For a playable map, read its stations and legal destinations, then run the change with mode preview and show me the branch, arrival instruction, token move or presentation order it would save. Save only when I ask, with the same code and the same idempotencyKey. If the result says confirmation_required, show me the reasons and confirm only when I agree. Read back the saved edit and give me the canvas URL. Use my configured token without asking me to paste it into chat.
 
 Read https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
-If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Suppose two engineers are reviewing what happens to a customer&#39;s uploaded file. One engineer can add the next question from a terminal. The other can open the same private whiteboard, see the question and answer it beside the drawing.</p>
-<h2 id="connect-to-your-board">Connect to your board</h2><p>In <strong>Profile → Developer access</strong>, choose the token permissions you need. <strong>Read slates</strong> and <strong>Create and edit slates</strong> are selected by default. To issue or withdraw invitation links for your own boards, also select <strong>Manage invitation links on slates I own</strong> (<code>slates:share</code>). Load it from your secret manager into the environment variable <code>SLATEBOX_API_TOKEN</code>. An MCP client can pass that variable to its child process through its secret settings. For a self-hosted board, also set <code>SLATEBOX_BASE_URL</code> to the HTTPS origin of your Slatebox instance. <a href="https://app.slatebox.com/profile">Developer access</a></p>
-<h2 id="install-the-tools">Install the tools</h2><p>Use Node.js 20 or later. Download the package and its checksum into the project where you want to use them. The following commands verify the archive and install both executables locally.</p>
-<pre><code class="language-sh">download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.2.6.tgz
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Run a short script against your slates from a terminal, or let an agent do it. The terminal has <code>slatebox exec</code> and <code>slatebox describe</code>; an agent gets the <code>exec</code> and <code>describe</code> tools. Every call in a script is checked as if you made it yourself. <a href="/developers/slateboxapi/exec/">How exec works</a></p>
+<h2 id="connect-to-your-board">Connect to your board</h2><ol>
+<li>In <strong>Profile → Developer access</strong>, create a token with the permissions you need. <a href="https://app.slatebox.com/profile">Developer access</a></li>
+<li>Load it from your secret manager into <code>SLATEBOX_API_TOKEN</code>.</li>
+<li>Set <code>SLATEBOX_BASE_URL</code> to your Slatebox origin: <code>https://app.slatebox.com</code> for Slatebox Cloud, or your own instance&#39;s HTTPS origin.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Scope</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Read slates</strong></td>
+<td><code>slates:read</code></td>
+<td>On</td>
+</tr>
+<tr>
+<td><strong>Create and edit slates</strong></td>
+<td><code>slates:write</code></td>
+<td>On</td>
+</tr>
+<tr>
+<td><strong>Manage invitation links on slates I own</strong></td>
+<td><code>slates:share</code></td>
+<td>Off</td>
+</tr>
+</tbody></table>
+<h2 id="install-the-package">Install the package</h2><p>Use Node.js 22.13 or later. Download the package and its checksum into your project, verify it, and install both executables (<code>slatebox-mcp</code> and <code>slatebox</code>):</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">download=https://docs.slatebox.com/assets/downloads
+package=slatebox-mcp-0.3.0.tgz
 curl -fsSLO &quot;$download/$package&quot;
 curl -fsSLO &quot;$download/$package.sha256&quot;
 shasum -a 256 -c &quot;$package.sha256&quot; &amp;&amp; npm install &quot;./$package&quot;
-npx --no-install slatebox --help
-</code></pre>
-<p>On Linux, <code>sha256sum -c</code> can also verify the checksum. If the downloads host is unavailable to your agent, use <code>https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/downloads</code> for the download directory. For an MCP client, point its stdio server at the installed executable. Replace the example path with the absolute path on your machine and pass the token through your client&#39;s secret settings.</p>
-<pre><code class="language-json">{
+npx --no-install slatebox help</code></pre></div></div><p>On Linux, <code>sha256sum -c</code> also verifies the checksum. If your agent cannot reach the downloads host, use <code>https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/assets/downloads</code> instead.</p>
+<h2 id="give-your-agent-exec">Give your agent exec</h2><p>Point your MCP client&#39;s stdio server at the installed executable, with its absolute path:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JSON"><div class="code-label">JSON</div><pre><code class="language-json">{
   &quot;mcpServers&quot;: {
     &quot;slatebox&quot;: {
-      &quot;command&quot;: &quot;/absolute/path/to/project/node_modules/.bin/slatebox-mcp&quot;
+      &quot;command&quot;: &quot;/absolute/path/to/project/node_modules/.bin/slatebox-mcp&quot;,
+      &quot;env&quot;: {
+        &quot;SLATEBOX_API_TOKEN&quot;: &quot;${SLATEBOX_API_TOKEN}&quot;,
+        &quot;SLATEBOX_BASE_URL&quot;: &quot;${SLATEBOX_BASE_URL:-https://app.slatebox.com}&quot;
+      }
     }
   }
+}</code></pre></div></div><p>Scripts then run on your machine with your rights, so your client&#39;s approval prompt for <code>exec</code> is your check. To run scripts on your instance instead, with nothing installed, connect to its <code>/mcp</code> endpoint. <a href="/developers/slateboxapi/exec/#connect-an-agent">Connect an agent</a></p>
+<p>The agent gets two tools. <code>describe</code> lists every client method with the scope it needs, and returns their types. <code>exec</code> runs a script with <code>intent</code>, <code>code</code> and optionally <code>mode: &quot;preview&quot;</code>, <code>confirm</code> and <code>idempotencyKey</code>.</p>
+<h2 id="run-a-script">Run a script</h2><p>Save a script to a file, such as <code>add-question.js</code>, then run it. Each example below runs it the same way:</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>Where the script runs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Node.js, Python, curl</td>
+<td>In your instance&#39;s sealed runner, through <code>POST /api/v1/exec</code></td>
+</tr>
+<tr>
+<td>CLI</td>
+<td>On your machine, through the package</td>
+</tr>
+</tbody></table>
+<p>The Node.js and Python tabs are a small helper: save it once as <code>exec.mjs</code> or <code>exec.py</code>, then run <code>node exec.mjs add-question.js --preview</code> or <code>python3 exec.py add-question.js --preview</code>. The curl and CLI tabs preview the same file directly.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-js">// exec.mjs — node exec.mjs FILE [--preview] [--key KEY] [--confirm ID] [--intent TEXT]
+import { readFile } from &#39;node:fs/promises&#39;
+import { parseArgs } from &#39;node:util&#39;
+
+const { values: opts, positionals: [file] } = parseArgs({
+  allowPositionals: true,
+  options: { preview: { type: &#39;boolean&#39; }, key: { type: &#39;string&#39; }, confirm: { type: &#39;string&#39; }, intent: { type: &#39;string&#39; } },
+})
+const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/exec`, {
+  method: &#39;POST&#39;,
+  headers: { Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`, &#39;Content-Type&#39;: &#39;application/json&#39; },
+  body: JSON.stringify({
+    intent: opts.intent ?? `Run ${file}`,
+    code: await readFile(file, &#39;utf8&#39;),
+    mode: opts.preview ? &#39;preview&#39; : &#39;save&#39;,
+    idempotencyKey: opts.key ?? crypto.randomUUID(),
+    confirm: opts.confirm,
+  }),
+})
+console.log(JSON.stringify(await res.json(), null, 2))</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-python"># exec.py — python3 exec.py FILE [--preview] [--key KEY] [--confirm ID] [--intent TEXT]
+import argparse, json, os, uuid
+import requests
+
+p = argparse.ArgumentParser()
+p.add_argument(&quot;file&quot;)
+p.add_argument(&quot;--preview&quot;, action=&quot;store_true&quot;)
+p.add_argument(&quot;--key&quot;, default=str(uuid.uuid4()))
+p.add_argument(&quot;--confirm&quot;)
+p.add_argument(&quot;--intent&quot;)
+args = p.parse_args()
+
+body = {
+    &quot;intent&quot;: args.intent or f&quot;Run {args.file}&quot;,
+    &quot;code&quot;: open(args.file, encoding=&quot;utf-8&quot;).read(),
+    &quot;mode&quot;: &quot;preview&quot; if args.preview else &quot;save&quot;,
+    &quot;idempotencyKey&quot;: args.key,
 }
-</code></pre>
-<p><a href="https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.6.tgz">Download the tools</a> · <a href="https://docs.slatebox.com/assets/downloads/slatebox-mcp-0.2.6.tgz.sha256">SHA-256 checksum</a></p>
-<h2 id="create-a-diagram-from-source-material">Create a diagram from source material</h2><p>Which customers can still talk to support during a call-service outage? Use the public call-status example to start with two paths. New sessions failed to start while existing sessions stayed connected. This command saves the five notes and four arrows to your own private canvas.</p>
-<pre><code class="language-sh">create_key=$(node -p &#39;crypto.randomUUID()&#39;)
-brief=&#39;What should support tell someone starting a new call during the outage?&#39;
-npx --no-install slatebox create &quot;$brief&quot; --kind diagram --source call-status \
-  --idempotency-key &quot;$create_key&quot;
-</code></pre>
-<p>Open the returned <code>url</code> to edit a note, add your team’s fallback or present the drawing. <code>diagram.nodes</code> and <code>diagram.connections</code> describe what the command created. An agent can call <code>create_slate</code> with <code>kind: &quot;diagram&quot;</code>, <code>source: &quot;call-status&quot;</code>, the same <code>brief</code> and the same <code>idempotency_key</code> to retrieve the original creation result. Read the slate again to see subsequent edits.</p>
-<p>With a source selected, a question such as “Who owns the callback?” opens in the conversation beside the drawing. To put the fallback on the canvas immediately, use the brief <code>New session → Offer a callback</code>. Slatebox reuses the existing <strong>New session</strong> note and draws an arrow to the new note. Paste additional paths or evidence notes on separate lines.</p>
-<p>To draw your own flow, omit <code>--source</code> and pass steps such as <code>Request -&gt; Review -&gt; Release</code> as the brief. Each new line can begin a separate path or a standalone note. A diagram brief accepts up to 1,200 characters. The other available public sources are <code>interview-notes</code> and <code>sign-in-outage</code>. <a href="https://slatebox.com/product/intelligence/">See the example drawing</a> · <a href="/examples/agent-spend-cap/">Draw two spend-cap policies from a brief</a> · <a href="/developers/slateboxapi/slates/#create-a-native-diagram">HTTP request</a></p>
-<h2 id="create-a-private-decision-map">Create a private decision map</h2><p>Put the question your team needs to answer in the brief. This command creates a real slate in the account that issued the token. Generate a key once for this map and keep it for retries.</p>
-<pre><code class="language-sh">create_key=$(node -p &#39;crypto.randomUUID()&#39;)
-npx --no-install slatebox create &quot;Who can approve a customer refund?&quot; \
-  --idempotency-key &quot;$create_key&quot;
-</code></pre>
-<p>Open the returned <code>url</code> while signed in to that account. In the side conversation, type <strong>Ask finance or ask the account owner</strong>, then choose <strong>Keep changes</strong> to put both paths on the map. To start the same way from an MCP client, call <code>create_slate</code> with <code>brief</code> and <code>idempotency_key</code>. <a href="/examples/refund-approval/">Move the team token and present the decision</a></p>
-<h2 id="add-a-path-and-an-arrival-instruction">Add a path and an arrival instruction</h2><p>On the backfill map, an editor can give the reviewer a recovery path. Use the share ID from creation. A station can be identified by its exact unique label or its ID. This command previews the change.</p>
-<pre><code class="language-sh">npx --no-install slatebox branch &quot;$SLATEBOX_SHARE_ID&quot; &quot;Compare row counts&quot; &quot;Repair missing rows&quot; \
-  --outcome &quot;reconcile the missing IDs and run the comparison again.&quot;
-</code></pre>
-<p>Read <code>workshop.revision</code> from the preview. For a new map at revision 0, save that proposal with the following command. Keep its key for retries.</p>
-<pre><code class="language-sh">branch_key=$(node -p &#39;crypto.randomUUID()&#39;)
-npx --no-install slatebox branch &quot;$SLATEBOX_SHARE_ID&quot; &quot;Compare row counts&quot; &quot;Repair missing rows&quot; \
-  --outcome &quot;reconcile the missing IDs and run the comparison again.&quot; \
-  --apply --revision 0 --idempotency-key &quot;$branch_key&quot;
-</code></pre>
-<p>The result includes the new station ID in <code>report.addedBranches</code>. To change just its instruction, preview <code>slatebox outcome &quot;$SLATEBOX_SHARE_ID&quot; &quot;Repair missing rows&quot; &quot;Compare the repaired IDs with the source table.&quot;</code> and save against its preview revision with a fresh key. If someone saves first, read the slate and review a new preview.</p>
-<p>In MCP, call <code>add_map_branch</code> with <code>share_id</code>, <code>from_station</code>, <code>label</code> and <code>outcome</code>. To revise an instruction, call <code>update_map_outcome</code> with <code>share_id</code>, <code>station</code> and <code>outcome</code>. Both tools preview by default. To save, supply <code>dry_run: false</code>, <code>expected_revision</code> and <code>idempotency_key</code>. Use a token with read and write scopes and a board you can edit. <a href="/examples/review-a-backfill/">Try the backfill map</a></p>
-<h2 id="choose-the-opening-scene">Choose the opening scene</h2><p>On the backfill map, put the recovery instruction first for a reviewer. Supply every scene once, using its ID or exact unique label. Preview the order before saving.</p>
-<pre><code class="language-sh">npx --no-install slatebox order &quot;$SLATEBOX_SHARE_ID&quot; \
-  &quot;Repair missing rows&quot; &quot;Backfill review&quot; &quot;Compare row counts&quot; &quot;Approve cutover&quot;
-</code></pre>
-<p>Read <code>report.presentationOrder</code> and <code>workshop.revision</code>. To commit the sequence you reviewed, repeat the command with <code>--apply --revision N --idempotency-key &quot;$order_key&quot;</code>. Replace <code>N</code> with that revision and generate <code>order_key</code> once for this change. Use the same key and IDs on retry. If another editor saved a change first, read the slate and preview the order again.</p>
-<p>In MCP, call <code>set_presentation_order</code> with <code>share_id</code> and <code>scenes</code>. To commit, add <code>dry_run: false</code>, <code>expected_revision</code> and <code>idempotency_key</code>. Open <strong>Present together</strong> on the saved slate. Your reviewer can follow through their read link. A previously published walkthrough gets the new order when its owner republishes. <a href="/examples/review-a-backfill/#open-the-review-with-the-risk">Run the team walkthrough</a></p>
-<h2 id="invite-a-reviewer">Invite a reviewer</h2><p>On your own instance, read <code>/api/v1/openapi.json</code> and look for <code>/slates/{shareId}/invite</code>. If that path is missing, the owner can issue the link from <strong>Share</strong> in the canvas or upgrade the instance before using these agent tools.</p>
-<p>Use the <code>shareId</code> from creation or the owner’s canvas URL. An invitation turns a private slate into an unlisted slate. Anyone with the invitation URL can use its role. Choose <code>read</code> for someone reviewing a decision, <code>comment</code> for feedback, or <code>edit</code> for someone making changes on the board.</p>
-<pre><code class="language-sh">invite_key=$(node -p &#39;crypto.randomUUID()&#39;)
-npx --no-install slatebox share &quot;$SLATEBOX_SHARE_ID&quot; --role edit --idempotency-key &quot;$invite_key&quot;
-</code></pre>
-<p>Give the reviewer the returned <code>url</code> and keep the <code>inviteId</code> for your records. Issuing a different role updates the board’s single unlisted link for everyone using it. To do the same from an MCP client, call <code>create_slate_invite</code> with <code>share_id</code>, <code>role</code> and <code>idempotency_key</code>.</p>
-<p>When the review ends, set <code>SLATEBOX_INVITE_ID</code> to the returned ID and withdraw that invitation. Use a fresh key for this action and reuse it if you retry.</p>
-<pre><code class="language-sh">revoke_key=$(node -p &#39;crypto.randomUUID()&#39;)
-npx --no-install slatebox unshare &quot;$SLATEBOX_SHARE_ID&quot; --invite-id &quot;$SLATEBOX_INVITE_ID&quot; --idempotency-key &quot;$revoke_key&quot;
-</code></pre>
-<p>The MCP equivalent is <code>revoke_slate_invite</code> with <code>share_id</code>, <code>invite_id</code> and <code>idempotency_key</code>. The board returns to private. People with separate private team grants can still use their assigned access. <a href="/developers/slateboxapi/slates/#manage-an-invitation-link">HTTP examples</a></p>
-<h2 id="preview-a-question">Preview a question</h2><p>On an ordinary whiteboard you can edit, copy the ID following <code>/canvas/</code> in its URL and set <code>SLATEBOX_SHARE_ID</code> to that value. Read the board and save the following JSON as <code>retention-question.json</code>.</p>
-<pre><code class="language-json">{
-  &quot;message&quot;: &quot;Add a question for the architecture review&quot;,
-  &quot;operations&quot;: [
-    {&quot;kind&quot;: &quot;add_nodes&quot;, &quot;count&quot;: 1, &quot;shape&quot;: &quot;rectangle&quot;, &quot;text&quot;: &quot;Who owns deletion of the retained copy?&quot;}
-  ]
-}
-</code></pre>
-<pre><code class="language-sh">npx --no-install slatebox read &quot;$SLATEBOX_SHARE_ID&quot;
-npx --no-install slatebox preview &quot;$SLATEBOX_SHARE_ID&quot; retention-question.json
-</code></pre>
-<p>The preview returns the operation report. Read the slate again to check its saved note count before applying the change. A pipeline can pass the plan on standard input by supplying <code>-</code> in place of the filename.</p>
-<h2 id="save-and-reopen">Save and reopen</h2><p>Generate a key for this edit and keep it if you retry the same command. The service uses that key to recognize a request it already saved.</p>
-<pre><code class="language-sh">edit_key=$(node -p &#39;crypto.randomUUID()&#39;)
-npx --no-install slatebox apply &quot;$SLATEBOX_SHARE_ID&quot; retention-question.json --idempotency-key &quot;$edit_key&quot;
-npx --no-install slatebox read &quot;$SLATEBOX_SHARE_ID&quot; --full
-</code></pre>
-<p>Reopen the whiteboard in the browser. Find “Who owns deletion of the retained copy?” and edit the note to name the owner. Read the slate again from the terminal or ask your agent to read it. A teammate needs access to the private board to see your edit.</p>
-<h2 id="run-the-same-edit-through-mcp-or-http">Run the same edit through MCP or HTTP</h2><table>
+if args.confirm:
+    body[&quot;confirm&quot;] = args.confirm
+res = requests.post(
+    f&quot;{os.environ[&#39;SLATEBOX_BASE_URL&#39;]}/api/v1/exec&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ[&#39;SLATEBOX_API_TOKEN&#39;]}&quot;},
+    json=body,
+)
+print(json.dumps(res.json(), indent=2))</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh"># Needs jq to put the script into the JSON body.
+jq -n --rawfile code add-question.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Run add-question.js&quot;, code: $code, mode: &quot;preview&quot;, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; \
+  -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec add-question.js --preview</code></pre></div></div><p>You get the run&#39;s <code>status</code>, the script&#39;s returned <code>result</code>, its <code>logs</code> and each call it made. Then:</p>
+<ul>
+<li><strong>Preview first.</strong> A preview run saves nothing.</li>
+<li><strong>Keep the key.</strong> Rerun with the same key to retry: writes that already saved replay instead of repeating.</li>
+<li><strong>Confirm when held.</strong> If <code>status</code> is <code>confirmation_required</code>, read <code>confirmation.reasons</code>. To go ahead, rerun the same file with <code>--confirm</code> set to <code>confirmation.id</code> and <code>--key</code> set to the result&#39;s <code>idempotencyKey</code> (the CLI asks instead). <a href="/developers/slateboxapi/exec/#saves-that-wait-for-confirmation">Saves that wait for confirmation</a></li>
+</ul>
+<h2 id="run-a-script-from-the-terminal">Run a script from the terminal</h2><p><code>slatebox exec</code> takes a file, <code>-</code> for standard input, or <code>-e</code> with one line. It prints the returned value as JSON on standard output and a one-line summary of the calls on standard error.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec add-question.js --preview
+npx --no-install slatebox exec - --intent &quot;Add the retention question&quot; &lt; add-question.js
+npx --no-install slatebox exec -e &#39;return (await slatebox.slates.get({ shareId: &quot;your-share-id&quot; })).nodeCount&#39;
+npx --no-install slatebox describe invite</code></pre></div></div><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--preview</code></td>
+<td>Preview every write and save nothing</td>
+</tr>
+<tr>
+<td><code>--intent TEXT</code></td>
+<td>The sentence recorded with the run. The default is <code>slatebox exec FILE</code></td>
+</tr>
+<tr>
+<td><code>--idempotency-key KEY</code></td>
+<td>Reuse it to retry the same script: saved writes replay</td>
+</tr>
+<tr>
+<td><code>--confirm ID</code></td>
+<td>Confirm a held save</td>
+</tr>
+<tr>
+<td><code>--remote</code></td>
+<td>Run the script in the instance&#39;s sealed runner (<code>POST /api/v1/exec</code>), not on your machine</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>Print the full result: status, result, logs, each call, any confirmation and usage</td>
+</tr>
+<tr>
+<td><code>--base-url ORIGIN</code></td>
+<td>Use this origin instead of <code>SLATEBOX_BASE_URL</code></td>
+</tr>
+</tbody></table>
+<p>When a save is held, the CLI prints the reasons. In a terminal it asks <code>Save anyway? [y/N]</code>. With no terminal, or a script read from standard input, it prints the exact command that confirms and exits with code 6.</p>
+<table>
+<thead>
+<tr>
+<th>Exit code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>The script completed</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Any other failure</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The command line was not understood</td>
+</tr>
+<tr>
+<td>3</td>
+<td>The token was refused (401) before the script ran, as <code>--remote</code> can be</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Access was refused (403 or 404) before the script ran, as <code>--remote</code> can be</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The run was refused (409 or 422) before the script ran, as <code>--remote</code> can be</td>
+</tr>
+<tr>
+<td>6</td>
+<td>A save is waiting for confirmation</td>
+</tr>
+<tr>
+<td>7</td>
+<td>The script failed, including when a call in it was refused (such as 401 for the token or 404 for a slate); the error names the call, line and column</td>
+</tr>
+</tbody></table>
+<h2 id="create-a-diagram-from-source-material">Create a diagram from source material</h2><p>Draw who can still reach support during a call-service outage, from the public <code>call-status</code> source. Save the script as <code>call-status.js</code>:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const created = await slatebox.slates.create({
+  kind: &quot;diagram&quot;,
+  source: &quot;call-status&quot;,
+  brief: &quot;What should support tell someone starting a new call during the outage?&quot;,
+})
+return { url: created.url, notes: created.diagram.nodes.length, arrows: created.diagram.connections.length }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const created = await slatebox.slates.create({
+  kind: &quot;diagram&quot;,
+  source: &quot;call-status&quot;,
+  brief: &quot;What should support tell someone starting a new call during the outage?&quot;,
+})
+const diagram = created.diagram as DiagramSummary
+return { url: created.url, notes: diagram.nodes.length, arrows: diagram.connections.length }</code></pre></div></div><p>Run it in save mode (creating a slate cannot be previewed), and keep the key for retries:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">key=$(uuidgen)
+node exec.mjs call-status.js --key &quot;$key&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">key=$(uuidgen)
+python3 exec.py call-status.js --key &quot;$key&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code call-status.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Draw the call-status paths&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">key=$(uuidgen)
+npx --no-install slatebox exec call-status.js --idempotency-key &quot;$key&quot;</code></pre></div></div><p>You get a private canvas with five notes and four arrows, and its <code>url</code>. A retry with the same key returns the original slate instead of a second one.</p>
+<ul>
+<li><strong>Your own flow.</strong> Leave out <code>source</code> and pass steps such as <code>Request -&gt; Review -&gt; Release</code>. Each line can start a new path or a standalone note, up to 1,200 characters.</li>
+<li><strong>Other sources.</strong> <code>interview-notes</code>, <code>sign-in-outage</code> and <code>friday-launch</code>.</li>
+<li><strong>Add to it.</strong> With a source, the brief <code>New session → Offer a callback</code> reuses the <strong>New session</strong> note and draws an arrow to the new note.</li>
+</ul>
+<p><a href="https://slatebox.com/product/intelligence/">See the example drawing</a> · <a href="/examples/agent-spend-cap/">Draw two spend-cap policies</a> · <a href="/developers/slateboxapi/slates/#create-a-native-diagram">HTTP request</a></p>
+<h2 id="create-a-private-decision-map">Create a private decision map</h2><p>Put your team&#39;s question in the brief (up to 160 characters). Save as <code>refund-map.js</code>:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const map = await slatebox.slates.create({ brief: &quot;Who can approve a customer refund?&quot; })
+return { url: map.url, shareId: map.shareId }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const map = await slatebox.slates.create({ brief: &quot;Who can approve a customer refund?&quot; })
+const result: { url: string; shareId: string } = { url: map.url, shareId: map.shareId }
+return result</code></pre></div></div><div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">node exec.mjs refund-map.js --key &quot;$(uuidgen)&quot; --intent &quot;Create the refund decision map&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">python3 exec.py refund-map.js --key &quot;$(uuidgen)&quot; --intent &quot;Create the refund decision map&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code refund-map.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Create the refund decision map&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec refund-map.js --idempotency-key &quot;$(uuidgen)&quot; --intent &quot;Create the refund decision map&quot;</code></pre></div></div><p>Open the returned <code>url</code> while signed in to the token&#39;s account. In the side conversation, type <strong>Ask finance or ask the account owner</strong>, then choose <strong>Keep changes</strong>: both paths land on the map. <a href="/examples/refund-approval/">Move the team token and present the decision</a></p>
+<h2 id="add-a-path-and-an-arrival-instruction">Add a path and an arrival instruction</h2><p>Give the reviewer a recovery path on the backfill map. The script finds the station by its label and adds the branch with its instruction in one plan. Save it as <code>repair-branch.js</code>, with your share ID:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const shareId = &quot;your-share-id&quot;
+const { workshop: map } = await slatebox.slates.get({ shareId })
+const compare = map.lanes.find(lane =&gt; lane.label === &quot;Compare row counts&quot;)
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  plan: {
+    message: &quot;Give the reviewer a recovery path&quot;,
+    operations: [{
+      kind: &quot;add_map_branch&quot;,
+      fromStationId: compare.id,
+      label: &quot;Repair missing rows&quot;,
+      outcome: &quot;reconcile the missing IDs and run the comparison again.&quot;,
+      expectedRevision: map.revision,
+    }],
+  },
+})
+return { mode: result.mode, added: result.report.addedBranches, revision: result.workshop.revision }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const shareId = &quot;your-share-id&quot;
+const { workshop: map } = await slatebox.slates.get({ shareId })
+if (!map) throw new Error(&quot;This slate is not a decision map&quot;)
+const compare = map.lanes.find(lane =&gt; lane.label === &quot;Compare row counts&quot;)!
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  plan: {
+    message: &quot;Give the reviewer a recovery path&quot;,
+    operations: [{
+      kind: &quot;add_map_branch&quot;,
+      fromStationId: compare.id,
+      label: &quot;Repair missing rows&quot;,
+      outcome: &quot;reconcile the missing IDs and run the comparison again.&quot;,
+      expectedRevision: map.revision,
+    }],
+  },
+})
+return { mode: result.mode, added: result.report.addedBranches, revision: result.workshop?.revision }</code></pre></div></div><p>Preview, then save with a key you keep for retries:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">node exec.mjs repair-branch.js --preview
+node exec.mjs repair-branch.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">python3 exec.py repair-branch.js --preview
+python3 exec.py repair-branch.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code repair-branch.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Add the repair branch&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec repair-branch.js --preview
+npx --no-install slatebox exec repair-branch.js --idempotency-key &quot;$(uuidgen)&quot;</code></pre></div></div><p>The saved result lists the new station in <code>report.addedBranches</code>. To change only its instruction, send one <code>update_map_outcome</code> operation with <code>stationId</code>, <code>outcome</code> and <code>expectedRevision</code>. If someone saves first, the script fails with <code>slate_changed</code>: run it again to read the new revision.</p>
+<h2 id="choose-the-opening-scene">Choose the opening scene</h2><p>Open the backfill review with the recovery instruction. The plan names every scene once, by ID, in the new order. Save as <code>opening-scene.js</code>:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const shareId = &quot;your-share-id&quot;
+const { workshop: map } = await slatebox.slates.get({ shareId })
+const repair = map.lanes.find(lane =&gt; lane.label === &quot;Repair missing rows&quot;)
+const order = [repair.id, ...map.presentationOrder.filter(id =&gt; id !== repair.id)]
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  plan: {
+    message: &quot;Open the review with the repair instruction&quot;,
+    operations: [{ kind: &quot;set_presentation_order&quot;, laneIds: order, expectedRevision: map.revision }],
+  },
+})
+return { mode: result.mode, order: result.report.presentationOrder }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const shareId = &quot;your-share-id&quot;
+const { workshop: map } = await slatebox.slates.get({ shareId })
+if (!map) throw new Error(&quot;This slate is not a decision map&quot;)
+const repair = map.lanes.find(lane =&gt; lane.label === &quot;Repair missing rows&quot;)!
+const order: string[] = [repair.id, ...map.presentationOrder.filter(id =&gt; id !== repair.id)]
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  plan: {
+    message: &quot;Open the review with the repair instruction&quot;,
+    operations: [{ kind: &quot;set_presentation_order&quot;, laneIds: order, expectedRevision: map.revision }],
+  },
+})
+return { mode: result.mode, order: result.report.presentationOrder }</code></pre></div></div><div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">node exec.mjs opening-scene.js --preview
+node exec.mjs opening-scene.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">python3 exec.py opening-scene.js --preview
+python3 exec.py opening-scene.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code opening-scene.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Open the review with the repair instruction&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec opening-scene.js --preview
+npx --no-install slatebox exec opening-scene.js --idempotency-key &quot;$(uuidgen)&quot;</code></pre></div></div><p>Read <code>order</code> in the preview, then save. On the saved slate, choose <strong>Presentation options → Present to everyone here</strong>; your reviewer follows through their read link. A published walkthrough gets the new order when its owner publishes again. <a href="/examples/review-a-backfill/#open-the-review-with-the-risk">Run the team walkthrough</a></p>
+<h2 id="invite-a-reviewer">Invite a reviewer</h2><p>Invitations need a token with <strong>Manage invitation links on slates I own</strong> (<code>slates:share</code>); without it the call fails with <code>403 insufficient_scope</code>, and the owner can still use <strong>Share</strong> in the canvas. An invitation makes a private slate unlisted: anyone with the URL gets its role (<code>read</code>, <code>comment</code> or <code>edit</code>). Save as <code>invite.js</code>:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">return await slatebox.slates.issueInvite({ shareId: &quot;your-share-id&quot;, role: &quot;edit&quot; })</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const invite = await slatebox.slates.issueInvite({ shareId: &quot;your-share-id&quot;, role: &quot;edit&quot; })
+return invite</code></pre></div></div><div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">node exec.mjs invite.js --intent &quot;Invite an editor to the backfill review&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">python3 exec.py invite.js --intent &quot;Invite an editor to the backfill review&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code invite.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Invite an editor to the backfill review&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec invite.js --intent &quot;Invite an editor to the backfill review&quot;</code></pre></div></div><p>Granting access waits for you: the CLI asks <code>Save anyway? [y/N]</code>, and the other tabs return <code>confirmation_required</code> for you to confirm. You get the invitation <code>url</code> for the reviewer and an <code>inviteId</code> for your records. Issuing a different role changes the slate&#39;s single unlisted link for everyone using it.</p>
+<p>When the review ends, withdraw the link with the <code>inviteId</code> you kept. Withdrawing also waits for confirmation, and the slate becomes private again; private team grants still apply.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">return await slatebox.slates.revokeInvite({ shareId: &quot;your-share-id&quot;, inviteId: &quot;your-invite-id&quot; })</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const revoked = await slatebox.slates.revokeInvite({ shareId: &quot;your-share-id&quot;, inviteId: &quot;your-invite-id&quot; })
+return revoked</code></pre></div></div><p><a href="/developers/slateboxapi/slates/#manage-an-invitation-link">HTTP examples</a></p>
+<h2 id="add-a-question-to-a-whiteboard">Add a question to a whiteboard</h2><p>Copy the ID after <code>/canvas/</code> in the URL of a whiteboard you can edit. Save this as <code>add-question.js</code>:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const shareId = &quot;your-share-id&quot;
+const { revision } = await slatebox.slates.get({ shareId })
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  expectedRevision: revision,
+  userMessage: &quot;Add a question for the architecture review&quot;,
+  plan: {
+    message: &quot;Add a question for the architecture review&quot;,
+    operations: [
+      { kind: &quot;add_nodes&quot;, count: 1, shape: &quot;rectangle&quot;, text: &quot;Who owns deletion of the retained copy?&quot; },
+    ],
+  },
+})
+return { mode: result.mode, operations: result.operations, report: result.report }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const shareId: string = &quot;your-share-id&quot;
+const { revision } = await slatebox.slates.get({ shareId })
+const result = await slatebox.slates.applyOperations({
+  shareId,
+  expectedRevision: revision,
+  userMessage: &quot;Add a question for the architecture review&quot;,
+  plan: {
+    message: &quot;Add a question for the architecture review&quot;,
+    operations: [
+      { kind: &quot;add_nodes&quot;, count: 1, shape: &quot;rectangle&quot;, text: &quot;Who owns deletion of the retained copy?&quot; },
+    ],
+  },
+})
+return { mode: result.mode, operations: result.operations, report: result.report }</code></pre></div></div><p>Preview it, then save with a key you keep for retries:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">node exec.mjs add-question.js --preview
+node exec.mjs add-question.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-sh">python3 exec.py add-question.js --preview
+python3 exec.py add-question.js --key &quot;$(uuidgen)&quot;</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">jq -n --rawfile code add-question.js --arg key &quot;$(uuidgen)&quot; \
+  &#39;{intent: &quot;Add the retention question&quot;, code: $code, idempotencyKey: $key}&#39; |
+curl --fail-with-body --silent --show-error \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; -H &#39;Content-Type: application/json&#39; \
+  --data @- &quot;$SLATEBOX_BASE_URL/api/v1/exec&quot;</code></pre></div><div class="code" data-label="CLI"><div class="code-label">CLI</div><pre><code class="language-sh">npx --no-install slatebox exec add-question.js --preview
+npx --no-install slatebox exec add-question.js --idempotency-key &quot;$(uuidgen)&quot;</code></pre></div></div><p>The preview returns the operations it would save and their report; the board does not change. After saving, reopen the whiteboard and find &quot;Who owns deletion of the retained copy?&quot;. Teammates need access to the private board to see it.</p>
+<p>To try an agent, give it the board ID and say: &quot;Read my slate, find the note about the retained copy, and show me the change that assigns it to the data team.&quot; It reads the note and previews the edit in one <code>exec</code> call.</p>
+<h2 id="run-the-same-edit-over-http">Run the same edit over HTTP</h2><table>
 <thead>
 <tr>
 <th>Action</th>
-<th>MCP tool</th>
+<th>In an exec script</th>
 <th>HTTP request</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Read the board</td>
-<td><code>get_slate</code> with <code>share_id</code> and optional <code>include_full</code></td>
-<td><code>GET /v1/slates/{shareId}</code> with optional <code>?include=full</code></td>
+<td><code>slatebox.slates.get({ shareId, include: &quot;full&quot; })</code></td>
+<td><code>GET /api/v1/slates/{shareId}</code>, optionally <code>?include=full</code></td>
 </tr>
 <tr>
 <td>Preview the question</td>
-<td><code>apply_slate_operations</code> with <code>dry_run: true</code></td>
-<td><code>POST /v1/slates/{shareId}/operations</code> with <code>dryRun: true</code></td>
+<td><code>applyOperations({ shareId, plan, mode: &quot;preview&quot; })</code>, or the whole run in preview</td>
+<td><code>POST /api/v1/slates/{shareId}/operations</code> with <code>mode: &quot;preview&quot;</code></td>
 </tr>
 <tr>
 <td>Save the question</td>
-<td><code>apply_slate_operations</code> with <code>dry_run: false</code> and an <code>idempotency_key</code></td>
-<td>POST the same plan with <code>dryRun: false</code> and an <code>Idempotency-Key</code> header</td>
+<td>The same call without <code>mode</code>, in a run with an <code>idempotencyKey</code></td>
+<td>The same plan with an <code>Idempotency-Key</code> header</td>
+</tr>
+<tr>
+<td>Run a whole script on the instance</td>
+<td><code>slatebox exec FILE --remote</code></td>
+<td><code>POST /api/v1/exec</code> with <code>intent</code> and <code>code</code></td>
 </tr>
 </tbody></table>
-<p>For creating, sharing or presenting a map, see the <a href="/developers/slateboxapi/#work-on-the-same-decision-map">editor, CLI, MCP and HTTP operation table</a>. On a self-hosted instance, read <code>/api/v1/openapi.json</code> to discover the operations available on that release.</p>
-<p>For <code>apply_slate_operations</code>, supply the board&#39;s <code>share_id</code>, the plan&#39;s <code>message</code> and <code>operations</code>, and a <code>user_message</code> describing your request. To try an agent with the saved board, tell it “Read my slate and find the note about the retained copy. Show me the change you would make to assign it to the data team.” Give it the board ID. It can read the note and preview the edit through MCP. On a playable map, the side conversation, CLI and MCP tools can add a branch with an arrival instruction. The <code>move_workshop_card</code> tool reads the same rules as the app and lets you preview or save a token’s move. <a href="/examples/refund-approval/">Move a refund decision from a terminal</a> A read-only collaborator can read the slate. Previewing or applying edits requires write scope and edit permission on that board. <a href="/developers/slateboxapi/slates/">HTTP request bodies, responses and retries</a></p>
-</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#connect-to-your-board" >Connect to your board</a><a href="#install-the-tools" >Install the tools</a><a href="#create-a-diagram-from-source-material" >Create a diagram from source material</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#add-a-path-and-an-arrival-instruction" >Add a path and an arrival instruction</a><a href="#choose-the-opening-scene" >Choose the opening scene</a><a href="#invite-a-reviewer" >Invite a reviewer</a><a href="#preview-a-question" >Preview a question</a><a href="#save-and-reopen" >Save and reopen</a><a href="#run-the-same-edit-through-mcp-or-http" >Run the same edit through MCP or HTTP</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
+<p><code>npx --no-install slatebox describe</code> lists the client methods. Each instance serves its operations at <code>/api/v1/openapi.json</code>. <a href="/developers/slateboxapi/slates/">Every request, step by step</a> · <a href="/developers/slateboxapi/#work-on-the-same-decision-map">Editor, exec and HTTP side by side</a></p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#connect-to-your-board" >Connect to your board</a><a href="#install-the-package" >Install the package</a><a href="#give-your-agent-exec" >Give your agent exec</a><a href="#run-a-script" >Run a script</a><a href="#run-a-script-from-the-terminal" >Run a script from the terminal</a><a href="#create-a-diagram-from-source-material" >Create a diagram from source material</a><a href="#create-a-private-decision-map" >Create a private decision map</a><a href="#add-a-path-and-an-arrival-instruction" >Add a path and an arrival instruction</a><a href="#choose-the-opening-scene" >Choose the opening scene</a><a href="#invite-a-reviewer" >Invite a reviewer</a><a href="#add-a-question-to-a-whiteboard" >Add a question to a whiteboard</a><a href="#run-the-same-edit-over-http" >Run the same edit over HTTP</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

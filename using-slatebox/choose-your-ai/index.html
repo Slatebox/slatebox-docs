@@ -1,0 +1,263 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Choose your AI · Slatebox Docs</title><meta name="description" content="Connect any cloud provider with your key, or any OpenAI-compatible endpoint on your computer, your network or a host. Mix them per feature. Your own AI costs nothing on Slatebox."><link rel="canonical" href="https://docs.slatebox.com/using-slatebox/choose-your-ai/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details open><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/choose-your-ai/" aria-current="page">Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/pricing/" >Pricing and free amounts</a><a href="/using-slatebox/slatebox-private/" >Slatebox Private</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Using Slatebox</div><h1>Choose your AI</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Using-Slatebox/choose-your-ai.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.
+
+Read https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/choose-your-ai.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Slatebox uses the AI you choose: a cloud provider with your key, or any model behind an OpenAI-compatible endpoint, on your computer, your network or a host. Mix them freely, one model for conversation and another for images. Your own AI costs nothing on Slatebox.</p>
+<h2 id="connect-a-model">Connect a model</h2><ol>
+<li>Open <strong>Profile → AI</strong> and choose <strong>Connect a model</strong>.</li>
+<li>Enter a <strong>Name</strong> (lowercase letters, digits and dashes, such as <code>desk-model</code>) and choose a <strong>Type</strong>.</li>
+<li>Fill in the fields for that type.</li>
+<li>Choose <strong>Test connection</strong>. You see whether Slatebox reached the address, the key was accepted, the model answered and it called a test tool. Where an endpoint lists its models, choose one to fill in <strong>Model</strong>.</li>
+<li>Choose <strong>Save</strong>. The connection appears under <strong>Yours</strong>, ready to choose for a feature.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Address</th>
+<th>Model</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenAI-compatible endpoint</td>
+<td>The address up to <code>/v1</code>, such as <code>https://llm.example.com/v1</code></td>
+<td>The model name the endpoint serves</td>
+<td>Only if the endpoint needs one</td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td>Filled in</td>
+<td>Required</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>Filled in</td>
+<td>Required</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>DeepInfra</td>
+<td>Filled in</td>
+<td>Optional: empty follows each feature&#39;s default model</td>
+<td>Required</td>
+</tr>
+</tbody></table>
+<p>Under the key, say what the model can do, where you know it: <strong>Calls tools</strong> and <strong>Reads images</strong> (<strong>Yes</strong>, <strong>No</strong> or <strong>Not sure (try it)</strong>), and <strong>Makes images</strong>. A capability you leave unknown is tried. Image generation needs <strong>Makes images</strong> ticked.</p>
+<p>Keys are encrypted with the server&#39;s key and never shown again; a saved connection says &quot;key saved&quot;. To change a key, choose <strong>Change</strong> and enter the new one. Changing the address of a connection with a key needs the key again. <strong>Remove</strong> deletes the connection and its key at once.</p>
+<h2 id="choose-a-model-for-each-feature">Choose a model for each feature</h2><p>Each feature has a menu under your connections. Set <strong>Default for every feature</strong>, then change only the features that need another model.</p>
+<table>
+<thead>
+<tr>
+<th>Menu</th>
+<th>Covers</th>
+<th>The model must</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Default for every feature</strong></td>
+<td>Every feature left <strong>Not set</strong></td>
+<td>Do what each of those features needs</td>
+</tr>
+<tr>
+<td><strong>Conversation and edits</strong></td>
+<td>The conversation beside the canvas and the edits it proposes</td>
+<td>Call tools</td>
+</tr>
+<tr>
+<td><strong>Drafts and layouts</strong></td>
+<td>New drafts and layouts of a slate</td>
+<td>Call tools</td>
+</tr>
+<tr>
+<td><strong>Presentation planning</strong></td>
+<td>Planning the order and scenes of a presentation</td>
+<td>Call tools</td>
+</tr>
+<tr>
+<td><strong>Reading images and diagrams</strong></td>
+<td>Images you paste or attach in the conversation</td>
+<td>Read images</td>
+</tr>
+<tr>
+<td><strong>Generating images</strong></td>
+<td>Images AI makes for a slate</td>
+<td>Make images</td>
+</tr>
+</tbody></table>
+<p>Each menu lists your connections (<strong>Mine:</strong>), your team&#39;s (<strong>Team:</strong>), this server&#39;s (<strong>Server:</strong>) and <strong>The AI this server provides</strong>. <strong>Which AI each feature uses</strong>, at the top of the tab, shows what answers each feature now and marks your own.</p>
+<p>Image search always uses the AI this server provides.</p>
+<h2 id="when-a-model-cant-do-something">When a model can&#39;t do something</h2><p>The feature stops, names the model and asks you to choose another. Slatebox never sends the request to another model instead. For example, with a default that cannot make images:</p>
+<div class="code" data-label="Output"><div class="code-label">Output</div><pre><code class="language-text">your-model-name at 192.168.1.30:8000 cannot make images. Choose another model for generating images in your AI settings.</code></pre></div><p>Choose a model that makes images, or <strong>The AI this server provides</strong>, for <strong>Generating images</strong>. The same applies to a model that cannot call tools or read images.</p>
+<h2 id="who-decides">Who decides</h2><p>Slatebox looks for a choice in this order and uses the first it finds, for each feature:</p>
+<ol>
+<li>Yours: your choice for that feature, then your default.</li>
+<li>Your team&#39;s, set by a team admin under <strong>Your team&#39;s</strong> in <strong>Profile → AI</strong>.</li>
+<li>This server&#39;s, set by an administrator under <strong>This server&#39;s (administrators)</strong>, or by the operator in the server settings.</li>
+<li><strong>The AI this server provides</strong>.</li>
+</ol>
+<p>Your choice always wins. The one exception is a server whose operator turns off people&#39;s own AI (<code>SLATEBOX_AI_OWN_PROVIDERS=off</code>, or the <strong>People may use their own AI</strong> switch): everyone then uses the server&#39;s AI, and the AI tab says so. You can still remove what you saved.</p>
+<h2 id="what-is-metered">What is metered</h2><table>
+<thead>
+<tr>
+<th>AI</th>
+<th>On Slatebox Cloud</th>
+<th>On your own server</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Your connections and your team&#39;s</td>
+<td>Free, with no limit from Slatebox. Your provider bills you directly, or nobody does for your own model.</td>
+<td>No meters</td>
+</tr>
+<tr>
+<td><strong>The AI this server provides</strong></td>
+<td>Your free amount, then your balance</td>
+<td>No meters</td>
+</tr>
+<tr>
+<td>Image search</td>
+<td>Your free amount, then your balance</td>
+<td>No meters</td>
+</tr>
+</tbody></table>
+<p><a href="/using-slatebox/pricing/">Pricing and free amounts</a> · <a href="/installation/self-host-meters/">A self-hosted Slatebox has no meters</a></p>
+<h2 id="where-a-model-may-be">Where a model may be</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>Slatebox Cloud</th>
+<th>Your own server</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Your endpoints and your team&#39;s</td>
+<td>A public <code>https</code> address</td>
+<td>Public addresses, your network and <code>host.docker.internal</code>, over <code>http</code> or <code>https</code>. Not the server itself (<code>localhost</code>) or a link-local address. <code>SLATEBOX_AI_PRIVATE_ENDPOINTS=off</code> allows public addresses only.</td>
+</tr>
+<tr>
+<td>The operator&#39;s endpoints</td>
+<td>—</td>
+<td>Any address</td>
+</tr>
+</tbody></table>
+<p>Requests never go to a cloud metadata address, and Slatebox follows no redirects. Each address is checked when it is saved and again on every request.</p>
+<h3 id="reach-a-model-on-the-same-machine">Reach a model on the same machine</h3><p>Inside the Slatebox container, <code>localhost</code> is the container itself. A model server on the Docker host is at <code>host.docker.internal</code>, for example <code>http://host.docker.internal:8000/v1</code>.</p>
+<ul>
+<li><strong>Mac:</strong> run the model server on the Mac itself, not in Docker: Docker on a Mac cannot use the Mac&#39;s GPU. Docker Desktop provides <code>host.docker.internal</code>.</li>
+<li><strong>Windows:</strong> Docker Desktop provides <code>host.docker.internal</code>.</li>
+<li><strong>Linux:</strong> start Slatebox with <code>--add-host=host.docker.internal:host-gateway</code>, and have the model server listen on the Docker bridge or on all interfaces, not only <code>127.0.0.1</code>.</li>
+</ul>
+<h2 id="set-the-servers-ai">Set the server&#39;s AI</h2><p>An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. Self-hosting is coming soon; this section shows how once the image is published. Administrators can also add server connections in <strong>Profile → AI</strong>. <a href="/installation/self-hosting/">Run your own Slatebox</a></p>
+<h2 id="set-it-up-with-an-agent">Set it up with an agent</h2><p>An agent reads, changes and tests AI settings with a token that has the <code>ai:settings</code> permission. Changing or testing a team&#39;s or the server&#39;s AI also needs <code>ai:admin</code>, and the token&#39;s owner must be a team admin or an administrator. Create the token in <strong>Profile → Developer access</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>To</th>
+<th>Exec</th>
+<th>HTTP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read the connections and what serves each feature, without keys</td>
+<td><code>slatebox.ai.get</code></td>
+<td><code>GET /api/v1/ai</code></td>
+</tr>
+<tr>
+<td>Add, change or remove connections, and choose them</td>
+<td><code>slatebox.ai.update</code></td>
+<td><code>PUT /api/v1/ai</code></td>
+</tr>
+<tr>
+<td>Test a saved or unsaved connection</td>
+<td><code>slatebox.ai.check</code></td>
+<td><code>POST /api/v1/ai/check</code></td>
+</tr>
+</tbody></table>
+<p>A choice names a connection as <code>me:&lt;name&gt;</code>, <code>team:&lt;name&gt;</code> or <code>server:&lt;name&gt;</code>, or is <code>builtin</code> for the AI this server provides. <code>level</code> is <code>me</code>, <code>team</code> or <code>server</code>.</p>
+<p>This exec script connects a keyless model on the host, makes it your default and tests it:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">await slatebox.ai.update({
+  level: &quot;me&quot;,
+  connections: [{ name: &quot;desk-model&quot;, type: &quot;openai-compatible&quot;, baseUrl: &quot;http://host.docker.internal:8000/v1&quot;, model: &quot;your-model-name&quot; }],
+  use: { default: &quot;me:desk-model&quot; },
+})
+const check = await slatebox.ai.check({ level: &quot;me&quot;, name: &quot;desk-model&quot; })
+return { ok: check.ok, tools: check.tools, message: check.message }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">await slatebox.ai.update({
+  level: &quot;me&quot;,
+  connections: [{ name: &quot;desk-model&quot;, type: &quot;openai-compatible&quot;, baseUrl: &quot;http://host.docker.internal:8000/v1&quot;, model: &quot;your-model-name&quot; }],
+  use: { default: &quot;me:desk-model&quot; },
+})
+const check = await slatebox.ai.check({ level: &quot;me&quot;, name: &quot;desk-model&quot; })
+const result: { ok: boolean; tools: string; message: string } = { ok: check.ok, tools: check.tools, message: check.message }
+return result</code></pre></div></div><p>Exec holds <code>ai.update</code> for your confirmation, because it changes where your slates are sent. <a href="/developers/slateboxapi/exec/">How exec works</a></p>
+<p>Exec keeps a run&#39;s code, so send a key through <code>PUT /api/v1/ai</code> instead of writing it into a script. This adds a cloud provider and uses it for reading images:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-js">const res = await fetch(`${process.env.SLATEBOX_BASE_URL}/api/v1/ai`, {
+  method: &#39;PUT&#39;,
+  headers: {
+    Authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    &#39;Content-Type&#39;: &#39;application/json&#39;,
+  },
+  body: JSON.stringify({
+    level: &#39;me&#39;,
+    connections: [{ name: &#39;cloud&#39;, type: &#39;openai&#39;, model: &#39;your-model-name&#39;, apiKey: process.env.AI_PROVIDER_KEY, capabilities: { vision: true } }],
+    use: { vision: &#39;me:cloud&#39; },
+  }),
+})
+console.log(res.status, (await res.json()).effective)</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-python">import os, requests
+
+res = requests.put(
+    f&quot;{os.environ[&#39;SLATEBOX_BASE_URL&#39;]}/api/v1/ai&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ[&#39;SLATEBOX_API_TOKEN&#39;]}&quot;},
+    json={
+        &quot;level&quot;: &quot;me&quot;,
+        &quot;connections&quot;: [{&quot;name&quot;: &quot;cloud&quot;, &quot;type&quot;: &quot;openai&quot;, &quot;model&quot;: &quot;your-model-name&quot;, &quot;apiKey&quot;: os.environ[&quot;AI_PROVIDER_KEY&quot;], &quot;capabilities&quot;: {&quot;vision&quot;: True}}],
+        &quot;use&quot;: {&quot;vision&quot;: &quot;me:cloud&quot;},
+    },
+)
+print(res.status_code, res.json()[&quot;effective&quot;])</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">curl --fail-with-body --silent --show-error -X PUT \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; \
+  -H &#39;Content-Type: application/json&#39; \
+  --data &quot;{\&quot;level\&quot;:\&quot;me\&quot;,\&quot;connections\&quot;:[{\&quot;name\&quot;:\&quot;cloud\&quot;,\&quot;type\&quot;:\&quot;openai\&quot;,\&quot;model\&quot;:\&quot;your-model-name\&quot;,\&quot;apiKey\&quot;:\&quot;$AI_PROVIDER_KEY\&quot;,\&quot;capabilities\&quot;:{\&quot;vision\&quot;:true}}],\&quot;use\&quot;:{\&quot;vision\&quot;:\&quot;me:cloud\&quot;}}&quot; \
+  &quot;$SLATEBOX_BASE_URL/api/v1/ai&quot;</code></pre></div></div><p>You get <code>200</code> and the settings as <code>GET /api/v1/ai</code> returns them. <code>effective</code> names what serves each feature now. <code>POST /api/v1/ai/check</code> returns <code>ok</code>, <code>reachable</code>, <code>models</code> (where the endpoint lists them), <code>chat</code>, <code>tools</code> (<code>yes</code>, <code>no</code> or <code>unknown</code>) and a <code>message</code>. It saves nothing, sends a saved key only to the address it was saved for, and allows 20 tests per person every 10 minutes.</p>
+<h2 id="troubleshooting">Troubleshooting</h2><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;That address is this server itself&quot;</td>
+<td>Use <code>host.docker.internal</code> or the model machine&#39;s address on your network, not <code>localhost</code>.</td>
+</tr>
+<tr>
+<td>&quot;That address is not public&quot;</td>
+<td>Slatebox Cloud reaches public <code>https</code> addresses only. On your own server, the operator has set <code>SLATEBOX_AI_PRIVATE_ENDPOINTS=off</code>.</td>
+</tr>
+<tr>
+<td><strong>Test connection</strong> cannot reach a model on a Linux host</td>
+<td>Add <code>--add-host=host.docker.internal:host-gateway</code> and have the model server listen beyond <code>127.0.0.1</code>.</td>
+</tr>
+<tr>
+<td>&quot;The endpoint did not accept the key&quot;</td>
+<td>Enter the key again with <strong>Change</strong>.</td>
+</tr>
+<tr>
+<td>The model answers without calling the test tool</td>
+<td>Conversation, drafts and presentation planning need a model that calls tools. Choose another for those features.</td>
+</tr>
+<tr>
+<td>&quot;…cannot make images&quot;</td>
+<td>Choose a model with <strong>Makes images</strong>, or <strong>The AI this server provides</strong>, for <strong>Generating images</strong>.</td>
+</tr>
+<tr>
+<td>A key cannot be saved; &quot;A connection without a key can still be saved&quot;</td>
+<td>The server has no <code>SLATEBOX_KEY_ENCRYPTION_KEY</code>. Keyless endpoints still work.</td>
+</tr>
+<tr>
+<td>&quot;This server uses the AI its operator set up&quot;</td>
+<td>The operator has turned off people&#39;s own AI.</td>
+</tr>
+</tbody></table>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#connect-a-model" >Connect a model</a><a href="#choose-a-model-for-each-feature" >Choose a model for each feature</a><a href="#when-a-model-cant-do-something" >When a model can&#39;t do something</a><a href="#who-decides" >Who decides</a><a href="#what-is-metered" >What is metered</a><a href="#where-a-model-may-be" >Where a model may be</a><a href="#set-the-servers-ai" >Set the server&#39;s AI</a><a href="#set-it-up-with-an-agent" >Set it up with an agent</a><a href="#troubleshooting" >Troubleshooting</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
