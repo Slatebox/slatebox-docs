@@ -67,7 +67,7 @@ test('the page says what is metered: only the AI Slatebox pays for', () => {
   const text = page()
   assert.match(text, /\(pricing\.md\)/, 'link the pricing page')
   assert.match(text, /\(\.\.\/Installation\/self-host-meters\.md\)/, 'link the no-meters page')
-  assert.match(text, /Image search[^.]*free amount, then your balance/, 'image search is always the built-in service (BUILTIN_ONLY_FEATURES)')
+  assert.match(text, /Image search[^.]*Pro credits, then your balance/, 'image search is always the built-in service (BUILTIN_ONLY_FEATURES)')
   assert.doesNotMatch(text, /your own (AI|model|connection)[^.|]*(is|are) metered/i)
 })
 
