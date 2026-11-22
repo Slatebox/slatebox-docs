@@ -13,6 +13,10 @@ To see a source next to its diagram, open the call-status example and choose **O
 
 Name your slate and keep its link. People opening a private link still need permission. If you began as a guest, register in that browser before you rely on the slate from another device.
 
+## Export or import Mermaid
+
+Choose **Mermaid** in the slate menu to copy or download any slate as Mermaid, or to paste Mermaid in as real notes and lines. It is free and uses no AI. [Export and import Mermaid](mermaid.md)
+
 ## Add a branch to an interactive map
 
 A map has stations, paths between them and a token the team moves. Send each change in the conversation, try it in the preview, and choose **Keep changes** or **Discard**. [Open a slate](https://app.slatebox.com/new)
