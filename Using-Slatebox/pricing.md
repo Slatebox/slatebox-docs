@@ -17,16 +17,19 @@ Only the AI and calls that Slatebox pays for cost money. They come with Slatebox
 
 ## Slatebox Pro
 
-Slatebox Pro is $5 a month or $50 a year (two months free), for one person, plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $4.00 of what the AI provider and Daily charge us:
+Slatebox Pro is $5 a month or $50 a year (two months free), for one person, plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $3.75 of what the AI provider and Daily charge us:
 
 | | Pro credits each month |
 | --- | --- |
-| AI drafting | 30 drafts a day, within about $1.00 of AI a month |
-| Voice calls you start | About 8 hours of four-person calls a month |
+| AI drafting | About 180 drafts a month, up to 30 a day |
+| Voice calls you start | About 5½ hours of four-person calls a month |
 | Video calls you start | About 1 hour of four-person video a month |
+
+Each row is its own amount for the month: what you do not use of one does not add to another.
 
 - Each person chooses Pro for themselves. A team that wants to pay for its members' AI and calls can choose [Slatebox Business](slatebox-business.md).
 - Pro credits are for the calendar month (UTC). They start again on the 1st and do not carry over. The daily count resets at 00:00 UTC.
+- In the month you start Pro, and the month it ends, you get the share of that month's Pro credits for the days Pro covers.
 - **Credits**, in your profile, shows drafts left today and call hours left this month.
 - Pro needs an account with a confirmed email address.
 - Cancel any time. Pro stays on until the end of the month or year you paid for.
@@ -37,9 +40,9 @@ Slatebox Pro is $5 a month or $50 a year (two months free), for one person, plus
 ## How we count
 
 - **A draft is one request**: each message AI answers. Typed steps with arrows, pasted lines and named lanes are drawn without AI and cost nothing.
-- **Images:** Image search and image generation use the month's AI from your Pro credits, not the daily count. An image search costs very little; about 33 generated images use a month's AI.
+- **Images:** Image search and image generation use the month's AI from your Pro credits, not the daily count. An image search costs very little; about 31 generated images use a month's AI.
 - **The month's AI has a cost limit.** A very large request uses more of it. When it runs out, the profile says so, even with drafts left today.
-- **Calls are counted in participant-minutes**: people on the call times minutes. Pro credits hold 2,000 participant-minutes of voice and 250 participant-minutes of video a month. A two-person call lasts twice as long as a four-person one.
+- **Calls are counted in participant-minutes**: people on the call times minutes. Pro credits hold 1,380 participant-minutes of voice and 330 participant-minutes of video a month. A two-person call lasts twice as long as a four-person one.
 - **When the month's video runs out, the call carries on as voice** on the same slate. Nobody rejoins.
 - **Slatebox asks before a camera turns on**, because a camera makes the whole call a video call.
 - **A daily limit** stops one account using a month in an afternoon. It never cuts a running call short.
@@ -83,4 +86,4 @@ A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. [A
 
 ## Slatebox Business
 
-Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold through our contact form for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](https://slatebox.com/contact/?topic=business)
+Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold by talking to us for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](mailto:tim@slatebox.com?subject=Slatebox%20Business)
