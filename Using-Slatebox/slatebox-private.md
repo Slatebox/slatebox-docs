@@ -16,13 +16,17 @@ Slatebox Private is a Slatebox for one company, on its own server, run by us. It
 | People at once | About 25 (teams of 50 to 150) | About 100 (teams of 200 to 500) | Sized with you after a load test |
 | File storage | 100 GB | 500 GB | 2 TB |
 | Video calls each month | 15,000 participant-minutes | 50,000 participant-minutes | Set in your order |
-| AI each month | 3,000 drafts | 12,000 drafts | Set in your order |
+| AI each month | About $30 of AI | About $120 of AI | Set in your order |
 | Server | Its own: 4 cores, 16 GB | Its own: 8 cores, 32 GB | Several, used only by you |
 
 - **People at once is guidance, not a limit.** Storage is the only hard limit. When a server runs hot, we suggest the next size at renewal; nobody is locked out.
 - **15,000 participant-minutes** is about 15 people on calls 4 hours a week. Participant-minutes are counted as in [Pricing and free amounts](pricing.md#how-we-count).
+- **AI is counted in dollars** of what the provider charges us, not in drafts: about $30 a month on Small.
 
 ## What every size includes
+
+From the day Private opens, every size includes:
+
 
 - Every feature, the same as Slatebox Cloud and a self-hosted Slatebox.
 - Sign-in through your own identity provider. [Single sign-on](../Installation/single-sign-on.md)
@@ -34,7 +38,8 @@ Slatebox Private is a Slatebox for one company, on its own server, run by us. It
 
 - **Included AI** runs on one provider we set up for you.
 - **Your own keys are free.** Bring your own AI key or call account and we charge nothing for that part. [Use your own keys](own-keys.md)
-- **Need more?** A usage pack adds 25,000 participant-minutes and 3,000 drafts a month for $2,400 a year, on the same invoice. Or top up at our cost plus 20%, up to a monthly ceiling your admin sets.
+- **The included amounts are your company's own.** They are paid for in the yearly price, not drawn from the shared budget behind the free Cloud amounts, so they never shrink or pause when that budget runs short.
+- **Need more?** A usage pack adds 25,000 participant-minutes and about $30 of AI a month for $2,400 a year, on the same invoice. Or top up at our cost plus 20%, up to a monthly ceiling your admin sets.
 - **Alerts** go to your admin at 50%, 80% and 100% of the month's amount. A running call is never cut off. Once the ceiling is reached, new calls wait.
 
 ## Paying
@@ -47,7 +52,7 @@ Slatebox Private is a Slatebox for one company, on its own server, run by us. It
 ## Move in and leave
 
 - **Move in:** when Private opens, a self-hosted Slatebox moves across in one click from its **Admin** page. Your slates, files, accounts, passwords and sign-in settings come with it.
-- **Leave any time with everything, in one command,** back to your own server, at no cost. [Install with Docker](../Installation/install-with-docker.md)
+- **Leave any time with everything, in one command,** from the day Private opens: slates, files, accounts, passwords and sign-in settings, back on your own server, at no cost. [Install with Docker](../Installation/install-with-docker.md)
 - **If Slatebox LLC stops,** you get a working self-hosted copy and 90 days' notice.
 
 [Pricing and free amounts](pricing.md) · [See pricing](https://slatebox.com/plans/#private)
