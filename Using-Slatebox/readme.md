@@ -14,7 +14,7 @@ If your client cannot fetch the documentation, read the same published file at h
 
 1. Choose **Create slate**. [Create a slate](https://app.slatebox.com/new)
 2. Sketch on the canvas, or describe the work in the conversation beside it. “Draw a flow from Request to Review to Approve” gives you three connected, editable notes.
-3. Paste steps or interview notes to give the conversation material. Ask a follow-up such as “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” It uses the notes and connections already on the canvas, and your free AI for the day.
+3. Paste steps or interview notes to give the conversation material. Ask a follow-up such as “Diagram the services in these notes. Show which depend on storage, and leave the reporting job separate.” It uses the notes and connections already on the canvas, and your AI: your own connection, or Pro credits.
 4. Review the proposed notes and arrows, then choose **Keep changes**.
 
 To add a shape, select one and tap a round connection handle: a connected shape appears, ready for its name. Drag the handle into open space to place it. To rename a shape, select it and type, or double-tap it. [Try a connector on the sound map](https://docs.slatebox.com/#slatebox-documentation)
@@ -36,7 +36,7 @@ A map has stations, paths between them and a token the team moves. Send each cha
 3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Reopen the slate to see it saved. **Undo last change** restores the previous saved map while an undo is available.
 4. Choose **Present** to walk a teammate through it.
 
-You can also ask Canvas AI for changes in your own words, from your free AI for the day. If someone edits while you review a proposal, discard it and ask again.
+You can also ask Canvas AI for changes in your own words, with your own AI connection or Pro credits. If someone edits while you review a proposal, discard it and ask again.
 
 To add artwork, send “For Review duplicates, set image https://example.org/review.jpg with description A highlighted duplicate customer record” with your own HTTPS image. [Try a map with artwork](https://slatebox.com/product/interactive-diagrams/#gallery-guide)
 
@@ -111,4 +111,4 @@ Choose **Publish presentation** on a saved workshop. Readers step through its sc
 
 ## Choose where to work
 
-Slatebox Cloud is free. AI and calls come with a free amount each month. [Pricing and free amounts](pricing.md) · [Run your own Slatebox](../Installation/self-hosting.md) · [Have us run one for your company](slatebox-private.md)
+Slatebox Cloud is free. AI and calls are free with your own keys, or come with Slatebox Pro. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · [Run your own Slatebox](../Installation/self-hosting.md) · [Slatebox Business for teams](slatebox-business.md)

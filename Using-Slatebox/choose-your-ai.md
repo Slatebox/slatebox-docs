@@ -74,10 +74,10 @@ Your choice always wins. The one exception is a server whose operator turns off 
 | AI | On Slatebox Cloud | On your own server |
 | --- | --- | --- |
 | Your connections and your team's | Free, with no limit from Slatebox. Your provider bills you directly, or nobody does for your own model. | No meters |
-| **The AI this server provides** | Your free amount, then your balance | No meters |
-| Image search | Your free amount, then your balance | No meters |
+| **The AI this server provides** | Your Pro credits, then your balance | No meters |
+| Image search | Your Pro credits, then your balance | No meters |
 
-[Pricing and free amounts](pricing.md) · [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+[Pricing](pricing.md) · [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
 
 ## Where a model may be
 

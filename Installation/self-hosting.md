@@ -12,13 +12,12 @@ If your client cannot fetch the documentation, read the same published file at h
 
 Self-hosting is coming soon. One command will install Slatebox on this computer, a Linux server or a Kubernetes cluster: the app, the collaboration relay and the database in one container. The installer and the image are not published yet, so this guide will appear here once they are.
 
-Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free, and AI and calls come with a free amount each month. [Pricing and free amounts](../Using-Slatebox/pricing.md)
+Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free; AI and calls are free with your own keys, or come with Slatebox Pro. [Pricing](../Using-Slatebox/pricing.md)
 
 ## What a self-hosted Slatebox will be
 
 - **The same app.** Every feature, the same as Slatebox Cloud. The app, the SlateboxJS engine and the relay are MIT licensed.
-- **No meters.** No free amounts, no top-ups and no limits from us. AI is whatever you and your people connect, local or cloud, or none. [A self-hosted Slatebox has no meters](self-host-meters.md) · [Choose your AI](../Using-Slatebox/choose-your-ai.md)
+- **No meters.** No Slatebox Pro, no top-ups and no limits from us. AI is whatever you and your people connect, local or cloud, or none. [A self-hosted Slatebox has no meters](self-host-meters.md) · [Choose your AI](../Using-Slatebox/choose-your-ai.md)
 - **Your agents too.** The image runs exec, so agents work with your own slates the same way. [Exec: how agents work with Slatebox](../Developers/SlateboxAPI/exec.md)
 
-Would rather we run it for your company? [Slatebox Private](../Using-Slatebox/slatebox-private.md)
-
+Would rather not run a server? Slatebox Cloud is free and fully managed, and Slatebox Business adds a shared pool of AI and calls for a team. [Slatebox Business](../Using-Slatebox/slatebox-business.md)
