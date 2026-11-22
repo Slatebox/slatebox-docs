@@ -333,7 +333,8 @@ test('the guides are not published before the exec package exists', async t => {
     assert.equal(row('Calls in flight at once'), String(limits.callsInFlight))
     assert.equal(row('Operations per script, summed over its plans'), String(limits.operationsPerScript))
     assert.equal(row('Notes created per script'), String(limits.notesCreatedPerScript))
-    assert.equal(row('Note text rewrites on one slate before confirmation'), String(limits.textRewritesBeforeConfirm))
+    // The rule counts per script, over every slate it writes (the confirmation-rules test above; the package's exec rules).
+    assert.equal(row('Note text rewrites in one script before confirmation'), String(limits.textRewritesBeforeConfirm))
     assert.match(row('Returned result') ?? '', new RegExp('^' + limits.resultChars.toLocaleString('en-US') + ' characters'))
     assert.equal(row('Logs'), limits.logKiB + ' KiB')
     assert.equal(row('Audit retention'), limits.auditDays + ' days')
