@@ -39,6 +39,6 @@ Choose **Refund my balance** in **Credits**. What is left goes back to the card 
 - A refund waits while a call or a request is being paid from it. Try again when it ends.
 - A team admin refunds a team balance in **Team settings**.
 - Deleting your account refunds your balance first.
-- A balance is on hold while its payment is disputed with your bank. Write to help@slatebox.com about a held balance.
+- A balance is on hold while its payment is disputed with your bank. Write to us about a held balance at https://slatebox.com/contact/?topic=billing.
 
 Slatebox Pro is not a balance: its fees follow their own rules. [Slatebox Pro](slatebox-pro.md#refunds-and-deleting-your-account)
