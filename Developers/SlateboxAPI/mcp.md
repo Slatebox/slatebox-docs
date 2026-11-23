@@ -17,27 +17,29 @@ Add `https://app.slatebox.com/mcp` to your assistant as a remote MCP server. It 
 
 Beside them, the server lists one typed tool per client method, generated from the same contract as the client. Each typed tool is an exec script of one call, so it meets the same checks, holds and audit record as a script.
 
-| Tool | Reads or writes | Does |
-| --- | --- | --- |
-| `create_slate` | Writes | Create a private flowchart from steps written as `A -> B`, or a decision map from a one-line question, and return its link |
-| `import_mermaid` | Writes | Draw a mind map, flowchart or project plan (Gantt chart) written in Mermaid as editable notes and lines |
-| `get_slate` | Reads | Read a slate's notes, lines, boards, comments and revision |
-| `edit_slate` | Writes | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
-| `export_mermaid` | Reads | Read a slate as Mermaid text |
-| `list_components` | Reads | List the boards and starters you can add to a slate, such as pipeline and budget boards |
-| `get_component` | Reads | Read one board or starter in full |
-| `check_board_move` | Reads | Check whether a card may move to a lane, and why not, without moving it |
-| `create_slate_invite` | Writes | Turn on a slate's unlisted invitation link, or change its role |
-| `revoke_slate_invite` | Writes | Withdraw the invitation link and make the slate private again |
-| `show_plan` | Writes | Show the people on a slate a short checklist of what the assistant is about to do |
-| `tick_plan_step` | Writes | Mark a step of that checklist as doing, done or skipped |
-| `get_account` | Reads | Read your account: name, team and what you can use |
-| `describe_instance` | Reads | Describe the Slatebox server: name, version and what it can do |
-| `get_ai_settings` | Reads | Read your AI connections and which one each feature uses; keys are never returned |
-| `update_ai_settings` | Writes | Add, change or remove AI connections, and choose one per feature |
-| `check_ai_connection` | Writes | Test an AI connection before Slatebox drafts with it |
+| Tool | Reads or writes | Needs | Does |
+| --- | --- | --- | --- |
+| `create_slate` | Writes | `slates:write` | Create a private flowchart from steps written as `A -> B`, or a decision map from a one-line question, and return its link |
+| `import_mermaid` | Writes | `slates:write` | Draw a mind map, flowchart or project plan (Gantt chart) written in Mermaid as editable notes and lines |
+| `get_slate` | Reads | `slates:read` | Read a slate's notes, lines, boards, comments and revision |
+| `edit_slate` | Writes | `slates:write` | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
+| `export_mermaid` | Reads | `slates:read` | Read a slate as Mermaid text |
+| `list_components` | Reads | `slates:read` | List the boards and starters you can add to a slate, such as pipeline and budget boards |
+| `get_component` | Reads | `slates:read` | Read one board or starter in full |
+| `check_board_move` | Reads | `slates:read` | Check whether a card may move to a lane, and why not, without moving it |
+| `create_slate_invite` | Writes | `slates:share` | Turn on a slate's unlisted invitation link, or change its role |
+| `revoke_slate_invite` | Writes | `slates:share` | Withdraw the invitation link and make the slate private again |
+| `show_plan` | Writes | `slates:write` | Show the people on a slate a short checklist of what the assistant is about to do |
+| `tick_plan_step` | Writes | `slates:write` | Mark a step of that checklist as doing, done or skipped |
+| `get_account` | Reads | — | Read your account: name, team and what you can use |
+| `describe_instance` | Reads | — | Describe the Slatebox server: name, version and what it can do |
+| `get_ai_settings` | Reads | `ai:settings` | Read your AI connections and which one each feature uses; keys are never returned |
+| `update_ai_settings` | Writes | `ai:settings` (and `ai:admin` for a team or the server) | Add, change or remove AI connections, and choose one per feature |
+| `check_ai_connection` | Reads | `ai:settings` (and `ai:admin` for a team or the server) | Test an AI connection before Slatebox drafts with it |
 
-Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change.
+Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
+
+**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. `exec` uses the permissions of the calls its script makes.
 
 **Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic.
 
