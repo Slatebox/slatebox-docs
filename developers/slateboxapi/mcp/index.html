@@ -27,6 +27,12 @@ If your client cannot fetch the documentation, read the same published file at h
 <td>Draw a mind map, flowchart or project plan (Gantt chart) written in Mermaid as editable notes and lines</td>
 </tr>
 <tr>
+<td><code>list_slates</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>List your slates, or your team&#39;s that you may open, newest first, with each one&#39;s link</td>
+</tr>
+<tr>
 <td><code>get_slate</code></td>
 <td>Reads</td>
 <td><code>slates:read</code></td>
@@ -43,6 +49,90 @@ If your client cannot fetch the documentation, read the same published file at h
 <td>Reads</td>
 <td><code>slates:read</code></td>
 <td>Read a slate as Mermaid text</td>
+</tr>
+<tr>
+<td><code>copy_slate</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Make a private copy of a slate you may edit, or of a public slate or template</td>
+</tr>
+<tr>
+<td><code>delete_slate</code></td>
+<td>Writes</td>
+<td><code>slates:delete</code></td>
+<td>Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone</td>
+</tr>
+<tr>
+<td><code>list_comments</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Read the comments on a slate&#39;s notes, or on one note</td>
+</tr>
+<tr>
+<td><code>add_comment</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Comment on a note, under your name, where the slate&#39;s sharing lets you comment. <code>@Slatebox ...</code> asks the Slatebox agent</td>
+</tr>
+<tr>
+<td><code>resolve_comments</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Mark a note&#39;s comments resolved, or open them again, where you may comment</td>
+</tr>
+<tr>
+<td><code>remove_comment</code></td>
+<td>Writes</td>
+<td><code>slates:delete</code></td>
+<td>Remove a comment you wrote, or a Slatebox agent reply on a slate you may edit</td>
+</tr>
+<tr>
+<td><code>list_agent_tasks</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>See the agent tasks on a slate you may edit: open ones to claim, who is on each, what waits for a person, and each task&#39;s log</td>
+</tr>
+<tr>
+<td><code>ask_agent</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Give the Slatebox agent, or any agent, a task on a slate you may edit. It works in the open and holds removals for a person</td>
+</tr>
+<tr>
+<td><code>update_agent_task</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Claim an open agent task, add to its log, hand it on, or complete, fail or cancel it. Only a person approves</td>
+</tr>
+<tr>
+<td><code>generate_shape</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Draw custom note outlines from a description, such as a rocket or a speech bubble. Uses AI</td>
+</tr>
+<tr>
+<td><code>list_shapes</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>List the custom note shapes you and your team saved</td>
+</tr>
+<tr>
+<td><code>apply_shape</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Give notes a built-in or custom shape</td>
+</tr>
+<tr>
+<td><code>get_presentation</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Read a slate&#39;s presentation: its style and each step&#39;s layout and caption</td>
+</tr>
+<tr>
+<td><code>style_presentation</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Switch a slate&#39;s presentation to another style, keeping its steps</td>
 </tr>
 <tr>
 <td><code>list_components</code></td>
@@ -159,9 +249,9 @@ If your client cannot fetch the documentation, read the same published file at h
 <td>Delete a pending imported team and everything the import wrote</td>
 </tr>
 </tbody></table>
-<p>Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. <code>check_ai_connection</code> saves nothing but reaches the AI provider or address it tests.</p>
+<p>Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. <code>delete_slate</code> and <code>remove_comment</code> wait for your confirmation, as any removal does. <code>update_agent_task</code> is marked as able to delete, because it can cancel someone else&#39;s task, but nothing on the slate is removed. <a href="/developers/slateboxapi/slates/#agent-tasks">Agent tasks</a> <code>check_ai_connection</code> saves nothing but reaches the AI provider or address it tests.</p>
 <p><strong>AI settings on Slatebox Cloud.</strong> The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, <code>update_ai_settings</code> and <code>check_ai_connection</code> refuse levels <code>me</code> and <code>team</code> with &quot;Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups.&quot; An <code>update_ai_settings</code> call with only <code>remove</code> still works, to remove a connection saved before 22 November 2026. <a href="/using-slatebox/choose-your-ai/#set-it-up-with-an-agent">Choose your AI</a></p>
-<p><strong>Needs</strong> is the permission the tool uses (<a href="#what-happens-when-you-connect">permissions</a>). An app that asks for nothing in particular gets <code>slates:read</code> and <code>slates:write</code>; a tool whose permission your connection lacks is refused at once with <code>insufficient_scope</code>, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text is still in the answer. A personal token gets the refusal in the tool&#39;s result. <code>exec</code> uses the permissions of the calls its script makes.</p>
+<p><strong>Needs</strong> is the permission the tool uses (<a href="#what-happens-when-you-connect">permissions</a>). An app that asks for nothing in particular gets <code>slates:read</code> and <code>slates:write</code>; a tool whose permission your connection lacks is refused at once with <code>insufficient_scope</code>, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in and the server&#39;s sign-in metadata list every permission a tool can need: <code>slates:read</code>, <code>slates:write</code>, <code>slates:share</code>, <code>slates:delete</code>, <code>ai:settings</code>, <code>ai:admin</code>, <code>team:export</code> and <code>team:import</code>. Deleting is its own permission: <code>slates:delete</code> is never part of <code>slates:write</code>. A personal token gets the refusal in the tool&#39;s result. <code>exec</code> uses the permissions of the calls its script makes.</p>
 <p><strong>Prompts.</strong> <code>mind_map</code>, <code>flowchart</code>, <code>project_plan</code> and <code>presentation</code> start the matching drawing from a topic.</p>
 <p><strong>Resources.</strong> <code>slatebox://client/slatebox.d.ts</code> (the client&#39;s types), <code>slatebox://client/guide.md</code> (its rules, errors, limits and examples), and any slate you can open as <code>slatebox://slates/{shareId}</code> (JSON) or <code>slatebox://slates/{shareId}/mermaid</code>.</p>
 <p><strong>Only exec.</strong> To list only <code>exec</code> and <code>describe</code>, set <code>SLATEBOX_MCP_TYPED_TOOLS=off</code> on a self-hosted Slatebox, or start the local server with <code>--typed-tools off</code>. <code>exec</code> and <code>describe</code> stay either way.</p>
@@ -214,7 +304,7 @@ If your client cannot fetch the documentation, read the same published file at h
 }</code></pre></div></div><h2 id="what-happens-when-you-connect">What happens when you connect</h2><ol>
 <li>The consent page asks you to sign in to Slatebox, with your password or an emailed link. A guest account cannot connect apps.</li>
 <li>It names the app, says that Slatebox has not checked this app, and shows where you go back to afterwards.</li>
-<li>It lists each permission the app asked for. Untick any you do not want; you cannot add ones it did not ask for.</li>
+<li>It lists each permission the app asked for, with a sentence on what it allows. Untick any you do not want; you cannot add ones it did not ask for.</li>
 <li>Choose <strong>Allow</strong> to go back to the app signed in, or <strong>Deny</strong> to refuse.</li>
 </ol>
 <table>
@@ -237,6 +327,10 @@ If your client cannot fetch the documentation, read the same published file at h
 <td><code>slates:share</code></td>
 </tr>
 <tr>
+<td><strong>Delete slates I own and remove comments</strong></td>
+<td><code>slates:delete</code></td>
+</tr>
+<tr>
 <td><strong>Read, change and test my own AI connections</strong></td>
 <td><code>ai:settings</code></td>
 </tr>
@@ -257,5 +351,5 @@ If your client cannot fetch the documentation, read the same published file at h
 <p>The app acts as you: it reaches only the slates you can open, and deletes, large rewrites and wider sharing wait for your confirmation as they do for any script. <a href="/developers/slateboxapi/exec/#saves-that-wait-for-confirmation">Saves that wait for confirmation</a></p>
 <h2 id="disconnect-an-app">Disconnect an app</h2><p>Open <strong>Profile → Developer access</strong>. <strong>Connected apps</strong> lists each app with its permissions, when it connected and when it was last used. Choose <strong>Disconnect</strong>: the app&#39;s next request is refused, and it must ask you again.</p>
 <p>An account can have 25 connected apps; they do not count against your personal tokens.</p>
-<h2 id="run-it-on-your-machine">Run it on your machine</h2><p>Install <code>slatebox-mcp</code> when you want the server, or the <code>slatebox</code> command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download <code>slatebox-mcp-0.3.1.tgz</code> and its checksum, then point your client at the executable. <a href="/developers/slateboxapi/terminal-and-agents/#install-the-package">Install the package and CLI</a></p>
+<h2 id="run-it-on-your-machine">Run it on your machine</h2><p>Install <code>slatebox-mcp</code> when you want the server, or the <code>slatebox</code> command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download <code>slatebox-mcp-0.3.2.tgz</code> and its checksum, then point your client at the executable. <a href="/developers/slateboxapi/terminal-and-agents/#install-the-package">Install the package and CLI</a></p>
 </div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#what-your-assistant-gets" >What your assistant gets</a><a href="#connect-claude" >Connect Claude</a><a href="#connect-chatgpt" >Connect ChatGPT</a><a href="#connect-another-client" >Connect another client</a><a href="#connect-with-a-personal-token" >Connect with a personal token</a><a href="#what-happens-when-you-connect" >What happens when you connect</a><a href="#disconnect-an-app" >Disconnect an app</a><a href="#run-it-on-your-machine" >Run it on your machine</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

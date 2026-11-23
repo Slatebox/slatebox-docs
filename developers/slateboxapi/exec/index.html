@@ -117,13 +117,13 @@ return result</code></pre></div></div><p><code>exec</code> and <code>describe</c
 </ul>
 <h2 id="saves-that-wait-for-confirmation">Saves that wait for confirmation</h2><p>A save is held, not made, when the script:</p>
 <ul>
-<li>deletes notes or connectors, or withdraws an invitation;</li>
+<li>deletes notes or connectors, a slate or a comment, or withdraws an invitation;</li>
 <li>rewrites the text of more than 10 existing notes in all (the count is kept for the whole script, so 8 notes on each of two slates are held);</li>
 <li>changes or deletes existing notes or connectors on a slate someone else owns, or edits a map there. Slatebox does not yet record who wrote each note, so on your own slate a teammate&#39;s notes count as yours;</li>
 <li>shows content to more people than the slates it read (for example, copying a private slate&#39;s text onto a public one);</li>
 <li>grants access, such as creating an invitation link.</li>
 </ul>
-<p>These rules hold exec runs only: <code>slatebox exec</code>, <code>POST /api/v1/exec</code> and the MCP <code>exec</code> tool. A single <code>POST /api/v1/slates/{shareId}/operations</code> call made outside exec is not held. Give a token that should never make large rewrites <code>slates:read</code> only, or run its edits through exec.</p>
+<p>These rules hold exec runs (<code>slatebox exec</code>, <code>POST /api/v1/exec</code>, the MCP <code>exec</code> tool and every typed tool) and a token&#39;s direct API calls alike. A direct call that is held, such as a <code>DELETE /api/v1/slates/{shareId}</code> or a <code>POST /api/v1/slates/{shareId}/operations</code> that removes notes, answers <code>409 confirmation_required</code> with <code>details.confirmationId</code> and <code>details.reasons</code>, and saves nothing. To go ahead, send the same request again with the <code>Slatebox-Confirm</code> header set to that id and the same <code>Idempotency-Key</code>. Your own changes in the app are never held.</p>
 <p>A held call throws <code>SlateboxError</code> with code <code>confirmation_required</code>. Calls before it have saved. The result has <code>status: &quot;confirmation_required&quot;</code> and a <code>confirmation</code> with an id, an expiry and the reasons. To go ahead, run the same code again with <code>confirm</code> set to that id and the same <code>idempotencyKey</code>. A confirmation works once, for that code, for 10 minutes.</p>
 <table>
 <thead>
@@ -147,6 +147,10 @@ return result</code></pre></div></div><p><code>exec</code> and <code>describe</c
 <tr>
 <td><code>POST /api/v1/exec</code></td>
 <td>Your application</td>
+</tr>
+<tr>
+<td>A direct API call</td>
+<td>Your application, with the <code>Slatebox-Confirm</code> header</td>
 </tr>
 </tbody></table>
 <p>An agent you allow to run <code>exec</code> without asking can also confirm without asking. The rule is a speed bump with a record, not an approval system.</p>
