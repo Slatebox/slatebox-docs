@@ -86,4 +86,4 @@ A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. [A
 
 ## Slatebox Business
 
-Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold by talking to us for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](mailto:tim@slatebox.com?subject=Slatebox%20Business)
+Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold by talking to us for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](https://slatebox.com/contact/?topic=business)

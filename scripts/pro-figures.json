@@ -19,6 +19,6 @@
     "yearCentsPerSeat": 6000,
     "billingBuilt": false,
     "contactLabel": "Talk to us about Business",
-    "contactUrl": "mailto:tim@slatebox.com?subject=Slatebox%20Business"
+    "contactUrl": "https://slatebox.com/contact/?topic=business"
   }
 }
