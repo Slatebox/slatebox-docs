@@ -28,9 +28,12 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate or template |
 | `delete_slate` | Writes | `slates:write` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
 | `list_comments` | Reads | `slates:read` | Read the comments on a slate's notes, or on one note |
-| `add_comment` | Writes | `slates:write` | Comment on a note, under your name, on a slate you may open |
-| `resolve_comments` | Writes | `slates:write` | Mark a note's comments resolved, or open them again |
-| `remove_comment` | Writes | `slates:write` | Remove a comment you wrote. Only its author can |
+| `add_comment` | Writes | `slates:write` | Comment on a note, under your name, where the slate's sharing lets you comment. `@Slatebox ...` asks the Slatebox agent |
+| `resolve_comments` | Writes | `slates:write` | Mark a note's comments resolved, or open them again, where you may comment |
+| `remove_comment` | Writes | `slates:write` | Remove a comment you wrote, or a Slatebox agent reply on a slate you may edit |
+| `list_agent_tasks` | Reads | `slates:read` | See the agent tasks on a slate you may edit: open ones to claim, who is on each, what waits for a person, and each task's log |
+| `ask_agent` | Writes | `slates:write` | Give the Slatebox agent, or any agent, a task on a slate you may edit. It works in the open and holds removals for a person |
+| `update_agent_task` | Writes | `slates:write` | Claim an open agent task, add to its log, hand it on, or complete, fail or cancel it. Only a person approves |
 | `generate_shape` | Writes | `slates:write` | Draw custom note outlines from a description, such as a rocket or a speech bubble. Uses AI |
 | `list_shapes` | Reads | `slates:read` | List the custom note shapes you and your team saved |
 | `apply_shape` | Writes | `slates:write` | Give notes a built-in or custom shape |
@@ -56,11 +59,11 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `invite_team_import_person` | Writes | `team:import` | Email one person from a confirmed import whose address you have checked |
 | `discard_team_import` | Writes | `team:import` | Delete a pending imported team and everything the import wrote |
 
-Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `delete_slate` and `remove_comment` wait for your confirmation, as any removal does. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
+Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `delete_slate` and `remove_comment` wait for your confirmation, as any removal does. `update_agent_task` is marked as able to delete, because it can cancel someone else's task, but nothing on the slate is removed. [Agent tasks](slates.md#agent-tasks) `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
 
 **AI settings on Slatebox Cloud.** The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, `update_ai_settings` and `check_ai_connection` refuse levels `me` and `team` with "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." An `update_ai_settings` call with only `remove` still works, to remove a connection saved before 22 November 2026. [Choose your AI](../../Using-Slatebox/choose-your-ai.md#set-it-up-with-an-agent)
 
-**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text is still in the answer. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
+**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in and the server's sign-in metadata list every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `ai:settings`, `ai:admin`, `team:export` and `team:import`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
 
 **Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic.
 
@@ -127,7 +130,7 @@ A client without sign-in sends a personal token instead. Create one in **Profile
 
 1. The consent page asks you to sign in to Slatebox, with your password or an emailed link. A guest account cannot connect apps.
 2. It names the app, says that Slatebox has not checked this app, and shows where you go back to afterwards.
-3. It lists each permission the app asked for. Untick any you do not want; you cannot add ones it did not ask for.
+3. It lists each permission the app asked for, with a sentence on what it allows. Untick any you do not want; you cannot add ones it did not ask for.
 4. Choose **Allow** to go back to the app signed in, or **Deny** to refuse.
 
 | Permission | Scope |
@@ -152,4 +155,4 @@ An account can have 25 connected apps; they do not count against your personal t
 
 ## Run it on your machine
 
-Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.1.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
+Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.2.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
