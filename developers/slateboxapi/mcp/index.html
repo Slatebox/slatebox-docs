@@ -1,0 +1,260 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connect an assistant: Agents and MCP · Slatebox Docs</title><meta name="description" content="Add https://app.slatebox.com/mcp to Claude, ChatGPT or any MCP client, sign in to Slatebox, and your assistant can draw and edit your slates."><link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/mcp/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Developers/SlateboxAPI/mcp.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details open><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/mcp/" aria-current="page">Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / HTTP API</div><h1>Connect an assistant: Agents and MCP</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Developers/SlateboxAPI/mcp.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me connect my assistant to Slatebox through MCP. Use the hosted address https://app.slatebox.com/mcp (or /mcp on my own Slatebox) unless I ask to run the server on my machine. Tell me the exact steps for my client, and what the Slatebox consent page will ask. Once connected, list the tools and make one small mind map with import_mermaid to prove it works, then give me the slate link. Never ask me to paste a token into chat.
+
+Read https://docs.slatebox.com/Developers/SlateboxAPI/mcp.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/mcp.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Add <code>https://app.slatebox.com/mcp</code> to your assistant as a remote MCP server. It sends you to Slatebox to sign in and choose what it may do, and then it can draw mind maps, flowcharts and project plans on your slates. On your own Slatebox, the address is <code>/mcp</code> on its origin.</p>
+<h2 id="what-your-assistant-gets">What your assistant gets</h2><p><code>exec</code> and <code>describe</code> are always listed. <code>exec</code> runs a short script against the typed Slatebox client, so one call can read a slate, decide and save; <code>describe</code> returns the client&#39;s methods and types. <a href="/developers/slateboxapi/exec/">How exec works</a></p>
+<p>Beside them, the server lists one typed tool per client method, generated from the same contract as the client. Each typed tool is an exec script of one call, so it meets the same checks, holds and audit record as a script.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Reads or writes</th>
+<th>Needs</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>create_slate</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Create a private flowchart from steps written as <code>A -&gt; B</code>, or a decision map from a one-line question, and return its link</td>
+</tr>
+<tr>
+<td><code>import_mermaid</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Draw a mind map, flowchart or project plan (Gantt chart) written in Mermaid as editable notes and lines</td>
+</tr>
+<tr>
+<td><code>get_slate</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Read a slate&#39;s notes, lines, boards, comments and revision</td>
+</tr>
+<tr>
+<td><code>edit_slate</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Add, change, connect, lay out or remove notes and lines, and edit boards; <code>mode: &quot;preview&quot;</code> saves nothing</td>
+</tr>
+<tr>
+<td><code>export_mermaid</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Read a slate as Mermaid text</td>
+</tr>
+<tr>
+<td><code>list_components</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>List the boards and starters you can add to a slate, such as pipeline and budget boards</td>
+</tr>
+<tr>
+<td><code>get_component</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Read one board or starter in full</td>
+</tr>
+<tr>
+<td><code>check_board_move</code></td>
+<td>Reads</td>
+<td><code>slates:read</code></td>
+<td>Check whether a card may move to a lane, and why not, without moving it</td>
+</tr>
+<tr>
+<td><code>create_slate_invite</code></td>
+<td>Writes</td>
+<td><code>slates:share</code></td>
+<td>Turn on a slate&#39;s unlisted invitation link, or change its role</td>
+</tr>
+<tr>
+<td><code>revoke_slate_invite</code></td>
+<td>Writes</td>
+<td><code>slates:share</code></td>
+<td>Withdraw the invitation link and make the slate private again</td>
+</tr>
+<tr>
+<td><code>show_plan</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Show the people on a slate a short checklist of what the assistant is about to do</td>
+</tr>
+<tr>
+<td><code>tick_plan_step</code></td>
+<td>Writes</td>
+<td><code>slates:write</code></td>
+<td>Mark a step of that checklist as doing, done or skipped</td>
+</tr>
+<tr>
+<td><code>get_account</code></td>
+<td>Reads</td>
+<td>—</td>
+<td>Read your account: name, team and what you can use</td>
+</tr>
+<tr>
+<td><code>describe_instance</code></td>
+<td>Reads</td>
+<td>—</td>
+<td>Describe the Slatebox server: name, version and what it can do</td>
+</tr>
+<tr>
+<td><code>get_ai_settings</code></td>
+<td>Reads</td>
+<td><code>ai:settings</code></td>
+<td>Read your AI connections and which one each feature uses; keys are never returned</td>
+</tr>
+<tr>
+<td><code>update_ai_settings</code></td>
+<td>Writes</td>
+<td><code>ai:settings</code> (and <code>ai:admin</code> for a team or the server)</td>
+<td>Add, change or remove AI connections, and choose one per feature</td>
+</tr>
+<tr>
+<td><code>check_ai_connection</code></td>
+<td>Reads</td>
+<td><code>ai:settings</code> (and <code>ai:admin</code> for a team or the server)</td>
+<td>Test an AI connection before Slatebox drafts with it</td>
+</tr>
+<tr>
+<td><code>export_team</code></td>
+<td>Writes</td>
+<td><code>team:export</code></td>
+<td>For a team admin: a one-time download address for everything the team owns, to move it or keep a copy</td>
+</tr>
+<tr>
+<td><code>start_team_import</code></td>
+<td>Writes</td>
+<td><code>team:import</code></td>
+<td>For a server administrator: a one-time address to upload a team export to</td>
+</tr>
+<tr>
+<td><code>list_team_imports</code></td>
+<td>Reads</td>
+<td><code>team:import</code></td>
+<td>List recent team imports, pending ones first</td>
+</tr>
+<tr>
+<td><code>get_team_import</code></td>
+<td>Reads</td>
+<td><code>team:import</code></td>
+<td>Read one team import and its report</td>
+</tr>
+<tr>
+<td><code>confirm_team_import</code></td>
+<td>Writes</td>
+<td><code>team:import</code></td>
+<td>Make a pending imported team live, and optionally email its people to claim their accounts</td>
+</tr>
+<tr>
+<td><code>invite_team_import_person</code></td>
+<td>Writes</td>
+<td><code>team:import</code></td>
+<td>Email one person from a confirmed import whose address you have checked</td>
+</tr>
+<tr>
+<td><code>discard_team_import</code></td>
+<td>Writes</td>
+<td><code>team:import</code></td>
+<td>Delete a pending imported team and everything the import wrote</td>
+</tr>
+</tbody></table>
+<p>Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. <code>check_ai_connection</code> saves nothing but reaches the AI provider or address it tests.</p>
+<p><strong>Needs</strong> is the permission the tool uses (<a href="#what-happens-when-you-connect">permissions</a>). An app that asks for nothing in particular gets <code>slates:read</code> and <code>slates:write</code>; a tool whose permission your connection lacks is refused at once with <code>insufficient_scope</code>, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text is still in the answer. A personal token gets the refusal in the tool&#39;s result. <code>exec</code> uses the permissions of the calls its script makes.</p>
+<p><strong>Prompts.</strong> <code>mind_map</code>, <code>flowchart</code>, <code>project_plan</code> and <code>presentation</code> start the matching drawing from a topic.</p>
+<p><strong>Resources.</strong> <code>slatebox://client/slatebox.d.ts</code> (the client&#39;s types), <code>slatebox://client/guide.md</code> (its rules, errors, limits and examples), and any slate you can open as <code>slatebox://slates/{shareId}</code> (JSON) or <code>slatebox://slates/{shareId}/mermaid</code>.</p>
+<p><strong>Only exec.</strong> To list only <code>exec</code> and <code>describe</code>, set <code>SLATEBOX_MCP_TYPED_TOOLS=off</code> on a self-hosted Slatebox, or start the local server with <code>--typed-tools off</code>. <code>exec</code> and <code>describe</code> stay either way.</p>
+<h2 id="connect-claude">Connect Claude</h2><ol>
+<li>In Claude, open <strong>Settings → Connectors</strong> and choose <strong>Add custom connector</strong>.</li>
+<li>Name it Slatebox and enter <code>https://app.slatebox.com/mcp</code>. Choose <strong>Add</strong>, then <strong>Connect</strong>.</li>
+<li>Slatebox opens in your browser. Sign in, check the permissions and choose <strong>Allow</strong>. <a href="#what-happens-when-you-connect">What happens when you connect</a></li>
+</ol>
+<p>You get the Slatebox tools in your conversations. Ask &quot;Make a mind map of our Q1 launch ideas&quot; and Claude replies with the slate link.</p>
+<p>In Claude Code, add the server, then sign in from the <code>/mcp</code> menu:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">claude mcp add --transport http slatebox https://app.slatebox.com/mcp</code></pre></div></div><h2 id="connect-chatgpt">Connect ChatGPT</h2><ol>
+<li>In ChatGPT&#39;s settings, turn on developer mode for apps and connectors.</li>
+<li>Create an app named Slatebox with the MCP server URL <code>https://app.slatebox.com/mcp</code> and OAuth authentication.</li>
+<li>Slatebox opens in your browser. Sign in, check the permissions and choose <strong>Allow</strong>.</li>
+</ol>
+<h2 id="connect-another-client">Connect another client</h2><p>Any client that supports remote MCP servers with OAuth connects the same way: give it <code>https://app.slatebox.com/mcp</code>. The first request answers 401 with the address of <code>/.well-known/oauth-protected-resource/mcp</code>; the client registers itself, opens the consent page, and exchanges the code with PKCE (S256).</p>
+<table>
+<thead>
+<tr>
+<th>Client setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Server URL</td>
+<td><code>https://app.slatebox.com/mcp</code>, or <code>/mcp</code> on your own Slatebox</td>
+</tr>
+<tr>
+<td>Transport</td>
+<td>Streamable HTTP</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>OAuth 2.1 with dynamic client registration</td>
+</tr>
+<tr>
+<td>Redirect addresses</td>
+<td>HTTPS, <code>http://localhost</code> or <code>http://127.0.0.1</code>, or the app&#39;s own scheme</td>
+</tr>
+</tbody></table>
+<h2 id="connect-with-a-personal-token">Connect with a personal token</h2><p>A client without sign-in sends a personal token instead. Create one in <strong>Profile → Developer access</strong> and keep it in your secret store.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JSON"><div class="code-label">JSON</div><pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;slatebox&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://app.slatebox.com/mcp&quot;,
+      &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer ${SLATEBOX_API_TOKEN}&quot; }
+    }
+  }
+}</code></pre></div></div><h2 id="what-happens-when-you-connect">What happens when you connect</h2><ol>
+<li>The consent page asks you to sign in to Slatebox, with your password or an emailed link. A guest account cannot connect apps.</li>
+<li>It names the app, says that Slatebox has not checked this app, and shows where you go back to afterwards.</li>
+<li>It lists each permission the app asked for. Untick any you do not want; you cannot add ones it did not ask for.</li>
+<li>Choose <strong>Allow</strong> to go back to the app signed in, or <strong>Deny</strong> to refuse.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Read slates</strong></td>
+<td><code>slates:read</code></td>
+</tr>
+<tr>
+<td><strong>Create and edit slates</strong></td>
+<td><code>slates:write</code></td>
+</tr>
+<tr>
+<td><strong>Manage invitation links on slates I own</strong></td>
+<td><code>slates:share</code></td>
+</tr>
+<tr>
+<td><strong>Read, change and test my own AI connections</strong></td>
+<td><code>ai:settings</code></td>
+</tr>
+<tr>
+<td><strong>Change and test my team&#39;s or this server&#39;s AI (team admins and administrators only)</strong></td>
+<td><code>ai:admin</code></td>
+</tr>
+<tr>
+<td><strong>Export everything my team owns (team admins only)</strong></td>
+<td><code>team:export</code></td>
+</tr>
+<tr>
+<td><strong>Import a team export as a new team, and confirm or discard it (administrators only)</strong></td>
+<td><code>team:import</code></td>
+</tr>
+</tbody></table>
+<p>An app that asks for nothing in particular gets <strong>Read slates</strong> and <strong>Create and edit slates</strong>. Each access token lasts 1 hour and the app renews it itself; a connection unused for 30 days lapses, and the app asks you again. These sign-in tokens work on <code>/mcp</code> only and never open <code>/api/v1</code>.</p>
+<p>The app acts as you: it reaches only the slates you can open, and deletes, large rewrites and wider sharing wait for your confirmation as they do for any script. <a href="/developers/slateboxapi/exec/#saves-that-wait-for-confirmation">Saves that wait for confirmation</a></p>
+<h2 id="disconnect-an-app">Disconnect an app</h2><p>Open <strong>Profile → Developer access</strong>. <strong>Connected apps</strong> lists each app with its permissions, when it connected and when it was last used. Choose <strong>Disconnect</strong>: the app&#39;s next request is refused, and it must ask you again.</p>
+<p>An account can have 25 connected apps; they do not count against your personal tokens.</p>
+<h2 id="run-it-on-your-machine">Run it on your machine</h2><p>Install <code>slatebox-mcp</code> when you want the server, or the <code>slatebox</code> command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download <code>slatebox-mcp-0.3.1.tgz</code> and its checksum, then point your client at the executable. <a href="/developers/slateboxapi/terminal-and-agents/#install-the-package">Install the package and CLI</a></p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#what-your-assistant-gets" >What your assistant gets</a><a href="#connect-claude" >Connect Claude</a><a href="#connect-chatgpt" >Connect ChatGPT</a><a href="#connect-another-client" >Connect another client</a><a href="#connect-with-a-personal-token" >Connect with a personal token</a><a href="#what-happens-when-you-connect" >What happens when you connect</a><a href="#disconnect-an-app" >Disconnect an app</a><a href="#run-it-on-your-machine" >Run it on your machine</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

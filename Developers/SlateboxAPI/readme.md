@@ -27,7 +27,7 @@ Create, read and edit slates from your own code. The API is served under `/api/v
 | `DELETE /api/v1/tokens/current` | Revoke the token you call with, which signs an agent out | That token |
 | `POST /api/v1/exec` | Run an agent script in the sealed runner | A token; each call inside is checked with its scopes |
 | `GET /api/v1/exec/{execId}` | Read the record of one of your runs | A token of yours |
-| `POST /mcp` | The MCP endpoint: the `exec` and `describe` tools | A bearer token |
+| `POST /mcp` | The MCP endpoint: `exec`, `describe` and one typed tool per client method ([Connect an assistant](mcp.md)) | Sign-in (OAuth) or a bearer token |
 | `GET https://api.slatebox.com/embed/{publishedSlateId}` | Show a published presentation image (the embed host) | A published board |
 
 Every instance serves its OpenAPI 3.1 document, with request bodies, response schemas and operation IDs, at `/api/v1/openapi.json`. No token is needed. [OpenAPI for Slatebox Cloud](https://app.slatebox.com/api/v1/openapi.json)

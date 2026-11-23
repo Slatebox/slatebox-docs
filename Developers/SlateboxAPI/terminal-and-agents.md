@@ -12,6 +12,8 @@ If your client cannot fetch the documentation, read the same published file at h
 
 Run a short script against your slates from a terminal, or let an agent do it. The terminal has `slatebox exec` and `slatebox describe`; an agent gets the `exec` and `describe` tools. Every call in a script is checked as if you made it yourself. [How exec works](exec.md)
 
+To connect Claude, ChatGPT or another assistant with nothing installed, add `https://app.slatebox.com/mcp` and sign in. [Connect an assistant](mcp.md)
+
 ## Connect to your board
 
 1. In **Profile → Developer access**, create a token with the permissions you need. [Developer access](https://app.slatebox.com/profile)
@@ -32,7 +34,7 @@ Use Node.js 22.13 or later. Download the package and its checksum into your proj
 
 ```sh Shell
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.3.0.tgz
+package=slatebox-mcp-0.3.1.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"
@@ -67,7 +69,7 @@ Point your MCP client's stdio server at the installed executable, with its absol
 
 Scripts then run on your machine with your rights, so your client's approval prompt for `exec` is your check. To run scripts on your instance instead, with nothing installed, connect to its `/mcp` endpoint. [Connect an agent](exec.md#connect-an-agent)
 
-The agent gets two tools. `describe` lists every client method with the scope it needs, and returns their types. `exec` runs a script with `intent`, `code` and optionally `mode: "preview"`, `confirm` and `idempotencyKey`.
+The agent gets `exec` and `describe`, always. `describe` lists every client method with the scope it needs, and returns their types. `exec` runs a script with `intent`, `code` and optionally `mode: "preview"`, `confirm` and `idempotencyKey`. Beside them the server lists one typed tool per client method, the prompts and the resources; start it with `--typed-tools off` to list only `exec` and `describe`. [What your assistant gets](mcp.md#what-your-assistant-gets)
 
 ## Run a script
 

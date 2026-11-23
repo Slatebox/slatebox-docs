@@ -16,6 +16,7 @@ Pick the interface that owns the data you want to change.
 | --- | --- |
 | Draw a board in your own web page and control its storage | [SlateboxJS quick slate](JavascriptLibrary/readme.md) |
 | Read a hosted slate or preview a repeatable edit | [HTTP API](SlateboxAPI/readme.md) |
+| Connect Claude, ChatGPT or another assistant to your slates | [Connect an assistant: Agents and MCP](SlateboxAPI/mcp.md) |
 | Let an agent read and edit your slates with one tool | [Exec: how agents work with Slatebox](SlateboxAPI/exec.md) |
 | Run exec from a terminal or an MCP client | [Install the CLI and MCP server](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |

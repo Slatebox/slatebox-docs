@@ -1,5 +1,7 @@
 # Slatebox documentation
 
+Slatebox: the free, open-source team canvas. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.
+
 Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.
 
 Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt).
@@ -7,6 +9,14 @@ Each guide has a GitHub mirror for command-line clients. You can also read [this
 [OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)
 
 For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.
+
+## Agents / MCP
+
+- Hosted MCP server: https://app.slatebox.com/mcp (Streamable HTTP). Sign in with OAuth when the client connects, or send a personal token as a bearer token. A self-hosted Slatebox serves the same endpoint at /mcp on its origin.
+- Tools: exec, always listed, runs a short JavaScript or TypeScript script against the typed Slatebox client; describe returns its methods and types. Beside them, one typed tool per client method (create_slate, import_mermaid, get_slate, edit_slate, export_mermaid and more), generated from the same contract; each is an exec script of one call, with the same checks.
+- [Connect an assistant: Agents and MCP](https://docs.slatebox.com/Developers/SlateboxAPI/mcp.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/mcp.md)
+- [Exec: how agents work with Slatebox](https://docs.slatebox.com/Developers/SlateboxAPI/exec.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/exec.md)
+- Local server and CLI: the slatebox-mcp package. [Install it](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md)
 
 ## Using Slatebox
 
@@ -36,6 +46,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 
 ## HTTP API
 
+- [Connect an assistant: Agents and MCP](https://docs.slatebox.com/Developers/SlateboxAPI/mcp.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/mcp.md)
 - [Edit a shared slate from a terminal or an agent](https://docs.slatebox.com/Developers/SlateboxAPI/terminal-and-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/terminal-and-agents.md)
 - [Exec: how agents work with Slatebox](https://docs.slatebox.com/Developers/SlateboxAPI/exec.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/exec.md)
 - [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/slates.md)
