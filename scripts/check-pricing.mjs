@@ -1,5 +1,6 @@
-// Pricing in the docs: Slatebox is free (MIT, open source). AI and calls are free with your own keys, or come with
-// Slatebox Pro ($5 a month or $50 a year plus tax, Pro credits sized by the app, on sale now); top-ups work with or
+// Pricing in the docs: Slatebox is free (MIT, open source). On Slatebox Cloud, AI and calls come with Slatebox Pro ($5 a
+// month or $50 a year plus tax, Pro credits sized by the app, on sale now) and top-ups; own AI and call keys are for
+// self-hosted Slatebox only, where they are free (owner, 2026-11-22; the app's own-keys.mjs); top-ups work with or
 // without Pro; teams can choose Slatebox Business, sold by talking to us until its billing is built (owner, 2026-11-22).
 //   node --test scripts/check-pricing.mjs        (after npm run build, so dist/ holds the built pages)
 //   npm run check:cross                          the same, and the app and the site must be found (REQUIRE_APP, REQUIRE_SITE)
@@ -18,7 +19,7 @@ const read = file => readFileSync(file, 'utf8')
 const pages = {
   'Using-Slatebox/pricing.md': ['Pricing', '/using-slatebox/pricing/'],
   'Using-Slatebox/slatebox-pro.md': ['Slatebox Pro', '/using-slatebox/slatebox-pro/'],
-  'Using-Slatebox/own-keys.md': ['Use your own keys', '/using-slatebox/own-keys/'],
+  'Using-Slatebox/own-keys.md': ['Use your own keys on a self-hosted Slatebox', '/using-slatebox/own-keys/'],
   'Using-Slatebox/top-ups.md': ['Top-ups and refunds', '/using-slatebox/top-ups/'],
   'Installation/self-host-meters.md': ['A self-hosted Slatebox has no meters', '/installation/self-host-meters/'],
   'Using-Slatebox/slatebox-business.md': ['Slatebox Business', '/using-slatebox/slatebox-business/'],
@@ -50,6 +51,11 @@ const PRO = ['$' + FIGURES.pro.monthCents / 100 + ' a month', '$' + FIGURES.pro.
   'about ' + money(CREDITS.costDollars), 'about ' + CREDITS.draftsPerMonth + ' drafts a month', 'up to ' + CREDITS.draftsPerDay + ' a day',
   hoursWords(CREDITS.voiceHours), hoursWords(CREDITS.videoHours)]
 const BUSINESS_LINK = '[Talk to us about Business](' + FIGURES.business.contactUrl + ')'
+const section = (source, heading) => source.split(/^## /m).find(s => s.startsWith(heading)) ?? ''
+// The app's refusal on Cloud (imports/api/common/own-keys.mjs OWN_KEYS_CLOUD) and its MCP listing line (the 0.3.1 package
+// README); the docs quote both word for word, and check:cross compares them with the app.
+const OWN_KEYS_CLOUD = 'Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups.'
+const LISTING = 'The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key.'
 const beside = (env, candidates, marker) => [env, ...candidates].filter(Boolean).map(dir => resolve(dir)).find(dir => existsSync(join(dir, marker)))
 
 test('scripts/pro-figures.json is the app\'s own figures', async t => {
@@ -66,8 +72,10 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   for (const words of [...HEADLINE, ...PRO, '5%', '$1,000']) assert.ok(pricing.toLowerCase().includes(words.toLowerCase()), 'pricing.md does not say ' + words)
   for (const words of [thousands(CREDITS.voiceMinutes) + ' participant-minutes of voice', thousands(CREDITS.videoMinutes) + ' participant-minutes of video', 'Each row is its own amount for the month', 'the share of that month\'s Pro credits', 'carries on as voice', 'Joining a call', 'never pay', 'own key', 'top up', 'with or without Pro', 'Pro credits never shrink or pause', '5 a day for each person', 'do not carry over', 'Cancel any time', '30 days ahead', '(slatebox-business.md)', BUSINESS_LINK])
     assert.ok(pricing.includes(words), 'pricing.md does not say ' + words)
-  // Own keys are free for everyone; nothing but AI and calls Slatebox pays for needs money.
-  assert.match(pricing, /AI and calls work free with your own keys/, 'pricing.md: own keys are free, with or without Pro')
+  // Own keys are a self-hosted feature (owner, 2026-11-22): on Cloud, AI and calls come with Pro and top-ups.
+  assert.match(pricing, /Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free/, 'pricing.md: own keys are for self-hosted Slatebox only')
+  assert.doesNotMatch(pricing, /## Three ways to pay|\*\*Your own key\.\*\*/, 'pricing.md: own keys are not a way to pay on Cloud')
+  assert.match(section(pricing, 'Self-hosted Slatebox'), /own AI and call keys, for free/, 'pricing.md: a self-hosted Slatebox keeps own keys, free')
   assert.match(pricing, /every feature is free/i, 'pricing.md: every feature is free')
   // The subscription page: price, credits, cancelling, failed payments, refunds as the terms say, deleting the account.
   assert.doesNotMatch(pricing + pro, /in any mix/i, 'Pro credits are separate allowances, not one pool')
@@ -109,7 +117,7 @@ test('no docs page promises "no subscriptions", a free monthly amount for everyo
 // inside the shared Cloud at $6 a person a month or $60 a person a year, sold through the contact form until its billing ships.
 test('Slatebox Business replaces Slatebox Private, and is sold by talking to us', () => {
   const biz = read('Using-Slatebox/slatebox-business.md')
-  for (const words of ['$6 a person a month', '$60 a person a year', 'plus tax where applicable', 'shared, fully managed', 'shared pool of AI and calls', 'same amount as Pro credits', 'about ' + money(CREDITS.costDollars), 'Single sign-on and the audit log', 'not on Slatebox Cloud yet', 'Hands-on help for large teams', 'is coming', 'Your own keys stay free', 'not on sale in the app yet', BUSINESS_LINK])
+  for (const words of ['$6 a person a month', '$60 a person a year', 'plus tax where applicable', 'shared, fully managed', 'shared pool of AI and calls', 'same amount as Pro credits', 'about ' + money(CREDITS.costDollars), 'Single sign-on and the audit log', 'not on Slatebox Cloud yet', 'Hands-on help for large teams', 'is coming', 'No own keys on Cloud', 'not on sale in the app yet', BUSINESS_LINK])
     assert.ok(biz.includes(words), 'slatebox-business.md does not say ' + words)
   // single sign-on and the audit log are not on Cloud: promised for when they come, never stated as there today
   for (const file of docs) assert.doesNotMatch(read(file), /Enterprise features, free for every team on Cloud anyway|audit log are not sold separately/i, file + ' says single sign-on and the audit log are on Cloud today')
@@ -129,8 +137,12 @@ test('Slatebox Business replaces Slatebox Private, and is sold by talking to us'
 
 test('top-ups, own keys and self-host say what builder A built', () => {
   const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
-  for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance', '**Credits**', 'You do not need Pro to top up', 'then your Pro credits if you have Slatebox Pro, then your balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
-  for (const words of ['**Credits**', 'with or without Slatebox Pro', 'Team settings', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'last four characters', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
+  for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance', '**Credits**', 'You do not need Pro to top up', 'Your Pro credits are used first if you have Slatebox Pro, then your balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
+  // own-keys.md is the self-hosted page: on Cloud, nothing is saved or used, and a key saved before stays, unused, removable.
+  assert.match(keys, /^# Use your own keys on a self-hosted Slatebox$/m, 'own-keys.md: the title says self-hosted')
+  assert.match(keys.split('\n## ')[0], /Own AI and call keys are for self-hosted Slatebox\.[\s\S]*On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups\./, 'own-keys.md: the intro says own keys are self-hosted and Cloud has Pro and top-ups')
+  for (const words of [OWN_KEYS_CLOUD, 'before 22 November 2026 stays stored, unused', 'Slatebox never sends a request with it', 'can still remove it', 'remove: [']) assert.ok(section(keys, 'On Slatebox Cloud').includes(words), 'own-keys.md, On Slatebox Cloud, does not say ' + words)
+  for (const words of ['**Credits**', 'Team settings', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'last four characters', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
   // Restated (feat/any-ai-selfhost): the image writes the operator's AI to settings.ai (ai-config.mjs).
   for (const words of ['no meters', 'settings.ai', '10,000', 'metering', 'nobody needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-meters.md does not say ' + words)
   assert.match(read('Installation/install-with-docker.md'), /\(self-host-meters\.md\)/, 'the Docker guide links the no-meters page')
@@ -183,7 +195,7 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   const ai = keys.split('\n').find(line => line.startsWith('| Your own AI')) || ''
   assert.doesNotMatch(ai, /image search/i, 'own-keys.md: own AI does not pay for image search')
   assert.doesNotMatch(keys, /Your (free amount|Pro credits) and your balance are left untouched\./, 'own-keys.md: images still use Pro credits and the balance')
-  assert.match(keys, /Image search[^.]*Pro credits, then your balance/, 'own-keys.md: say image search uses Pro credits, then the balance')
+  assert.match(keys, /Image search[^.]*(Pro credits|included amount), then your balance/, 'own-keys.md: say image search uses the included amount, then the balance')
   assert.match(keys, /Image generation[^.]*unless you choose[^.]*makes images[^.]*\*\*Generating images\*\*/, 'own-keys.md: image generation is yours only with a connection that makes images, chosen for Generating images')
   // Images are not drafts (holds.mjs: a draft is kind ai): they use the month's AI of Pro credits.
   assert.doesNotMatch(pricing, /each image search and each image generation is one draft/i, 'pricing.md: images are not drafts')
@@ -219,4 +231,50 @@ test('the image takes SLATEBOX_KEY_ENCRYPTION_KEY, and the docs say so', () => {
   const install = read('Installation/install-with-docker.md')
   assert.match(install, /^\| `SLATEBOX_KEY_ENCRYPTION_KEY` \|.*openssl rand -base64 32/m, 'install-with-docker.md: the Options table lists the key and how to make it')
   for (const file of docs) assert.doesNotMatch(read(file), /does not accept that variable|runs without own keys/, file + ': the image accepts SLATEBOX_KEY_ENCRYPTION_KEY')
+})
+
+// Own AI and call keys are for self-hosted Slatebox only (owner, 2026-11-22). Slatebox Cloud refuses own-key writes and never
+// uses a key saved before, so no sentence outside a self-hosted context may say own keys work, pay or are free. A sentence
+// that names a self-hosted Slatebox (or your own server) is about self-hosting and may say so.
+const SELF_HOSTED = /self-host|your own server|run yourself|on your own Slatebox/i
+const OWN_KEYS_ON_CLOUD = [
+  /free with (your )?own keys|(work|works) free with your own/i,
+  /your own (AI |call |Daily )?keys? (is|are|stay|stays) (always )?free/i,
+  /own keys? (still )?works?\b|own keys and (your|the) balance/i,
+  /AI on your own key/i,
+  /own (AI|connections?|keys?)[^.]*costs? nothing/i,
+  /Your own keys? (is|are) used first|own key(s)?,? then (your )?Pro credits/i,
+  /connect your own AI, add a Daily key/i,
+  /Bring your own (AI|key|Daily)/i,
+  /own keys (stay|are) free with or without/i,
+]
+const sentences = text => text.replace(/<!--[\s\S]*?-->/g, ' ').split(/(?<=[.!?])\s+|\n+/)
+test('no page says own AI or call keys work or are free on Slatebox Cloud', () => {
+  const found = []
+  for (const file of [...docs, 'STYLE.md', 'readme.md']) {
+    for (const sentence of sentences(read(file))) {
+      if (SELF_HOSTED.test(sentence)) continue
+      for (const pattern of OWN_KEYS_ON_CLOUD) if (pattern.test(sentence)) found.push(file + ': ' + sentence.trim().slice(0, 140))
+    }
+  }
+  assert.deepEqual(found, [])
+  // the guard itself catches the old words
+  for (const old of ['AI and calls work free with your own keys.', 'Your own keys stay free.', 'Your own keys and your balance still work.', 'The canvas is free, and so is AI on your own key.', 'Your own key is used first, then your Pro credits.'])
+    assert.ok(OWN_KEYS_ON_CLOUD.some(p => p.test(old)), 'the guard misses: ' + old)
+  // the pages that speak of Cloud money say own keys are not there
+  for (const [file, words] of [['Using-Slatebox/slatebox-pro.md', 'own keys are for self-hosted Slatebox'], ['Using-Slatebox/slatebox-business.md', 'Own AI and call keys are for self-hosted Slatebox'], ['Using-Slatebox/choose-your-ai.md', 'Personal and team connections are for self-hosted Slatebox only'], ['Using-Slatebox/choose-your-ai.md', OWN_KEYS_CLOUD], ['Developers/SlateboxAPI/mcp.md', LISTING], ['Developers/SlateboxAPI/mcp.md', OWN_KEYS_CLOUD]])
+    assert.ok(read(file).includes(words), file + ' does not say ' + words)
+  assert.doesNotMatch(read('Developers/SlateboxAPI/mcp.md'), /so is AI on your own key|AI on your own key is free/i, 'mcp.md: the old listing line')
+})
+
+test('the Cloud refusal and the MCP listing line are the app\'s words', t => {
+  const app = beside(process.env.APP_DIR, ['../app', '../app.slatebox.com'], 'web/app/imports/api/common/own-keys.mjs')
+  if (!app) {
+    assert.notEqual(process.env.REQUIRE_APP, '1', 'REQUIRE_APP=1 and no app checkout with own-keys.mjs found: set APP_DIR')
+    return t.skip('no app checkout beside the docs (set APP_DIR): the refusal and the listing line were not compared with the app')
+  }
+  const source = read(join(app, 'web/app/imports/api/common/own-keys.mjs'))
+  assert.ok(source.includes("'" + OWN_KEYS_CLOUD + "'"), 'the app\'s OWN_KEYS_CLOUD at ' + app + ' differs from the docs\' quote')
+  for (const readme of ['README.md', 'packages/slatebox-mcp/README.md'])
+    assert.ok(read(join(app, readme)).includes(LISTING), app + '/' + readme + ' does not carry the listing line the docs quote')
 })

@@ -1,13 +1,17 @@
 ---
 title: Choose your AI
-description: Connect any cloud provider with your key, or any OpenAI-compatible endpoint on your computer, your network or a host. Mix them per feature. Your own AI costs nothing on Slatebox.
+description: On a self-hosted Slatebox, connect any cloud provider with your key, or any OpenAI-compatible endpoint on your computer, your network or a host, and mix them per feature, for free. On Slatebox Cloud, AI comes with Slatebox Pro.
 ---
 
 # Choose your AI
 
-Slatebox uses the AI you choose: a cloud provider with your key, or any model behind an OpenAI-compatible endpoint, on your computer, your network or a host. Mix them freely, one model for conversation and another for images. Your own AI costs nothing on Slatebox.
+On a self-hosted Slatebox, Slatebox uses the AI you choose: a cloud provider with your key, or any model behind an OpenAI-compatible endpoint, on your computer, your network or a host. Mix them freely, one model for conversation and another for images. Your own AI is free.
+
+On Slatebox Cloud, AI comes with Slatebox Pro credits and top-ups. Personal and team connections are for self-hosted Slatebox only. **Profile → AI** shows which AI each feature uses. [Use your own keys](own-keys.md#on-slatebox-cloud) · [Pricing](pricing.md)
 
 ## Connect a model
+
+On a self-hosted Slatebox:
 
 1. Open **Profile → AI** and choose **Connect a model**.
 2. Enter a **Name** (lowercase letters, digits and dashes, such as `desk-model`) and choose a **Type**.
@@ -62,13 +66,13 @@ Slatebox looks for a choice in this order and uses the first it finds, for each 
 3. This server's, set by an administrator under **This server's (administrators)**, or by the operator in the server settings.
 4. **The AI this server provides**.
 
-Your choice always wins. The one exception is a server whose operator turns off people's own AI (`SLATEBOX_AI_OWN_PROVIDERS=off`, or the **People may use their own AI** switch): everyone then uses the server's AI, and the AI tab says so. You can still remove what you saved.
+Your choice always wins. On Slatebox Cloud, only the last two apply: nobody has personal or team connections there. On a self-hosted server, the one exception is a server whose operator turns off people's own AI (`SLATEBOX_AI_OWN_PROVIDERS=off`, or the **People may use their own AI** switch): everyone then uses the server's AI, and the AI tab says so. You can still remove what you saved.
 
 ## What is metered
 
 | AI | On Slatebox Cloud | On your own server |
 | --- | --- | --- |
-| Your connections and your team's | Free, with no limit from Slatebox. Your provider bills you directly, or nobody does for your own model. | No meters |
+| Your connections and your team's | Not offered: own AI is for self-hosted Slatebox | Free, with no limit from Slatebox. Your provider bills you directly, or nobody does for your own model. |
 | **The AI this server provides** | Your Pro credits, then your balance | No meters |
 | Image search | Your Pro credits, then your balance | No meters |
 
@@ -78,7 +82,7 @@ Your choice always wins. The one exception is a server whose operator turns off 
 
 | | Slatebox Cloud | Your own server |
 | --- | --- | --- |
-| Your endpoints and your team's | A public `https` address | Public addresses, your network and `host.docker.internal`, over `http` or `https`. Not the server itself (`localhost`) or a link-local address. `SLATEBOX_AI_PRIVATE_ENDPOINTS=off` allows public addresses only. |
+| Your endpoints and your team's | — (self-hosted only) | Public addresses, your network and `host.docker.internal`, over `http` or `https`. Not the server itself (`localhost`) or a link-local address. `SLATEBOX_AI_PRIVATE_ENDPOINTS=off` allows public addresses only. |
 | The operator's endpoints | — | Any address |
 
 Requests never go to a cloud metadata address, and Slatebox follows no redirects. Each address is checked when it is saved and again on every request.
@@ -208,6 +212,10 @@ An agent reads, changes and tests AI settings with a token that has the `ai:sett
 
 A choice names a connection as `me:<name>`, `team:<name>` or `server:<name>`, or is `builtin` for the AI this server provides. `level` is `me`, `team` or `server`.
 
+Levels `me` and `team` are for self-hosted Slatebox. Slatebox Cloud answers `403` to adding, changing, choosing or testing them, and to `ownProviders` `on`: "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." A request with only `remove` still works there, so you can remove a connection saved before 22 November 2026.
+
+The examples below run on a self-hosted Slatebox.
+
 This exec script connects a keyless model on the host, makes it your default and tests it:
 
 <!-- tabs -->
@@ -289,10 +297,11 @@ You get `200` and the settings as `GET /api/v1/ai` returns them. `effective` nam
 | Symptom | Fix |
 | --- | --- |
 | "That address is this server itself" | Use `host.docker.internal` or the model machine's address on your network, not `localhost`. |
-| "That address is not public" | Slatebox Cloud reaches public `https` addresses only. On your own server, the operator has set `SLATEBOX_AI_PRIVATE_ENDPOINTS=off`. |
+| "That address is not public" | The operator has set `SLATEBOX_AI_PRIVATE_ENDPOINTS=off`: people's and teams' endpoints must be public. |
 | **Test connection** cannot reach a model on a Linux host | Add `--add-host=host.docker.internal:host-gateway` and have the model server listen beyond `127.0.0.1`. |
 | "The endpoint did not accept the key" | Enter the key again with **Change**. |
 | The model answers without calling the test tool | Conversation, drafts and presentation planning need a model that calls tools. Choose another for those features. |
 | "…cannot make images" | Choose a model with **Makes images**, or **The AI this server provides**, for **Generating images**. |
 | A key cannot be saved; "A connection without a key can still be saved" | The server has no `SLATEBOX_KEY_ENCRYPTION_KEY`. Keyless endpoints still work.<!-- feature:self-host --> [Options](../Installation/install-with-docker.md#options)<!-- /feature:self-host --> |
 | "This server uses the AI its operator set up" | The operator has turned off people's own AI. |
+| "Own AI and call keys are for self-hosted Slatebox…" | You are on Slatebox Cloud, where AI comes with Slatebox Pro credits and top-ups. [Slatebox Pro](slatebox-pro.md) |

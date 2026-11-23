@@ -63,6 +63,21 @@ test('a model that cannot do something is named, never swapped for another', () 
   assert.match(text, /cannot make images\. Choose another model for generating images in your AI settings\./)
 })
 
+test('personal and team connections are self-hosted only; on Cloud the AI tab shows what each feature uses', () => {
+  const text = page()
+  const intro = text.split(/^## /m)[0]
+  assert.match(intro, /On a self-hosted Slatebox/, 'the intro says own AI is for a self-hosted Slatebox')
+  assert.match(intro, /On Slatebox Cloud, AI comes with Slatebox Pro credits and top-ups\. Personal and team connections are for self-hosted Slatebox only\. \*\*Profile → AI\*\* shows which AI each feature uses\./)
+  assert.doesNotMatch(text, /^description: .*Your own AI costs nothing on Slatebox/m, 'the description does not promise own AI on Cloud')
+  // ai-settings-core.mjs: levels me and team refused on Cloud (403, OWN_KEYS_CLOUD); a remove-only change still works
+  const agent = text.split(/^## /m).find(s => s.startsWith('Set it up with an agent')) ?? ''
+  assert.match(agent, /Levels `me` and `team` are for self-hosted Slatebox\. Slatebox Cloud answers `403`/)
+  assert.ok(agent.includes('Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups.'), 'quote the refusal')
+  assert.match(agent, /only `remove` still works/)
+  const metered = text.split(/^## /m).find(s => s.startsWith('What is metered')) ?? ''
+  assert.match(metered, /^\| Your connections and your team's \| Not offered: own AI is for self-hosted Slatebox \| Free/m, 'what is metered: own AI is not on Cloud, free on your own server')
+})
+
 test('the page says what is metered: only the AI Slatebox pays for', () => {
   const text = page()
   assert.match(text, /\(pricing\.md\)/, 'link the pricing page')
@@ -73,7 +88,9 @@ test('the page says what is metered: only the AI Slatebox pays for', () => {
 
 test('the address rules match endpoint-policy.mjs', () => {
   const text = page()
-  assert.match(text, /public `?https/i, 'Slatebox Cloud: public https only')
+  // Own connections are self-hosted only (own-keys.mjs): Slatebox Cloud takes no person's or team's endpoint at all.
+  assert.match(text, /^\| Your endpoints and your team's \| — \(self-hosted only\) \|/m, 'Slatebox Cloud: no personal or team endpoints')
+  assert.doesNotMatch(text, /Slatebox Cloud reaches public/i, 'Slatebox Cloud reaches no personal or team endpoint')
   assert.match(text, /metadata/i, 'metadata addresses are refused for everyone')
   assert.match(text, /host\.docker\.internal/)
   assert.match(text, /--add-host=host\.docker\.internal:host-gateway/, 'Linux needs the host-gateway mapping')
