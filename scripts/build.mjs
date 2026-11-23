@@ -57,6 +57,7 @@ const entries = [
   {url:'/using-slatebox/', title:'Use the app',desc:'Create a private slate, invite a teammate and present your work.'},
   {url:'/developers/javascriptlibrary/', title:'Build with SlateboxJS',desc:'Draw a node, connect two ideas and save the canvas as JSON.'},
   {url:'/developers/slateboxapi/', title:'Connect your application',desc:'Read a slate and preview a change with a scoped API token.'},
+  {url:'/developers/slateboxapi/mcp/', title:'Connect an assistant',desc:'Add https://app.slatebox.com/mcp to Claude, ChatGPT or any MCP client, sign in, and it draws on your slates.'},
   {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
   features['self-host']
     ? {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one command: this computer, a server or Kubernetes.'}
@@ -171,9 +172,16 @@ for (const p of pages) {
   const prompt = copyablePrompt(promptFor(p), '/'+p.file)
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
-const agentIndex = ['# Slatebox documentation', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
+const agentIndex = ['# Slatebox documentation', '', 'Slatebox: the free, open-source team canvas. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
 agentIndex.push('[OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)', '',
   'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '')
+// Agents read this first: the hosted MCP address, then how exec and the typed tools relate.
+agentIndex.push('## Agents / MCP', '',
+  '- Hosted MCP server: https://app.slatebox.com/mcp (Streamable HTTP). Sign in with OAuth when the client connects, or send a personal token as a bearer token. A self-hosted Slatebox serves the same endpoint at /mcp on its origin.',
+  '- Tools: exec, always listed, runs a short JavaScript or TypeScript script against the typed Slatebox client; describe returns its methods and types. Beside them, one typed tool per client method (create_slate, import_mermaid, get_slate, edit_slate, export_mermaid and more), generated from the same contract; each is an exec script of one call, with the same checks.',
+  '- [Connect an assistant: Agents and MCP]('+base+'/Developers/SlateboxAPI/mcp.md) · [GitHub mirror]('+publishedFiles+'/Developers/SlateboxAPI/mcp.md)',
+  '- [Exec: how agents work with Slatebox]('+base+'/Developers/SlateboxAPI/exec.md) · [GitHub mirror]('+publishedFiles+'/Developers/SlateboxAPI/exec.md)',
+  '- Local server and CLI: the slatebox-mcp package. [Install it]('+base+'/Developers/SlateboxAPI/terminal-and-agents.md) · [GitHub mirror]('+publishedFiles+'/Developers/SlateboxAPI/terminal-and-agents.md)', '')
 for (const section of sections) {
   agentIndex.push('## '+section,'',...pages.filter(p=>p.section===section).sort((a,b)=>a.title.localeCompare(b.title)).map(p=>'- ['+p.title+']('+base+'/'+p.file+') · [GitHub mirror]('+publishedFiles+'/'+p.file+')'),'')
 }

@@ -10,7 +10,7 @@ agentPrompt: >-
 
 # Exec: how agents work with Slatebox
 
-An agent works with Slatebox through one tool, `exec`: it writes a short JavaScript or TypeScript program and runs it. Inside the program, `slatebox` is a typed client with one method for each thing your token may do. A second tool, `describe`, returns the method list, the full types and three worked recipes.
+An agent works with Slatebox through `exec`: it writes a short JavaScript or TypeScript program and runs it. Inside the program, `slatebox` is a typed client with one method for each thing your token may do. A second tool, `describe`, returns the method list, the full types and three worked recipes.
 
 <!-- tabs -->
 
@@ -53,7 +53,7 @@ return result
 
 <!-- /tabs -->
 
-`exec` and `describe` are the whole agent surface, on every Slatebox surface. The client is generated from the action registry that serves the HTTP API, so each new Slatebox action becomes a client method with no new tool.
+`exec` and `describe` are listed on every Slatebox surface. The client is generated from the action registry that serves the HTTP API, so each new Slatebox action becomes a client method with no hand-written tool. On MCP, the server also lists one typed tool per client method, generated from the same contract, for assistants that pick one tool per task; each runs as an exec script of one call. [Connect an assistant](mcp.md)
 
 ## Why Slatebox uses exec
 
@@ -204,7 +204,7 @@ npx --no-install slatebox-mcp --http --port 3917
 
 ### Your Slatebox's MCP endpoint
 
-Connect to `/mcp` on your Slatebox. Nothing is installed locally.
+Connect to `/mcp` on your Slatebox. Nothing is installed locally. A client that signs in needs only the address: Slatebox asks you to sign in and choose its permissions. [Connect Claude, ChatGPT or another client](mcp.md) A client without sign-in sends a personal token:
 
 <!-- tabs -->
 

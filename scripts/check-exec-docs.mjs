@@ -1,4 +1,5 @@
-// Agents work with Slatebox through one tool, exec, plus describe. These checks keep every
+// Agents work with Slatebox through exec, plus describe; on MCP the server also lists one typed tool
+// per client method, generated from the same contract (check-mcp-docs.mjs). These checks keep every
 // guide on that path, keep the exec page honest about where code runs, and stop publishing
 // until the package the guides tell people to install exists here with its checksum.
 import test from 'node:test'
@@ -11,7 +12,7 @@ import {tmpdir} from 'node:os'
 import path from 'node:path'
 import {marked} from 'marked'
 
-const PACKAGE = 'slatebox-mcp-0.3.0.tgz'
+const PACKAGE = 'slatebox-mcp-0.3.1.tgz'
 const EXEC_PAGE = 'Developers/SlateboxAPI/exec.md'
 const AsyncFunction = (async () => {}).constructor
 
@@ -42,8 +43,11 @@ test('the exec page exists and every developer entry point leads to it', async (
   assert.match(index, /\(https:\/\/docs\.slatebox\.com\/Developers\/SlateboxAPI\/exec\.md\)/)
 })
 
-test('no guide sends an agent or a person down a per-action tool or command', () => {
-  const retiredTools = /\b(create_slate|get_slate|apply_slate_operations|create_slate_invite|revoke_slate_invite|dry_run|share_id|idempotency_key|expected_revision|include_full)\b/
+// The typed tools (create_slate, get_slate, create_slate_invite and the rest) are served again,
+// generated from the contract beside exec; check-mcp-docs.mjs holds every name a guide lists to the
+// released package. The names below belong to no surface.
+test('no guide sends an agent or a person down a per-action tool or command the package does not serve', () => {
+  const retiredTools = /\b(apply_slate_operations|dry_run|share_id|idempotency_key|expected_revision|include_full)\b/
   const retiredCommands = /slatebox (create|read|share|unshare|branch|outcome|order|move|preview|apply)\b/
   for (const [file, source] of Object.entries(text)) {
     assert.doesNotMatch(source, retiredTools, file + ' names a retired per-action MCP tool or argument')
@@ -74,6 +78,13 @@ test('the exec page says where code runs on every surface and what the sealed ru
   for (const surface of ['POST /api/v1/exec', '/mcp', 'conversation', 'CLI', 'stdio', '--http', '--remote']) {
     assert.ok(exec.includes(surface), 'the exec page must place ' + surface)
   }
+})
+
+test('the exec page says exec is always listed and the typed tools run as exec', () => {
+  assert.doesNotMatch(exec, /are the whole agent surface/, 'MCP also lists typed tools, generated from the same contract')
+  assert.match(exec, /`exec` and `describe` are listed on every Slatebox surface/)
+  assert.match(exec, /one typed tool per client method/)
+  assert.match(exec, /\]\(mcp\.md(#[^)]*)?\)/)
 })
 
 test('the exec page makes no vendor comparison (STYLE.md: no vendor comparisons, quotes or logos)', () => {
@@ -244,7 +255,7 @@ test('the one-container page documents exec, and no page names a self-host relea
   }
 })
 
-// The release gate. The guides install slatebox-mcp 0.3.0, so they are not published before the
+// The release gate. The guides install slatebox-mcp 0.3.1, so they are not published before the
 // archive and its checksum exist here. Every check below runs the archive itself.
 
 function run(file, args, env) {
@@ -291,8 +302,8 @@ test('the guides are not published before the exec package exists', async t => {
   const manifest = JSON.parse(await readFile(path.join(pkg, 'package.json'), 'utf8'))
   const cli = path.join(pkg, manifest.bin?.slatebox ?? 'missing')
 
-  await t.test('the archive is the 0.3.0 package the guides describe', async () => {
-    assert.equal(manifest.version, '0.3.0')
+  await t.test('the archive is the 0.3.1 package the guides describe', async () => {
+    assert.equal(manifest.version, '0.3.1')
     assert.equal(manifest.engines?.node, '>=22.13.0')
     assert.ok(manifest.exports?.['./client'], 'slatebox-mcp/client must resolve')
     for (const file of ['generated/client.json', 'generated/exec-tool.json']) await stat(path.join(pkg, file))
