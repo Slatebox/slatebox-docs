@@ -36,10 +36,17 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `get_ai_settings` | Reads | `ai:settings` | Read your AI connections and which one each feature uses; keys are never returned |
 | `update_ai_settings` | Writes | `ai:settings` (and `ai:admin` for a team or the server) | Add, change or remove AI connections, and choose one per feature |
 | `check_ai_connection` | Reads | `ai:settings` (and `ai:admin` for a team or the server) | Test an AI connection before Slatebox drafts with it |
+| `export_team` | Writes | `team:export` | For a team admin: a one-time download address for everything the team owns, to move it or keep a copy |
+| `start_team_import` | Writes | `team:import` | For a server administrator: a one-time address to upload a team export to |
+| `list_team_imports` | Reads | `team:import` | List recent team imports, pending ones first |
+| `get_team_import` | Reads | `team:import` | Read one team import and its report |
+| `confirm_team_import` | Writes | `team:import` | Make a pending imported team live, and optionally email its people to claim their accounts |
+| `invite_team_import_person` | Writes | `team:import` | Email one person from a confirmed import whose address you have checked |
+| `discard_team_import` | Writes | `team:import` | Delete a pending imported team and everything the import wrote |
 
 Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
 
-**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. `exec` uses the permissions of the calls its script makes.
+**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text is still in the answer. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
 
 **Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic.
 
@@ -116,6 +123,8 @@ A client without sign-in sends a personal token instead. Create one in **Profile
 | **Manage invitation links on slates I own** | `slates:share` |
 | **Read, change and test my own AI connections** | `ai:settings` |
 | **Change and test my team's or this server's AI (team admins and administrators only)** | `ai:admin` |
+| **Export everything my team owns (team admins only)** | `team:export` |
+| **Import a team export as a new team, and confirm or discard it (administrators only)** | `team:import` |
 
 An app that asks for nothing in particular gets **Read slates** and **Create and edit slates**. Each access token lasts 1 hour and the app renews it itself; a connection unused for 30 days lapses, and the app asks you again. These sign-in tokens work on `/mcp` only and never open `/api/v1`.
 

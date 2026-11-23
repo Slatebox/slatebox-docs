@@ -82,6 +82,8 @@ test('connecting with sign-in: Claude, Claude Code, ChatGPT and other clients, t
     ['slates:share', 'Manage invitation links on slates I own'],
     ['ai:settings', 'Read, change and test my own AI connections'],
     ['ai:admin', 'Change and test my team\'s or this server\'s AI (team admins and administrators only)'],
+    ['team:export', 'Export everything my team owns (team admins only)'],
+    ['team:import', 'Import a team export as a new team, and confirm or discard it (administrators only)'],
   ]) assert.ok(consent.includes('| **' + label + '** | `' + scope + '` |'), 'the permission row for ' + scope)
   assert.match(consent, /1 hour/)
   assert.match(consent, /30 days/)
