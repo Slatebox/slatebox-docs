@@ -14,6 +14,7 @@ Create, read and edit slates from your own code. The API is served under `/api/v
 | `POST /api/v1/slates/{shareId}/media` | Add a video note | `slates:write` and edit access |
 | `POST /api/v1/slates/{shareId}/invite` | Issue an unlisted invitation link, or change its role | Owner, `slates:share` and an `Idempotency-Key` |
 | `DELETE /api/v1/slates/{shareId}/invite/{inviteId}` | Withdraw that invitation | Owner, `slates:share` and an `Idempotency-Key` |
+| `GET /api/v1/library` | Browse the shared library of smart components, slates and presentations; use, build, submit and review items ([The shared library](library.md)) | Nothing to browse; `slates:write` to use or build |
 | `GET /api/v1/me` | Read your account | A token |
 | `GET /api/v1/instance` | Describe the instance: version, limits and routes | Nothing; a token adds your account |
 | `GET /api/v1/tokens` | List the token you call with | That token |
