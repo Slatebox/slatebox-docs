@@ -10,7 +10,7 @@ Read https://docs.slatebox.com/Using-Slatebox/slatebox-pro.md first. Ask for the
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-pro.md.
 ```
 
-Slatebox Pro is an optional personal subscription on Slatebox Cloud: $5 a month or $50 a year (two months free), plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $3.75 of what the AI provider and Daily charge us. When they run out, top up. Everything else in Slatebox is free, with or without Pro, and your own keys are always free. [Pricing](pricing.md)
+Slatebox Pro is an optional personal subscription on Slatebox Cloud: $5 a month or $50 a year (two months free), plus tax where applicable. It includes Pro credits each month for the AI and calls Slatebox pays for, worth about $3.75 of what the AI provider and Daily charge us. When they run out, top up. Everything else in Slatebox is free, with or without Pro. On Slatebox Cloud, nobody brings their own AI or call key: own keys are for self-hosted Slatebox. [Pricing](pricing.md)
 
 ## What Pro credits include
 
@@ -27,7 +27,7 @@ Image search and image generation use the month's AI, not the daily count. [How 
 - Pro credits are for the calendar month (UTC) and start again on the 1st. In the month you start Pro, and the month it ends, you get the share of that month's Pro credits for the days Pro covers.
 - Unused Pro credits do not carry over. They have no cash value, cannot be moved to another account and end when Pro ends.
 - Pro is for one account; each person chooses. A team that wants to pay for its members' AI and calls can choose [Slatebox Business](slatebox-business.md). A team admin can also top up a team balance that members draw on. [Top-ups and refunds](top-ups.md)
-- When Pro credits run out, your own keys still work, and your balance pays if you have one.
+- When Pro credits run out, your balance pays if you have one. Otherwise, top up.
 
 ## Get Pro
 
@@ -52,7 +52,7 @@ Manage Pro in **Credits**, under **Slatebox Pro**.
 
 ## When a payment fails
 
-- If a payment fails, Pro credits pause until it is paid. Update your card in **Credits**. Your own keys and your balance still work.
+- If a payment fails, Pro credits pause until it is paid. Update your card in **Credits**. Your balance still works.
 - If it stays unpaid after the card is retried, Pro ends.
 - While a payment is disputed with your bank, Pro credits pause.
 

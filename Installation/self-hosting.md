@@ -12,7 +12,7 @@ If your client cannot fetch the documentation, read the same published file at h
 
 Self-hosting is coming soon. One command will install Slatebox on this computer, a Linux server or a Kubernetes cluster: the app, the collaboration relay and the database in one container. The installer and the image are not published yet, so this guide will appear here once they are.
 
-Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free; AI and calls are free with your own keys, or come with Slatebox Pro. [Pricing](../Using-Slatebox/pricing.md)
+Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free; AI and calls come with Slatebox Pro, or a balance you top up. Own AI and call keys are for self-hosted Slatebox. [Pricing](../Using-Slatebox/pricing.md)
 
 ## What a self-hosted Slatebox will be
 

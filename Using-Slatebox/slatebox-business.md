@@ -21,7 +21,7 @@ Slatebox Business is for a team on Slatebox Cloud, the same shared, fully manage
 
 ## AI and calls
 
-- **Your own keys stay free.** Bring your own AI key or Daily key and we charge nothing for that part. [Use your own keys](own-keys.md)
+- **No own keys on Cloud.** AI and calls come from the pool, then a balance. Own AI and call keys are for self-hosted Slatebox. [Use your own keys](own-keys.md)
 - **When the pool runs out,** a team balance a team admin tops up can take over, at what the provider charges us plus 5%, the same as any top-up. [Top-ups and refunds](top-ups.md)
 - Calls and AI are counted as in [Pricing](pricing.md#how-we-count).
 

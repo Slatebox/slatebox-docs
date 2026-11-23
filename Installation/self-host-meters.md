@@ -23,6 +23,6 @@ To limit use, turn on the same meter Slatebox Cloud uses: set `metering.enabled`
 
 - Every signed-in person with a confirmed email gets the amounts Slatebox Pro includes on the Cloud, at no cost; nobody needs Slatebox Pro. An admin changes the monthly budget and the hold on top-up video in **Admin → Budget and Pro**.
 - Top-ups need your own Stripe keys.
-- Own keys, for AI and calls, need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`.
+- People's own keys, for AI and calls, stay free and are used first. They need `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`.
 
 [Run your own Slatebox](self-hosting.md) · [Pricing on Slatebox Cloud](../Using-Slatebox/pricing.md)

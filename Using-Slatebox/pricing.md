@@ -16,9 +16,7 @@ Slatebox is free. It is MIT-licensed and open source, free for individuals and c
 
 On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. No feature is ever sold separately.
 
-AI and calls work free with your own keys: your own AI connection, and your own Daily key for calls. We charge nothing for them and set no limit. [Use your own keys](own-keys.md)
-
-Only the AI and calls that Slatebox pays for cost money. They come with Slatebox Pro, or from a balance you top up.
+Only AI and the calls you start cost money. On Slatebox Cloud they come with Slatebox Pro, or from a balance you top up. Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free. [Use your own keys](own-keys.md)
 
 ## Slatebox Pro
 
@@ -54,32 +52,31 @@ Each row is its own amount for the month: what you do not use of one does not ad
 
 ## Who pays
 
-- **AI:** the person who asks. Their own AI, or their team's, costs nothing on Slatebox. Otherwise their Pro credits are used, then their balance, then their team's balance.
+- **AI:** the person who asks. Their Pro credits are used, then their balance, then their team's balance.
 - **Calls:** the person who starts the call. Joining a call uses nothing of yours. Guests never pay and need no account.
 - Everyone else on the slate pays nothing.
 
-## Three ways to pay for AI and calls
+## Two ways to pay for AI and calls
 
-1. **Your own key.** For AI, a cloud provider with your key or any OpenAI-compatible endpoint, chosen per feature. For calls, a Daily key. We charge nothing and set no limit. [Choose your AI](choose-your-ai.md) · [Use your own keys](own-keys.md)
-2. **Slatebox Pro**, with its Pro credits every month.
-3. **A balance you top up**, from $10, with or without Pro, at what the AI provider or Daily charges us plus 5%. The card fee shows as its own line before you pay. A team admin can top up a team balance that members draw on. [Top-ups and refunds](top-ups.md)
+1. **Slatebox Pro**, with its Pro credits every month.
+2. **A balance you top up**, from $10, with or without Pro, at what the AI provider or Daily charges us plus 5%. The card fee shows as its own line before you pay. A team admin can top up a team balance that members draw on. [Top-ups and refunds](top-ups.md)
 
 We never charge a card for anything you did not choose: a top-up you made, or Pro until you cancel it. At $0 balance, paid use stops; there is no bill afterwards.
 
 ## Without Pro
 
-Everything above stays free. Your own keys pay for AI and calls you start, or your balance does. Without either, AI or a call that Slatebox would pay for does not start, and a message says how to go on: connect your own AI, add a Daily key, get Pro or top up.
+Everything above stays free. Your balance pays for AI and calls you start. Without Pro or a balance, AI does not run and a call does not start. A message says how to go on: get Pro or top up.
 
 - Joining a call is always free.
 - Presentation plans, the AI that lays out a slate for Present, stay free without Pro: 5 a day for each person. Present still lays out a slate without AI when they run out.
 
 ## Limits on calls from Pro credits or a balance
 
-Such a call holds up to 20 people and runs up to 3 hours. It ends when one person has been alone for 10 minutes, or when the Pro credits or balance paying for it run out; everyone sees a notice 2 minutes before either. A call on your own Daily key has Daily's limits and none of ours.
+Such a call holds up to 20 people and runs up to 3 hours. It ends when one person has been alone for 10 minutes, or when the Pro credits or balance paying for it run out; everyone sees a notice 2 minutes before either.
 
 ## The shared budget
 
-Free presentation plans come from a shared budget of $1,000 a month. If free use passes 110% of it, free presentation plans pause until the 1st of the next month; Present still lays out a slate without AI. Pro credits never shrink or pause because of it, and your own keys and your balance work at every stage.
+Free presentation plans come from a shared budget of $1,000 a month. If free use passes 110% of it, free presentation plans pause until the 1st of the next month; Present still lays out a slate without AI. Pro credits never shrink or pause because of it, and your balance works at every stage.
 
 ## Price changes
 
@@ -87,7 +84,7 @@ We announce any change to the price of Slatebox Pro, or to what Pro credits incl
 
 ## Self-hosted Slatebox
 
-A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. People there can use their own AI and call keys, for free. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md) · [Choose your AI](choose-your-ai.md) · [Use your own keys](own-keys.md)
 
 ## Slatebox Business
 

@@ -28,7 +28,7 @@ The 5% covers the card fee kept on refunds, $15 for a disputed payment, and the 
 
 ## How a balance is spent
 
-Your own key is used first, then your Pro credits if you have Slatebox Pro, then your balance. A team admin can top up a shared team balance in **Team settings**; it is used after your own balance.
+Your Pro credits are used first if you have Slatebox Pro, then your balance. A team admin can top up a shared team balance in **Team settings**; it is used after your own balance.
 
 At $0, paid use stops. The last request finishes, and there is no bill afterwards.
 

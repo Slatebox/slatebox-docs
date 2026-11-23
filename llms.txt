@@ -27,7 +27,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Slatebox Pro](https://docs.slatebox.com/Using-Slatebox/slatebox-pro.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-pro.md)
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
 - [Top-ups and refunds](https://docs.slatebox.com/Using-Slatebox/top-ups.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md)
-- [Use your own keys](https://docs.slatebox.com/Using-Slatebox/own-keys.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/own-keys.md)
+- [Use your own keys on a self-hosted Slatebox](https://docs.slatebox.com/Using-Slatebox/own-keys.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/own-keys.md)
 
 ## SlateboxJS
 
