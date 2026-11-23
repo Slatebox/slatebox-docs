@@ -27,6 +27,7 @@ To connect Claude, ChatGPT or another assistant with nothing installed, add `htt
 | **Read slates** | `slates:read` | On |
 | **Create and edit slates** | `slates:write` | On |
 | **Manage invitation links on slates I own** | `slates:share` | Off |
+| **Delete slates I own and remove comments** | `slates:delete` | Off |
 
 ## Install the package
 

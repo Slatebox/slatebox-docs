@@ -26,11 +26,11 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `edit_slate` | Writes | `slates:write` | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
 | `export_mermaid` | Reads | `slates:read` | Read a slate as Mermaid text |
 | `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate or template |
-| `delete_slate` | Writes | `slates:write` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
+| `delete_slate` | Writes | `slates:delete` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
 | `list_comments` | Reads | `slates:read` | Read the comments on a slate's notes, or on one note |
 | `add_comment` | Writes | `slates:write` | Comment on a note, under your name, where the slate's sharing lets you comment. `@Slatebox ...` asks the Slatebox agent |
 | `resolve_comments` | Writes | `slates:write` | Mark a note's comments resolved, or open them again, where you may comment |
-| `remove_comment` | Writes | `slates:write` | Remove a comment you wrote, or a Slatebox agent reply on a slate you may edit |
+| `remove_comment` | Writes | `slates:delete` | Remove a comment you wrote, or a Slatebox agent reply on a slate you may edit |
 | `list_agent_tasks` | Reads | `slates:read` | See the agent tasks on a slate you may edit: open ones to claim, who is on each, what waits for a person, and each task's log |
 | `ask_agent` | Writes | `slates:write` | Give the Slatebox agent, or any agent, a task on a slate you may edit. It works in the open and holds removals for a person |
 | `update_agent_task` | Writes | `slates:write` | Claim an open agent task, add to its log, hand it on, or complete, fail or cancel it. Only a person approves |
@@ -63,7 +63,7 @@ Every tool has a title and says whether it reads, deletes, repeats safely and re
 
 **AI settings on Slatebox Cloud.** The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, `update_ai_settings` and `check_ai_connection` refuse levels `me` and `team` with "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." An `update_ai_settings` call with only `remove` still works, to remove a connection saved before 22 November 2026. [Choose your AI](../../Using-Slatebox/choose-your-ai.md#set-it-up-with-an-agent)
 
-**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in and the server's sign-in metadata list every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `ai:settings`, `ai:admin`, `team:export` and `team:import`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
+**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in and the server's sign-in metadata list every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `slates:delete`, `ai:settings`, `ai:admin`, `team:export` and `team:import`. Deleting is its own permission: `slates:delete` is never part of `slates:write`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
 
 **Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic.
 
@@ -138,6 +138,7 @@ A client without sign-in sends a personal token instead. Create one in **Profile
 | **Read slates** | `slates:read` |
 | **Create and edit slates** | `slates:write` |
 | **Manage invitation links on slates I own** | `slates:share` |
+| **Delete slates I own and remove comments** | `slates:delete` |
 | **Read, change and test my own AI connections** | `ai:settings` |
 | **Change and test my team's or this server's AI (team admins and administrators only)** | `ai:admin` |
 | **Export everything my team owns (team admins only)** | `team:export` |
