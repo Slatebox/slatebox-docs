@@ -114,13 +114,13 @@ Scripts also have three limits of their own:
 
 A save is held, not made, when the script:
 
-- deletes notes or connectors, or withdraws an invitation;
+- deletes notes or connectors, a slate or a comment, or withdraws an invitation;
 - rewrites the text of more than 10 existing notes in all (the count is kept for the whole script, so 8 notes on each of two slates are held);
 - changes or deletes existing notes or connectors on a slate someone else owns, or edits a map there. Slatebox does not yet record who wrote each note, so on your own slate a teammate's notes count as yours;
 - shows content to more people than the slates it read (for example, copying a private slate's text onto a public one);
 - grants access, such as creating an invitation link.
 
-These rules hold exec runs only: `slatebox exec`, `POST /api/v1/exec` and the MCP `exec` tool. A single `POST /api/v1/slates/{shareId}/operations` call made outside exec is not held. Give a token that should never make large rewrites `slates:read` only, or run its edits through exec.
+These rules hold exec runs (`slatebox exec`, `POST /api/v1/exec`, the MCP `exec` tool and every typed tool) and a token's direct API calls alike. A direct call that is held, such as a `DELETE /api/v1/slates/{shareId}` or a `POST /api/v1/slates/{shareId}/operations` that removes notes, answers `409 confirmation_required` with `details.confirmationId` and `details.reasons`, and saves nothing. To go ahead, send the same request again with the `Slatebox-Confirm` header set to that id and the same `Idempotency-Key`. Your own changes in the app are never held.
 
 A held call throws `SlateboxError` with code `confirmation_required`. Calls before it have saved. The result has `status: "confirmation_required"` and a `confirmation` with an id, an expiry and the reasons. To go ahead, run the same code again with `confirm` set to that id and the same `idempotencyKey`. A confirmation works once, for that code, for 10 minutes.
 
@@ -130,6 +130,7 @@ A held call throws `SlateboxError` with code `confirmation_required`. Calls befo
 | The CLI | You: answer `Save anyway? [y/N]`, or pass `--confirm ID` |
 | The side conversation | You: **Keep changes** confirms, and the preview shows the reasons |
 | `POST /api/v1/exec` | Your application |
+| A direct API call | Your application, with the `Slatebox-Confirm` header |
 
 An agent you allow to run `exec` without asking can also confirm without asking. The rule is a speed bump with a record, not an approval system.
 

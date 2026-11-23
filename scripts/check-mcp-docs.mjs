@@ -107,7 +107,10 @@ test('a personal token still works on /mcp, and the local package is the release
 
 test('the page names no vendor comparison and no capability the server lacks', () => {
   assert.doesNotMatch(page, /\bMiro\b|alternative to|better than/i)
-  assert.doesNotMatch(page, /list_slates|search_slates|add_comment|export_image|create_presentation/)
+  // Restated (parity): the server now serves list_slates and add_comment (the tools table test
+  // holds them to the package); these it still does not.
+  assert.doesNotMatch(page, /search_slates|export_image|create_presentation/)
+  for (const tool of ['list_slates', 'add_comment']) assert.ok(surface.typed.some(t => t.name === tool), tool + ' is served')
 })
 
 test('every way into the agent docs leads to this page, and the agent index leads with the hosted address', async () => {

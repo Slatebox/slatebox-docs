@@ -13,4 +13,4 @@ Pick the interface that owns the data you want to change.
 | Work on the app, engine or relay | [Development](development.md) |
 | Run your own Slatebox | <!-- feature:self-host -->[One Docker command](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Coming soon](../Installation/self-hosting.md)<!-- /feature:!self-host --> |
 
-The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. One Docker image runs all three with a database. <!-- feature:self-host -->[What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · <!-- /feature:self-host -->[Relay source](https://github.com/Slatebox/y-websocket)
+The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. One Docker image runs all three with a database. <!-- feature:self-host -->[What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · <!-- /feature:self-host -->[App source](https://github.com/Slatebox/slatebox) · [Relay source](https://github.com/Slatebox/y-websocket)

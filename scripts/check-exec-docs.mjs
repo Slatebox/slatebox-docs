@@ -192,10 +192,14 @@ test('the confirmation rules say exactly what the gate counts', () => {
 
 // Review F3 (release/agentic): the owner's rule is about scripts. Say that a direct API call is
 // not held, so nobody reads the rule as covering every write.
-test('the confirmation rules say they hold scripts, not a direct API call', () => {
+// Restated (parity): the app's gate holds a token's direct API call too (gate.mjs directCall;
+// app test "a plain REST call with an agent token meets the same hold"), answering 409 with a
+// confirmation id that the Slatebox-Confirm header resends. The page says so.
+test('the confirmation rules say they hold scripts and a direct API call alike, and how to confirm one', () => {
   const rules = section(exec, 'Saves that wait for confirmation')
-  assert.match(rules, /hold exec runs only/, 'the rules name what they hold')
-  assert.match(rules, /`POST \/api\/v1\/slates\/\{shareId\}\/operations` call made outside exec is not held/, 'a direct API call is not held')
+  assert.match(rules, /hold exec runs .* and a token's direct API calls alike/, 'the rules name what they hold')
+  assert.match(rules, /`Slatebox-Confirm` header/, 'a direct call is confirmed with the header')
+  assert.doesNotMatch(rules, /is not held/)
 })
 
 // Restated (release/agentic): every edit names its revision; a canvas edit without one is

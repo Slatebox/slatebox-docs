@@ -21,9 +21,21 @@ Beside them, the server lists one typed tool per client method, generated from t
 | --- | --- | --- | --- |
 | `create_slate` | Writes | `slates:write` | Create a private flowchart from steps written as `A -> B`, or a decision map from a one-line question, and return its link |
 | `import_mermaid` | Writes | `slates:write` | Draw a mind map, flowchart or project plan (Gantt chart) written in Mermaid as editable notes and lines |
+| `list_slates` | Reads | `slates:read` | List your slates, or your team's that you may open, newest first, with each one's link |
 | `get_slate` | Reads | `slates:read` | Read a slate's notes, lines, boards, comments and revision |
 | `edit_slate` | Writes | `slates:write` | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
 | `export_mermaid` | Reads | `slates:read` | Read a slate as Mermaid text |
+| `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate or template |
+| `delete_slate` | Writes | `slates:write` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
+| `list_comments` | Reads | `slates:read` | Read the comments on a slate's notes, or on one note |
+| `add_comment` | Writes | `slates:write` | Comment on a note, under your name, on a slate you may open |
+| `resolve_comments` | Writes | `slates:write` | Mark a note's comments resolved, or open them again |
+| `remove_comment` | Writes | `slates:write` | Remove a comment you wrote. Only its author can |
+| `generate_shape` | Writes | `slates:write` | Draw custom note outlines from a description, such as a rocket or a speech bubble. Uses AI |
+| `list_shapes` | Reads | `slates:read` | List the custom note shapes you and your team saved |
+| `apply_shape` | Writes | `slates:write` | Give notes a built-in or custom shape |
+| `get_presentation` | Reads | `slates:read` | Read a slate's presentation: its style and each step's layout and caption |
+| `style_presentation` | Writes | `slates:write` | Switch a slate's presentation to another style, keeping its steps |
 | `list_components` | Reads | `slates:read` | List the boards and starters you can add to a slate, such as pipeline and budget boards |
 | `get_component` | Reads | `slates:read` | Read one board or starter in full |
 | `check_board_move` | Reads | `slates:read` | Check whether a card may move to a lane, and why not, without moving it |
@@ -44,7 +56,7 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `invite_team_import_person` | Writes | `team:import` | Email one person from a confirmed import whose address you have checked |
 | `discard_team_import` | Writes | `team:import` | Delete a pending imported team and everything the import wrote |
 
-Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
+Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `delete_slate` and `remove_comment` wait for your confirmation, as any removal does. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
 
 **AI settings on Slatebox Cloud.** The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, `update_ai_settings` and `check_ai_connection` refuse levels `me` and `team` with "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." An `update_ai_settings` call with only `remove` still works, to remove a connection saved before 22 November 2026. [Choose your AI](../../Using-Slatebox/choose-your-ai.md#set-it-up-with-an-agent)
 
