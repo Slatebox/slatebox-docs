@@ -37,7 +37,7 @@ Use Node.js 22.13 or later. Download the package and its checksum into your proj
 
 ```sh Shell
 download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.3.4.tgz
+package=slatebox-mcp-0.3.5.tgz
 curl -fsSLO "$download/$package"
 curl -fsSLO "$download/$package.sha256"
 shasum -a 256 -c "$package.sha256" && npm install "./$package"

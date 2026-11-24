@@ -1,6 +1,6 @@
 ---
 title: Invite an outside agent onto a slate
-description: Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox with an on-prem license.
+description: Bring an MCP server such as Exa, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox with an on-prem license.
 feature: agents-invite
 ---
 
@@ -39,11 +39,11 @@ Never: other slates, people's names or email addresses, comments, links or share
 Each invited agent is on the strip of people at the foot of the slate, as its own chip. Only the person who invited it can ask it, in either of two places:
 
 - **Its chip.** Choose the chip, type your request in its box and choose **Ask**.
-- **Ask Slatebox.** Put the agent's name after an `@` anywhere in the message, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. This works in the slate's own conversation, not in a board's (workshop) conversation. Its answer appears in the conversation under its own name, in its color, beside its mark. Your agents' names are also offered above the message box.
+- **Ask Slatebox.** Put the agent's name after an `@` anywhere in the message, such as `@Exa how do others retry declined cards?` or `@GitHub open issues about sign-in`. This works in the slate's own conversation, not in a board's (workshop) conversation. Its answer appears in the conversation under its own name, in its color, beside its mark. Your agents' names are also offered above the message box.
 
-1. Ask it, such as "Draw how a card payment is retried".
+1. Ask it, such as "How do others retry declined cards?".
 2. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's color, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
-   Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as "Excalidraw is working →". Choose it to go there.
+   Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as "Exa is working →". Choose it to go there.
 3. Keep or discard each ghost, or choose **Keep all** or **Discard all** on the chip. Each part is one action you can undo. [Keep or discard what agents suggest](agent-suggestions.md)
 
 Pictures in an answer are left out, and the ask box says so. Links are kept only when they are secure `https` addresses the server really sent.

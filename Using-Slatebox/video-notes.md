@@ -46,7 +46,7 @@ Every other place a slate is shown uses the same picture of the note, with its p
 
 ## Add a video from an agent or a script
 
-Agents and scripts add the same note with one call: `slates.addMedia` in an exec script, `POST /api/v1/slates/{shareId}/media`, or the MCP tool `add_media_note` on Slatebox's hosted MCP server. `media.lookup` reads a video's title and picture without adding a note. [Agents on the canvas: the API](../Developers/SlateboxAPI/agents-on-the-canvas.md)
+Agents and scripts add the same note with one call: `slates.addMedia` in an exec script, `POST /api/v1/slates/{shareId}/media`, or the MCP tool `add_media_note` on Slatebox's MCP server. `media.lookup` reads a video's title and picture without adding a note. [Agents on the canvas: the API](../Developers/SlateboxAPI/agents-on-the-canvas.md)
 
 ## Troubleshooting
 

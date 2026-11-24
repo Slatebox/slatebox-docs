@@ -63,7 +63,7 @@ const PRICING_URL = 'https://slatebox.com/plans/'
 const SEE_PRICING = '[See pricing](' + PRICING_URL + ')'
 const BUSINESS_LINK = '[Talk to us about Business](' + FIGURES.business.contactUrl + ')'
 const section = (source, heading) => source.split(/^## /m).find(s => s.startsWith(heading)) ?? ''
-// The app's refusal on Cloud (imports/api/common/own-keys.mjs OWN_KEYS_CLOUD) and its MCP listing line (the 0.3.4 package
+// The app's refusal on Cloud (imports/api/common/own-keys.mjs OWN_KEYS_CLOUD) and its MCP listing line (the 0.3.5 package
 // README); the docs quote both word for word, and check:cross compares them with the app.
 const OWN_KEYS_CLOUD = 'Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups.'
 const LISTING = 'The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key.'

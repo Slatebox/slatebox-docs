@@ -5,7 +5,7 @@ description: An agent's canvas edits are live suggestions people keep or discard
 
 # Agents on the canvas: suggestions, video notes and invited agents
 
-When an agent edits a slate's canvas, the edit is not saved: it appears live on the slate as suggestions for people to keep or discard. This page lists the calls that read and decide those suggestions, add video notes, and invite outside agents. Each call is the same on every surface, with the same checks: an HTTP route, a method in the exec client, and a typed tool on Slatebox's hosted MCP server.
+When an agent edits a slate's canvas, the edit is not saved: it appears live on the slate as suggestions for people to keep or discard. This page lists the calls that read and decide those suggestions, add video notes, and invite outside agents. Each call is the same on every surface, with the same checks: an HTTP route, a method in the exec client, and a typed tool on Slatebox's MCP server.
 
 ## How an agent's edit lands
 

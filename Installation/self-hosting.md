@@ -27,7 +27,7 @@ Install Slatebox on the machine of your choice with one command: a laptop, a Lin
 - **One container.** The app, live collaboration, its database and Keycloak for single sign-on, in `ghcr.io/slatebox/slatebox`. Your data stays in one volume.
 - **Free.** No limits from us. AI is whatever you and your people connect, or none. [Who pays for what on your own server](self-host-costs.md)
 - **Single sign-on, free.** Keycloak is built in and needs no license. [Single sign-on](single-sign-on.md)
-- **Outside agents with an on-prem license.** Inviting agents such as GitHub, Linear or Excalidraw onto a slate is in the image, locked, until an on-prem license from Slatebox unlocks it on your install. [Contact Slatebox](https://slatebox.com/contact/)
+- **Outside agents with an on-prem license.** Inviting agents such as GitHub, Linear or Exa onto a slate is in the image, locked, until an on-prem license from Slatebox unlocks it on your install. [Contact Slatebox](https://slatebox.com/contact/)
 
 ## Install
 
@@ -65,7 +65,7 @@ Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free.
 
 ## What a self-hosted Slatebox is
 
-- **The same app.** Every feature of Slatebox Cloud. Outside-agent connections (inviting agents such as GitHub, Linear or Excalidraw onto a slate) are in the image, switched off, until an on-prem license from Slatebox switches them on. The app, the SlateboxJS engine and the relay are MIT licensed, except the app's `enterprise/` folder, which holds those connections.
+- **The same app.** Every feature of Slatebox Cloud. Outside-agent connections (inviting agents such as GitHub, Linear or Exa onto a slate) are in the image, switched off, until an on-prem license from Slatebox switches them on. The app, the SlateboxJS engine and the relay are MIT licensed, except the app's `enterprise/` folder, which holds those connections.
 - **Single sign-on, free.** Keycloak is in the image. It needs no license.
 - **Free, with your own AI and calls.** No limits from us. AI is whatever you and your people connect, local or cloud, or none; calls use your own Daily account. [Who pays for what on your own server](self-host-costs.md) · [Choose your AI](../Using-Slatebox/choose-your-ai.md)
 - **Your agents too.** The image runs exec, so agents work with your own slates the same way. [Exec: how agents work with Slatebox](../Developers/SlateboxAPI/exec.md)

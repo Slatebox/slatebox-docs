@@ -24,6 +24,11 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `list_slates` | Reads | `slates:read` | List your slates, or your team's that you may open, newest first, with each one's link |
 | `get_slate` | Reads | `slates:read` | Read a slate's notes, lines, boards, comments and revision |
 | `edit_slate` | Writes | `slates:write` | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
+| `undo_my_edit` | Writes | `slates:write` | Take back your own newest canvas edit on a slate, never anyone else's; what someone changed since stays and is listed |
+| `redo_my_edit` | Writes | `slates:write` | Make again the edit you last undid, if you have made no edit on that slate since |
+| `decide_suggestions` | Writes | `slates:write` | Keep or discard what an agent suggested on a slate, or undo one agent action that was kept |
+| `add_media_note` | Writes | `slates:write` | Add a YouTube, Vimeo or Loom video to a slate as a note that plays in place when pressed |
+| `lookup_media` | Writes | `slates:write` | Read a YouTube, Vimeo or Loom link: its title, author and a poster stored by Slatebox, ready for a video note |
 | `export_mermaid` | Reads | `slates:read` | Read a slate as Mermaid text |
 | `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate. To use something from the library, use `use_library_item` |
 | `delete_slate` | Writes | `slates:delete` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
@@ -37,6 +42,7 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `generate_shape` | Writes | `slates:write` | Draw custom note outlines from a description, such as a rocket or a speech bubble. Uses AI |
 | `list_shapes` | Reads | `slates:read` | List the custom note shapes you and your team saved |
 | `apply_shape` | Writes | `slates:write` | Give notes a built-in or custom shape |
+| `search_icons` | Reads | `slates:read` | Search The Noun Project for icons to use as note shapes, each with the credit to show |
 | `create_presentation` | Writes | `slates:write` | Plan a presentation of a slate you may edit: its steps, layouts and captions, and a link that plays it. Uses AI; `mode: "preview"` saves nothing |
 | `get_presentation` | Reads | `slates:read` | Read a slate's presentation: its style and each step's layout and caption |
 | `style_presentation` | Writes | `slates:write` | Switch a slate's presentation to another style, keeping its steps |
@@ -60,7 +66,7 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `invite_team_import_person` | Writes | `team:import` | Email one person from a confirmed import whose address you have checked |
 | `discard_team_import` | Writes | `team:import` | Delete a pending imported team and everything the import wrote |
 
-Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `delete_slate` and `remove_comment` wait for your confirmation, as any removal does. `update_agent_task` is marked as able to delete, because it can cancel someone else's task, but nothing on the slate is removed. [Agent tasks](slates.md#agent-tasks) `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
+Every tool has a title and says whether it reads, deletes, repeats safely and reaches outside Slatebox, so your client can ask you before a change. `delete_slate` and `remove_comment` wait for your confirmation, as any removal does. `update_agent_task` is marked as able to delete, because it can cancel someone else's task, but nothing on the slate is removed. [Agent tasks](slates.md#agent-tasks) `undo_my_edit` and `redo_my_edit` are marked as able to delete too, because taking back an edit can remove the notes it added. `check_ai_connection` saves nothing but reaches the AI provider or address it tests.
 
 **AI settings on Slatebox Cloud.** The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, `update_ai_settings` and `check_ai_connection` refuse levels `me` and `team` with "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." An `update_ai_settings` call with only `remove` still works, to remove a connection saved before 22 November 2026. [Choose your AI](../../Using-Slatebox/choose-your-ai.md#set-it-up-with-an-agent)
 
@@ -72,9 +78,9 @@ Every tool has a title and says whether it reads, deletes, repeats safely and re
 
 **Only exec.** To list only `exec` and `describe`, set `SLATEBOX_MCP_TYPED_TOOLS=off` on a self-hosted Slatebox, or start the local server with `--typed-tools off`. `exec` and `describe` stay either way.
 
-## The shared library's tools
+### The shared library's tools
 
-The hosted server also lists the shared library's tools, generated from the same contract: find, use, build and submit smart components, slates and presentations, and, for administrators, review them. The local package lists them from its next release. [The shared library](library.md)
+The hosted server and the local package also list the shared library's tools, generated from the same contract: find, use, build and submit smart components, slates and presentations, and, for administrators, review them. [The shared library](library.md)
 
 | Tool | Reads or writes | Needs | Does |
 | --- | --- | --- | --- |
@@ -187,4 +193,4 @@ An account can have 25 connected apps; they do not count against your personal t
 
 ## Run it on your machine
 
-Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.4.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
+Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.5.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
