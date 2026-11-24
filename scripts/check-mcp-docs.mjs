@@ -10,7 +10,7 @@ import {mkdtemp, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 
-const PACKAGE = 'slatebox-mcp-0.3.3.tgz'
+const PACKAGE = 'slatebox-mcp-0.3.4.tgz'
 const PAGE = 'Developers/SlateboxAPI/mcp.md'
 const HOSTED = 'https://app.slatebox.com/mcp'
 const read = file => readFile(file, 'utf8')
@@ -101,16 +101,16 @@ test('a personal token still works on /mcp, and the local package is the release
   const local = section(page, 'Run it on your machine')
   assert.ok(local.includes(PACKAGE), 'the local section installs ' + PACKAGE)
   assert.match(local, /no sandbox/i)
-  assert.equal(manifest.version, '0.3.3')
+  assert.equal(manifest.version, '0.3.4')
   assert.equal(manifest.mcpName, 'com.slatebox/slatebox')
 })
 
 test('the page names no vendor comparison and no capability the server lacks', () => {
   assert.doesNotMatch(page, /\bMiro\b|alternative to|better than/i)
-  // Restated (parity): the server now serves list_slates and add_comment (the tools table test
-  // holds them to the package); these it still does not.
-  assert.doesNotMatch(page, /search_slates|export_image|create_presentation/)
-  for (const tool of ['list_slates', 'add_comment']) assert.ok(surface.typed.some(t => t.name === tool), tool + ' is served')
+  // Restated (parity): the server now serves list_slates and add_comment, and since 0.3.4 create_presentation (the
+  // tools table test holds them to the package); these it still does not.
+  assert.doesNotMatch(page, /search_slates|export_image/)
+  for (const tool of ['list_slates', 'add_comment', 'create_presentation']) assert.ok(surface.typed.some(t => t.name === tool), tool + ' is served')
 })
 
 test('every way into the agent docs leads to this page, and the agent index leads with the hosted address', async () => {

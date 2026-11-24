@@ -37,6 +37,7 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `generate_shape` | Writes | `slates:write` | Draw custom note outlines from a description, such as a rocket or a speech bubble. Uses AI |
 | `list_shapes` | Reads | `slates:read` | List the custom note shapes you and your team saved |
 | `apply_shape` | Writes | `slates:write` | Give notes a built-in or custom shape |
+| `create_presentation` | Writes | `slates:write` | Plan a presentation of a slate you may edit: its steps, layouts and captions, and a link that plays it. Uses AI; `mode: "preview"` saves nothing |
 | `get_presentation` | Reads | `slates:read` | Read a slate's presentation: its style and each step's layout and caption |
 | `style_presentation` | Writes | `slates:write` | Switch a slate's presentation to another style, keeping its steps |
 | `list_components` | Reads | `slates:read` | List the boards and starters you can add to a slate, such as pipeline and budget boards |
@@ -156,4 +157,4 @@ An account can have 25 connected apps; they do not count against your personal t
 
 ## Run it on your machine
 
-Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.3.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
+Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.4.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
