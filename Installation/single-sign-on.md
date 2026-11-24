@@ -238,7 +238,7 @@ Add `SLATEBOX_SSO_ONLY=true` to make single sign-on the only way in:
 
 Keycloak's database is in `/data/keycloak` and its secrets in `/data/secrets`. `slatebox backup` includes both, so a restore at any address brings back the same people, providers and accounts. At a new address, give your providers the new Redirect URI and SCIM addresses. With single sign-on off, Keycloak writes nothing to the volume.
 
-Keycloak keeps its data in an embedded H2 file, so single sign-on needs no second database. That suits a team-sized realm; in a very large organisation the file grows with every person and event. Back up before every upgrade, because Keycloak updates its own tables when a new image starts.
+Keycloak keeps its data in an embedded H2 file, so single sign-on needs no second database. That suits a team-sized realm; in a very large organization the file grows with every person and event. Back up before every upgrade, because Keycloak updates its own tables when a new image starts.
 
 ## Memory
 

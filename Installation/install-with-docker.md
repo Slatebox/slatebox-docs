@@ -122,7 +122,7 @@ With `--json`, each line is one event (`plan`, `step`, `done`, `error`). The las
 | 4 | A precondition failed: no Docker, no cluster access, CPU too old, port taken, image unavailable, key encryption key missing |
 | 5 | The change failed its health check and was rolled back |
 | 6 | The rollback failed too; the `error` event lists the commands a person must run |
-| 7 | Cancelled |
+| 7 | Canceled |
 
 `--yes`, `--install-docker`, `--new-encryption-key`, `--delete-data` and `--confirm` count only when typed on the command line, never from the environment or an answers file.
 

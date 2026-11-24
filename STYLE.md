@@ -96,11 +96,11 @@ Markdown mirror; on the site they become tabs.
 | Browser library (SlateboxJS) code | **JavaScript** · **TypeScript** (types ship in `dist/*.d.ts`). React samples: React · React + TypeScript |
 | Pure model code that runs in Node (`slateboxjs/workshops/model`, `node:fs`) | **Node.js** · TypeScript |
 | Serve a downloaded HTML file locally | **Node.js** (`npx --yes http-server -p 8000 -a 127.0.0.1`) · Python (`python3 -m http.server 8000 --bind 127.0.0.1`) |
-| Self-host commands | **Docker** (`docker run …`) · Docker Compose (an exact translation of the same flags) when it helps; otherwise a single labelled Shell block |
-| HTML markup, JSON bodies and responses, log output | Single labelled block (HTML, JSON, Output). One honest form, no picker. |
+| Self-host commands | **Docker** (`docker run …`) · Docker Compose (an exact translation of the same flags) when it helps; otherwise a single labeled Shell block |
+| HTML markup, JSON bodies and responses, log output | Single labeled block (HTML, JSON, Output). One honest form, no picker. |
 
 Never add a language that is not real for the task (no Python exec scripts, no Python browser code).
-If a single form is the only honest option, use one labelled block and do not explain why in prose.
+If a single form is the only honest option, use one labeled block and do not explain why in prose.
 
 ### Code conventions
 

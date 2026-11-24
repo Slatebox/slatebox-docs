@@ -10,7 +10,7 @@ Any slate you can open comes out as Mermaid text, and a Mermaid flowchart, mind 
 ## Export a slate
 
 1. In the slate, open the slate menu and choose **Mermaid**. The **Export** tab shows the slate as Mermaid.
-2. Pick a **Format** if you want another kind of diagram than the one chosen for you. Turn on **Include colours** to keep each note's colours.
+2. Pick a **Format** if you want another kind of diagram than the one chosen for you. Turn on **Include colors** to keep each note's colors.
 3. Choose **Copy Mermaid**, **Copy as Markdown**, **Download .mmd** or **Download .md**.
 
 You can also open it from **Export → Mermaid: export or import**. A guest registers first, as for any export.
@@ -45,7 +45,7 @@ You get real notes and lines laid out in the diagram's direction. Subgraphs and 
 
 | Mermaid | Read |
 | --- | --- |
-| `flowchart` and `graph` | Every link form, chains, `&`, subgraphs, `@{ shape: … }`, `classDef`, `class` and `style` colours, and `click` links to web pages |
+| `flowchart` and `graph` | Every link form, chains, `&`, subgraphs, `@{ shape: … }`, `classDef`, `class` and `style` colors, and `click` links to web pages |
 | `mindmap` | The tree, with its node shapes |
 | `gantt` | Sections as frames and tasks as notes; durations stay in the note's text |
 | Any other kind | Refused by name, and nothing is added |

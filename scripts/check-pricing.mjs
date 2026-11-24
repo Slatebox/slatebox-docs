@@ -84,7 +84,7 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   // agents comes with Slatebox Pro or (owner, 2026-11-24) Slatebox Business, said only while the agents-invite switch is on.
   assert.match(pricing, /`enterprise\/` folder[^.]*Slatebox Enterprise License/, 'pricing.md: enterprise/ is under the Slatebox Enterprise License')
   assert.match(pricing, /<!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro or Slatebox Business\.[\s\S]*?<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately\.<!-- \/feature:!agents-invite -->/, 'pricing.md: the Slatebox Pro exception is held by the agents-invite switch')
-  // The subscription page: price, credits, cancelling, failed payments, refunds as the terms say, deleting the account.
+  // The subscription page: price, credits, canceling, failed payments, refunds as the terms say, deleting the account.
   assert.doesNotMatch(pricing + pro, /in any mix/i, 'Pro credits are separate allowances, not one pool')
   for (const words of [...PRO, '(' + thousands(CREDITS.voiceMinutes) + ' participant-minutes)', '(' + thousands(CREDITS.videoMinutes) + ' participant-minutes)', 'the share of that month\'s Pro credits', 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])
     assert.ok(pro.toLowerCase().includes(words.toLowerCase()), 'slatebox-pro.md does not say ' + words)
@@ -226,7 +226,7 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   assert.match(host, /SLATEBOX_KEY_ENCRYPTION_KEY/, 'self-host-costs.md: own keys need the encryption key')
 })
 
-// Every subscription was cancelled with no conversion and no balance, so there is nothing for a
+// Every subscription was canceled with no conversion and no balance, so there is nothing for a
 // former subscriber to read: the top-ups page carries no hidden former-subscribers anchor either.
 test('the top-ups page has no former-subscribers anchor', () => {
   const legacy = JSON.parse(read('scripts/legacy-routes.json'))

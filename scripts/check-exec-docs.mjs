@@ -24,7 +24,7 @@ const guides = (await Promise.all(['Using-Slatebox', 'Examples', 'Developers', '
 const text = Object.fromEntries(await Promise.all(guides.map(async f => [f, await readFile(f, 'utf8')])))
 const exec = text[EXEC_PAGE] ?? ''
 // A fence's info string is "lang Label" (```js JavaScript). lang is the first word; the label names
-// the picker tab. A js block labelled Node.js is a program that calls the API, not an exec script.
+// the picker tab. A js block labeled Node.js is a program that calls the API, not an exec script.
 const codeBlocks = source => marked.lexer(source).filter(t => t.type === 'code').map(t => {
   const [lang = '', ...label] = (t.lang ?? '').trim().split(/\s+/)
   return {...t, lang, label: label.join(' ')}
@@ -134,7 +134,7 @@ test('a script never passes a second argument or an idempotency key to a client 
 })
 
 // What the exec page and the terminal guide say must be what the package and the app do.
-// Each check below names the behaviour it pins, read from the code at exec/app and exec/mcp.
+// Each check below names the behavior it pins, read from the code at exec/app and exec/mcp.
 const terminal = () => text['Developers/SlateboxAPI/terminal-and-agents.md']
 const section = (source, heading) => source.split(/^## /m).find(s => s.startsWith(heading)) ?? ''
 

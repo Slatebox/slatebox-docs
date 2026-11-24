@@ -123,11 +123,11 @@ test('agents set and test AI through exec and the API, with the right permission
   assert.match(text, /holds `ai\.update` for (your )?confirmation/i, 'ai.update is confirm: true in exec')
 })
 
-test('no page names a model, favours a runner or ties AI to a bundled local model', () => {
+test('no page names a model, favors a runner or ties AI to a bundled local model', () => {
   const models = /\b(gpt-?\d|gpt-4o|claude-\d|claude-(3|sonnet|opus|haiku)|llama ?\d|llama3|qwen|deepseek|mistral|mixtral|gemma|phi-\d|inkling)\b/i
   const runners = /\b(ollama|lm ?studio|llama\.cpp|vllm)\b/i
   // The installer's provider kinds are its interface (packages/slatebox/src/answers.mjs PROVIDER_KINDS): the self-host
-  // page lists them as `kind` values, which names no model and favours no runner. Prose and model names stay banned.
+  // page lists them as `kind` values, which names no model and favors no runner. Prose and model names stay banned.
   const installerKinds = /`(ollama|lmstudio|mistral)`|\bkind[=:] ?(ollama|lmstudio|mistral)\b/g
   for (const file of [PAGE, 'Installation/install-with-docker.md', 'Installation/self-host-costs.md', 'Using-Slatebox/own-keys.md', 'Using-Slatebox/pricing.md']) {
     const text = existsSync(file) ? read(file).replace(file === 'Installation/install-with-docker.md' ? installerKinds : /$^/, '') : ''
