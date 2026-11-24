@@ -1,6 +1,6 @@
 # Slatebox documentation
 
-Slatebox: the free, open-source team canvas. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.
+Slatebox is an open source visual intelligence platform where you can invite any AI via MCP to collaborate with you and your team. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.
 
 Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.
 
