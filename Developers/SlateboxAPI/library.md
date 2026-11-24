@@ -66,7 +66,43 @@ const preview = await slatebox.library.fork({ itemId: items[0].id, targetShareId
 return slatebox.library.fork({ itemId: items[0].id, targetShareId: 'YOUR_SHARE_ID', topic: 'Q3 launch' })
 ```
 
-`mode: "preview"` answers the board and where it would go (`canvas`) and saves nothing. A slate holds up to 8 boards; past that the fork answers `409 component_opens_new_slate`. `slates.applyOperations` with an `add_component` operation also takes `library: { itemId }` in place of a catalogue `component`.
+`mode: "preview"` answers the board and where it would go (`canvas`) and saves nothing.
+
+### Every operation on every surface
+
+Each operation is one server method, so the app, the HTTP API, exec, the MCP server and the terminal make the same checks and record the same audit line.
+
+| HTTP | Exec client | MCP tool |
+| --- | --- | --- |
+| `GET /library` | `slatebox.library.list` | `list_library` |
+| `GET /library/{itemId}` | `slatebox.library.get` | `get_library_item` |
+| `GET /library/stats` | `slatebox.library.stats` | `get_library_stats` |
+| `GET /library/export` | `slatebox.library.export` | `export_library` |
+| `GET /library/mine` | `slatebox.library.mine` | `list_my_library` |
+| `POST /library/{itemId}/fork` | `slatebox.library.fork` | `use_library_item` |
+| `POST /library/{itemId}/branch` | `slatebox.library.branch` | `branch_library_component` |
+| `POST /library/drafts` | `slatebox.library.saveDraft` | `save_library_draft` |
+| `POST /library/submissions` | `slatebox.library.submit` | `submit_to_library` |
+| `POST /library/{itemId}/withdraw` | `slatebox.library.withdraw` | `withdraw_library_item` |
+| `DELETE /library/{itemId}` | `slatebox.library.discard` | `discard_library_draft` |
+| `POST /library/{itemId}/comments` | `slatebox.library.comment` | `comment_on_library_item` |
+| `GET /library/review` | `slatebox.library.review.queue` | `list_library_queue` |
+| `POST /library/review/{itemId}/open` | `slatebox.library.review.open` | `open_library_review` |
+| `POST /library/review/{itemId}/refine` | `slatebox.library.review.refine` | `refine_library_item` |
+| `PATCH /library/review/{itemId}` | `slatebox.library.review.update` | `update_library_item` |
+| `POST /library/review/{itemId}/approve` | `slatebox.library.review.approve` | `approve_library_item` |
+| `POST /library/review/{itemId}/changes` | `slatebox.library.review.requestChanges` | `request_library_changes` |
+| `POST /library/review/{itemId}/reject` | `slatebox.library.review.reject` | `reject_library_item` |
+| `POST /library/review/{itemId}/unpublish` | `slatebox.library.review.unpublish` | `unpublish_library_item` |
+
+`submit` and `approve` wait for a person's confirmation when a script or an agent calls them. In the terminal, run any of them through `slatebox exec`: [Terminal and agents](terminal-and-agents.md)
+
+```sh
+npx --no-install slatebox exec -e 'return slatebox.library.stats({})'
+npx --no-install slatebox exec -e 'return slatebox.library.mine({})'
+npx --no-install slatebox describe library
+```
+ A slate holds up to 8 boards; past that the fork answers `409 component_opens_new_slate`. `slates.applyOperations` with an `add_component` operation also takes `library: { itemId }` in place of a catalogue `component`.
 
 ## Build and submit a component
 
@@ -86,6 +122,18 @@ A slate or presentation is submitted with `kind: "slate"` or `kind: "presentatio
 | `published` | Public: anyone can find, use and change it |
 | `rejected` | Not accepted, with the reason in the thread |
 | `unpublished` | Taken out of the library; copies people made stay theirs |
+
+### After you submit
+
+- **The review thread.** Every item has one thread: your note, the reviewer's messages and each status change. `GET /library/mine` returns it with the status. Write in it with `POST /library/{itemId}/comments` and `message`.
+- **Notices.** When a reviewer publishes your item, asks for changes, turns it down, takes it out or writes to you, you get a notice in the app and an email (where the server sends email), with their message and a link to My library.
+- **Changes asked for.** The item comes back as `changes_requested`. Change it (for a component, on its builder slate, then `POST /library/drafts` again), then `POST /library/submissions` with the same `itemId` to send it again.
+- **What is published.** The reviewer can refine your submission on a private copy before approving. What is published is that copy, so it may differ a little from what you sent. Your own slate or builder slate is never changed.
+- **Take it back.** `POST /library/{itemId}/withdraw` takes back a waiting submission, or takes your published item out of the library. Copies people already made stay theirs.
+
+### Rules set with the controls on the board
+
+On a builder slate, the controls drawn on the board (a lane's limit line, the arrows between lanes, a deadline, a freeze band) make the same rule edits that chat, exec and `workshop_edits` make. Each rule records who set it, when, and how: `set.via` is `"canvas"` for a control, beside `"chat"` and `"exec"`. A control's change is saved on its own, never in the same save as a card move or rename: "Change the rules on their own, then move cards."
 
 ## Review submissions (administrators)
 
