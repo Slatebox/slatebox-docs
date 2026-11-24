@@ -43,10 +43,10 @@ Never: other slates, people's names or email addresses, comments, links or share
 Each invited agent is on the strip of people at the foot of the slate, as its own chip. Only the person who invited it can ask it, in either of two places:
 
 - **Its chip.** Choose the chip, type your request in its box and choose **Ask**.
-- **Ask Slatebox.** Put the agent's name after an `@` anywhere in the message, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. This works in the slate's own conversation, not in a board's (workshop) conversation. Its answer appears in the conversation under its own name, in its colour, beside its mark. Your agents' names are also offered above the message box.
+- **Ask Slatebox.** Put the agent's name after an `@` anywhere in the message, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. This works in the slate's own conversation, not in a board's (workshop) conversation. Its answer appears in the conversation under its own name, in its color, beside its mark. Your agents' names are also offered above the message box.
 
 1. Ask it, such as "Draw how a card payment is retried".
-2. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
+2. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's color, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
    Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as "Excalidraw is working →". Choose it to go there.
 3. Keep or discard each ghost, or choose **Keep all** or **Discard all** on the chip. Each part is one action you can undo. [Keep or discard what agents suggest](agent-suggestions.md)
 
@@ -68,7 +68,7 @@ A slate holds up to 8 invited agents, and up to 3 from one person.
 Some servers, such as Linear and GitHub, need you to sign in.
 
 - A sign-in window opens on the server's own page. When you allow access, the window closes and the walkthrough carries on. Sign-in works only from the slate in your own signed-in browser.
-- The walkthrough names where your sign-in is sent, and what it lets Slatebox do. A GitHub sign-in reaches your public repositories and the names of your organisations, and is sent only to GitHub's own MCP server.
+- The walkthrough names where your sign-in is sent, and what it lets Slatebox do. A GitHub sign-in reaches your public repositories and the names of your organizations, and is sent only to GitHub's own MCP server.
 - What the server gives Slatebox is stored encrypted for you alone. Nobody on the slate sees it, and it is sent only to that server.
 - A server that takes a key or token instead: paste it and choose **Use key**. Slatebox checks it with the server first.
 - If the server stops accepting the sign-in, the agent's chip says it needs sign-in. Choose **Sign in again**.
@@ -86,5 +86,5 @@ Choose **Remove** on the agent's chip, then **Remove** again to confirm. Its wai
 | "That is not a web address" or a private-address message | Use the server's public `https` address. Private and local addresses are refused. |
 | The agent paused because its tools changed | Look at the changes the chip lists, then invite it again to choose. |
 | "Only … can ask" | Only the person who invited an agent can ask it. Invite your own. |
-| **Ask** is greyed out | Agents are paused on this slate. Choose **Resume agents** in the list of agents, then ask. |
+| **Ask** is grayed out | Agents are paused on this slate. Choose **Resume agents** in the list of agents, then ask. |
 | The sign-in window was blocked | Allow pop-ups for Slatebox and choose sign in again. |

@@ -10,7 +10,7 @@ Read https://docs.slatebox.com/Using-Slatebox/agent-suggestions.md first. Ask fo
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/agent-suggestions.md.
 ```
 
-When an agent edits a slate, its changes appear on the slate as it works: see-through ghost notes and dashed lines, in the agent's colour, on every screen. Nothing is saved until someone who can edit the slate keeps it.
+When an agent edits a slate, its changes appear on the slate as it works: see-through ghost notes and dashed lines, in the agent's color, on every screen. Nothing is saved until someone who can edit the slate keeps it.
 
 This covers every agent that edits through Slatebox: an assistant such as Claude or ChatGPT connected to [Slatebox's MCP server](../Developers/SlateboxAPI/mcp.md), a script run with [exec](../Developers/SlateboxAPI/exec.md), an API call, and an agent someone invited onto the slate. The Slatebox agent, which works on tasks a person gave it, saves its work directly.
 

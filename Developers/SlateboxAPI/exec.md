@@ -91,7 +91,7 @@ Each layer needs its own bug to cross.
 | **Child process.** Empty environment and Node.js permission flags | Reading app secrets, writing files, starting processes, loading native add-ons, exhausting the app's memory | Opening a network socket after an escape from QuickJS: on Node.js 24, which Slatebox runs, the permission flags cannot deny the network. The database needs a password the child does not have |
 | **Action registry.** Every client call is checked as the caller | Everything you may not do | — |
 
-The registry is the authority; the sandbox is defence in depth. The runner is the open-source `run` package (2.1.13, Apache-2.0), installed with the app. Your code is not sent to any other service.
+The registry is the authority; the sandbox is defense in depth. The runner is the open-source `run` package (2.1.13, Apache-2.0), installed with the app. Your code is not sent to any other service.
 
 ## What every call keeps
 

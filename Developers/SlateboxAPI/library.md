@@ -114,7 +114,7 @@ npx --no-install slatebox exec -e 'return slatebox.library.stats({})'
 npx --no-install slatebox exec -e 'return slatebox.library.mine({})'
 npx --no-install slatebox describe library
 ```
- A slate holds up to 8 boards; past that the fork answers `409 component_opens_new_slate`. When people on the slate have paused its agents, an agent's fork onto it answers `423 agents_paused`, as its edits do; so does an agent's kept refinement of a review copy. `slates.applyOperations` with an `add_component` operation also takes `library: { itemId }` in place of a catalogue `component`.
+ A slate holds up to 8 boards; past that the fork answers `409 component_opens_new_slate`. When people on the slate have paused its agents, an agent's fork onto it answers `423 agents_paused`, as its edits do; so does an agent's kept refinement of a review copy. `slates.applyOperations` with an `add_component` operation also takes `library: { itemId }` in place of a catalog `component`.
 
 ## Build and submit a component
 
