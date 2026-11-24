@@ -33,7 +33,7 @@ A map has stations, paths between them and a token the team moves. Send each cha
 
 1. Send `First upload → Preview 10 rows → Import clients`.
 2. Send `Add Review duplicates after Preview 10 rows`.
-3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Reopen the slate to see it saved. **Undo last change** restores the previous saved map while an undo is available.
+3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Reopen the slate to see it saved. **Undo** at the canvas's corner, or Ctrl+Z (⌘Z on a Mac), takes back your last change to the map, and leaves a teammate's later changes as they are.
 4. Choose **Present** to walk a teammate through it.
 
 You can also ask Canvas AI for changes in your own words, with Pro credits on Slatebox Cloud, or your own AI connection on a self-hosted Slatebox. If someone edits while you review a proposal, discard it and ask again.

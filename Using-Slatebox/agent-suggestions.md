@@ -12,7 +12,7 @@ This covers every agent that edits through Slatebox: an assistant such as Claude
 ## Keep or discard one change
 
 1. Watch the agent's named cursor. It moves to each ghost as it appears and says what it suggests, such as "Suggesting 2 new notes and 1 change".
-2. Choose **Keep** on a ghost to save it. It becomes a real note for everyone, and one save in the slate's history.
+2. Choose **Keep** on a ghost to save it. It becomes a real note for everyone, and one save in the slate's history. Your Keep is also one step of your own undo: **Undo** at the canvas's corner, or Ctrl+Z (⌘Z on a Mac), takes it back.
 3. Choose **Discard** to remove it. Nothing is saved.
 
 A changed note shows the agent's version as a ghost over it. A removed note is marked until someone keeps or discards the removal. Keeping a line also keeps the new notes at its ends.
