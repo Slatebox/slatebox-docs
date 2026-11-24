@@ -1,7 +1,9 @@
 // A self-hosted Slatebox has no payments to set up (owner, 2026-11-24): Slatebox Pro, balances, top-ups, the meter and
 // its budgets are Slatebox Cloud's only. No self-hosting page, and no agent prompt, mentions Stripe, the meter, top-ups,
 // balances, price IDs or webhooks, or tells an operator how to switch payments or limits on. The one sentence a
-// self-hoster needs is allowed: "Slatebox Pro and balances exist only on Slatebox Cloud."
+// self-hoster needs is allowed: "Slatebox Pro exists only on Slatebox Cloud."
+// Restated (round-2 review finding 9): the allowed sentence no longer names balances, so no self-hosting page
+// mentions them at all (stricter: "balances" is now refused everywhere under Installation/).
 //   node --test scripts/check-selfhost-no-payments.mjs   (after npm run build, so dist/ holds the built prompts)
 import test from 'node:test'
 import assert from 'node:assert/strict'
@@ -10,7 +12,7 @@ import {join} from 'node:path'
 
 const read = file => readFileSync(file, 'utf8')
 const walk = dir => readdirSync(dir).flatMap(name => statSync(join(dir, name)).isDirectory() ? walk(join(dir, name)) : [join(dir, name)])
-const ALLOWED = /Slatebox Pro and balances exist only on Slatebox Cloud\./
+const ALLOWED = /Slatebox Pro exists only on Slatebox Cloud\./
 const ALLOWED_ALL = new RegExp(ALLOWED.source, 'g')
 const PAYMENTS = [
   [/stripe/i, 'Stripe'], [/\bmeter(ing|ed|s)?\b/i, 'the meter'], [/\btop(ped)?[- ]?ups?\b|\btop up\b/i, 'top-ups'],
@@ -34,9 +36,9 @@ test('no self-hosting page mentions Stripe, the meter, top-ups, balances, price 
   assert.deepEqual(pages.flatMap(file => findings(file, read(file))), [])
 })
 
-test('the page about costs on your own server says Slatebox Pro and balances are Cloud only', () => {
+test('the page about costs on your own server says Slatebox Pro is Cloud only', () => {
   const text = read('Installation/self-host-costs.md')
-  assert.match(text, ALLOWED, 'self-host-costs.md: say "Slatebox Pro and balances exist only on Slatebox Cloud."')
+  assert.match(text, ALLOWED, 'self-host-costs.md: say "Slatebox Pro exists only on Slatebox Cloud."')
   assert.doesNotMatch(text, /^## Turn on limits/m, 'self-host-costs.md: no section turns limits on')
 })
 

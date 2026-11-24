@@ -2,7 +2,8 @@
 // Slatebox untethered from any AI provider. node --test scripts/check-installer-docs.mjs
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
-import {readFileSync} from 'node:fs'
+import {readFileSync, readdirSync as fsReaddir, statSync as fsStat} from 'node:fs'
+const require_fs = () => ({readdirSync: fsReaddir, statSync: fsStat})
 
 const page = readFileSync(new URL('../Installation/install-with-docker.md', import.meta.url), 'utf8')
 const body = page.replace(/^---\n[\s\S]*?\n---\n/, '')
@@ -123,4 +124,18 @@ test('Run your own Slatebox, held: the installer is being published, use Slatebo
   assert.doesNotMatch(off, /coming soon/i)
   assert.doesNotMatch(off, /\$\d/, 'no prices: the pricing page holds them')
   assert.doesNotMatch(off, /npx slatebox/)
+})
+
+// Restated (owner decision 2026-11-24, round-2 review finding 4): "coming soon" is gone from every page, whichever
+// way the self-host switch is set (Developers/readme.md's table link said it while held).
+test('no page says "coming soon" about self-hosting, held or published', () => {
+  const {readdirSync, statSync} = require_fs()
+  const walk = dir => readdirSync(dir).flatMap(name => statSync(dir + '/' + name).isDirectory() ? walk(dir + '/' + name) : [dir + '/' + name])
+  const root = new URL('..', import.meta.url).pathname
+  const pages = ['Using-Slatebox', 'Examples', 'Developers', 'Installation'].flatMap(dir => walk(root + dir)).filter(file => file.endsWith('.md'))
+  pages.push(root + 'readme.md')
+  const found = pages.filter(file => /coming soon/i.test(readFileSync(file, 'utf8'))).map(file => file.slice(root.length))
+  assert.deepEqual(found, [])
+  const dev = readFileSync(new URL('../Developers/readme.md', import.meta.url), 'utf8')
+  assert.match(kept(dev, false), /\[Being published: use Slatebox Cloud until then\]\(\.\.\/Installation\/self-hosting\.md\)/)
 })

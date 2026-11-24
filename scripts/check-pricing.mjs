@@ -224,7 +224,7 @@ test('top-ups, own keys and self-host say what builder A built', () => {
   // Slatebox Pro and balances are Slatebox Cloud's only (owner, 2026-11-24): the self-host page says who pays, never how to meter.
   // Restated (owner, 2026-11-24, prices in one place): Daily's free allowance is Daily's figure and drifts, so the page links
   // Daily's pricing instead of stating "10,000" participant-minutes.
-  for (const words of ['settings.ai', "[Daily's pricing](https://www.daily.co/pricing/)", 'Slatebox Pro and balances exist only on Slatebox Cloud', 'needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-costs.md does not say ' + words)
+  for (const words of ['settings.ai', "[Daily's pricing](https://www.daily.co/pricing/)", 'Slatebox Pro exists only on Slatebox Cloud', 'needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-costs.md does not say ' + words)
   assert.match(read('Installation/install-with-docker.md'), /\(self-host-costs\.md\)/, 'the Docker guide links the who-pays page')
   assert.match(read('Using-Slatebox/readme.md'), /\(pricing\.md\)/, 'the user guide links the pricing page')
 })

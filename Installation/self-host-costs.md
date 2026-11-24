@@ -1,6 +1,6 @@
 ---
 title: Who pays for what on your own server
-description: A Slatebox you run yourself is free. Its AI is whatever you and your people connect, and calls use your own Daily account. Slatebox Pro and balances exist only on Slatebox Cloud.
+description: A Slatebox you run yourself is free. Its AI is whatever you and your people connect, and calls use your own Daily account. Slatebox Pro exists only on Slatebox Cloud.
 agentPrompt: >-
   Help me understand who pays for what on a Slatebox I run myself.
   Ask which AI I want, local or cloud, or none, and whether I want audio and video calls; show me where each one is set.
@@ -18,7 +18,7 @@ A Slatebox you run yourself is free. Slatebox charges nothing for it and sets no
 | Single sign-on | Nobody. Keycloak is in the image and needs no license. |
 | Outside-agent connections | An on-prem license from Slatebox, a flat yearly fee per install. [Contact us](https://slatebox.com/contact/?topic=on-prem) |
 
-Slatebox Pro and balances exist only on Slatebox Cloud. Nobody on your own server needs Slatebox Pro or sees a draft count.
+Slatebox Pro exists only on Slatebox Cloud. Nobody on your own server needs Slatebox Pro or sees a draft count.
 
 ## Keep people's keys readable
 
