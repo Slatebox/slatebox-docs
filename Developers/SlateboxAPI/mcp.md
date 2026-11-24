@@ -25,7 +25,7 @@ Beside them, the server lists one typed tool per client method, generated from t
 | `get_slate` | Reads | `slates:read` | Read a slate's notes, lines, boards, comments and revision |
 | `edit_slate` | Writes | `slates:write` | Add, change, connect, lay out or remove notes and lines, and edit boards; `mode: "preview"` saves nothing |
 | `export_mermaid` | Reads | `slates:read` | Read a slate as Mermaid text |
-| `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate or template |
+| `copy_slate` | Writes | `slates:write` | Make a private copy of a slate you may edit, or of a public slate. To use something from the library, use `use_library_item` |
 | `delete_slate` | Writes | `slates:delete` | Delete one of your own slates, with its sharing and comments. Only the owner can, and it cannot be undone |
 | `list_comments` | Reads | `slates:read` | Read the comments on a slate's notes, or on one note |
 | `add_comment` | Writes | `slates:write` | Comment on a note, under your name, where the slate's sharing lets you comment. `@Slatebox ...` asks the Slatebox agent |
@@ -64,13 +64,42 @@ Every tool has a title and says whether it reads, deletes, repeats safely and re
 
 **AI settings on Slatebox Cloud.** The canvas is free. On Slatebox Cloud, AI comes with Slatebox Pro; a self-hosted Slatebox can use its own AI key. So on Cloud, `update_ai_settings` and `check_ai_connection` refuse levels `me` and `team` with "Own AI and call keys are for self-hosted Slatebox. On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups." An `update_ai_settings` call with only `remove` still works, to remove a connection saved before 22 November 2026. [Choose your AI](../../Using-Slatebox/choose-your-ai.md#set-it-up-with-an-agent)
 
-**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in asks for `slates:read` and `slates:write` only, so a new connection never carries more. The server's sign-in metadata lists every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `slates:delete`, `ai:settings`, `ai:admin`, `team:export` and `team:import`. A tool that needs one of the others asks for it when you first use it. Deleting is its own permission: `slates:delete` is never part of `slates:write`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
+**Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in asks for `slates:read` and `slates:write` only, so a new connection never carries more. The server's sign-in metadata lists every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `slates:delete`, `ai:settings`, `ai:admin`, `team:export`, `team:import` and `library:review`. A tool that needs one of the others asks for it when you first use it. Deleting is its own permission: `slates:delete` is never part of `slates:write`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
 
 **Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic.
 
 **Resources.** `slatebox://client/slatebox.d.ts` (the client's types), `slatebox://client/guide.md` (its rules, errors, limits and examples), and any slate you can open as `slatebox://slates/{shareId}` (JSON) or `slatebox://slates/{shareId}/mermaid`.
 
 **Only exec.** To list only `exec` and `describe`, set `SLATEBOX_MCP_TYPED_TOOLS=off` on a self-hosted Slatebox, or start the local server with `--typed-tools off`. `exec` and `describe` stay either way.
+
+## The shared library's tools
+
+The hosted server also lists the shared library's tools, generated from the same contract: find, use, build and submit smart components, slates and presentations, and, for administrators, review them. The local package lists them from its next release. [The shared library](library.md)
+
+| Tool | Reads or writes | Needs | Does |
+| --- | --- | --- | --- |
+| `list_library` | Reads | `slates:read` | List published smart components, slates and presentations in the library, by kind, category or search words |
+| `get_library_item` | Reads | `slates:read` | Read one library item with a version's content |
+| `get_library_stats` | Reads | `slates:read` | Count the published components, slates and presentations, and the items in each category |
+| `export_library` | Reads | `slates:read` | Read every published item with its content, a page at a time |
+| `list_my_library` | Reads | `slates:read` | List your own library items with their status and review thread |
+| `use_library_item` | Writes | `slates:write` | Copy a library slate or presentation, or add a component to a new slate or beside a slate's boards; `mode: "preview"` saves nothing |
+| `branch_library_component` | Writes | `slates:write` | Start your own component on a private builder slate, from scratch or from a copy of another |
+| `save_library_draft` | Writes | `slates:write` | Save the board on your builder slate as your own component |
+| `submit_to_library` | Writes | `slates:share` | Send a component, slate or presentation for review. Waits for your confirmation |
+| `withdraw_library_item` | Writes | `slates:write` | Take back a submission, or take your published item out |
+| `discard_library_draft` | Writes | `slates:write` | Delete one of your own drafts |
+| `comment_on_library_item` | Writes | `slates:write` | Write in an item's review thread, as its author or a reviewer |
+| `list_library_queue` | Reads | `library:review` | For administrators: the submissions waiting for review, oldest first |
+| `open_library_review` | Writes | `library:review` | For administrators: make a private review copy of a submission |
+| `refine_library_item` | Writes | `library:review` | For administrators: ask for a change in plain words; `mode: "preview"` shows it first. May use AI |
+| `update_library_item` | Writes | `library:review` | For administrators: change an item's title, summary, description, category or search words |
+| `approve_library_item` | Writes | `library:review` | For administrators: publish the review copy as a new version. Waits for your confirmation |
+| `request_library_changes` | Writes | `library:review` | For administrators: send a submission back to its author with a message |
+| `reject_library_item` | Writes | `library:review` | For administrators: turn a submission down with the reason |
+| `unpublish_library_item` | Writes | `library:review` | For administrators: take a published item out of the library, with a message |
+
+`submit_to_library` and `approve_library_item` wait for your confirmation: the first sends your work for review, the second publishes it for everyone. `refine_library_item` may use AI, from the connection chosen for **Library review and refinement**.
 
 ## Connect Claude
 
@@ -144,6 +173,7 @@ A client without sign-in sends a personal token instead. Create one in **Profile
 | **Change and test my team's or this server's AI (team admins and administrators only)** | `ai:admin` |
 | **Export everything my team owns (team admins only)** | `team:export` |
 | **Import a team export as a new team, and confirm or discard it (administrators only)** | `team:import` |
+| **Review library submissions (administrators)** | `library:review` |
 
 An app that asks for nothing in particular gets **Read slates** and **Create and edit slates**. Each access token lasts 1 hour and the app renews it itself; a connection unused for 30 days lapses, and the app asks you again. These sign-in tokens work on `/mcp` only and never open `/api/v1`.
 
