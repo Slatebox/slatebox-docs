@@ -1,1 +1,526 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Run your own Slatebox · Slatebox Docs</title><link rel="canonical" href="https://docs.slatebox.com/installation/self-hosting/"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/installation/self-hosting/"></head><body><h1>Run your own Slatebox</h1><p><a href="/installation/self-hosting/">Open Run your own Slatebox</a></p></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Install guide: every option · Slatebox Docs</title><meta name="description" content="Run your own Slatebox with one command, on this computer, a server or Kubernetes, with any AI or none."><link rel="canonical" href="https://docs.slatebox.com/installation/install-with-docker/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Installation/install-with-docker.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/library/" >The shared library</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a><a href="/developers/slateboxapi/library/" >The shared library</a></details><details open><summary>Self-hosting</summary><a href="/installation/install-with-docker/" aria-current="page">Install guide: every option</a><a href="/installation/self-hosting/" >Run your own Slatebox</a><a href="/installation/single-sign-on/" >Single sign-on</a><a href="/installation/self-host-costs/" >Who pays for what on your own server</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Self-hosting</div><h1>Install guide: every option</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Installation/install-with-docker.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me install my own Slatebox with the slatebox installer from npm (npx -y slatebox@latest). First run npx -y slatebox@latest agent-prompt and follow the brief it prints exactly. Ask me, do not guess: where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes with which context and namespace, or files only), the domain name for HTTPS or the port, the admin email, and the AI: none for now, or which providers and models. Slatebox has no default AI provider: any cloud provider the installer lists, or any OpenAI-compatible endpoint I run, on this computer or in my company. Never write a key into a file or a flag: ask me to export each key in an environment variable and pass key=env:NAME. Write slatebox.yaml, run npx -y slatebox@latest plan --answers slatebox.yaml --json, and show me the whole plan. Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them. Report the address, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
+
+Read the official guide at https://docs.slatebox.com/Installation/install-with-docker.md first. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: <a href="/installation/self-hosting/">Run your own Slatebox</a></p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox</code></pre></div></div><p>You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox is free, and its AI is whatever you connect, or none. <a href="/installation/self-host-costs/">Who pays for what on your own server</a></p>
+<p>Would rather not run anything? <a href="https://app.slatebox.com/start">Use Slatebox Cloud</a>.</p>
+<h2 id="install-with-one-command">Install with one command</h2><p>Pick where Slatebox runs. You need Node.js 22.13 or newer where you type the command, and Docker where Slatebox runs.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh"># This computer
+npx slatebox</code></pre></div><div class="code" data-label="Remote server"><div class="code-label">Remote server</div><pre><code class="language-sh"># A Linux server over SSH
+npx slatebox@latest install ssh root@203.0.113.5 --domain boards.example.com</code></pre></div><div class="code" data-label="Kubernetes"><div class="code-label">Kubernetes</div><pre><code class="language-sh"># Your current kubectl context
+npx slatebox@latest install k8s --route ingress \
+  --domain boards.example.com --tls-issuer ClusterIssuer/letsencrypt</code></pre></div><div class="code" data-label="Files only"><div class="code-label">Files only</div><pre><code class="language-sh"># compose, manifests or helm; nothing is applied
+npx slatebox@latest install export --format helm --out ./slatebox-deploy</code></pre></div></div><table>
+<thead>
+<tr>
+<th>Where</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>This computer (Docker)</td>
+<td>The first free port from 7070, published on <code>127.0.0.1</code> only. <code>--listen 0.0.0.0</code> opens it to your network. Files in <code>~/.slatebox/installs/&lt;name&gt;/</code>.</td>
+</tr>
+<tr>
+<td>Remote server</td>
+<td>Root or passwordless sudo over SSH. With <code>--domain</code>, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without it, <code>http://&lt;server&gt;:7070</code>. Files in <code>/opt/slatebox</code>, owned by root. Docker is installed only with <code>--install-docker</code>.</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>kubectl and your current context; a context whose name looks like production must be named with <code>--k8s-context</code>. Namespace <code>slatebox</code>. One StatefulSet with a volume, a Service, the Secret <code>&lt;name&gt;-env</code>, a backups sidecar, and an Ingress or Gateway API HTTPRoute with <code>--route ingress</code> or <code>--route gateway</code>.</td>
+</tr>
+<tr>
+<td>Files only</td>
+<td>A compose file, Kubernetes manifests or a Helm chart for GitOps, with placeholders where secrets go.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Nothing changes before the plan is shown. On a server or a cluster nothing changes without a yes.</li>
+<li>The install waits for health. If it fails, the previous state is put back (exit 5).</li>
+<li>Running it again with the same answers changes nothing. <code>--name &lt;id&gt;</code> keeps several installs side by side.</li>
+<li>Flags for every question: <code>npx slatebox@latest --help</code>.</li>
+</ul>
+<h2 id="let-an-agent-install-it">Let an agent install it</h2><p>Give your coding agent the brief, or copy this page&#39;s agent prompt:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox@latest agent-prompt</code></pre></div></div><p>The agent writes an answers file, shows you the plan and installs only after your yes. An agent never gets a question on screen: a missing answer is exit 3 with each question, its choices and the flag that answers it.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="slatebox.yaml"><div class="code-label">slatebox.yaml</div><pre><code class="language-yaml">version: 1
+target: ssh                # local | ssh | k8s | export
+ssh: { host: 203.0.113.5, user: root }
+address: { domain: boards.example.com }
+adminEmail: ops@example.com
+ai:
+  mode: providers          # or: none
+  providers:
+    - { id: local, kind: ollama, model: your-local-model }
+    - { id: cloud, kind: anthropic, model: your-model-name, keyFrom: &quot;env:ANTHROPIC_API_KEY&quot; }
+  default: local
+sso: { enabled: false }</code></pre></div></div><div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx -y slatebox@latest plan --answers slatebox.yaml --json            # changes nothing
+npx -y slatebox@latest install --answers slatebox.yaml --yes --json   # after the person says yes</code></pre></div></div><p>With <code>--json</code>, each line is one event (<code>plan</code>, <code>step</code>, <code>done</code>, <code>error</code>). The last line, <code>done</code>, carries <code>address</code> and <code>secretsFile</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Done, or nothing to change</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bad flags or answers; the <code>error</code> event lists each field</td>
+</tr>
+<tr>
+<td>3</td>
+<td>An answer or a confirmation is needed and nobody can be asked</td>
+</tr>
+<tr>
+<td>4</td>
+<td>A precondition failed: no Docker, no cluster access, CPU too old, port taken, image unavailable, key encryption key missing</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The change failed its health check and was rolled back</td>
+</tr>
+<tr>
+<td>6</td>
+<td>The rollback failed too; the <code>error</code> event lists the commands a person must run</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Canceled</td>
+</tr>
+</tbody></table>
+<p><code>--yes</code>, <code>--install-docker</code>, <code>--new-encryption-key</code>, <code>--delete-data</code> and <code>--confirm</code> count only when typed on the command line, never from the environment or an answers file.</p>
+<h2 id="choose-the-ai-when-you-install">Choose the AI when you install</h2><p>Slatebox is not tied to any AI provider, and the installer never picks one. Answer <strong>None for now</strong>, or give any mix of cloud and local models:</p>
+<table>
+<thead>
+<tr>
+<th><code>kind</code></th>
+<th>Needs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>openai</code>, <code>anthropic</code>, <code>deepinfra</code>, <code>openrouter</code>, <code>groq</code>, <code>together</code>, <code>mistral</code></td>
+<td><code>model</code> and a key</td>
+</tr>
+<tr>
+<td><code>ollama</code>, <code>lmstudio</code></td>
+<td><code>model</code>; no key</td>
+</tr>
+<tr>
+<td><code>openai-compatible</code></td>
+<td><code>url</code> and <code>model</code> of any OpenAI-compatible endpoint you run (a model server of your own, a company gateway); a key if it needs one</td>
+</tr>
+</tbody></table>
+<div class="code-tabs" data-tabs><div class="code" data-label="Cloud"><div class="code-label">Cloud</div><pre><code class="language-sh">export OPENAI_API_KEY=your-openai-key
+npx slatebox@latest install --ai-provider &quot;kind=openai,model=your-model-name,key=env:OPENAI_API_KEY&quot;</code></pre></div><div class="code" data-label="Local"><div class="code-label">Local</div><pre><code class="language-sh">npx slatebox@latest install --ai-provider &quot;kind=ollama,model=your-local-model&quot;</code></pre></div><div class="code" data-label="Both"><div class="code-label">Both</div><pre><code class="language-sh">npx slatebox@latest install \
+  --ai-provider &quot;id=local,kind=ollama,model=your-local-model&quot; \
+  --ai-provider &quot;kind=anthropic,model=your-model-name,key=env:ANTHROPIC_API_KEY&quot; \
+  --ai-default local</code></pre></div><div class="code" data-label="None"><div class="code-label">None</div><pre><code class="language-sh">npx slatebox@latest install --ai none</code></pre></div></div><ul>
+<li>A key is never typed into a flag or an answers file. Give <code>key=env:NAME</code>, <code>key=file:/path</code>, or <code>key=prompt</code> (typed, hidden). It is stored with the other secrets.</li>
+<li>An endpoint on <code>localhost</code> is reached from the container as <code>host.docker.internal</code>; the plan says so.</li>
+<li>An image that takes one AI connection at a time says so before anything changes when you give several.</li>
+</ul>
+<p>Change it later, from the computer that installed:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox ai add &quot;kind=groq,model=your-model-name,key=env:GROQ_API_KEY&quot;
+npx slatebox ai use local       # the default; also: list, remove &lt;id&gt;, off
+npx slatebox ai test            # from inside the container: model, tool calls, latency</code></pre></div></div><h2 id="where-the-encryption-key-lives">Where the encryption key lives</h2><p>The installer makes <code>SLATEBOX_KEY_ENCRYPTION_KEY</code> once. It encrypts the AI and call keys people save. It is kept outside your data:</p>
+<table>
+<thead>
+<tr>
+<th>Where Slatebox runs</th>
+<th>Where the key is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>This computer</td>
+<td><code>~/.slatebox/installs/&lt;name&gt;/secrets.env</code>, mode 0600</td>
+</tr>
+<tr>
+<td>Remote server</td>
+<td><code>/opt/slatebox/secrets.env</code> on the server, root only, mode 0600</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>The Secret <code>&lt;name&gt;-env</code> in the install&#39;s namespace</td>
+</tr>
+<tr>
+<td>Files only</td>
+<td>Wherever you put it: the exported files hold placeholders you fill in</td>
+</tr>
+</tbody></table>
+<p>Back it up in your password manager now. Backups do not contain it, and without it the keys people saved cannot be read after a restore.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox secrets path                                   # where it is
+npx slatebox secrets reveal SLATEBOX_KEY_ENCRYPTION_KEY     # prints it to a terminal only</code></pre></div></div><p>Running the installer again never makes a new key. If the data exists but its key cannot be read, the install stops with exit 4 and changes nothing. Put the file or Secret back; only <code>--new-encryption-key</code> starts over, and every saved key must then be added again.</p>
+<h2 id="run-the-container-yourself">Run the container yourself</h2><p>One container is a complete Slatebox: the app, live collaboration and the database. Run it, then open <a href="http://localhost:7070">http://localhost:7070</a> on the same machine.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml"># compose.yaml — start it with: docker compose up -d
+services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: [&quot;7070:7070&quot;]
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><p>You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. Add AI, mail and HTTPS with <a href="#options">options</a>.</p>
+<h2 id="what-you-need">What you need</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Installer</td>
+<td>Node.js 22.13 or newer on the computer you type it on. On Windows, run it in WSL 2 for this computer or a server; Kubernetes and files only work anywhere.</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Docker Engine on Linux, or Docker Desktop on macOS or Windows. The image runs on <code>linux/amd64</code> and <code>linux/arm64</code>. On a server the installer adds Docker only with <code>--install-docker</code>.</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>kubectl with access to the namespace, a default or named storage class, and for a route, an ingress class or Gateway and a cert-manager issuer. The installer checks each before applying.</td>
+</tr>
+<tr>
+<td>Processor</td>
+<td>Intel or AMD with AVX (Sandy Bridge or Bulldozer and later), or ARMv8.2-A (Apple silicon, Raspberry Pi 5). A Raspberry Pi 4 cannot run it. In a virtual machine, give the guest the host&#39;s CPU type so AVX is passed through.</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>1 GB free, 2 GB for a team. <a href="/installation/single-sign-on/">Single sign-on</a> adds about 0.5 GB while it is on.</td>
+</tr>
+<tr>
+<td>Disk</td>
+<td>About 585 MB to download and 2.5 GB unpacked, plus your slates.</td>
+</tr>
+</tbody></table>
+<p>On a processor without AVX or ARMv8.2-A, the container stops at once and its log says why:</p>
+<div class="code" data-label="Output"><div class="code-label">Output</div><pre><code class="language-text">[slatebox] This processor cannot run MongoDB 8.0: it needs the AVX instruction set (Intel Sandy Bridge, AMD Bulldozer or newer). In a virtual machine, give the guest the host CPU type so that AVX is passed through.
+[slatebox] Run Slatebox on a newer machine, or keep the database on a MongoDB server elsewhere and set MONGO_URL.</code></pre></div><h2 id="first-run">First run</h2><p>A start usually takes under a minute. Until then the page says Slatebox is starting and opens by itself. The installer waits for it; <code>npx slatebox status</code> shows the address, version, health, AI, single sign-on and last backup. On a container you run yourself, the status reads <code>healthy</code> once a slate can be opened:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker ps --filter name=slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose ps</code></pre></div></div><ol>
+<li>Open the address, double-click the note, type, and reload. Your text is still there.</li>
+<li>To see live editing, choose <strong>Share</strong>, create an edit link under <strong>Unlisted</strong> and open it in a second browser. Typing in one shows in the other.</li>
+</ol>
+<h2 id="where-your-data-lives">Where your data lives</h2><p>Everything is in the volume <code>slatebox-data</code>, mounted at <code>/data</code>. The container holds no state: remove it and start a new one on the same volume at any time. Removing the volume deletes your slates.</p>
+<table>
+<thead>
+<tr>
+<th>Folder in <code>/data</code></th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>db</code></td>
+<td>Slates, accounts, invitations</td>
+</tr>
+<tr>
+<td><code>secrets</code></td>
+<td>Secrets made on the first start</td>
+</tr>
+<tr>
+<td><code>caddy</code></td>
+<td>HTTPS certificates, when built-in HTTPS is on</td>
+</tr>
+<tr>
+<td><code>keycloak</code></td>
+<td>People, sign-in providers and sign-in events, when <a href="/installation/single-sign-on/">single sign-on</a> is on</td>
+</tr>
+</tbody></table>
+<p>To keep the data in a host folder on Linux, create the folder and run the container as its owner:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">mkdir -p ~/slatebox-data
+docker run -d --name slatebox -p 7070:7070 --user &quot;$(id -u):$(id -g)&quot; \
+  -v ~/slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml"># mkdir -p ~/slatebox-data, then: docker compose up -d
+# user: the output of `id -u` and `id -g` on the host
+services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    user: &quot;1000:1000&quot;
+    ports: [&quot;7070:7070&quot;]
+    volumes: [~/slatebox-data:/data]</code></pre></div></div><h2 id="use-a-public-address-with-https">Use a public address with HTTPS</h2><p>Point a DNS name at your server, open TCP ports 80 and 443, and start Slatebox with that address:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox --restart unless-stopped \
+  -p 80:80 -p 443:443 \
+  -e SLATEBOX_URL=https://boards.example.com \
+  -v slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml">services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    restart: unless-stopped
+    ports: [&quot;80:80&quot;, &quot;443:443&quot;]
+    environment:
+      SLATEBOX_URL: https://boards.example.com
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><ul>
+<li>Slatebox gets a certificate for that name (from Let&#39;s Encrypt unless you set <code>SLATEBOX_ACME_CA</code>), renews it and redirects HTTP to HTTPS.</li>
+<li><code>unless-stopped</code> starts Slatebox again after a reboot or a failure.</li>
+<li>Every link, invitation and live-editing connection is built from <code>SLATEBOX_URL</code>. Open Slatebox at any other address and it shows which address it expects.</li>
+</ul>
+<h3 id="behind-your-own-proxy">Behind your own proxy</h3><p>If your proxy already terminates HTTPS, add <code>SLATEBOX_HTTPS=off</code> and forward the host name to port 7070, including WebSocket upgrades and the original <code>Host</code> header. The app and live editing share that one port.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox --restart unless-stopped \
+  -p 127.0.0.1:7070:7070 \
+  -e SLATEBOX_URL=https://boards.example.com -e SLATEBOX_HTTPS=off \
+  -v slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml">services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    restart: unless-stopped
+    ports: [&quot;127.0.0.1:7070:7070&quot;]
+    environment:
+      SLATEBOX_URL: https://boards.example.com
+      SLATEBOX_HTTPS: &quot;off&quot;
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><h3 id="another-port-or-an-address-on-your-network">Another port, or an address on your network</h3><p>Plain HTTP works on any address. Set <code>SLATEBOX_URL</code> to the address people type:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox -p 8080:7070 \
+  -e SLATEBOX_URL=http://192.168.1.20:8080 \
+  -v slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml">services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: [&quot;8080:7070&quot;]
+    environment:
+      SLATEBOX_URL: http://192.168.1.20:8080
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><p>Browsers allow the microphone and camera only on HTTPS pages and on <code>localhost</code>.</p>
+<h2 id="options">Options</h2><p>Every option is optional. Add it with <code>-e NAME=value</code>, or under <code>environment:</code> in <code>compose.yaml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SLATEBOX_URL</code></td>
+<td>The address people type. Default <code>http://localhost:7070</code>.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_HTTPS</code></td>
+<td><code>off</code> when your own proxy terminates HTTPS. Otherwise an <code>https://</code> address turns on built-in HTTPS on ports 80 and 443.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_ACME_CA</code></td>
+<td>The ACME directory URL of your own certificate authority.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_MAIL_URL</code></td>
+<td>An <code>smtp://</code> or <code>smtps://</code> URL, such as <code>smtp://user:password@mail.example.com:587</code>. Turns on invitations, email verification and password-reset mail.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_MAIL_FROM</code></td>
+<td>The sender, such as <code>Slatebox &lt;boards@example.com&gt;</code>. Needed unless the user name in <code>SLATEBOX_MAIL_URL</code> is itself an address.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_AI_URL</code>, <code>SLATEBOX_AI_MODEL</code></td>
+<td>Any OpenAI-compatible endpoint and the model it serves, for every AI feature. <code>SLATEBOX_AI_KEY</code> is then its bearer token, if it needs one. <a href="#connect-ai">Connect AI</a></td>
+</tr>
+<tr>
+<td><code>SLATEBOX_AI_KEY</code></td>
+<td>Without <code>SLATEBOX_AI_URL</code>: a <a href="https://deepinfra.com">DeepInfra</a> API key for the built-in AI.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_AI_CONFIG</code></td>
+<td>Any mix of AI as JSON: several connections, and which one each feature uses. <a href="/using-slatebox/choose-your-ai/#set-the-servers-ai">Set the server&#39;s AI</a></td>
+</tr>
+<tr>
+<td><code>SLATEBOX_AI_OWN_PROVIDERS</code></td>
+<td><code>off</code> keeps everyone on the AI set here. Default <code>on</code>: people and teams may connect their own in <strong>Profile → AI</strong>, and their choice wins.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_AI_PRIVATE_ENDPOINTS</code></td>
+<td><code>off</code> lets people and teams connect models at public addresses only. Default <code>on</code>: they may also use your network and <code>host.docker.internal</code>. Your own connections are not affected.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_SSO</code></td>
+<td><code>keycloak</code> turns on <a href="/installation/single-sign-on/">single sign-on</a>. Off by default.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_SSO_ONLY</code></td>
+<td><code>true</code>, with <code>SLATEBOX_SSO=keycloak</code>: single sign-on is the only way in.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_SSO_ADMIN</code></td>
+<td><code>open</code> (default) or <code>closed</code>, with <code>SLATEBOX_SSO=keycloak</code>. <code>closed</code> takes the Keycloak admin console off the published port.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_KEY_ENCRYPTION_KEY</code></td>
+<td>32 random bytes in base64, made with <code>openssl rand -base64 32</code>. Lets people and teams save their own AI and call keys, encrypted. Keep it for the life of the server and store it with your backups: after a change, saved keys must be added again.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_SETTINGS</code></td>
+<td>A JSON object of further app settings. <code>{&quot;daily&quot;:{&quot;apiKey&quot;:&quot;your-daily-key&quot;}}</code> turns on audio and video calls.</td>
+</tr>
+<tr>
+<td><code>MONGO_URL</code></td>
+<td>A MongoDB replica set you run elsewhere. The bundled database then does not start. <code>MONGO_OPLOG_URL</code> is passed on too, when set.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>A misspelled or lower-case option stops the container and lists the valid names.</li>
+<li>To change an option, run the container again with the new value (Docker: <code>docker rm -f slatebox</code>, then your <code>docker run</code>; Compose: edit the file, then <code>docker compose up -d</code>). Your data stays in the volume.</li>
+<li>A feature without its service says so and everything else keeps working. Without mail, share by link and <a href="#forgotten-passwords">make reset links yourself</a>. With no AI connected, drafts say the administrator can turn them on. Without a Daily key, calls say they are unavailable.</li>
+</ul>
+<h2 id="connect-ai">Connect AI</h2><p>Your Slatebox&#39;s AI is whatever you and your people connect, local or cloud, mixed per feature. Set the server&#39;s default with <code>SLATEBOX_AI_URL</code> and <code>SLATEBOX_AI_MODEL</code> (one endpoint for every feature) or <code>SLATEBOX_AI_CONFIG</code> (a mix). People connect their own in <strong>Profile → AI</strong>, unless you set <code>SLATEBOX_AI_OWN_PROVIDERS=off</code>. <a href="/using-slatebox/choose-your-ai/">Choose your AI</a></p>
+<ul>
+<li>Inside the container, <code>localhost</code> is the container itself. A model server on this machine is at <code>host.docker.internal</code>, such as <code>http://host.docker.internal:8000/v1</code>.</li>
+<li>On a Mac, run the model server on the Mac itself, not in Docker: Docker on a Mac cannot use the Mac&#39;s GPU.</li>
+<li>On Linux, add <code>--add-host=host.docker.internal:host-gateway</code> to <code>docker run</code> (Compose: <code>extra_hosts: [&quot;host.docker.internal:host-gateway&quot;]</code>), and have the model server listen beyond <code>127.0.0.1</code>.</li>
+<li><code>docker exec slatebox slatebox ai check</code> tests each server connection: reached, key accepted, model listed, answered and called tools.</li>
+</ul>
+<h2 id="agents-and-exec">Agents and exec</h2><p>The image runs exec, so agents can work on your instance the same way they work on Slatebox Cloud. Point them at your address instead of <code>https://app.slatebox.com</code>.</p>
+<ul>
+<li><code>POST /api/v1/exec</code> runs a script in the sealed runner inside the container.</li>
+<li><code>/mcp</code> on your address is the hosted MCP endpoint.</li>
+<li>The <code>slatebox-mcp</code> package and the <code>slatebox</code> CLI work against your address with <code>SLATEBOX_BASE_URL</code>.</li>
+</ul>
+<p>Exec limits are set with <code>SLATEBOX_SETTINGS</code>, for example <code>{&quot;selfHosted&quot;:{&quot;exec&quot;:{&quot;auditDays&quot;:90}}}</code>. <a href="/developers/slateboxapi/exec/">How exec works</a></p>
+<h2 id="upgrade">Upgrade</h2><p>The installer backs up, upgrades, waits for health, and on a failure puts the previous version and the backup back:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox upgrade                 # the install&#39;s own image tag, fetched again
+npx slatebox upgrade --to ghcr.io/slatebox/slatebox:latest</code></pre></div></div><p>The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret.</p>
+<p>Without the installer, take a <a href="#back-up-and-restore">backup</a>, then pull the new image and start it with the same options:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker pull ghcr.io/slatebox/slatebox
+docker rm -f slatebox
+docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose pull
+docker compose up -d</code></pre></div></div><p>The volume carries your slates, accounts, files and secrets to the new container.</p>
+<h2 id="back-up-and-restore">Back up and restore</h2><p>The installer schedules a backup every day at 03:00 and keeps the last 14. Choose with <code>--backups default|&lt;folder&gt;|s3://bucket/prefix|off</code>, <code>--backup-schedule</code> and <code>--backup-keep</code>. On Kubernetes, backups go to a volume in the namespace. <code>npx slatebox status</code> shows the last backup and warns when one is late.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx slatebox backup --to ./backups      # writes ./backups/slatebox-&lt;date&gt;-&lt;time&gt;.gz on this computer
+npx slatebox restore ./backups/slatebox-20261121-090000.gz</code></pre></div></div><p>A restore shows its plan first: it replaces every slate and account with the backup&#39;s.</p>
+<p>Without the installer, back up while Slatebox runs:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker exec slatebox slatebox backup &gt; slatebox-backup.gz</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose exec -T slatebox slatebox backup &gt; slatebox-backup.gz</code></pre></div></div><p>You get one file with every slate, account and uploaded file, and, with single sign-on on, Keycloak&#39;s database and its secrets. The command prints <code>Backup complete</code>. Keep the file private. It does not hold <code>SLATEBOX_KEY_ENCRYPTION_KEY</code>: <a href="#where-the-encryption-key-lives">keep that with it</a>.</p>
+<p>Restore into this installation, or into a new one:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker exec -i slatebox slatebox restore &lt; slatebox-backup.gz</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose exec -T slatebox slatebox restore &lt; slatebox-backup.gz</code></pre></div></div><p>The restore checks the file first, pauses Slatebox for a few seconds, replaces the data and starts again. If the file cannot be loaded, Slatebox keeps the data it had. On a new address, set <code>SLATEBOX_URL</code> to it. With <code>MONGO_URL</code>, back up that database with its own tools.</p>
+<h2 id="move-to-another-server">Move to another server</h2><p>Give the new install its own name, such as <code>boards</code>, so both stay listed in <code>npx slatebox installs</code>.</p>
+<ol>
+<li>Back up the old install to this computer: <code>npx slatebox backup --to ./backups</code>. It prints the file it wrote.</li>
+<li>Before installing, put the old key where the new install keeps it: copy <code>secrets.env</code> to <code>~/.slatebox/installs/boards/</code> on this computer or <code>/opt/slatebox/</code> on the new server (mode 0600), or create the Secret <code>boards-env</code> holding <code>SLATEBOX_KEY_ENCRYPTION_KEY</code> in the new namespace.</li>
+<li>Install with <code>--name boards</code> on the new target. The plan says the existing key is kept.</li>
+<li>Restore into it: <code>npx slatebox restore ./backups/slatebox-20261121-090000.gz --name boards</code>.</li>
+<li>Point DNS at the new address. Then <code>npx slatebox uninstall</code> removes the old install and keeps its data until you add <code>--delete-data --confirm slatebox</code>.</li>
+</ol>
+<p>Skip step 2 and everything else still moves: people add their saved AI and call keys again.</p>
+<h2 id="forgotten-passwords">Forgotten passwords</h2><p>With mail on, <strong>Forgot password</strong> on the sign-in page sends a reset link. With or without mail, you can make one:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker exec slatebox slatebox password-link person@example.com</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose exec slatebox slatebox password-link person@example.com</code></pre></div></div><p>Give the link to that person only. It sets a new password once and expires after three days.</p>
+<h2 id="troubleshooting">Troubleshooting</h2><p>Start with the log. Each line names the part of Slatebox that wrote it.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker logs slatebox
+docker exec slatebox slatebox health
+docker exec slatebox slatebox version</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose logs slatebox
+docker compose exec slatebox slatebox health
+docker compose exec slatebox slatebox version</code></pre></div></div><p><code>health</code> prints why Slatebox is not healthy. <code>version</code> prints the source revisions the image was built from.</p>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;Slatebox is starting&quot; for minutes</td>
+<td>The last <code>[slatebox]</code> log lines name the part that did not come up.</td>
+</tr>
+<tr>
+<td>&quot;Slatebox is set up for another address&quot;</td>
+<td>Set <code>SLATEBOX_URL</code> to the address you open and run the container again. This also happens when you publish a port other than 7070 without setting <code>SLATEBOX_URL</code>.</td>
+</tr>
+<tr>
+<td>The container restarts or exits</td>
+<td>The log names the part on a line with <code>stopped unexpectedly</code>.</td>
+</tr>
+<tr>
+<td><code>This processor cannot run MongoDB 8.0</code></td>
+<td>See <a href="#what-you-need">What you need</a>. Use another machine, pass the host CPU type to the virtual machine, or set <code>MONGO_URL</code>.</td>
+</tr>
+<tr>
+<td><code>Unknown setting</code></td>
+<td>An option is misspelled. The message lists the valid names.</td>
+</tr>
+<tr>
+<td><code>/data is not writable</code></td>
+<td>The log names the folder&#39;s owner. Run as that owner with <code>--user</code>, or use a Docker volume.</td>
+</tr>
+<tr>
+<td><code>SLATEBOX_MAIL_URL also needs SLATEBOX_MAIL_FROM</code></td>
+<td>Add <code>SLATEBOX_MAIL_FROM</code> with an address your mail service accepts.</td>
+</tr>
+<tr>
+<td><code>holds a database but /data/secrets/secrets.json is missing</code></td>
+<td><code>db</code> and <code>secrets</code> belong together. Use the complete volume, or start on an empty one and restore a backup.</td>
+</tr>
+<tr>
+<td>Installer exit 4: the data has no <code>SLATEBOX_KEY_ENCRYPTION_KEY</code></td>
+<td>Put the backed-up <code>secrets.env</code> or Secret back and run again. See <a href="#where-the-encryption-key-lives">Where the encryption key lives</a>.</td>
+</tr>
+<tr>
+<td>Installer: <code>Host key verification failed</code></td>
+<td>Run <code>ssh user@host</code> once yourself, compare the fingerprint the installer printed, then run again.</td>
+</tr>
+<tr>
+<td>Installer exit 5</td>
+<td>The change failed its health check and the previous state is running. The <code>error</code> event and <code>npx slatebox status</code> say why.</td>
+</tr>
+<tr>
+<td><code>port is already allocated</code></td>
+<td>Port 7070 is taken. Publish another, such as <code>-p 8080:7070 -e SLATEBOX_URL=http://localhost:8080</code>.</td>
+</tr>
+<tr>
+<td>Certificate error with built-in HTTPS</td>
+<td>The certificate is not issued yet. Check that DNS points here and ports 80 and 443 reach the container. <code>[proxy]</code> log lines give the reason.</td>
+</tr>
+<tr>
+<td>Edits do not reach a second browser</td>
+<td>Your proxy must forward WebSocket upgrades.</td>
+</tr>
+<tr>
+<td>A restore says the file is not a complete backup</td>
+<td>The file is empty or cut short. Back up again and check for <code>Backup complete</code>.</td>
+</tr>
+</tbody></table>
+<p>With single sign-on on, also see <a href="/installation/single-sign-on/#troubleshooting">its troubleshooting</a>.</p>
+<h2 id="what-is-inside-and-its-licenses">What is inside, and its licenses</h2><p>The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. The image also carries the app&#39;s <code>enterprise/</code> folder (outside-agent connections, under the Slatebox Enterprise License), switched off: an on-prem license from Slatebox, a flat yearly fee per install, switches it on. Single sign-on needs no license. The image also holds other projects under their own licenses, so the image as a whole is not MIT licensed:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Slatebox app, SlateboxJS, collaboration relay</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>MongoDB Community Server</td>
+<td>Server Side Public License (SSPL) v1</td>
+</tr>
+<tr>
+<td>MongoDB Database Tools, Caddy, Keycloak</td>
+<td>Apache License 2.0</td>
+</tr>
+<tr>
+<td>Eclipse Temurin Java runtime (runs Keycloak)</td>
+<td>GPL 2.0 with the Classpath Exception</td>
+</tr>
+<tr>
+<td>Node.js, Meteor, tini</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>Interface and slate-image fonts</td>
+<td>SIL Open Font License 1.1 or Apache License 2.0, per family</td>
+</tr>
+<tr>
+<td>Ubuntu base system and npm packages</td>
+<td>Each under its own license</td>
+</tr>
+</tbody></table>
+<p>Read the SSPL if you plan to offer the database to others as a service. With <code>MONGO_URL</code> set, the bundled MongoDB does not run. Print the full list and every license text:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run --rm --entrypoint cat ghcr.io/slatebox/slatebox /opt/slatebox/licenses/NOTICE.md</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose run --rm --no-deps --entrypoint cat slatebox /opt/slatebox/licenses/NOTICE.md</code></pre></div></div><h2 id="build-the-image-yourself">Build the image yourself</h2><p>You need Git, Docker and checkouts of the Slatebox app, SlateboxJS and the relay (<a href="https://github.com/Slatebox/y-websocket">the Slatebox fork of y-websocket</a>). In the app&#39;s <code>self-host</code> folder, run:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">./build-image.sh /path/to/slateboxjs /path/to/y-websocket</code></pre></div></div><p>It builds from committed files only, labels the image with the three source revisions and prints the command to run it. To work on the source, see <a href="/developers/development/">Development</a>.</p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#install-with-one-command" >Install with one command</a><a href="#let-an-agent-install-it" >Let an agent install it</a><a href="#choose-the-ai-when-you-install" >Choose the AI when you install</a><a href="#where-the-encryption-key-lives" >Where the encryption key lives</a><a href="#run-the-container-yourself" >Run the container yourself</a><a href="#what-you-need" >What you need</a><a href="#first-run" >First run</a><a href="#where-your-data-lives" >Where your data lives</a><a href="#use-a-public-address-with-https" >Use a public address with HTTPS</a><a href="#options" >Options</a><a href="#connect-ai" >Connect AI</a><a href="#agents-and-exec" >Agents and exec</a><a href="#upgrade" >Upgrade</a><a href="#back-up-and-restore" >Back up and restore</a><a href="#move-to-another-server" >Move to another server</a><a href="#forgotten-passwords" >Forgotten passwords</a><a href="#troubleshooting" >Troubleshooting</a><a href="#what-is-inside-and-its-licenses" >What is inside, and its licenses</a><a href="#build-the-image-yourself" >Build the image yourself</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

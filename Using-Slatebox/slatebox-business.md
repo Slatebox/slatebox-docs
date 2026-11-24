@@ -37,6 +37,6 @@ Need a contract, an invoice or a hands-on rollout? Talk to us instead. [Talk to 
 
 ## Run it yourself instead
 
-A Slatebox you run on your own server is free, with your own AI and calls and every feature except outside-agent connections, which need an on-prem license there. [Run your own Slatebox](../Installation/self-hosting.md)
+A Slatebox you run on your own server is free, with your own AI and calls and every feature except outside-agent connections, which need an on-prem license there. [Install with Docker](../Installation/install-with-docker.md)
 
 [Pricing](pricing.md) · [See pricing](https://slatebox.com/plans/)

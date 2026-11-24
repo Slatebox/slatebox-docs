@@ -60,7 +60,9 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 
 ## Self-hosting
 
+- [Install guide: every option](https://docs.slatebox.com/Installation/install-with-docker.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/install-with-docker.md)
 - [Run your own Slatebox](https://docs.slatebox.com/Installation/self-hosting.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/self-hosting.md)
+- [Single sign-on](https://docs.slatebox.com/Installation/single-sign-on.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/single-sign-on.md)
 - [Who pays for what on your own server](https://docs.slatebox.com/Installation/self-host-costs.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Installation/self-host-costs.md)
 
 ## Examples

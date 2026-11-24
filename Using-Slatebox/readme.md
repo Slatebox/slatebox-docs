@@ -35,7 +35,7 @@ Choose **Mermaid** in the slate menu to copy or download any slate as Mermaid, o
 
 When an agent edits your slate, such as Claude through Slatebox's MCP server or a script, its changes appear as ghost notes everyone on the slate sees. Choose **Keep** or **Discard** on each, or **Keep all** on the agent's chip, and undo any agent action. [Keep or discard what agents suggest](agent-suggestions.md)
 
-Invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate with **+ Invite agent**, and ask it on its chip or by `@name` in Ask Slatebox. On Slatebox Cloud, with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox, with an on-prem license. [Invite an outside agent onto a slate](invite-agents.md)
+Invite an outside agent, such as Exa, Linear or GitHub, onto a slate with **+ Invite agent**, and ask it on its chip or by `@name` in Ask Slatebox. On Slatebox Cloud, with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox, with an on-prem license. [Invite an outside agent onto a slate](invite-agents.md)
 
 ## Add a video
 
@@ -125,4 +125,4 @@ Choose **Publish presentation** on a saved workshop. Readers step through its sc
 
 ## Choose where to work
 
-Slatebox Cloud is free. AI and calls come with Slatebox Pro, or a balance you top up. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · [Run your own Slatebox](../Installation/self-hosting.md) · [Slatebox Business for teams](slatebox-business.md)
+Slatebox Cloud is free. AI and calls come with Slatebox Pro, or a balance you top up. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · [Run your own Slatebox](../Installation/install-with-docker.md) · [Slatebox Business for teams](slatebox-business.md)

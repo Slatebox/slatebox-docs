@@ -103,8 +103,104 @@ Inside the Slatebox container, `localhost` is the container itself. A model serv
 ## Set the server's AI
 
 
+An operator sets the AI everyone on a self-hosted server gets by default. One endpoint for every feature:
 
-An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. The self-host installer is being published; this section shows how once it is out. Administrators can also add server connections in **Profile → AI**. [Run your own Slatebox](../Installation/self-hosting.md)
+<!-- tabs -->
+
+```sh Docker
+docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data \
+  --add-host=host.docker.internal:host-gateway \
+  -e SLATEBOX_AI_URL=http://host.docker.internal:8000/v1 \
+  -e SLATEBOX_AI_MODEL=your-model-name \
+  ghcr.io/slatebox/slatebox
+```
+
+```yaml Docker Compose
+services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: ["7070:7070"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      SLATEBOX_AI_URL: http://host.docker.internal:8000/v1
+      SLATEBOX_AI_MODEL: your-model-name
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data
+```
+
+<!-- /tabs -->
+
+`SLATEBOX_AI_KEY` is the endpoint's bearer token, if it needs one.
+
+For a mix, set `SLATEBOX_AI_CONFIG` to JSON instead. This one uses a model on the host for everything, and a cloud provider for reading and making images:
+
+<!-- tabs -->
+
+```sh Docker
+docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data \
+  --add-host=host.docker.internal:host-gateway \
+  -e SLATEBOX_AI_CONFIG='{
+    "connections": {
+      "desk": { "type": "openai-compatible", "url": "http://host.docker.internal:8000/v1", "model": "your-model-name" },
+      "cloud": { "type": "openai", "key": "your-provider-key", "model": "your-image-model-name", "vision": true, "images": true }
+    },
+    "use": { "default": "desk", "vision": "cloud", "images": "cloud" }
+  }' \
+  ghcr.io/slatebox/slatebox
+```
+
+```yaml Docker Compose
+services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: ["7070:7070"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      SLATEBOX_AI_CONFIG: |
+        {
+          "connections": {
+            "desk": { "type": "openai-compatible", "url": "http://host.docker.internal:8000/v1", "model": "your-model-name" },
+            "cloud": { "type": "openai", "key": "your-provider-key", "model": "your-image-model-name", "vision": true, "images": true }
+          },
+          "use": { "default": "desk", "vision": "cloud", "images": "cloud" }
+        }
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data
+```
+
+<!-- /tabs -->
+
+| Field | Value |
+| --- | --- |
+| `connections` | Named connections. `type` is `openai-compatible` (with `url`), `openai`, `anthropic` or `deepinfra`. `model` is the model name; `key` is needed for the three providers. |
+| `tools`, `vision`, `images` | `true` or `false`: what the model can do, where you know it. Unset is tried; making images needs `"images": true`. |
+| `maxTokens` | The longest answer, 256 to 200000. Default 16384. |
+| `use` | Which connection serves `default`, `chat`, `generation`, `presentation`, `vision` and `images`. A value is a connection name, or `builtin` for the built-in AI (`SLATEBOX_AI_KEY` without `SLATEBOX_AI_URL`). |
+| `ownProviders` | `off` keeps everyone on the AI set here. Same as `SLATEBOX_AI_OWN_PROVIDERS`. |
+| `privateEndpoints` | `off` keeps people's and teams' endpoints on public addresses. Same as `SLATEBOX_AI_PRIVATE_ENDPOINTS`. |
+
+A mistake in any of it stops the container with the reason. Keys go to the app's settings only, never to the log. To test every server connection:
+
+<!-- tabs -->
+
+```sh Docker
+docker exec slatebox slatebox ai check
+```
+
+```sh Docker Compose
+docker compose exec slatebox slatebox ai check
+```
+
+<!-- /tabs -->
+
+Each connection gets one line: reached, key accepted, model listed, answered and called tools. `docker exec slatebox slatebox ai` lists the connections and choices without keys. Administrators can also add server connections in **Profile → AI**.
+
 
 
 ## Set it up with an agent
@@ -209,6 +305,6 @@ You get `200` and the settings as `GET /api/v1/ai` returns them. `effective` nam
 | "The endpoint did not accept the key" | Enter the key again with **Change**. |
 | The model answers without calling the test tool | Conversation, drafts and presentation planning need a model that calls tools. Choose another for those features. |
 | "…cannot make images" | Choose a model with **Makes images**, or **The AI this server provides**, for **Generating images**. |
-| A key cannot be saved; "A connection without a key can still be saved" | The server has no `SLATEBOX_KEY_ENCRYPTION_KEY`. Keyless endpoints still work. |
+| A key cannot be saved; "A connection without a key can still be saved" | The server has no `SLATEBOX_KEY_ENCRYPTION_KEY`. Keyless endpoints still work. [Options](../Installation/install-with-docker.md#options) |
 | "This server uses the AI its operator set up" | The operator has turned off people's own AI. |
 | "Own AI and call keys are for self-hosted Slatebox…" | You are on Slatebox Cloud, where AI comes with Slatebox Pro credits and top-ups. [Slatebox Pro](slatebox-pro.md) |

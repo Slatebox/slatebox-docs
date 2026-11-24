@@ -24,6 +24,6 @@ Slatebox Pro exists only on Slatebox Cloud. Nobody on your own server needs Slat
 
 ## Keep people's keys readable
 
-People's own AI keys are encrypted with `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, and keep it with your backups.
+People's own AI keys are encrypted with `SLATEBOX_KEY_ENCRYPTION_KEY` (32 random bytes, base64). Add it with `-e SLATEBOX_KEY_ENCRYPTION_KEY=…`, as in [Options](install-with-docker.md#options), and keep it with your backups.
 
-[Run your own Slatebox](self-hosting.md) · [Use your own keys](../Using-Slatebox/own-keys.md)
+[Install with Docker](install-with-docker.md) · [Use your own keys](../Using-Slatebox/own-keys.md)

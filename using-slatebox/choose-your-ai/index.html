@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Choose your AI · Slatebox Docs</title><meta name="description" content="On a self-hosted Slatebox, connect any cloud provider with your key, or any OpenAI-compatible endpoint on your computer, your network or a host, and mix them per feature, for free. On Slatebox Cloud, AI comes with Slatebox Pro."><link rel="canonical" href="https://docs.slatebox.com/using-slatebox/choose-your-ai/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details open><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" aria-current="page">Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/library/" >The shared library</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a><a href="/developers/slateboxapi/library/" >The shared library</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-hosting/" >Run your own Slatebox</a><a href="/installation/self-host-costs/" >Who pays for what on your own server</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Using Slatebox</div><h1>Choose your AI</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Using-Slatebox/choose-your-ai.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Choose your AI · Slatebox Docs</title><meta name="description" content="On a self-hosted Slatebox, connect any cloud provider with your key, or any OpenAI-compatible endpoint on your computer, your network or a host, and mix them per feature, for free. On Slatebox Cloud, AI comes with Slatebox Pro."><link rel="canonical" href="https://docs.slatebox.com/using-slatebox/choose-your-ai/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details open><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" aria-current="page">Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/library/" >The shared library</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a><a href="/developers/slateboxapi/library/" >The shared library</a></details><details ><summary>Self-hosting</summary><a href="/installation/install-with-docker/" >Install guide: every option</a><a href="/installation/self-hosting/" >Run your own Slatebox</a><a href="/installation/single-sign-on/" >Single sign-on</a><a href="/installation/self-host-costs/" >Who pays for what on your own server</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Using Slatebox</div><h1>Choose your AI</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Using-Slatebox/choose-your-ai.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.
 
 Read https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
@@ -151,7 +151,86 @@ If your client cannot fetch the documentation, read the same published file at h
 <li><strong>Windows:</strong> Docker Desktop provides <code>host.docker.internal</code>.</li>
 <li><strong>Linux:</strong> start Slatebox with <code>--add-host=host.docker.internal:host-gateway</code>, and have the model server listen on the Docker bridge or on all interfaces, not only <code>127.0.0.1</code>.</li>
 </ul>
-<h2 id="set-the-servers-ai">Set the server&#39;s AI</h2><p>An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. The self-host installer is being published; this section shows how once it is out. Administrators can also add server connections in <strong>Profile → AI</strong>. <a href="/installation/self-hosting/">Run your own Slatebox</a></p>
+<h2 id="set-the-servers-ai">Set the server&#39;s AI</h2><p>An operator sets the AI everyone on a self-hosted server gets by default. One endpoint for every feature:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data \
+  --add-host=host.docker.internal:host-gateway \
+  -e SLATEBOX_AI_URL=http://host.docker.internal:8000/v1 \
+  -e SLATEBOX_AI_MODEL=your-model-name \
+  ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml">services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: [&quot;7070:7070&quot;]
+    extra_hosts: [&quot;host.docker.internal:host-gateway&quot;]
+    environment:
+      SLATEBOX_AI_URL: http://host.docker.internal:8000/v1
+      SLATEBOX_AI_MODEL: your-model-name
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><p><code>SLATEBOX_AI_KEY</code> is the endpoint&#39;s bearer token, if it needs one.</p>
+<p>For a mix, set <code>SLATEBOX_AI_CONFIG</code> to JSON instead. This one uses a model on the host for everything, and a cloud provider for reading and making images:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker run -d --name slatebox -p 7070:7070 -v slatebox-data:/data \
+  --add-host=host.docker.internal:host-gateway \
+  -e SLATEBOX_AI_CONFIG=&#39;{
+    &quot;connections&quot;: {
+      &quot;desk&quot;: { &quot;type&quot;: &quot;openai-compatible&quot;, &quot;url&quot;: &quot;http://host.docker.internal:8000/v1&quot;, &quot;model&quot;: &quot;your-model-name&quot; },
+      &quot;cloud&quot;: { &quot;type&quot;: &quot;openai&quot;, &quot;key&quot;: &quot;your-provider-key&quot;, &quot;model&quot;: &quot;your-image-model-name&quot;, &quot;vision&quot;: true, &quot;images&quot;: true }
+    },
+    &quot;use&quot;: { &quot;default&quot;: &quot;desk&quot;, &quot;vision&quot;: &quot;cloud&quot;, &quot;images&quot;: &quot;cloud&quot; }
+  }&#39; \
+  ghcr.io/slatebox/slatebox</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-yaml">services:
+  slatebox:
+    image: ghcr.io/slatebox/slatebox
+    container_name: slatebox
+    ports: [&quot;7070:7070&quot;]
+    extra_hosts: [&quot;host.docker.internal:host-gateway&quot;]
+    environment:
+      SLATEBOX_AI_CONFIG: |
+        {
+          &quot;connections&quot;: {
+            &quot;desk&quot;: { &quot;type&quot;: &quot;openai-compatible&quot;, &quot;url&quot;: &quot;http://host.docker.internal:8000/v1&quot;, &quot;model&quot;: &quot;your-model-name&quot; },
+            &quot;cloud&quot;: { &quot;type&quot;: &quot;openai&quot;, &quot;key&quot;: &quot;your-provider-key&quot;, &quot;model&quot;: &quot;your-image-model-name&quot;, &quot;vision&quot;: true, &quot;images&quot;: true }
+          },
+          &quot;use&quot;: { &quot;default&quot;: &quot;desk&quot;, &quot;vision&quot;: &quot;cloud&quot;, &quot;images&quot;: &quot;cloud&quot; }
+        }
+    volumes: [slatebox-data:/data]
+volumes:
+  slatebox-data:
+    name: slatebox-data</code></pre></div></div><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>connections</code></td>
+<td>Named connections. <code>type</code> is <code>openai-compatible</code> (with <code>url</code>), <code>openai</code>, <code>anthropic</code> or <code>deepinfra</code>. <code>model</code> is the model name; <code>key</code> is needed for the three providers.</td>
+</tr>
+<tr>
+<td><code>tools</code>, <code>vision</code>, <code>images</code></td>
+<td><code>true</code> or <code>false</code>: what the model can do, where you know it. Unset is tried; making images needs <code>&quot;images&quot;: true</code>.</td>
+</tr>
+<tr>
+<td><code>maxTokens</code></td>
+<td>The longest answer, 256 to 200000. Default 16384.</td>
+</tr>
+<tr>
+<td><code>use</code></td>
+<td>Which connection serves <code>default</code>, <code>chat</code>, <code>generation</code>, <code>presentation</code>, <code>vision</code> and <code>images</code>. A value is a connection name, or <code>builtin</code> for the built-in AI (<code>SLATEBOX_AI_KEY</code> without <code>SLATEBOX_AI_URL</code>).</td>
+</tr>
+<tr>
+<td><code>ownProviders</code></td>
+<td><code>off</code> keeps everyone on the AI set here. Same as <code>SLATEBOX_AI_OWN_PROVIDERS</code>.</td>
+</tr>
+<tr>
+<td><code>privateEndpoints</code></td>
+<td><code>off</code> keeps people&#39;s and teams&#39; endpoints on public addresses. Same as <code>SLATEBOX_AI_PRIVATE_ENDPOINTS</code>.</td>
+</tr>
+</tbody></table>
+<p>A mistake in any of it stops the container with the reason. Keys go to the app&#39;s settings only, never to the log. To test every server connection:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Docker"><div class="code-label">Docker</div><pre><code class="language-sh">docker exec slatebox slatebox ai check</code></pre></div><div class="code" data-label="Docker Compose"><div class="code-label">Docker Compose</div><pre><code class="language-sh">docker compose exec slatebox slatebox ai check</code></pre></div></div><p>Each connection gets one line: reached, key accepted, model listed, answered and called tools. <code>docker exec slatebox slatebox ai</code> lists the connections and choices without keys. Administrators can also add server connections in <strong>Profile → AI</strong>.</p>
 <h2 id="set-it-up-with-an-agent">Set it up with an agent</h2><p>An agent reads, changes and tests AI settings with a token that has the <code>ai:settings</code> permission. Changing or testing a team&#39;s or the server&#39;s AI also needs <code>ai:admin</code>, and the token&#39;s owner must be a team admin or an administrator. Create the token in <strong>Profile → Developer access</strong>.</p>
 <table>
 <thead>
@@ -257,7 +336,7 @@ print(res.status_code, res.json()[&quot;effective&quot;])</code></pre></div><div
 </tr>
 <tr>
 <td>A key cannot be saved; &quot;A connection without a key can still be saved&quot;</td>
-<td>The server has no <code>SLATEBOX_KEY_ENCRYPTION_KEY</code>. Keyless endpoints still work.</td>
+<td>The server has no <code>SLATEBOX_KEY_ENCRYPTION_KEY</code>. Keyless endpoints still work. <a href="/installation/install-with-docker/#options">Options</a></td>
 </tr>
 <tr>
 <td>&quot;This server uses the AI its operator set up&quot;</td>
