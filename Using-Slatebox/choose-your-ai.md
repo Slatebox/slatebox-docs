@@ -197,7 +197,7 @@ docker compose exec slatebox slatebox ai check
 Each connection gets one line: reached, key accepted, model listed, answered and called tools. `docker exec slatebox slatebox ai` lists the connections and choices without keys. Administrators can also add server connections in **Profile → AI**.
 <!-- /feature:self-host -->
 <!-- feature:!self-host -->
-An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. Self-hosting is coming soon; this section shows how once the image is published. Administrators can also add server connections in **Profile → AI**. [Run your own Slatebox](../Installation/self-hosting.md)
+An operator sets the AI everyone on a self-hosted server gets by default, with one endpoint for every feature or a different connection for each. The self-host installer is being published; this section shows how once it is out. Administrators can also add server connections in **Profile → AI**. [Run your own Slatebox](../Installation/self-hosting.md)
 <!-- /feature:!self-host -->
 
 ## Set it up with an agent

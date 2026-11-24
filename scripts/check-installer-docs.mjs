@@ -83,9 +83,13 @@ test('the install guide is built only while the self-host switch is on', () => {
   // The same address carries the coming-soon text while held, and the short install page once published.
   const soon = built('installation/self-hosting/index.html')
   if (on) {
-    assert.doesNotMatch(soon, /coming soon/i, 'no coming-soon text once the guide is published')
+    assert.doesNotMatch(soon, /coming soon|being published/i, 'no stand-in text once the guide is published')
     assert.match(soon, />npx slatebox</, 'the short page leads with npx slatebox')
-  } else assert.match(soon, /Self-hosting is coming soon/)
+  } else {
+    // Restated (owner decision 2026-11-24): the held page says the installer is being published, never "coming soon".
+    assert.match(soon, /The installer is being published/)
+    assert.doesNotMatch(soon, /coming soon/i)
+  }
 })
 
 // "Run your own Slatebox" (Installation/self-hosting.md) is the short page: what you get, `npx slatebox` on the
@@ -98,7 +102,7 @@ test('Run your own Slatebox, published: short, npx slatebox first, the MCP route
   assert.doesNotMatch(shortPage.match(/^---\n([\s\S]*?)\n---\n/)[1], /^feature:/m, 'the page has an address whichever way the switch is set')
   const on = kept(shortPage, true)
   const body = on.replace(/^---\n[\s\S]*?\n---\n/, '')
-  assert.doesNotMatch(on, /coming soon|not published yet/i)
+  assert.doesNotMatch(on, /coming soon|not published yet|being published/i)
   assert.equal(body.match(/```[^\n]*\n([\s\S]*?)```/)?.[1].trim(), 'npx slatebox')
   assert.deepEqual([...body.matchAll(/^## (.+)$/gm)].map(m => m[1]), ['What you get', 'Install', 'Or ask your agent', 'What you need'])
   assert.ok(body.split(/\s+/).filter(Boolean).length < 450, 'short: under 450 words')
@@ -111,8 +115,12 @@ test('Run your own Slatebox, published: short, npx slatebox first, the MCP route
   assert.match(on, /^agentPrompt:/m)
 })
 
-test('Run your own Slatebox, held: the coming-soon text, and no npx slatebox command', () => {
+// Restated (owner decision 2026-11-24): held, the page says the installer is being published, and never "coming soon".
+test('Run your own Slatebox, held: the installer is being published, use Slatebox Cloud, and no npx slatebox command', () => {
   const off = kept(shortPage, false)
-  assert.match(off, /coming soon/)
+  assert.match(off, /The installer is being published/)
+  assert.match(off, /use Slatebox Cloud\]\(https:\/\/app\.slatebox\.com\/start\)/)
+  assert.doesNotMatch(off, /coming soon/i)
+  assert.doesNotMatch(off, /\$\d/, 'no prices: the pricing page holds them')
   assert.doesNotMatch(off, /npx slatebox/)
 })

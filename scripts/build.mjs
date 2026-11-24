@@ -20,7 +20,7 @@ const legacy = JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
 // Features that are written but not yet published (scripts/features.json, one true or false each). A page whose front
 // matter says `feature: <name>` is built only while that switch is on: when it is off the page has no address, and is
 // in no navigation, search, sitemap, agent index or Markdown mirror. `feature: "!<name>"` is the reverse: the page is
-// built only while the switch is off (a stand-in such as "coming soon"). Inside any page, text between
+// built only while the switch is off (a stand-in such as "being published"). Inside any page, text between
 // <!-- feature:<name> --> and <!-- /feature:<name> --> is kept only while the switch is on, and text between
 // <!-- feature:!<name> --> and <!-- /feature:!<name> --> only while it is off. A held page whose front matter has
 // `whileHeld: /address/` keeps its own address as a redirect to that page while it is held. See readme.md.
@@ -61,7 +61,7 @@ const entries = [
   {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
   features['self-host']
     ? {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox with one command, npx slatebox, on the machine of your choice.'}
-    : {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox on your own server. The installer and the image are coming soon.'}
+    : {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox on your own server. The installer is being published; until then, use Slatebox Cloud.'}
 ]
 const demos = {
   river:['Play the three-room river exhibition','canvas?mode=present&story=river'],
