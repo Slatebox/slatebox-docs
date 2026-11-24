@@ -39,13 +39,16 @@ Choose **Pause all agents** on the agent list. Agents' edits on this slate are r
 
 ## Let one agent edit directly
 
-Where your Slatebox allows it, an agent's chip has an **Edit directly** switch. With it on, that agent's changes save at once instead of waiting as ghosts. Each of its actions is still listed with **Undo**. Turn the switch off to go back to suggestions.
+Where your Slatebox allows it, an agent's chip has an **Edit directly** switch for the person who brought the agent and for the slate's owner. With it on, that agent's changes save at once instead of waiting as ghosts. Each of its actions is still listed with **Undo**. Turn the switch off to go back to suggestions.
+
+Everyone else sees "Edits directly (set by Ada)" on the chip. Anyone who can edit the slate can choose **Back to suggestions**.
 
 On a self-hosted Slatebox, the operator allows the switch with `settings.public.agents.editDirectly: true`.
 
 ## What agents cannot do
 
-- An agent never keeps its own suggestions. A person keeps them, or lets that agent edit directly.
+- No agent keeps suggestions, its own or another agent's. A person keeps them, or lets that agent edit directly.
+- An agent can undo only its own actions.
 - Slate settings, such as the background or the slate's name, are not suggested. A person changes them, or an agent that may edit directly.
 
 ## Troubleshooting

@@ -33,7 +33,8 @@ When an agent edits a slate's canvas, the edit is not saved: it appears live on 
 | `POST /api/v1/slates/{shareId}/suggestions/decide` | `decide_suggestions` | `suggestions.decide` | `decision` is `keep`, `discard` or `undo`, for one `actionId`; `itemIds` picks some of its items |
 
 - Deciding needs edit access to the slate and `slates:write`.
-- An agent never keeps its own suggestions: that answers `403 own_suggestion`.
+- Only people keep suggestions. An agent's `keep` answers `403 people_only`, for its own suggestions and for any other agent's.
+- An agent can `undo` only its own actions. Undoing another agent's action answers `403 people_only`.
 - In an exec script, a `keep` or `undo` is held for the person to confirm, because it can remove notes (`confirmation_required`). [Exec](exec.md)
 - A kept item that cannot land, such as a change to a note someone deleted, is refused with its reason; the rest are kept.
 - `undo` takes back only what that action changed, and only where nobody changed it since. `left[]` says what stayed and why.
@@ -135,15 +136,17 @@ On Slatebox Cloud, a person with Slatebox Pro can invite an outside MCP server o
 | --- | --- | --- | --- |
 | `GET /api/v1/slates/{shareId}/agents` | `list_invited_agents` | `connectors.list` | The slate's invited agents, who invited each, and (for your own) the tools they may use |
 | `POST /api/v1/slates/{shareId}/agents/discover` | `discover_agent` | `connectors.discover` | Reaches a server's address and says what it can do, or how to sign in to it |
-| `POST /api/v1/slates/{shareId}/agents/sign-in` | `sign_in_to_agent` | `connectors.signIn` | Starts a sign-in: open the returned address in a browser to finish |
-| `GET /api/v1/agent-sign-ins/{flowId}` | `agent_sign_in_status` | `connectors.signInStatus` | Whether that sign-in finished |
 | `POST /api/v1/slates/{shareId}/agents/key` | `use_agent_key` | `connectors.useKey` | Gives Slatebox a key or token for a server that takes one, kept encrypted for you alone |
 | `POST /api/v1/slates/{shareId}/agents` | `invite_agent` | `connectors.connect` | Invites it: its name, the tools it may use (each with the hash you agreed to) and what it may see |
-| `POST /api/v1/agents/{connectionId}/ask` | `ask_invited_agent` | `connectors.call` | Asks it. Its answer lands as suggestions: `{ items, actions, saved, say, left }` |
+| `POST /api/v1/agents/{connectionId}/ask` | `ask_invited_agent` | `connectors.call` | Asks it. Its answer lands as suggestions: `{ items, actions, saved, say, left }`. Send `view` (the part of the canvas you can see, in slate units) and its notes land there |
 | `POST /api/v1/agents/{connectionId}/remove` | `remove_agent` | `connectors.disconnect` | Removes it and discards what it still has waiting |
 
 - Discovering, signing in, inviting and asking need Slatebox Pro for the person who invited the agent, checked on the server. Without it they answer `402 pro_required`.
-- Only the person who invited an agent can ask or remove it (`403 inviter_only`). Everyone who can read the slate sees it.
+- Only the person who invited an agent can ask it (`403 inviter_only`). The inviter or the slate's owner can remove it. Everyone who can read the slate sees it.
+- Signing in to a server that needs it happens in the slate, in your own signed-in browser. There is no route or tool for it, so no sign-in link can be passed to someone else.
+- A token reaches only slates its own account can open. A link to an unlisted slate does not count.
+- These calls reach outside servers, so each account can make 20 of them a minute, and 3 at a time. Over that they answer `429`.
+- When people pause the slate's agents, asking answers `423 agents_paused` before anything is sent to the outside server.
 - A slate holds up to 8 invited agents, and up to 3 from one person.
 - Keep, discard and undo what an invited agent suggests with `suggestions.decide`, like any agent's.
 
@@ -155,6 +158,6 @@ On Slatebox Cloud, a person with Slatebox Pro can invite an outside MCP server o
 | Symptom | Fix |
 | --- | --- |
 | `202` with `outcome: "suggested"` | Your edit is waiting for a person on the slate. Read it back with `include=suggestions`. |
-| `403 own_suggestion` | An agent cannot keep its own suggestions. Ask a person on the slate. |
+| `403 people_only` | Only people keep suggestions, and an agent undoes only its own actions. Ask a person on the slate. |
 | `423 agents_paused` | People on the slate paused its agents. Ask one of them to resume agents. |
 | `409 needs_direct_edit` | Slate settings are changed by a person, or by an agent a person lets edit directly. |

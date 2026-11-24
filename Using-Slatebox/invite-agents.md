@@ -36,18 +36,20 @@ Never: other slates, people's names or email addresses, comments, links or share
 
 ## Ask it something
 
-1. Choose the agent's chip at the bottom left of the slate. Only the person who invited it can ask it.
-2. Type your request and choose **Ask**, such as "Draw how a card payment is retried".
-3. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, and its cursor moves to them. The chip shows how many changes wait.
+1. Choose the agent's chip in the list of people and agents at the foot of the slate. Only the person who invited it can ask it.
+2. Type your request in the chip's box and choose **Ask**, such as "Draw how a card payment is retried".
+3. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
+   Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as "Excalidraw is working →". Choose it to go there.
 4. Keep or discard each ghost, or choose **Keep all** or **Discard all** on the chip. Each part is one action you can undo. [Keep or discard what agents suggest](agent-suggestions.md)
 
-Pictures in an answer are left out, and the ask box says so. Links are kept only when they are plain `http` or `https` addresses the server really sent.
+Pictures in an answer are left out, and the ask box says so. Links are kept only when they are secure `https` addresses the server really sent.
 
 ## Who sees and does what
 
 | Person | Can |
 | --- | --- |
-| The person who invited it | Ask it, sign it in again, remove it. |
+| The person who invited it | Ask it, sign it in again, remove it, let it edit directly. |
+| The slate's owner | Remove it. |
 | Anyone who can edit the slate | See its cursor and suggestions, keep, discard and undo them. |
 | Anyone who can view the slate | See its cursor and suggestions. |
 
@@ -57,7 +59,8 @@ A slate holds up to 8 invited agents, and up to 3 from one person.
 
 Some servers, such as Linear and GitHub, need you to sign in.
 
-- A sign-in window opens on the server's own page. When you allow access, the window closes and the walkthrough carries on.
+- A sign-in window opens on the server's own page. When you allow access, the window closes and the walkthrough carries on. Sign-in works only from the slate in your own signed-in browser.
+- The walkthrough names where your sign-in is sent, and what it lets Slatebox do. A GitHub sign-in reaches your public repositories and the names of your organisations, and is sent only to GitHub's own MCP server.
 - What the server gives Slatebox is stored encrypted for you alone. Nobody on the slate sees it, and it is sent only to that server.
 - A server that takes a key or token instead: paste it and choose **Use key**. Slatebox checks it with the server first.
 - If the server stops accepting the sign-in, the agent's chip says it needs sign-in. Choose **Sign in again**.
@@ -65,7 +68,7 @@ Some servers, such as Linear and GitHub, need you to sign in.
 
 ## Remove an agent
 
-Choose **Remove** on the agent's chip. Its waiting suggestions are discarded; what people kept stays. When no other slate of yours uses that server, its sign-in is revoked at the server and deleted.
+Choose **Remove** on the agent's chip, then **Remove** again to confirm. Its waiting suggestions are discarded; what people kept stays. When no other slate of yours uses that server, its sign-in is revoked at the server and deleted.
 
 ## Troubleshooting
 
@@ -75,4 +78,5 @@ Choose **Remove** on the agent's chip. Its waiting suggestions are discarded; wh
 | "That is not a web address" or a private-address message | Use the server's public `https` address. Private and local addresses are refused. |
 | The agent paused because its tools changed | Look at the changes the chip lists, then invite it again to choose. |
 | "Only … can ask" | Only the person who invited an agent can ask it. Invite your own. |
+| **Ask** is greyed out | Agents are paused on this slate. Choose **Resume agents** in the list of agents, then ask. |
 | The sign-in window was blocked | Allow pop-ups for Slatebox and choose sign in again. |
