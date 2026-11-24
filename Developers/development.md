@@ -12,7 +12,7 @@ If your client cannot fetch the documentation, read the same published file at h
 
 ## Quickstart
 
-To run Slatebox, start the image: one container runs the app, the relay and MongoDB. The image and its installer are coming soon. [Run your own Slatebox](../Installation/self-hosting.md)
+To run Slatebox, start the image: one container runs the app, the relay and MongoDB. The installer and the image are being published. [Run your own Slatebox](../Installation/self-hosting.md)
 
 To work on the engine, run this in a SlateboxJS checkout:
 

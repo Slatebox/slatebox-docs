@@ -10,27 +10,25 @@ Read https://docs.slatebox.com/Using-Slatebox/top-ups.md first. Ask for the inpu
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md.
 ```
 
-A balance pays for AI and calls once your Pro credits are used, or on its own without Slatebox Pro. It is spent at what the AI provider or Daily charges us, plus 5%. You do not need Pro to top up.
+A balance pays for AI and calls once your Pro credits are used, or on its own without Slatebox Pro. It is spent at what the AI provider or Daily charges us, plus a small margin. You do not need Pro to top up. [See pricing](https://slatebox.com/plans/)
 
 ## Top up
 
-Open your profile, choose **Credits**, then **Top up**. Before you pay, the dialog shows the whole amount, for example: "You pay $10.61: $10.00 of balance and a $0.61 card fee." The card fee is what the card network charges; it is not part of the balance.
+Open your profile, choose **Credits**, then **Top up**. Before you pay, the dialog shows the whole amount: the balance you add, and the card fee on its own line. The card fee is what the card network charges; it is not part of the balance.
 
 | | |
 | --- | --- |
-| Smallest top-up | $10 |
-| First top-up | Up to $25 |
-| Largest balance | $500 |
+| Amounts | The dialog shows the smallest top-up and the largest balance. A first top-up has a lower limit. |
 | Expiry | A balance never expires. |
 | Video | Video paid from a top-up can start 24 hours after that top-up. |
 
-The 5% covers the card fee kept on refunds, $15 for a disputed payment, and the gap between token-based prices and the provider's bill. It is not a profit line.
+The margin covers the card fee kept on refunds, the fee for a disputed payment, and the gap between token-based prices and the provider's bill. It is not a profit line.
 
 ## How a balance is spent
 
 Your Pro credits are used first if you have Slatebox Pro, then your balance. A team admin can top up a shared team balance in **Team settings**; it is used after your own balance.
 
-At $0, paid use stops. The last request finishes, and there is no bill afterwards.
+When the balance runs out, paid use stops. The last request finishes, and there is no bill afterwards.
 
 ## Refunds
 

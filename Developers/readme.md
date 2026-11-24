@@ -21,7 +21,7 @@ Pick the interface that owns the data you want to change.
 | Run exec from a terminal or an MCP client | [Install the CLI and MCP server](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
-| Run your own Slatebox | [Coming soon](../Installation/self-hosting.md) |
+| Run your own Slatebox | [Being published: use Slatebox Cloud until then](../Installation/self-hosting.md) |
 
 The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed, except the app's `enterprise/` folder (see [Licenses](#licenses)). One Docker image runs all three with a database. [App source](https://github.com/Slatebox/slatebox) · [Relay source](https://github.com/Slatebox/y-websocket)
 
