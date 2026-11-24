@@ -58,7 +58,7 @@ On a builder slate the controls are always drawn on the board. On any other slat
 
 Point at a control, or select it with **Tab**, and it says what it does ("Make To do a bin that archives cards"). With the keyboard, then press **Enter** to tap it, the arrow keys to move it, or **Delete** to remove its rule. Anything else is set in chat, for example "Let Done hold 4"; the board lists every rule under "How this board behaves".
 
-Each change is saved at once, and **Undo last change** takes it back. The next card you drag follows the new rule.
+Each change is saved at once as one step of your history: the canvas's **Undo** (Ctrl+Z, ⌘Z on a Mac) takes it back, and **Redo** makes it again. The next card you drag follows the new rule.
 
 ### Start from a branch
 
