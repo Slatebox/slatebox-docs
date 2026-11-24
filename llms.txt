@@ -29,6 +29,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Slatebox Business](https://docs.slatebox.com/Using-Slatebox/slatebox-business.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-business.md)
 - [Slatebox Pro](https://docs.slatebox.com/Using-Slatebox/slatebox-pro.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-pro.md)
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
+- [The shared library](https://docs.slatebox.com/Using-Slatebox/library.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/library.md)
 - [Top-ups and refunds](https://docs.slatebox.com/Using-Slatebox/top-ups.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md)
 - [Use your own keys on a self-hosted Slatebox](https://docs.slatebox.com/Using-Slatebox/own-keys.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/own-keys.md)
 
@@ -55,6 +56,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Exec: how agents work with Slatebox](https://docs.slatebox.com/Developers/SlateboxAPI/exec.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/exec.md)
 - [Read and edit a slate](https://docs.slatebox.com/Developers/SlateboxAPI/slates.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/slates.md)
 - [Slatebox HTTP API](https://docs.slatebox.com/Developers/SlateboxAPI/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/readme.md)
+- [The shared library](https://docs.slatebox.com/Developers/SlateboxAPI/library.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/library.md)
 
 ## Self-hosting
 

@@ -1,0 +1,332 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The shared library · Slatebox Docs</title><meta name="description" content="Browse, use, build and publish smart components, slates and presentations from your own code. Paths are relative to /api/v1. Authentication"><link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/library/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Developers/SlateboxAPI/library.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/library/" >The shared library</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details open><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a><a href="/developers/slateboxapi/library/" aria-current="page">The shared library</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / HTTP API</div><h1>The shared library</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Developers/SlateboxAPI/library.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me use the documented Slatebox HTTP API for “The shared library”. Use the documented method, path and permissions. Show the request with credential placeholders and verify the response on my chosen slate.
+
+Read https://docs.slatebox.com/Developers/SlateboxAPI/library.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/library.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Browse, use, build and publish smart components, slates and presentations from your own code. Paths are relative to <code>/api/v1</code>. <a href="/developers/slateboxapi/#authentication">Authentication</a></p>
+<h2 id="what-is-in-it">What is in it</h2><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Is</th>
+<th>Using it gives you</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>component</code></td>
+<td>A smart component: a board that keeps its rules (a retro, a pipeline, a launch plan). The ones built into Slatebox and the ones people built</td>
+<td>The board on a new slate, or beside the boards of a slate you can edit</td>
+</tr>
+<tr>
+<td><code>slate</code></td>
+<td>A slate someone published</td>
+<td>A private copy of it</td>
+</tr>
+<tr>
+<td><code>presentation</code></td>
+<td>A slate with its deck</td>
+<td>A private copy with its presentation</td>
+</tr>
+</tbody></table>
+<p>Every item has one category: <code>plan</code>, <code>decide</code>, <code>meetings</code>, <code>track</code> or <code>map</code>. A component branched off another stays in its parent&#39;s category. Published items are shared under CC BY 4.0, and each one credits where it came from (<code>provenance.branchedFrom</code> or <code>provenance.forkedFrom</code>).</p>
+<h2 id="endpoints">Endpoints</h2><table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Does</th>
+<th>Needs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /library</code></td>
+<td>List published items: <code>kind</code>, <code>category</code>, <code>origin</code> (<code>builtin</code> or <code>user</code>), <code>q</code>, <code>sort</code> (<code>new</code> or <code>popular</code>), <code>cursor</code>, <code>limit</code> (at most 48)</td>
+<td>Nothing; a token works too</td>
+</tr>
+<tr>
+<td><code>GET /library/{itemId}</code></td>
+<td>One item by id or slug, with a version&#39;s content (<code>version</code> to choose one)</td>
+<td>Nothing for a published item. Its author and reviewers read the rest</td>
+</tr>
+<tr>
+<td><code>GET /library/stats</code></td>
+<td>How many published components (built in, from the community, total), slates, presentations and items per category</td>
+<td>Nothing</td>
+</tr>
+<tr>
+<td><code>GET /library/export</code></td>
+<td>Every published item with its content, 50 per page</td>
+<td>Nothing</td>
+</tr>
+<tr>
+<td><code>GET /library/mine</code></td>
+<td>Your own items with their status and thread</td>
+<td><code>slates:read</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/fork</code></td>
+<td>Use an item: a new private slate, or a component beside a slate&#39;s boards (<code>targetShareId</code>)</td>
+<td><code>slates:write</code> and an optional <code>Idempotency-Key</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/branch</code></td>
+<td>Start your own component on a new builder slate: a copy to change, or <code>new</code> for an empty one</td>
+<td><code>slates:write</code></td>
+</tr>
+<tr>
+<td><code>POST /library/drafts</code></td>
+<td>Save the board of your builder slate as your own component</td>
+<td><code>slates:write</code></td>
+</tr>
+<tr>
+<td><code>POST /library/submissions</code></td>
+<td>Send a component, slate or presentation for review</td>
+<td><code>slates:share</code>. A guest account signs up first</td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/withdraw</code></td>
+<td>Take back a submission, or take your published item out</td>
+<td><code>slates:write</code></td>
+</tr>
+<tr>
+<td><code>DELETE /library/{itemId}</code></td>
+<td>Delete your own draft</td>
+<td><code>slates:write</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/comments</code></td>
+<td>Write in an item&#39;s review thread</td>
+<td><code>slates:write</code>, as its author or a reviewer</td>
+</tr>
+</tbody></table>
+<p>Public reads answer with <code>Cache-Control: public</code> and <code>Access-Control-Allow-Origin: *</code>, so a web page on any site can call them. Shared caches keep a list or an item for at most a minute, so an item taken out of the library stops being served soon after. Answers to a token are never cached. An item that is not published answers <code>404</code> to everyone but its author and reviewers.</p>
+<p>Each person has a daily allowance: 10 submissions, 200 saves, 50 new builder slates, 100 copies and 100 messages in review threads. Past it the answer is <code>429</code> (<code>submit_limit</code> for submissions, <code>library_limit</code> for the rest) with a sentence saying when to try again. Browsing has no allowance.</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-js">const base = process.env.SLATEBOX_BASE_URL ?? &#39;https://app.slatebox.com&#39;
+const stats = await (await fetch(`${base}/api/v1/library/stats`)).json()
+const list = await (await fetch(`${base}/api/v1/library?kind=component&amp;category=decide`)).json()
+console.log(stats.components.total, list.items.map((item) =&gt; item.title))</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-python">import os, requests
+
+base = os.environ.get(&quot;SLATEBOX_BASE_URL&quot;, &quot;https://app.slatebox.com&quot;)
+stats = requests.get(f&quot;{base}/api/v1/library/stats&quot;).json()
+items = requests.get(f&quot;{base}/api/v1/library&quot;, params={&quot;kind&quot;: &quot;component&quot;, &quot;category&quot;: &quot;decide&quot;}).json()[&quot;items&quot;]
+print(stats[&quot;components&quot;][&quot;total&quot;], [item[&quot;title&quot;] for item in items])</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">curl --fail-with-body --silent --show-error \
+  &quot;${SLATEBOX_BASE_URL:-https://app.slatebox.com}/api/v1/library?kind=component&amp;category=decide&quot;</code></pre></div></div><h2 id="use-an-item-from-a-script">Use an item from a script</h2><p>Each endpoint is a method of the exec client (<code>slatebox.library.*</code>) and a typed MCP tool (<code>list_library</code>, <code>get_library_item</code>, <code>use_library_item</code>, <code>branch_library_component</code>, <code>save_library_draft</code>, <code>submit_to_library</code> and the rest). <a href="/developers/slateboxapi/exec/">Exec: how agents work with Slatebox</a></p>
+<div class="code" data-label="exec"><div class="code-label">exec</div><pre><code class="language-js">const { items } = await slatebox.library.list({ kind: &#39;component&#39;, q: &#39;retro&#39; })
+const preview = await slatebox.library.fork({ itemId: items[0].id, targetShareId: &#39;YOUR_SHARE_ID&#39;, mode: &#39;preview&#39; })
+return slatebox.library.fork({ itemId: items[0].id, targetShareId: &#39;YOUR_SHARE_ID&#39;, topic: &#39;Q3 launch&#39; })</code></pre></div><p><code>mode: &quot;preview&quot;</code> answers the board and where it would go (<code>canvas</code>) and saves nothing.</p>
+<h3 id="every-operation-on-every-surface">Every operation on every surface</h3><p>Each operation is one server method, so the app, the HTTP API, exec, the MCP server and the terminal make the same checks and record the same audit line.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP</th>
+<th>Exec client</th>
+<th>MCP tool</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /library</code></td>
+<td><code>slatebox.library.list</code></td>
+<td><code>list_library</code></td>
+</tr>
+<tr>
+<td><code>GET /library/{itemId}</code></td>
+<td><code>slatebox.library.get</code></td>
+<td><code>get_library_item</code></td>
+</tr>
+<tr>
+<td><code>GET /library/stats</code></td>
+<td><code>slatebox.library.stats</code></td>
+<td><code>get_library_stats</code></td>
+</tr>
+<tr>
+<td><code>GET /library/export</code></td>
+<td><code>slatebox.library.export</code></td>
+<td><code>export_library</code></td>
+</tr>
+<tr>
+<td><code>GET /library/mine</code></td>
+<td><code>slatebox.library.mine</code></td>
+<td><code>list_my_library</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/fork</code></td>
+<td><code>slatebox.library.fork</code></td>
+<td><code>use_library_item</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/branch</code></td>
+<td><code>slatebox.library.branch</code></td>
+<td><code>branch_library_component</code></td>
+</tr>
+<tr>
+<td><code>POST /library/drafts</code></td>
+<td><code>slatebox.library.saveDraft</code></td>
+<td><code>save_library_draft</code></td>
+</tr>
+<tr>
+<td><code>POST /library/submissions</code></td>
+<td><code>slatebox.library.submit</code></td>
+<td><code>submit_to_library</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/withdraw</code></td>
+<td><code>slatebox.library.withdraw</code></td>
+<td><code>withdraw_library_item</code></td>
+</tr>
+<tr>
+<td><code>DELETE /library/{itemId}</code></td>
+<td><code>slatebox.library.discard</code></td>
+<td><code>discard_library_draft</code></td>
+</tr>
+<tr>
+<td><code>POST /library/{itemId}/comments</code></td>
+<td><code>slatebox.library.comment</code></td>
+<td><code>comment_on_library_item</code></td>
+</tr>
+<tr>
+<td><code>GET /library/review</code></td>
+<td><code>slatebox.library.review.queue</code></td>
+<td><code>list_library_queue</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/open</code></td>
+<td><code>slatebox.library.review.open</code></td>
+<td><code>open_library_review</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/refine</code></td>
+<td><code>slatebox.library.review.refine</code></td>
+<td><code>refine_library_item</code></td>
+</tr>
+<tr>
+<td><code>PATCH /library/review/{itemId}</code></td>
+<td><code>slatebox.library.review.update</code></td>
+<td><code>update_library_item</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/approve</code></td>
+<td><code>slatebox.library.review.approve</code></td>
+<td><code>approve_library_item</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/changes</code></td>
+<td><code>slatebox.library.review.requestChanges</code></td>
+<td><code>request_library_changes</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/reject</code></td>
+<td><code>slatebox.library.review.reject</code></td>
+<td><code>reject_library_item</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/unpublish</code></td>
+<td><code>slatebox.library.review.unpublish</code></td>
+<td><code>unpublish_library_item</code></td>
+</tr>
+</tbody></table>
+<p><code>submit</code> and <code>approve</code> wait for a person&#39;s confirmation when a script or an agent calls them. In the terminal, run any of them through <code>slatebox exec</code>: <a href="/developers/slateboxapi/terminal-and-agents/">Terminal and agents</a></p>
+<div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npx --no-install slatebox exec -e &#39;return slatebox.library.stats({})&#39;
+npx --no-install slatebox exec -e &#39;return slatebox.library.mine({})&#39;
+npx --no-install slatebox describe library</code></pre></div><p> A slate holds up to 8 boards; past that the fork answers <code>409 component_opens_new_slate</code>. When people on the slate have paused its agents, an agent&#39;s fork onto it answers <code>423 agents_paused</code>, as its edits do; so does an agent&#39;s kept refinement of a review copy. <code>slates.applyOperations</code> with an <code>add_component</code> operation also takes <code>library: { itemId }</code> in place of a catalogue <code>component</code>.</p>
+<h2 id="build-and-submit-a-component">Build and submit a component</h2><ol>
+<li><code>POST /library/new/branch</code> (or <code>/library/{itemId}/branch</code> to start from another component) answers the <code>shareId</code> of a private builder slate.</li>
+<li>Grow the board on that slate: chat in the app, or <code>slates.applyOperations</code> with <code>workshop_edits</code>.</li>
+<li><code>POST /library/drafts</code> with <code>shareId</code>, <code>title</code>, <code>summary</code> and <code>category</code> saves it as your own component. You can add it to any slate at once.</li>
+<li><code>POST /library/submissions</code> with <code>kind: &quot;component&quot;</code> and the <code>itemId</code> sends it for review. From a script, the person agrees first.</li>
+</ol>
+<p>A slate or presentation is submitted with <code>kind: &quot;slate&quot;</code> or <code>kind: &quot;presentation&quot;</code> and its <code>shareId</code>. You must own the slate or administer its team. Sending a published item again proposes an update: the published version stays until the update is approved.</p>
+<p>Saving a draft of a published component changes nothing the public reads. Its new details wait beside the published ones (<code>draftMeta</code>, shown only to you) and go public only with an update a reviewer approves. While an update waits for review (<code>submitted</code> or <code>in_review</code>), you can&#39;t save over it or send another; withdraw it first.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>draft</code></td>
+<td>Saved, private to you</td>
+</tr>
+<tr>
+<td><code>submitted</code></td>
+<td>Waiting for review</td>
+</tr>
+<tr>
+<td><code>in_review</code></td>
+<td>A reviewer has it open</td>
+</tr>
+<tr>
+<td><code>changes_requested</code></td>
+<td>Sent back to you with a message; submit again when it is ready</td>
+</tr>
+<tr>
+<td><code>published</code></td>
+<td>Public: anyone can find, use and change it</td>
+</tr>
+<tr>
+<td><code>rejected</code></td>
+<td>Not accepted, with the reason in the thread</td>
+</tr>
+<tr>
+<td><code>unpublished</code></td>
+<td>Taken out of the library; copies people made stay theirs</td>
+</tr>
+</tbody></table>
+<h3 id="after-you-submit">After you submit</h3><ul>
+<li><strong>The review thread.</strong> Every item has one thread: your note, the reviewer&#39;s messages and each status change. <code>GET /library/mine</code> returns it with the status. Write in it with <code>POST /library/{itemId}/comments</code> and <code>message</code>.</li>
+<li><strong>Notices.</strong> When a reviewer publishes your item, asks for changes, turns it down, takes it out or writes to you, you get a notice in the app and an email (where the server sends email), with their message and a link to My library.</li>
+<li><strong>Changes asked for.</strong> The item comes back as <code>changes_requested</code>. Change it (for a component, on its builder slate, then <code>POST /library/drafts</code> again), then <code>POST /library/submissions</code> with the same <code>itemId</code> to send it again.</li>
+<li><strong>What is published.</strong> The reviewer can refine your submission on a private copy before approving. What is published is that copy, so it may differ a little from what you sent. Your own slate or builder slate is never changed.</li>
+<li><strong>Take it back.</strong> <code>POST /library/{itemId}/withdraw</code> takes back a waiting submission. On a published item with an update waiting, it takes back only the update: the published version stays, and the update is your draft again. On a published item with nothing waiting, it takes the item out of the library. An update a reviewer has open can&#39;t be taken back; write to them instead. Copies people already made stay theirs.</li>
+<li><strong>What you see of the thread.</strong> You see your messages, the reviewer&#39;s messages and every decision, and when a reviewer kept a change, what changed. You don&#39;t see the reviewer&#39;s own chat with the refine AI, or anyone&#39;s account id.</li>
+<li><strong>Version numbers.</strong> <code>publishedCount</code> says how many times an item has been published once it is more than one; absent means once. The app shows &quot;Version 1&quot; for the first publication.</li>
+</ul>
+<h3 id="rules-set-with-the-controls-on-the-board">Rules set with the controls on the board</h3><p>On a builder slate, the controls drawn on the board (a lane&#39;s limit line, its − and +, the arrows between lanes, a lane&#39;s bin, a plan&#39;s snap and a launch line&#39;s hard or soft) make the same rule edits that chat, exec and <code>workshop_edits</code> make. Each rule records who set it, when, and how: <code>set.via</code> is <code>&quot;canvas&quot;</code> for a control, beside <code>&quot;chat&quot;</code> and <code>&quot;exec&quot;</code>. A control&#39;s change is saved on its own, never in the same save as a card move or rename: &quot;Change the rules on their own, then move cards.&quot;</p>
+<h2 id="review-submissions-administrators">Review submissions (administrators)</h2><p>Reviewing needs an administrator of the Slatebox server and, for a token, the <code>library:review</code> scope (<strong>Review library submissions (administrators)</strong>). Anyone else gets <code>403 reviewer_required</code>.</p>
+<p>A second person reviews what someone publishes: an administrator can&#39;t open, refine, edit or approve their own submission (<code>403 self_review</code>). On a server with one administrator, add <code>selfReview: true</code> to those calls; the thread records that the author reviewed it.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /library/review</code></td>
+<td>The queue, oldest first: <code>status</code> (<code>waiting</code> by default, <code>in_review</code>, <code>changes_requested</code>, <code>rejected</code>, <code>published</code>, <code>all</code>), <code>kind</code>, <code>source=migration</code></td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/open</code></td>
+<td>Make your private review copy of the waiting version, a slate you can change on the canvas</td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/refine</code></td>
+<td>Ask for a change in plain words; <code>mode: &quot;preview&quot;</code> shows it and answers a <code>previewId</code>; save with that <code>previewId</code> keeps exactly what was shown</td>
+</tr>
+<tr>
+<td><code>PATCH /library/review/{itemId}</code></td>
+<td>Change the title, summary, description, category or search words</td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/approve</code></td>
+<td>Publish the review copy as it stands, as a new version</td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/changes</code></td>
+<td>Send it back with a message</td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/reject</code></td>
+<td>Turn it down with a message</td>
+</tr>
+<tr>
+<td><code>POST /library/review/{itemId}/unpublish</code></td>
+<td>Take a published item out, with a message</td>
+</tr>
+</tbody></table>
+<div class="code" data-label="exec"><div class="code-label">exec</div><pre><code class="language-js">const { items } = await slatebox.library.review.queue({})
+const { reviewShareId } = await slatebox.library.review.open({ itemId: items[0].id })
+const proposal = await slatebox.library.review.refine({ itemId: items[0].id, message: &#39;Write a clearer one-line summary&#39;, mode: &#39;preview&#39; })
+await slatebox.library.review.refine({ itemId: items[0].id, message: &#39;Write a clearer one-line summary&#39;, previewId: proposal.previewId })
+return slatebox.library.review.approve({ itemId: items[0].id, message: &#39;Thanks&#39; })</code></pre></div><p>&quot;rename it to …&quot;, &quot;put it in Decide&quot; and &quot;summary: …&quot; are read without AI. Other requests use the AI connection chosen for <strong>Library review and refinement</strong> (<code>settings.ai.use.library</code>), which follows the conversation choice (<code>use.chat</code>) until you set one.</p>
+<p>A preview is kept for half an hour; keeping one that has gone answers <code>409 preview_expired</code> and asks nothing of the AI. The proposal&#39;s <code>check</code> lists what to look at before publishing, starting with any email address or long number the server finds in the item, whatever the AI says. The AI is given the item as data in the request, never as instructions.</p>
+<p>A slate moved from Community slates that its owner never sent again is published only while it is still public: if the owner has made it private or deleted it, opening or approving it answers <code>409 source_not_public</code>. Once the owner sends it again, it is their submission like any other.</p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#what-is-in-it" >What is in it</a><a href="#endpoints" >Endpoints</a><a href="#use-an-item-from-a-script" >Use an item from a script</a><a href="#build-and-submit-a-component" >Build and submit a component</a><a href="#review-submissions-administrators" >Review submissions (administrators)</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

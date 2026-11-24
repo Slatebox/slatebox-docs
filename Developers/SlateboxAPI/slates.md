@@ -444,7 +444,7 @@ Copying needs **Create and edit slates** (`slates:write`). Deleting needs **Dele
 
 | Request | Does |
 | --- | --- |
-| `POST /api/v1/slates/{shareId}/copy` | Makes a private copy of a slate you may edit, or of a public slate or template, and returns the copy's `shareId`. Send `name` to name the copy |
+| `POST /api/v1/slates/{shareId}/copy` | Makes a private copy of a slate you may edit, or of a public slate, and returns the copy's `shareId`. Send `name` to name the copy |
 | `DELETE /api/v1/slates/{shareId}` | Deletes one of your own slates, with its sharing, comments and messages. Only the owner can, and a theme other slates are built on stays. It cannot be undone |
 
 A delete waits for the person to agree: the first request answers `409 confirmation_required` with a `confirmationId`. [Saves that wait for confirmation](exec.md#saves-that-wait-for-confirmation)
