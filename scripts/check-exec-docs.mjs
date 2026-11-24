@@ -12,7 +12,7 @@ import {tmpdir} from 'node:os'
 import path from 'node:path'
 import {marked} from 'marked'
 
-const PACKAGE = 'slatebox-mcp-0.3.2.tgz'
+const PACKAGE = 'slatebox-mcp-0.3.3.tgz'
 const EXEC_PAGE = 'Developers/SlateboxAPI/exec.md'
 const AsyncFunction = (async () => {}).constructor
 
@@ -259,7 +259,7 @@ test('the one-container page documents exec, and no page names a self-host relea
   }
 })
 
-// The release gate. The guides install slatebox-mcp 0.3.2, so they are not published before the
+// The release gate. The guides install slatebox-mcp 0.3.3, so they are not published before the
 // archive and its checksum exist here. Every check below runs the archive itself.
 
 function run(file, args, env) {
@@ -306,8 +306,8 @@ test('the guides are not published before the exec package exists', async t => {
   const manifest = JSON.parse(await readFile(path.join(pkg, 'package.json'), 'utf8'))
   const cli = path.join(pkg, manifest.bin?.slatebox ?? 'missing')
 
-  await t.test('the archive is the 0.3.2 package the guides describe', async () => {
-    assert.equal(manifest.version, '0.3.2')
+  await t.test('the archive is the 0.3.3 package the guides describe', async () => {
+    assert.equal(manifest.version, '0.3.3')
     assert.equal(manifest.engines?.node, '>=22.13.0')
     assert.ok(manifest.exports?.['./client'], 'slatebox-mcp/client must resolve')
     for (const file of ['generated/client.json', 'generated/exec-tool.json']) await stat(path.join(pkg, file))

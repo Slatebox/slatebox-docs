@@ -10,7 +10,7 @@ import {mkdtemp, readFile, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 
-const PACKAGE = 'slatebox-mcp-0.3.2.tgz'
+const PACKAGE = 'slatebox-mcp-0.3.3.tgz'
 const PAGE = 'Developers/SlateboxAPI/mcp.md'
 const HOSTED = 'https://app.slatebox.com/mcp'
 const read = file => readFile(file, 'utf8')
@@ -101,7 +101,7 @@ test('a personal token still works on /mcp, and the local package is the release
   const local = section(page, 'Run it on your machine')
   assert.ok(local.includes(PACKAGE), 'the local section installs ' + PACKAGE)
   assert.match(local, /no sandbox/i)
-  assert.equal(manifest.version, '0.3.2')
+  assert.equal(manifest.version, '0.3.3')
   assert.equal(manifest.mcpName, 'com.slatebox/slatebox')
 })
 
