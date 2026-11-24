@@ -21,7 +21,7 @@ Choose **Mermaid** in the slate menu to copy or download any slate as Mermaid, o
 
 When an agent edits your slate, such as Claude through Slatebox's MCP server or a script, its changes appear as ghost notes everyone on the slate sees. Choose **Keep** or **Discard** on each, or **Keep all** on the agent's chip, and undo any agent action. [Keep or discard what agents suggest](agent-suggestions.md)
 <!-- feature:agents-invite -->
-Invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate with **+ Invite agent**. On Slatebox Cloud, with Slatebox Pro. [Invite an outside agent onto a slate](invite-agents.md)
+Invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate with **+ Invite agent**, and ask it on its chip or by `@name` in Ask Slatebox. On Slatebox Cloud, with Slatebox Pro; on a self-hosted Slatebox, with an on-prem license. [Invite an outside agent onto a slate](invite-agents.md)
 <!-- /feature:agents-invite -->
 ## Add a video
 

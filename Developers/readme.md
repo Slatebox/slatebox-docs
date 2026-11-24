@@ -20,8 +20,8 @@ The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT lice
 | Part | License |
 | --- | --- |
 | The Slatebox app, except `enterprise/` | MIT |
-| The app's `enterprise/` folder: outside-agent connections, which run only on Slatebox Cloud | Slatebox Enterprise License: source-available. You can read, change and test it; running it in production needs an agreement with Slatebox LLC, and Slatebox Cloud's terms cover people using it there |
+| The app's `enterprise/` folder: outside-agent connections | Slatebox Enterprise License: source-available. You can read, change and test it; running it in production needs an agreement with Slatebox LLC, and Slatebox Cloud's terms cover people using it there |
 | SlateboxJS engine | MIT |
 | Collaboration relay | MIT |
 
-A self-hosted Slatebox is built without `enterprise/`, so everything it runs from Slatebox is MIT licensed. MIT code in the app never imports `enterprise/`; Slatebox Cloud loads it at start. The app's `LICENSE.md` and `enterprise/LICENSE` hold the full texts.
+Slatebox Cloud runs `enterprise/`. A self-hosted Slatebox carries it switched off: it runs only once an on-prem license key from Slatebox LLC switches it on for that install, checked offline at start. Everything else a self-hosted Slatebox runs from Slatebox, single sign-on included, is MIT licensed. MIT code in the app never imports `enterprise/`; the app loads it at start where it is switched on. The app's `LICENSE.md` and `enterprise/LICENSE` hold the full texts.

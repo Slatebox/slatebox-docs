@@ -1,6 +1,6 @@
 ---
 title: Invite an outside agent onto a slate
-description: Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. Slatebox Cloud only, with Slatebox Pro.
+description: Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro; on a self-hosted Slatebox with an on-prem license.
 feature: agents-invite
 ---
 
@@ -8,7 +8,7 @@ feature: agents-invite
 
 Invite an outside agent, any MCP server, onto a slate. Ask it something, and Slatebox AI turns its answer into notes and lines that appear on the slate as suggestions. Everyone on the slate sees the agent's cursor and its suggestions, and anyone who can edit keeps or discards them.
 
-Inviting agents is part of Slatebox Pro, on Slatebox Cloud only. A self-hosted Slatebox does not include it. [Slatebox Pro](slatebox-pro.md)
+On Slatebox Cloud, inviting agents is part of Slatebox Pro for the person who invites them, on any slate they can edit. On a self-hosted Slatebox it needs an on-prem license from Slatebox, a flat yearly fee per install; there is no Slatebox Pro there. [Slatebox Pro](slatebox-pro.md)
 
 ## Invite an agent
 
@@ -36,11 +36,15 @@ Never: other slates, people's names or email addresses, comments, links or share
 
 ## Ask it something
 
-1. Choose the agent's chip in the list of people and agents at the foot of the slate. Only the person who invited it can ask it.
-2. Type your request in the chip's box and choose **Ask**, such as "Draw how a card payment is retried".
-3. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
+Each invited agent is on the strip of people at the foot of the slate, as its own chip. Only the person who invited it can ask it, in either of two places:
+
+- **Its chip.** Choose the chip, type your request in its box and choose **Ask**.
+- **Ask Slatebox.** Start the message with the agent's name after an `@`, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. Its answer appears in the conversation under its own name, in its colour, beside its mark. Your agents' names are also offered above the message box.
+
+1. Ask it, such as "Draw how a card payment is retried".
+2. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
    Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as "Excalidraw is working →". Choose it to go there.
-4. Keep or discard each ghost, or choose **Keep all** or **Discard all** on the chip. Each part is one action you can undo. [Keep or discard what agents suggest](agent-suggestions.md)
+3. Keep or discard each ghost, or choose **Keep all** or **Discard all** on the chip. Each part is one action you can undo. [Keep or discard what agents suggest](agent-suggestions.md)
 
 Pictures in an answer are left out, and the ask box says so. Links are kept only when they are secure `https` addresses the server really sent.
 
@@ -74,7 +78,7 @@ Choose **Remove** on the agent's chip, then **Remove** again to confirm. Its wai
 
 | Symptom | Fix |
 | --- | --- |
-| **+ Invite agent** is missing | You can view this slate but not edit it, or you are on a self-hosted Slatebox. |
+| **+ Invite agent** is missing | You can view this slate but not edit it, or you are on a self-hosted Slatebox without an on-prem license. |
 | "That is not a web address" or a private-address message | Use the server's public `https` address. Private and local addresses are refused. |
 | The agent paused because its tools changed | Look at the changes the chip lists, then invite it again to choose. |
 | "Only … can ask" | Only the person who invited an agent can ask it. Invite your own. |

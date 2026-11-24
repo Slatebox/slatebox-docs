@@ -1,13 +1,13 @@
 ---
 title: Pricing
-description: Slatebox is free, MIT-licensed and open source, except Cloud-only outside-agent connections. On Slatebox Cloud, AI and calls come with Slatebox Pro at $5 a month, or a top-up at cost plus 5%. Teams can choose Slatebox Business.
+description: Slatebox is free, MIT-licensed and open source, except outside-agent connections. On Slatebox Cloud, AI and calls come with Slatebox Pro at $5 a month, or a top-up at cost plus 5%. Teams can choose Slatebox Business.
 ---
 
 # Pricing
 
-Slatebox is free. It is MIT-licensed and open source, except Cloud-only outside-agent connections. Free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
+Slatebox is free. It is MIT-licensed and open source, except outside-agent connections. Free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
 
-The app's `enterprise/` folder, which holds the outside-agent connections that run only on Slatebox Cloud, is under the Slatebox Enterprise License: you can read, change and test it, but not run it in production without an agreement. Everything else in the app, the SlateboxJS engine and the relay is MIT licensed. [Licenses](../Developers/readme.md#licenses)
+The app's `enterprise/` folder, which holds the outside-agent connections, is under the Slatebox Enterprise License: you can read, change and test it, but not run it in production without an agreement. Slatebox Cloud runs it. A self-hosted Slatebox carries it switched off, and an on-prem license, a flat yearly fee per install, switches it on there. Everything else in the app, the SlateboxJS engine and the relay is MIT licensed. [Licenses](../Developers/readme.md#licenses)
 
 ## Free for everyone
 
