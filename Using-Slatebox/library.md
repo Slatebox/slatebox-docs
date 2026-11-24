@@ -41,6 +41,29 @@ In a slate, **Add to this slate** in Ask Slatebox lists the same components, you
 
 A branch stays in the category of the component it came from, and says so in the bar.
 
+### The controls on the board
+
+On a builder slate the controls are always drawn on the board. On any other slate they show on a board you select, if you can edit the slate.
+
+| On | Control | Does |
+| --- | --- | --- |
+| A board of columns | The limit line after a column's last slot | Drag it, or use its − and +, to set how many cards the column holds. Hold it (or right-click) to switch between refusing and only warning. |
+| A board of columns | The bin on a column's header | Makes the column an archive: it takes every card, whatever its limit. |
+| A board of columns | The arrow between two columns | Lets cards move only one way between them. |
+| A board of columns | **One column at a time** | Stops cards skipping columns. |
+| A board of columns | The dashed column with a + | Adds a column. |
+| A sales pipeline | Each stage's − and +, and its padlock | Sets the stage's limit, and whether a deal needs an amount to enter it. |
+| A launch or hiring plan | Snap, the go-live line, what a slip does | Moves by day or week; makes go-live a hard or soft line; says whether a slip pushes what waits. |
+| A nested board | The ladder of levels, and − and + | Sets how deep cards nest and how many a card holds. |
+
+With the keyboard, select a control with **Tab**, then press **Enter** to tap it, the arrow keys to move it, or **Delete** to remove its rule. Anything else is set in chat, for example "Let Done hold 4"; the board lists every rule under "How this board behaves".
+
+Each change is saved at once, and **Undo last change** takes it back. The next card you drag follows the new rule.
+
+### Start from a branch
+
+**Branch off** gives you a copy of the component on a new builder slate. The bar says what it was branched from, for example "Branched from Retro (Meetings)". Change it as you like; the original is not changed, and its author is credited when you publish yours.
+
 ## Publish to the library
 
 | What | Where | Choose |
@@ -59,6 +82,10 @@ Follow your submissions in **My library** ([app.slatebox.com/library/mine](https
 | Changes asked for | The reviewer wrote what to change. | Change it, then **Send it again**. |
 | Published | It is in the library for everyone. | Send an update; the published version stays until the update is approved. |
 | Not accepted | The reviewer said why. | Change it and send it again. |
+
+When a reviewer publishes your item, asks for changes, turns it down or writes to you, you get a notice under the bell and an email, with their message and a link to My library. Open an item in My library to read its whole thread and to write back.
+
+The reviewer may make small changes before publishing, such as a clearer name or a tighter rule. They change a private review copy, never your slate. What is published is the reviewed copy.
 
 ## Review submissions (administrators)
 
