@@ -1,6 +1,6 @@
 ---
 title: Invite an outside agent onto a slate
-description: Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro; on a self-hosted Slatebox with an on-prem license.
+description: Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox with an on-prem license.
 feature: agents-invite
 ---
 
@@ -8,12 +8,12 @@ feature: agents-invite
 
 Invite an outside agent, any MCP server, onto a slate. Ask it something, and Slatebox AI turns its answer into notes and lines that appear on the slate as suggestions. Everyone on the slate sees the agent's cursor and its suggestions, and anyone who can edit keeps or discards them.
 
-On Slatebox Cloud, inviting agents is part of Slatebox Pro for the person who invites them, on any slate they can edit. On a self-hosted Slatebox it needs an on-prem license from Slatebox, a flat yearly fee per install; there is no Slatebox Pro there. [Slatebox Pro](slatebox-pro.md)
+On Slatebox Cloud, inviting agents is part of Slatebox Pro, and of Slatebox Business for every member of a Business team, for the person who invites them, on any slate they can edit. On a self-hosted Slatebox it needs an on-prem license from Slatebox, a flat yearly fee per install; there is no Slatebox Pro there. [Slatebox Pro](slatebox-pro.md)
 
 ## Invite an agent
 
 1. On a slate you can edit, choose **+ Invite agent**.
-2. Choose an agent from the gallery, or paste an MCP server's address under **Paste an MCP address** and choose **Next**. Without Slatebox Pro, the payment sheet opens in the app. Nothing else changes on the page.
+2. Choose an agent from the gallery, or paste an MCP server's address under **Paste an MCP address** and choose **Next**. Without Slatebox Pro or a Business team, the payment sheet opens in the app. Nothing else changes on the page.
 3. If the server needs you to sign in, a window opens on the server's own sign-in page, or you paste a key or token it gave you and choose **Use key**. See [Agents that need sign-in](#agents-that-need-sign-in).
 4. Read what it can do. Slatebox lists its tools in plain words:
    - **Look things up**: on to start. Clear any you do not want it to use.
@@ -68,7 +68,7 @@ Some servers, such as Linear and GitHub, need you to sign in.
 - What the server gives Slatebox is stored encrypted for you alone. Nobody on the slate sees it, and it is sent only to that server.
 - A server that takes a key or token instead: paste it and choose **Use key**. Slatebox checks it with the server first.
 - If the server stops accepting the sign-in, the agent's chip says it needs sign-in. Choose **Sign in again**.
-- If your Slatebox Pro ends, the chip says so and asking is refused. Renew Slatebox Pro from the chip and the agent works again.
+- If your Slatebox Pro ends (and you are not on a Business team), the chip says so and asking is refused. Renew Slatebox Pro from the chip and the agent works again.
 
 ## Remove an agent
 

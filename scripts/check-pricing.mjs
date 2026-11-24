@@ -78,12 +78,12 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.match(pricing, /Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free/, 'pricing.md: own keys are for self-hosted Slatebox only')
   assert.doesNotMatch(pricing, /## Three ways to pay|\*\*Your own key\.\*\*/, 'pricing.md: own keys are not a way to pay on Cloud')
   assert.match(section(pricing, 'Self-hosted Slatebox'), /own AI and call keys, for free/, 'pricing.md: a self-hosted Slatebox keeps own keys, free')
-  // Every feature but one (inviting outside agents, with Slatebox Pro) is free on Cloud, said while the agents-invite switch is on.
+  // Every feature but one (inviting outside agents, with Slatebox Pro or Slatebox Business) is free on Cloud, said while the agents-invite switch is on.
   assert.match(pricing, /<!-- feature:agents-invite -->every feature but one is free<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->every feature is free<!-- \/feature:!agents-invite -->/i, 'pricing.md: every feature but one is free')
   // The carve-out (owner, 2026-11-23/24): the app's enterprise/ folder is source-available; inviting outside
-  // agents comes with Slatebox Pro, said only while the agents-invite switch is on.
+  // agents comes with Slatebox Pro or (owner, 2026-11-24) Slatebox Business, said only while the agents-invite switch is on.
   assert.match(pricing, /`enterprise\/` folder[^.]*Slatebox Enterprise License/, 'pricing.md: enterprise/ is under the Slatebox Enterprise License')
-  assert.match(pricing, /<!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro\.[\s\S]*?<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately\.<!-- \/feature:!agents-invite -->/, 'pricing.md: the Slatebox Pro exception is held by the agents-invite switch')
+  assert.match(pricing, /<!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro or Slatebox Business\.[\s\S]*?<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately\.<!-- \/feature:!agents-invite -->/, 'pricing.md: the Slatebox Pro exception is held by the agents-invite switch')
   // The subscription page: price, credits, cancelling, failed payments, refunds as the terms say, deleting the account.
   assert.doesNotMatch(pricing + pro, /in any mix/i, 'Pro credits are separate allowances, not one pool')
   for (const words of [...PRO, '(' + thousands(CREDITS.voiceMinutes) + ' participant-minutes)', '(' + thousands(CREDITS.videoMinutes) + ' participant-minutes)', 'the share of that month\'s Pro credits', 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])

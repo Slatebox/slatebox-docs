@@ -130,7 +130,7 @@ return { outcome: added.outcome, nodeId: added.nodeId, title: added.media.title 
 <!-- feature:agents-invite -->
 ## Invited agents
 
-On Slatebox Cloud, a person with Slatebox Pro can invite an outside MCP server onto a slate they can edit, as a named agent. A self-hosted Slatebox serves these routes only once an on-prem license switches them on (there is no Slatebox Pro there); without one they are not there.
+On Slatebox Cloud, a person with Slatebox Pro, or on a Slatebox Business team, can invite an outside MCP server onto a slate they can edit, as a named agent. A self-hosted Slatebox serves these routes only once an on-prem license switches them on (there is no Slatebox Pro there); without one they are not there.
 
 | Request | Tool | Exec | Does |
 | --- | --- | --- | --- |
@@ -141,7 +141,7 @@ On Slatebox Cloud, a person with Slatebox Pro can invite an outside MCP server o
 | `POST /api/v1/agents/{connectionId}/ask` | `ask_invited_agent` | `connectors.call` | Asks it. Its answer lands as suggestions: `{ items, actions, saved, say, left }`. Send `view` (the part of the canvas you can see, in slate units) and its notes land there |
 | `POST /api/v1/agents/{connectionId}/remove` | `remove_agent` | `connectors.disconnect` | Removes it and discards what it still has waiting |
 
-- On Slatebox Cloud, discovering, signing in, inviting and asking need Slatebox Pro for the person who invited the agent, checked on the server. Without it they answer `402 pro_required`.
+- On Slatebox Cloud, discovering, signing in, inviting and asking need Slatebox Pro, or a seat on a Slatebox Business team, for the person who invited the agent, checked on the server. Without it they answer `402 pro_required`.
 - On a self-hosted Slatebox whose on-prem license has ended, they answer `403 enterprise_locked`.
 - Only the person who invited an agent can ask it (`403 inviter_only`). The inviter or the slate's owner can remove it. Everyone who can read the slate sees it.
 - Signing in to a server that needs it happens in the slate, in your own signed-in browser. There is no route or tool for it, so no sign-in link can be passed to someone else.
