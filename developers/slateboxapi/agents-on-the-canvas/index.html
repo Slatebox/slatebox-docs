@@ -1,0 +1,212 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Agents on the canvas: suggestions, video notes and invited agents · Slatebox Docs</title><meta name="description" content="An agent&#39;s canvas edits are live suggestions people keep or discard. Read, keep, discard and undo them, add video notes, and (on Slatebox Cloud) invite and ask outside agents, from the API, exec or MCP."><link rel="canonical" href="https://docs.slatebox.com/developers/slateboxapi/agents-on-the-canvas/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Developers/SlateboxAPI/agents-on-the-canvas.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details ><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details open><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" aria-current="page">Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / HTTP API</div><h1>Agents on the canvas: suggestions, video notes and invited agents</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Developers/SlateboxAPI/agents-on-the-canvas.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me use the documented Slatebox HTTP API for “Agents on the canvas: suggestions, video notes and invited agents”. Use the documented method, path and permissions. Show the request with credential placeholders and verify the response on my chosen slate.
+
+Read https://docs.slatebox.com/Developers/SlateboxAPI/agents-on-the-canvas.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/SlateboxAPI/agents-on-the-canvas.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>When an agent edits a slate&#39;s canvas, the edit is not saved: it appears live on the slate as suggestions for people to keep or discard. This page lists the calls that read and decide those suggestions, add video notes, and invite outside agents. Each call is the same on every surface, with the same checks: an HTTP route, a method in the exec client, and a typed tool on Slatebox&#39;s hosted MCP server.</p>
+<h2 id="how-an-agents-edit-lands">How an agent&#39;s edit lands</h2><p><code>POST /api/v1/slates/{shareId}/operations</code> (<code>edit_slate</code>, <code>slatebox.slates.applyOperations</code>) from an agent&#39;s token answers <code>202</code> with <code>outcome: &quot;suggested&quot;</code>. Nothing is saved and <code>revision</code> is unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>outcome</code></td>
+<td><code>suggested</code>: shown live on the slate, waiting for a person. <code>saved</code>: a person lets this agent edit directly, so it saved.</td>
+</tr>
+<tr>
+<td><code>suggestion.actionId</code></td>
+<td>The suggestion, as <code>include=suggestions</code> lists it.</td>
+</tr>
+<tr>
+<td><code>suggestion.items[]</code></td>
+<td>One item per change: <code>add</code>, <code>update</code>, <code>remove</code>, <code>link</code> or <code>unlink</code>, each with its <code>state</code> (<code>pending</code> until someone decides).</td>
+</tr>
+<tr>
+<td><code>operations[].ids</code></td>
+<td>The new notes&#39; ids. They work in your next edit, so you can connect, change or take back your own waiting notes.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>People who can edit the slate keep or discard each item, or all of an agent&#39;s at once. Each kept action can be undone on its own.</li>
+<li>Slate settings (<code>update_slate</code>) are not suggested: the call answers <code>409 needs_direct_edit</code>.</li>
+<li>When people pause the slate&#39;s agents, an agent&#39;s edit answers <code>423 agents_paused</code>.</li>
+<li>The Slatebox agent, working on a task a person gave it, saves directly. <a href="/developers/slateboxapi/slates/#agent-tasks">Agent tasks</a></li>
+</ul>
+<p><a href="/using-slatebox/agent-suggestions/">Keep or discard what agents suggest</a> shows what people see.</p>
+<h2 id="read-and-decide-suggestions">Read and decide suggestions</h2><table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Tool</th>
+<th>Exec</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /api/v1/slates/{shareId}?include=suggestions</code></td>
+<td><code>get_slate</code></td>
+<td><code>slates.get</code></td>
+<td>Reads the slate with what agents suggested: what waits, and what became of each agent&#39;s recent actions</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/slates/{shareId}/suggestions/decide</code></td>
+<td><code>decide_suggestions</code></td>
+<td><code>suggestions.decide</code></td>
+<td><code>decision</code> is <code>keep</code>, <code>discard</code> or <code>undo</code>, for one <code>actionId</code>; <code>itemIds</code> picks some of its items</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Deciding needs edit access to the slate and <code>slates:write</code>.</li>
+<li>Only people keep suggestions. An agent&#39;s <code>keep</code> answers <code>403 people_only</code>, for its own suggestions and for any other agent&#39;s.</li>
+<li>An agent can <code>undo</code> only its own actions. Undoing another agent&#39;s action answers <code>403 people_only</code>.</li>
+<li>In an exec script, a <code>keep</code> or <code>undo</code> is held for the person to confirm, because it can remove notes (<code>confirmation_required</code>). <a href="/developers/slateboxapi/exec/">Exec</a></li>
+<li>A kept item that cannot land, such as a change to a note someone deleted, is refused with its reason; the rest are kept.</li>
+<li><code>undo</code> takes back only what that action changed, and only where nobody changed it since. <code>left[]</code> says what stayed and why.</li>
+</ul>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const slate = await slatebox.slates.get({ shareId: &#39;your-share-id&#39;, include: &#39;suggestions&#39; })
+const waiting = slate.suggestions.actions.filter((action) =&gt; action.items.some((item) =&gt; item.state === &#39;pending&#39;))
+return waiting.map(({ actionId, label, summary }) =&gt; ({ actionId, label, summary }))</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const slate = await slatebox.slates.get({ shareId: &#39;your-share-id&#39;, include: &#39;suggestions&#39; })
+const waiting = slate.suggestions.actions.filter((action) =&gt; action.items.some((item) =&gt; item.state === &#39;pending&#39;))
+return waiting.map(({ actionId, label, summary }) =&gt; ({ actionId, label, summary }))</code></pre></div></div><p>Discarding one action over HTTP:</p>
+<div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-js">const base = process.env.SLATEBOX_BASE_URL ?? &#39;https://app.slatebox.com&#39;
+const res = await fetch(`${base}/api/v1/slates/your-share-id/suggestions/decide`, {
+  method: &#39;POST&#39;,
+  headers: {
+    authorization: `Bearer ${process.env.SLATEBOX_API_TOKEN}`,
+    &#39;content-type&#39;: &#39;application/json&#39;,
+    &#39;idempotency-key&#39;: crypto.randomUUID(),
+  },
+  body: JSON.stringify({ decision: &#39;discard&#39;, actionId: &#39;your-action-id&#39; }),
+})
+console.log(res.status, await res.json())</code></pre></div><div class="code" data-label="Python"><div class="code-label">Python</div><pre><code class="language-python">import os, uuid, requests
+
+base = os.environ.get(&quot;SLATEBOX_BASE_URL&quot;, &quot;https://app.slatebox.com&quot;)
+res = requests.post(
+    f&quot;{base}/api/v1/slates/your-share-id/suggestions/decide&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ[&#39;SLATEBOX_API_TOKEN&#39;]}&quot;, &quot;Idempotency-Key&quot;: str(uuid.uuid4())},
+    json={&quot;decision&quot;: &quot;discard&quot;, &quot;actionId&quot;: &quot;your-action-id&quot;},
+)
+print(res.status_code, res.json())</code></pre></div><div class="code" data-label="curl"><div class="code-label">curl</div><pre><code class="language-sh">curl --fail-with-body --silent --show-error \
+  -X POST &quot;${SLATEBOX_BASE_URL:-https://app.slatebox.com}/api/v1/slates/your-share-id/suggestions/decide&quot; \
+  -H &quot;Authorization: Bearer $SLATEBOX_API_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Idempotency-Key: $(uuidgen)&quot; \
+  -d &#39;{&quot;decision&quot;:&quot;discard&quot;,&quot;actionId&quot;:&quot;your-action-id&quot;}&#39;</code></pre></div></div><p>The answer lists <code>discarded[]</code>, each with its <code>actionId</code> and <code>itemId</code>.</p>
+<h2 id="video-notes">Video notes</h2><table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Tool</th>
+<th>Exec</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>POST /api/v1/media/lookup</code></td>
+<td><code>lookup_media</code></td>
+<td><code>media.lookup</code></td>
+<td>Reads a YouTube, Vimeo or Loom address: <code>{ media, found, notice? }</code>, with the title, author and a poster stored by the app</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/slates/{shareId}/media</code></td>
+<td><code>add_media_note</code></td>
+<td><code>slates.addMedia</code></td>
+<td>Adds a video note. <code>x</code> and <code>y</code> place its top-left corner (320 by 180); without them it goes beside the slate&#39;s notes</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Both need <code>slates:write</code>; adding needs edit access to the slate.</li>
+<li>Added by an agent, the note is a suggestion like any canvas edit (<code>202</code>, <code>outcome: &quot;suggested&quot;</code>). Added by a person, it saves.</li>
+<li>Only YouTube, Vimeo and Loom addresses are video notes. Any other address answers <code>400 not_a_video</code>.</li>
+<li>Slatebox asks only each host&#39;s own oEmbed address, and fetches the poster only from that host&#39;s picture server. A host that shares nothing still gets a note with its play button, and <code>notice</code> says what was missing.</li>
+<li>A person may look up 60 new videos an hour. A video already looked up does not count.</li>
+</ul>
+<div class="code-tabs" data-tabs><div class="code" data-label="JavaScript"><div class="code-label">JavaScript</div><pre><code class="language-js">const added = await slatebox.slates.addMedia({ shareId: &#39;your-share-id&#39;, url: &#39;https://www.youtube.com/watch?v=aqz-KE-bpKQ&#39; })
+return { outcome: added.outcome, nodeId: added.nodeId, title: added.media.title }</code></pre></div><div class="code" data-label="TypeScript"><div class="code-label">TypeScript</div><pre><code class="language-ts">const added = await slatebox.slates.addMedia({ shareId: &#39;your-share-id&#39;, url: &#39;https://www.youtube.com/watch?v=aqz-KE-bpKQ&#39; })
+return { outcome: added.outcome, nodeId: added.nodeId, title: added.media.title }</code></pre></div></div><p><a href="/using-slatebox/video-notes/">Add a video to a slate</a> shows the note in the app.</p>
+<h2 id="invited-agents">Invited agents</h2><p>On Slatebox Cloud, a person with Slatebox Pro, or on a Slatebox Business team, can invite an outside MCP server onto a slate they can edit, as a named agent. A self-hosted Slatebox serves these routes only once an on-prem license switches them on (there is no Slatebox Pro there); without one they are not there.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Tool</th>
+<th>Exec</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /api/v1/slates/{shareId}/agents</code></td>
+<td><code>list_invited_agents</code></td>
+<td><code>connectors.list</code></td>
+<td>The slate&#39;s invited agents, who invited each, and (for your own) the tools they may use</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/slates/{shareId}/agents/discover</code></td>
+<td><code>discover_agent</code></td>
+<td><code>connectors.discover</code></td>
+<td>Reaches a server&#39;s address and says what it can do, or how to sign in to it</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/slates/{shareId}/agents/key</code></td>
+<td><code>use_agent_key</code></td>
+<td><code>connectors.useKey</code></td>
+<td>Gives Slatebox a key or token for a server that takes one, kept encrypted for you alone</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/slates/{shareId}/agents</code></td>
+<td><code>invite_agent</code></td>
+<td><code>connectors.connect</code></td>
+<td>Invites it: its name, the tools it may use (each with the hash you agreed to) and what it may see</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/agents/{connectionId}/ask</code></td>
+<td><code>ask_invited_agent</code></td>
+<td><code>connectors.call</code></td>
+<td>Asks it. Its answer lands as suggestions: <code>{ items, actions, saved, say, left }</code>. Send <code>view</code> (the part of the canvas you can see, in slate units) and its notes land there</td>
+</tr>
+<tr>
+<td><code>POST /api/v1/agents/{connectionId}/remove</code></td>
+<td><code>remove_agent</code></td>
+<td><code>connectors.disconnect</code></td>
+<td>Removes it and discards what it still has waiting</td>
+</tr>
+</tbody></table>
+<ul>
+<li>On Slatebox Cloud, discovering, signing in, inviting and asking need Slatebox Pro, or a seat on a Slatebox Business team, for the person who invited the agent, checked on the server. Without it they answer <code>402 pro_required</code>.</li>
+<li>On a self-hosted Slatebox whose on-prem license has ended, they answer <code>403 enterprise_locked</code>.</li>
+<li>Only the person who invited an agent can ask it (<code>403 inviter_only</code>). The inviter or the slate&#39;s owner can remove it. Everyone who can read the slate sees it.</li>
+<li>Signing in to a server that needs it happens in the slate, in your own signed-in browser. There is no route or tool for it, so no sign-in link can be passed to someone else.</li>
+<li>A token reaches only slates its own account can open. A link to an unlisted slate does not count.</li>
+<li>These calls reach outside servers, so each account can make 20 of them a minute, and 3 at a time. Over that they answer <code>429</code>.</li>
+<li>When people pause the slate&#39;s agents, asking answers <code>423 agents_paused</code> before anything is sent to the outside server.</li>
+<li>A slate holds up to 8 invited agents, and up to 3 from one person.</li>
+<li>Keep, discard and undo what an invited agent suggests with <code>suggestions.decide</code>, like any agent&#39;s.</li>
+</ul>
+<p><a href="/using-slatebox/invite-agents/">Invite an outside agent onto a slate</a></p>
+<h2 id="troubleshooting">Troubleshooting</h2><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>202</code> with <code>outcome: &quot;suggested&quot;</code></td>
+<td>Your edit is waiting for a person on the slate. Read it back with <code>include=suggestions</code>.</td>
+</tr>
+<tr>
+<td><code>403 people_only</code></td>
+<td>Only people keep suggestions, and an agent undoes only its own actions. Ask a person on the slate.</td>
+</tr>
+<tr>
+<td><code>423 agents_paused</code></td>
+<td>People on the slate paused its agents. Ask one of them to resume agents.</td>
+</tr>
+<tr>
+<td><code>409 needs_direct_edit</code></td>
+<td>Slate settings are changed by a person, or by an agent a person lets edit directly.</td>
+</tr>
+</tbody></table>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#how-an-agents-edit-lands" >How an agent&#39;s edit lands</a><a href="#read-and-decide-suggestions" >Read and decide suggestions</a><a href="#video-notes" >Video notes</a><a href="#invited-agents" >Invited agents</a><a href="#troubleshooting" >Troubleshooting</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

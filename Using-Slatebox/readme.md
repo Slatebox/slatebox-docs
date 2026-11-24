@@ -27,13 +27,23 @@ Name your slate and keep its link. People opening a private link still need perm
 
 Choose **Mermaid** in the slate menu to copy or download any slate as Mermaid, or to paste Mermaid in as real notes and lines. It is free and uses no AI. [Export and import Mermaid](mermaid.md)
 
+## Keep or discard what agents suggest
+
+When an agent edits your slate, such as Claude through Slatebox's MCP server or a script, its changes appear as ghost notes everyone on the slate sees. Choose **Keep** or **Discard** on each, or **Keep all** on the agent's chip, and undo any agent action. [Keep or discard what agents suggest](agent-suggestions.md)
+
+Invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate with **+ Invite agent**, and ask it on its chip or by `@name` in Ask Slatebox. On Slatebox Cloud, with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox, with an on-prem license. [Invite an outside agent onto a slate](invite-agents.md)
+
+## Add a video
+
+Paste a YouTube, Vimeo or Loom link onto a slate to get a video note with its picture and title. It plays in place when you press play, and inside a presentation. [Add a video to a slate](video-notes.md)
+
 ## Add a branch to an interactive map
 
 A map has stations, paths between them and a token the team moves. Send each change in the conversation, try it in the preview, and choose **Keep changes** or **Discard**. [Open a slate](https://app.slatebox.com/new)
 
 1. Send `First upload → Preview 10 rows → Import clients`.
 2. Send `Add Review duplicates after Preview 10 rows`.
-3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Reopen the slate to see it saved. **Undo last change** restores the previous saved map while an undo is available.
+3. Send `At Review duplicates, Keep the original customer record` to give the branch an outcome. Reopen the slate to see it saved. **Undo** at the canvas's corner, or Ctrl+Z (⌘Z on a Mac), takes back your last change to the map, and leaves a teammate's later changes as they are.
 4. Choose **Present** to walk a teammate through it.
 
 You can also ask Canvas AI for changes in your own words, with Pro credits on Slatebox Cloud, or your own AI connection on a self-hosted Slatebox. If someone edits while you review a proposal, discard it and ask again.

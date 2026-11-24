@@ -16,7 +16,8 @@ Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free; AI
 
 ## What a self-hosted Slatebox will be
 
-- **The same app.** Every feature, the same as Slatebox Cloud. The app, the SlateboxJS engine and the relay are MIT licensed.
+- **The same app.** Every feature of Slatebox Cloud. Outside-agent connections (inviting agents such as GitHub, Linear or Excalidraw onto a slate) are in the image, switched off, until an on-prem license from Slatebox, a flat yearly fee per install, switches them on. The app, the SlateboxJS engine and the relay are MIT licensed, except the app's `enterprise/` folder, which holds those connections.
+- **Single sign-on, free.** Keycloak is in the image. It needs no license.
 - **No meters.** No Slatebox Pro, no top-ups and no limits from us. AI is whatever you and your people connect, local or cloud, or none. [A self-hosted Slatebox has no meters](self-host-meters.md) · [Choose your AI](../Using-Slatebox/choose-your-ai.md)
 - **Your agents too.** The image runs exec, so agents work with your own slates the same way. [Exec: how agents work with Slatebox](../Developers/SlateboxAPI/exec.md)
 

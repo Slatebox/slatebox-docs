@@ -10,11 +10,13 @@ Read https://docs.slatebox.com/Using-Slatebox/pricing.md first. Ask for the inpu
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/pricing.md.
 ```
 
-Slatebox is free. It is MIT-licensed and open source, free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
+Slatebox is free. It is MIT-licensed and open source, except outside-agent connections. Free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
+
+The app's `enterprise/` folder, which holds the outside-agent connections, is under the Slatebox Enterprise License: you can read, change and test it, but not run it in production without an agreement. Slatebox Cloud runs it. A self-hosted Slatebox carries it switched off, and an on-prem license, a flat yearly fee per install, switches it on there. Everything else in the app, the SlateboxJS engine and the relay is MIT licensed. [Licenses](../Developers/readme.md#licenses)
 
 ## Free for everyone
 
-On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. No feature is ever sold separately.
+On Slatebox Cloud, every feature but one is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro or Slatebox Business. [Invite an outside agent](invite-agents.md)
 
 Only AI and the calls you start cost money. On Slatebox Cloud they come with Slatebox Pro, or from a balance you top up. Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free. [Use your own keys](own-keys.md)
 
@@ -88,4 +90,4 @@ A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. Pe
 
 ## Slatebox Business
 
-Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature stays free for every team without it. Business is sold by talking to us for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](https://slatebox.com/contact/?topic=business)
+Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service: $6 a person a month or $60 a person a year, plus tax where applicable. It includes the team's shared pool of AI and calls, with each member adding the same amount as Pro credits. Every feature but inviting outside agents stays free for every team without it, and Business includes that one for every member. Business is sold by talking to us for now. [Slatebox Business](slatebox-business.md) · [Talk to us about Business](https://slatebox.com/contact/?topic=business)

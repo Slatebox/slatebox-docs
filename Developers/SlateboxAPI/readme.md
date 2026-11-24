@@ -18,7 +18,10 @@ Create, read and edit slates from your own code. The API is served under `/api/v
 | --- | --- | --- |
 | `POST /api/v1/slates` | Create a private diagram or decision map | `slates:write` and an `Idempotency-Key` |
 | `GET /api/v1/slates/{shareId}` | Read a slate | `slates:read` and view access. A public slate reads without a token |
-| `POST /api/v1/slates/{shareId}/operations` | Preview or save an edit | `slates:write` and edit access |
+| `POST /api/v1/slates/{shareId}/operations` | Preview or save an edit. An agent's canvas edit is a live suggestion for people to keep ([Agents on the canvas](agents-on-the-canvas.md)) | `slates:write` and edit access |
+| `POST /api/v1/slates/{shareId}/suggestions/decide` | Keep, discard or undo what an agent suggested ([Agents on the canvas](agents-on-the-canvas.md)) | `slates:write` and edit access |
+| `POST /api/v1/media/lookup` | Read a YouTube, Vimeo or Loom video's title and poster | `slates:write` |
+| `POST /api/v1/slates/{shareId}/media` | Add a video note | `slates:write` and edit access |
 | `POST /api/v1/slates/{shareId}/invite` | Issue an unlisted invitation link, or change its role | Owner, `slates:share` and an `Idempotency-Key` |
 | `DELETE /api/v1/slates/{shareId}/invite/{inviteId}` | Withdraw that invitation | Owner, `slates:share` and an `Idempotency-Key` |
 | `GET /api/v1/me` | Read your account | A token |

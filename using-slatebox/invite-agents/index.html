@@ -1,0 +1,121 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Invite an outside agent onto a slate · Slatebox Docs</title><meta name="description" content="Bring an MCP server such as Excalidraw, Linear or GitHub onto a slate as a named agent. Ask it something and its answer appears as suggestions everyone on the slate sees. On Slatebox Cloud with Slatebox Pro or Slatebox Business; on a self-hosted Slatebox with an on-prem license."><link rel="canonical" href="https://docs.slatebox.com/using-slatebox/invite-agents/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Using-Slatebox/invite-agents.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details open><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" aria-current="page">Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a></details><details ><summary>Self-hosting</summary><a href="/installation/self-host-meters/" >A self-hosted Slatebox has no meters</a><a href="/installation/self-hosting/" >Run your own Slatebox</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Using Slatebox</div><h1>Invite an outside agent onto a slate</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Using-Slatebox/invite-agents.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me complete my task in Slatebox using the official app guide. Ask which outcome I want, then walk me through the relevant steps and verify it on my slate.
+
+Read https://docs.slatebox.com/Using-Slatebox/invite-agents.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/invite-agents.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Invite an outside agent, any MCP server, onto a slate. Ask it something, and Slatebox AI turns its answer into notes and lines that appear on the slate as suggestions. Everyone on the slate sees the agent&#39;s cursor and its suggestions, and anyone who can edit keeps or discards them.</p>
+<p>On Slatebox Cloud, inviting agents is part of Slatebox Pro, and of Slatebox Business for every member of a Business team, for the person who invites them, on any slate they can edit. On a self-hosted Slatebox it needs an on-prem license from Slatebox, a flat yearly fee per install; there is no Slatebox Pro there. <a href="/using-slatebox/slatebox-pro/">Slatebox Pro</a></p>
+<h2 id="invite-an-agent">Invite an agent</h2><ol>
+<li>On a slate you can edit, choose <strong>+ Invite agent</strong>.</li>
+<li>Choose an agent from the gallery, or paste an MCP server&#39;s address under <strong>Paste an MCP address</strong> and choose <strong>Next</strong>. Without Slatebox Pro or a Business team, the payment sheet opens in the app. Nothing else changes on the page.</li>
+<li>If the server needs you to sign in, a window opens on the server&#39;s own sign-in page, or you paste a key or token it gave you and choose <strong>Use key</strong>. See <a href="#agents-that-need-sign-in">Agents that need sign-in</a>.</li>
+<li>Read what it can do. Slatebox lists its tools in plain words:<ul>
+<li><strong>Look things up</strong>: on to start. Clear any you do not want it to use.</li>
+<li><strong>Change things outside Slatebox</strong>: always off. Posting or changing things elsewhere is not available.</li>
+</ul>
+</li>
+<li>Set <strong>Name on your slate</strong>. A name cannot say Slatebox, admin, support or a person&#39;s name, or be the name of another agent on the slate.</li>
+<li>Choose what it may see under <strong>It may see</strong>. The dialog says exactly what leaves Slatebox for each choice.</li>
+<li>Choose <strong>Invite</strong>. The agent&#39;s cursor arrives on the slate and says hello.</li>
+</ol>
+<p>Consent is to each tool exactly as the server described it. If the server changes a tool later, the agent pauses before it calls anything, and you look at the change before asking again.</p>
+<h2 id="what-it-may-see">What it may see</h2><table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>What leaves Slatebox when you ask</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Only what I ask</strong></td>
+<td>What you type.</td>
+</tr>
+<tr>
+<td><strong>What I ask, and the notes I select</strong></td>
+<td>What you type, and the text of the notes you select.</td>
+</tr>
+<tr>
+<td><strong>What I ask, and every note on this slate</strong></td>
+<td>What you type, and the text of every note on the slate, including notes by others.</td>
+</tr>
+</tbody></table>
+<p>Never: other slates, people&#39;s names or email addresses, comments, links or share settings.</p>
+<h2 id="ask-it-something">Ask it something</h2><p>Each invited agent is on the strip of people at the foot of the slate, as its own chip. Only the person who invited it can ask it, in either of two places:</p>
+<ul>
+<li><strong>Its chip.</strong> Choose the chip, type your request in its box and choose <strong>Ask</strong>.</li>
+<li><strong>Ask Slatebox.</strong> Put the agent&#39;s name after an <code>@</code> anywhere in the message, such as <code>@Excalidraw draw how a card payment is retried</code> or <code>@GitHub open issues about sign-in</code>. This works in the slate&#39;s own conversation, not in a board&#39;s (workshop) conversation. Its answer appears in the conversation under its own name, in its colour, beside its mark. Your agents&#39; names are also offered above the message box.</li>
+</ul>
+<ol>
+<li>Ask it, such as &quot;Draw how a card payment is retried&quot;.</li>
+<li>Watch the slate. Each part of the answer appears as ghost notes and lines in the agent&#39;s colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.
+Others on the slate who are looking elsewhere see a marker at the edge of their screen, such as &quot;Excalidraw is working →&quot;. Choose it to go there.</li>
+<li>Keep or discard each ghost, or choose <strong>Keep all</strong> or <strong>Discard all</strong> on the chip. Each part is one action you can undo. <a href="/using-slatebox/agent-suggestions/">Keep or discard what agents suggest</a></li>
+</ol>
+<p>Pictures in an answer are left out, and the ask box says so. Links are kept only when they are secure <code>https</code> addresses the server really sent.</p>
+<h2 id="who-sees-and-does-what">Who sees and does what</h2><table>
+<thead>
+<tr>
+<th>Person</th>
+<th>Can</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>The person who invited it</td>
+<td>Ask it, sign it in again, remove it, let it edit directly.</td>
+</tr>
+<tr>
+<td>The slate&#39;s owner</td>
+<td>Remove it.</td>
+</tr>
+<tr>
+<td>Anyone who can edit the slate</td>
+<td>See its cursor and suggestions, keep, discard and undo them.</td>
+</tr>
+<tr>
+<td>Anyone who can view the slate</td>
+<td>See its cursor and suggestions.</td>
+</tr>
+</tbody></table>
+<p>A slate holds up to 8 invited agents, and up to 3 from one person.</p>
+<h2 id="agents-that-need-sign-in">Agents that need sign-in</h2><p>Some servers, such as Linear and GitHub, need you to sign in.</p>
+<ul>
+<li>A sign-in window opens on the server&#39;s own page. When you allow access, the window closes and the walkthrough carries on. Sign-in works only from the slate in your own signed-in browser.</li>
+<li>The walkthrough names where your sign-in is sent, and what it lets Slatebox do. A GitHub sign-in reaches your public repositories and the names of your organisations, and is sent only to GitHub&#39;s own MCP server.</li>
+<li>What the server gives Slatebox is stored encrypted for you alone. Nobody on the slate sees it, and it is sent only to that server.</li>
+<li>A server that takes a key or token instead: paste it and choose <strong>Use key</strong>. Slatebox checks it with the server first.</li>
+<li>If the server stops accepting the sign-in, the agent&#39;s chip says it needs sign-in. Choose <strong>Sign in again</strong>.</li>
+<li>If your Slatebox Pro ends (and you are not on a Business team), the chip says so and asking is refused. Renew Slatebox Pro from the chip and the agent works again.</li>
+</ul>
+<h2 id="remove-an-agent">Remove an agent</h2><p>Choose <strong>Remove</strong> on the agent&#39;s chip, then <strong>Remove</strong> again to confirm. Its waiting suggestions are discarded; what people kept stays. When no other slate of yours uses that server, its sign-in is revoked at the server and deleted.</p>
+<h2 id="troubleshooting">Troubleshooting</h2><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>+ Invite agent</strong> is missing</td>
+<td>You can view this slate but not edit it, or you are on a self-hosted Slatebox without an on-prem license.</td>
+</tr>
+<tr>
+<td>&quot;That is not a web address&quot; or a private-address message</td>
+<td>Use the server&#39;s public <code>https</code> address. Private and local addresses are refused.</td>
+</tr>
+<tr>
+<td>The agent paused because its tools changed</td>
+<td>Look at the changes the chip lists, then invite it again to choose.</td>
+</tr>
+<tr>
+<td>&quot;Only … can ask&quot;</td>
+<td>Only the person who invited an agent can ask it. Invite your own.</td>
+</tr>
+<tr>
+<td><strong>Ask</strong> is greyed out</td>
+<td>Agents are paused on this slate. Choose <strong>Resume agents</strong> in the list of agents, then ask.</td>
+</tr>
+<tr>
+<td>The sign-in window was blocked</td>
+<td>Allow pop-ups for Slatebox and choose sign in again.</td>
+</tr>
+</tbody></table>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#invite-an-agent" >Invite an agent</a><a href="#what-it-may-see" >What it may see</a><a href="#ask-it-something" >Ask it something</a><a href="#who-sees-and-does-what" >Who sees and does what</a><a href="#agents-that-need-sign-in" >Agents that need sign-in</a><a href="#remove-an-agent" >Remove an agent</a><a href="#troubleshooting" >Troubleshooting</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>
