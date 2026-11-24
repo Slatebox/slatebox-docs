@@ -40,7 +40,7 @@ If your client cannot fetch the documentation, read the same published file at h
 </tbody></table>
 <h2 id="install-the-package">Install the package</h2><p>Use Node.js 22.13 or later. Download the package and its checksum into your project, verify it, and install both executables (<code>slatebox-mcp</code> and <code>slatebox</code>):</p>
 <div class="code-tabs" data-tabs><div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">download=https://docs.slatebox.com/assets/downloads
-package=slatebox-mcp-0.3.3.tgz
+package=slatebox-mcp-0.3.4.tgz
 curl -fsSLO &quot;$download/$package&quot;
 curl -fsSLO &quot;$download/$package.sha256&quot;
 shasum -a 256 -c &quot;$package.sha256&quot; &amp;&amp; npm install &quot;./$package&quot;
