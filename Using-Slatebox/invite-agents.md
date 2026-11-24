@@ -18,7 +18,7 @@ On Slatebox Cloud, inviting agents is part of Slatebox Pro for the person who in
 4. Read what it can do. Slatebox lists its tools in plain words:
    - **Look things up**: on to start. Clear any you do not want it to use.
    - **Change things outside Slatebox**: always off. Posting or changing things elsewhere is not available.
-5. Set **Name on your slate**. A name cannot say Slatebox, admin, support or a person's name.
+5. Set **Name on your slate**. A name cannot say Slatebox, admin, support or a person's name, or be the name of another agent on the slate.
 6. Choose what it may see under **It may see**. The dialog says exactly what leaves Slatebox for each choice.
 7. Choose **Invite**. The agent's cursor arrives on the slate and says hello.
 
@@ -39,7 +39,7 @@ Never: other slates, people's names or email addresses, comments, links or share
 Each invited agent is on the strip of people at the foot of the slate, as its own chip. Only the person who invited it can ask it, in either of two places:
 
 - **Its chip.** Choose the chip, type your request in its box and choose **Ask**.
-- **Ask Slatebox.** Start the message with the agent's name after an `@`, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. Its answer appears in the conversation under its own name, in its colour, beside its mark. Your agents' names are also offered above the message box.
+- **Ask Slatebox.** Put the agent's name after an `@` anywhere in the message, such as `@Excalidraw draw how a card payment is retried` or `@GitHub open issues about sign-in`. This works in the slate's own conversation, not in a board's (workshop) conversation. Its answer appears in the conversation under its own name, in its colour, beside its mark. Your agents' names are also offered above the message box.
 
 1. Ask it, such as "Draw how a card payment is retried".
 2. Watch the slate. Each part of the answer appears as ghost notes and lines in the agent's colour, in the part of the slate you can see, and its cursor moves to them. The chip shows how many changes wait.

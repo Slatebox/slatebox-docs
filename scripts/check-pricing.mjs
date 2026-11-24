@@ -78,7 +78,8 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.match(pricing, /Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free/, 'pricing.md: own keys are for self-hosted Slatebox only')
   assert.doesNotMatch(pricing, /## Three ways to pay|\*\*Your own key\.\*\*/, 'pricing.md: own keys are not a way to pay on Cloud')
   assert.match(section(pricing, 'Self-hosted Slatebox'), /own AI and call keys, for free/, 'pricing.md: a self-hosted Slatebox keeps own keys, free')
-  assert.match(pricing, /every feature is free/i, 'pricing.md: every feature is free')
+  // Every feature but one (inviting outside agents, with Slatebox Pro) is free on Cloud, said while the agents-invite switch is on.
+  assert.match(pricing, /<!-- feature:agents-invite -->every feature but one is free<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->every feature is free<!-- \/feature:!agents-invite -->/i, 'pricing.md: every feature but one is free')
   // The carve-out (owner, 2026-11-23/24): the app's enterprise/ folder is source-available; inviting outside
   // agents comes with Slatebox Pro, said only while the agents-invite switch is on.
   assert.match(pricing, /`enterprise\/` folder[^.]*Slatebox Enterprise License/, 'pricing.md: enterprise/ is under the Slatebox Enterprise License')

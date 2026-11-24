@@ -5,7 +5,7 @@ description: Slatebox Business puts a team on Slatebox Cloud with a shared pool 
 
 # Slatebox Business
 
-Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service everyone uses. It costs $6 a person a month or $60 a person a year, plus tax where applicable. Every feature stays free for every team without it; Business pays for the team's AI and calls in one place. [Talk to us about Business](https://slatebox.com/contact/?topic=business)
+Slatebox Business is for a team on Slatebox Cloud, the same shared, fully managed service everyone uses. It costs $6 a person a month or $60 a person a year, plus tax where applicable. Every feature but inviting outside agents stays free for every team without it; Business pays for the team's AI and calls in one place. Inviting outside agents is not part of Business: it comes with Slatebox Pro for the person who invites. [Invite an outside agent](invite-agents.md) [Talk to us about Business](https://slatebox.com/contact/?topic=business)
 
 ## What it includes
 
