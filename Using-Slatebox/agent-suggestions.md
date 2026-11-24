@@ -12,7 +12,7 @@ This covers every agent that edits through Slatebox: an assistant such as Claude
 ## Keep or discard one change
 
 1. Watch the agent's named cursor. It moves to each ghost as it appears and says what it suggests, such as "Suggesting 2 new notes and 1 change".
-2. Choose **Keep** on a ghost to save it. It becomes a real note for everyone, and one save in the slate's history. Your Keep is also one step of your own undo: **Undo** at the canvas's corner, or Ctrl+Z (⌘Z on a Mac), takes it back.
+2. Choose **Keep** on a ghost to save it. It becomes a real note for everyone, and one save in the slate's history. Your Keep is also one step of your own undo: **Undo** at the canvas's corner, or Ctrl+Z (⌘Z on a Mac), takes it back. If a teammate has changed the kept note since, or drawn a line to it, your undo leaves it as they left it and says so.
 3. Choose **Discard** to remove it. Nothing is saved.
 
 A changed note shows the agent's version as a ghost over it. A removed note is marked until someone keeps or discards the removal. Keeping a line also keeps the new notes at its ends.
@@ -48,7 +48,7 @@ On a self-hosted Slatebox, the operator allows the switch with `settings.public.
 ## What agents cannot do
 
 - No agent keeps suggestions, its own or another agent's. A person keeps them, or lets that agent edit directly.
-- An agent can undo only its own actions.
+- An agent can undo only its own actions. While agents are paused, or an agent only suggests, it cannot undo or redo straight to the slate either.
 - Slate settings, such as the background or the slate's name, are not suggested. A person changes them, or an agent that may edit directly.
 
 ## Troubleshooting
