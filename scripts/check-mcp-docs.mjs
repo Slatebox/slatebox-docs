@@ -118,7 +118,7 @@ test('every way into the agent docs leads to this page, and the agent index lead
     assert.match(await read(file), /\]\((SlateboxAPI\/)?mcp\.md(#[^)]*)?\)/, file + ' links the Agents and MCP page')
   }
   const index = await read('dist/llms.txt')
-  assert.match(index, /^Slatebox: the free, open-source team canvas\./m, 'the positioning line')
+  assert.match(index, /^Slatebox is an open source visual intelligence platform where you can invite any AI via MCP to collaborate with you and your team\./m, 'the positioning line')
   const agents = index.split(/^## /m).find(s => s.startsWith('Agents / MCP')) ?? ''
   assert.ok(agents, 'the agent index has an "Agents / MCP" section')
   assert.ok(index.indexOf('## Agents / MCP') < index.indexOf('## Using Slatebox'), 'the section comes before the guide lists')

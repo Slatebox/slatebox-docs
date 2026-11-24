@@ -172,7 +172,7 @@ for (const p of pages) {
   const prompt = copyablePrompt(promptFor(p), '/'+p.file)
   await writeFile(markdown, ['# '+p.title, '## Agent prompt', '```text\n'+prompt+'\n```', p.body.trimStart()].join('\n\n'))
 }
-const agentIndex = ['# Slatebox documentation', '', 'Slatebox: the free, open-source team canvas. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
+const agentIndex = ['# Slatebox documentation', '', 'Slatebox is an open source visual intelligence platform where you can invite any AI via MCP to collaborate with you and your team. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.', '', 'Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.', '', 'Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub]('+publishedFiles+'/llms.txt).', '']
 agentIndex.push('[OpenAPI schema](https://app.slatebox.com/api/v1/openapi.json)', '',
   'For a self-hosted instance, read /api/v1/openapi.json on that instance to discover the operations it supports.', '')
 // Agents read this first: the hosted MCP address, then how exec and the typed tools relate.
