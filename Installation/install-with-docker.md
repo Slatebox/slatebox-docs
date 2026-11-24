@@ -13,14 +13,14 @@ agentPrompt: >-
   Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them.
   Report the address, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
 ---
-# Run your own Slatebox
+# Install guide: every option
 
-One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes.
+One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
 
 <!-- tabs -->
 
 ```sh Shell
-npx slatebox@latest install
+npx slatebox
 ```
 
 <!-- /tabs -->
@@ -37,7 +37,7 @@ Pick where Slatebox runs. You need Node.js 22.13 or newer where you type the com
 
 ```sh Docker
 # This computer
-npx slatebox@latest install
+npx slatebox
 ```
 
 ```sh Remote server

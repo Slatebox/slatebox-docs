@@ -12,7 +12,7 @@ const headings = [...body.matchAll(/^## (.+)$/gm)].map(m => m[1])
 
 test('the first command on the page is the installer', () => {
   const first = body.match(/```[^\n]*\n([\s\S]*?)```/)?.[1].trim()
-  assert.equal(first, 'npx slatebox@latest install')
+  assert.equal(first, 'npx slatebox')
   assert.equal(headings[0], 'Install with one command')
   assert.equal(headings[1], 'Let an agent install it')
 })
@@ -80,7 +80,39 @@ test('the install guide is built only while the self-host switch is on', () => {
     assert.ok(page.includes('<meta http-equiv="refresh" content="0; url=/installation/self-hosting/">'), url + ' redirects to the coming-soon page while held')
     assert.ok(!index.includes(url) && !index.includes(url.replace('installation/', 'Installation/').replace(/\/$/, '')), url + ' is in an index while held')
   }
+  // The same address carries the coming-soon text while held, and the short install page once published.
   const soon = built('installation/self-hosting/index.html')
-  if (on) assert.equal(soon, '', 'the coming-soon page is not built once the guide is published')
-  else assert.match(soon, /Self-hosting is coming soon/)
+  if (on) {
+    assert.doesNotMatch(soon, /coming soon/i, 'no coming-soon text once the guide is published')
+    assert.match(soon, />npx slatebox</, 'the short page leads with npx slatebox')
+  } else assert.match(soon, /Self-hosting is coming soon/)
+})
+
+// "Run your own Slatebox" (Installation/self-hosting.md) is the short page: what you get, `npx slatebox` on the
+// machine of your choice, or ask your agent through the Slatebox MCP, what you need, and a link to troubleshooting.
+// Its published text sits between <!-- feature:self-host --> markers; the coming-soon text only while the switch is off.
+const shortPage = readFileSync(new URL('../Installation/self-hosting.md', import.meta.url), 'utf8')
+const kept = (text, on) => text.replace(/<!-- feature:(!?[a-z][a-z0-9-]*) -->([\s\S]*?)<!-- \/feature:\1 -->/g, (whole, spec, inner) => (spec.startsWith('!') ? !on : on) ? inner : '')
+
+test('Run your own Slatebox, published: short, npx slatebox first, the MCP route, requirements, troubleshooting', () => {
+  assert.doesNotMatch(shortPage.match(/^---\n([\s\S]*?)\n---\n/)[1], /^feature:/m, 'the page has an address whichever way the switch is set')
+  const on = kept(shortPage, true)
+  const body = on.replace(/^---\n[\s\S]*?\n---\n/, '')
+  assert.doesNotMatch(on, /coming soon|not published yet/i)
+  assert.equal(body.match(/```[^\n]*\n([\s\S]*?)```/)?.[1].trim(), 'npx slatebox')
+  assert.deepEqual([...body.matchAll(/^## (.+)$/gm)].map(m => m[1]), ['What you get', 'Install', 'Or ask your agent', 'What you need'])
+  assert.ok(body.split(/\s+/).filter(Boolean).length < 450, 'short: under 450 words')
+  assert.match(body, /--dry-run/)
+  assert.match(body, /Connect an assistant\]\(\.\.\/Developers\/SlateboxAPI\/mcp\.md\)/)
+  assert.match(body, /\(install-with-docker\.md#troubleshooting\)/)
+  assert.match(body, /Single sign-on, free/)
+  assert.match(body, /on-prem license/)
+  assert.doesNotMatch(body, /\$\d/, 'no prices: the pricing page holds them')
+  assert.match(on, /^agentPrompt:/m)
+})
+
+test('Run your own Slatebox, held: the coming-soon text, and no npx slatebox command', () => {
+  const off = kept(shortPage, false)
+  assert.match(off, /coming soon/)
+  assert.doesNotMatch(off, /npx slatebox/)
 })

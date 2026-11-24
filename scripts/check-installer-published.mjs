@@ -1,4 +1,4 @@
-// The install guide's first command is `npx slatebox@latest install`. Publishing the guide before
+// The install guide's first command is `npx slatebox`. Publishing the guide before
 // the package would send every reader into a failing first command, so the publish workflow runs
 // this check first: it passes only when the npm package `slatebox` exists and its latest version
 // has the slatebox command and the install subcommand's agent brief.

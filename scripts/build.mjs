@@ -60,7 +60,7 @@ const entries = [
   {url:'/developers/slateboxapi/mcp/', title:'Connect an assistant',desc:'Add https://app.slatebox.com/mcp to Claude, ChatGPT or any MCP client, sign in, and it draws on your slates.'},
   {url:'/developers/slateboxapi/exec/', title:'Give your agent exec',desc:'One tool runs a short script against a typed client. Every call is checked as if you made it.'},
   features['self-host']
-    ? {url:'/installation/install-with-docker/', title:'Host Slatebox',desc:'Run your own Slatebox with one command: this computer, a server or Kubernetes.'}
+    ? {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox with one command, npx slatebox, on the machine of your choice.'}
     : {url:'/installation/self-hosting/', title:'Host Slatebox',desc:'Run your own Slatebox on your own server. The installer and the image are coming soon.'}
 ]
 const demos = {
