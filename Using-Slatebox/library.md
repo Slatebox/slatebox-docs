@@ -28,7 +28,7 @@ Each item's page shows a live picture of it, who made it, what it was branched o
 | Smart component | **Add to a slate** | The board on a new slate, or beside the boards of a slate you pick. A slate holds up to 8 boards. |
 | Smart component | **Branch off** | A builder slate with your own copy of the board (see below). |
 
-If you are not signed in, Slatebox makes you a guest first, so the copy is yours in this browser. Register before you rely on it from another device. Your copy says where it came from, and the original's author is credited.
+If you are not signed in, Slatebox makes you a guest first, so the copy is yours in this browser. Register before you rely on it from another device. Your copy says where it came from beside its name ("Copy of Launch plan by Ada Author"), which credits the original's author as its license asks.
 
 In a slate, **Add to this slate** in Ask Slatebox lists the same components, your own under **Yours**.
 
@@ -48,7 +48,7 @@ On a builder slate the controls are always drawn on the board. On any other slat
 | On | Control | Does |
 | --- | --- | --- |
 | A board of columns | The limit line after a column's last slot | Drag it, or use its − and +, to set how many cards the column holds. Hold it (or right-click) to switch between refusing and only warning. |
-| A board of columns | The bin on a column's header | Makes the column an archive: it takes every card, whatever its limit. |
+| A board of columns | The archive box on a column's header | Makes the column an archive: it takes every card, whatever its limit, and deletes nothing. |
 | A board of columns | The arrow between two columns | Lets cards move only one way between them. |
 | A board of columns | **One column at a time** | Stops cards skipping columns. |
 | A board of columns | The dashed column with a + | Adds a column. |
@@ -56,7 +56,7 @@ On a builder slate the controls are always drawn on the board. On any other slat
 | A launch or hiring plan | Snap, the go-live line, what a slip does | Moves by day or week; makes go-live a hard or soft line; says whether a slip pushes what waits. |
 | A nested board | The ladder of levels, and − and + | Sets how deep cards nest and how many a card holds. |
 
-With the keyboard, select a control with **Tab**, then press **Enter** to tap it, the arrow keys to move it, or **Delete** to remove its rule. Anything else is set in chat, for example "Let Done hold 4"; the board lists every rule under "How this board behaves".
+Point at a control, or select it with **Tab**, and it says what it does ("Make To do a bin that archives cards"). With the keyboard, then press **Enter** to tap it, the arrow keys to move it, or **Delete** to remove its rule. Anything else is set in chat, for example "Let Done hold 4"; the board lists every rule under "How this board behaves".
 
 Each change is saved at once, and **Undo last change** takes it back. The next card you drag follows the new rule.
 
@@ -80,12 +80,12 @@ Follow your submissions in **My library** ([app.slatebox.com/library/mine](https
 | --- | --- | --- |
 | Submitted, In review | A reviewer has it. | **Withdraw** it, or write to the reviewer. |
 | Changes asked for | The reviewer wrote what to change. | Change it, then **Send it again**. |
-| Published | It is in the library for everyone. | Send an update; the published version stays until the update is approved. |
+| Published | It is in the library for everyone. | Send an update; the published version stays until the update is approved. **Withdraw the update** takes back only the update. **Take it out of the library** removes the item. |
 | Not accepted | The reviewer said why. | Change it and send it again. |
 
 When a reviewer publishes your item, asks for changes, turns it down or writes to you, you get a notice under the bell and an email, with their message and a link to My library. Open an item in My library to read its whole thread and to write back.
 
-The reviewer may make small changes before publishing, such as a clearer name or a tighter rule. They change a private review copy, never your slate. What is published is the reviewed copy.
+The reviewer may make small changes before publishing, such as a clearer name or a tighter rule. They change a private review copy, never your slate. What is published is the reviewed copy. Saving a published component again changes nothing others see until your update is reviewed and approved.
 
 ## Review submissions (administrators)
 
@@ -94,5 +94,7 @@ A server administrator opens [app.slatebox.com/admin/library](https://app.slateb
 1. Choose **Open for review**. Slatebox makes a private review copy and opens it beside a review panel.
 2. Ask Slatebox in the panel to refine it ("Tighten the rules", "Put it in Decide"), or change the copy yourself. Each proposal shows what would change before you keep it.
 3. Choose **Approve and publish**, **Send back** with a message for the author, or **Reject** with the reason. What you approve is the review copy, with your refinements.
+
+Another administrator reviews what you submit yourself. If you are the server's only administrator, the review page offers **Review it myself**, and the thread records it. The refine chat is yours: the author sees what you decided and what changed, not what you asked the AI.
 
 To take a published item down, choose **Take it out of the library**; copies people already made stay theirs. Agents and scripts can do every step too. [Library API](../Developers/SlateboxAPI/library.md)

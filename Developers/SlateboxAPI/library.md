@@ -29,7 +29,9 @@ Every item has one category: `plan`, `decide`, `meetings`, `track` or `map`. A c
 | `DELETE /library/{itemId}` | Delete your own draft | `slates:write` |
 | `POST /library/{itemId}/comments` | Write in an item's review thread | `slates:write`, as its author or a reviewer |
 
-Public reads answer with `Cache-Control: public` and `Access-Control-Allow-Origin: *`, so a web page on any site can call them. Answers to a token are never cached. An item that is not published answers `404` to everyone but its author and reviewers.
+Public reads answer with `Cache-Control: public` and `Access-Control-Allow-Origin: *`, so a web page on any site can call them. Shared caches keep a list or an item for at most a minute, so an item taken out of the library stops being served soon after. Answers to a token are never cached. An item that is not published answers `404` to everyone but its author and reviewers.
+
+Each person has a daily allowance: 10 submissions, 200 saves, 50 new builder slates, 100 copies and 100 messages in review threads. Past it the answer is `429` (`submit_limit` for submissions, `library_limit` for the rest) with a sentence saying when to try again. Browsing has no allowance.
 
 <!-- tabs -->
 
@@ -113,6 +115,8 @@ npx --no-install slatebox describe library
 
 A slate or presentation is submitted with `kind: "slate"` or `kind: "presentation"` and its `shareId`. You must own the slate or administer its team. Sending a published item again proposes an update: the published version stays until the update is approved.
 
+Saving a draft of a published component changes nothing the public reads. Its new details wait beside the published ones (`draftMeta`, shown only to you) and go public only with an update a reviewer approves. While an update waits for review (`submitted` or `in_review`), you can't save over it or send another; withdraw it first.
+
 | Status | Means |
 | --- | --- |
 | `draft` | Saved, private to you |
@@ -129,21 +133,25 @@ A slate or presentation is submitted with `kind: "slate"` or `kind: "presentatio
 - **Notices.** When a reviewer publishes your item, asks for changes, turns it down, takes it out or writes to you, you get a notice in the app and an email (where the server sends email), with their message and a link to My library.
 - **Changes asked for.** The item comes back as `changes_requested`. Change it (for a component, on its builder slate, then `POST /library/drafts` again), then `POST /library/submissions` with the same `itemId` to send it again.
 - **What is published.** The reviewer can refine your submission on a private copy before approving. What is published is that copy, so it may differ a little from what you sent. Your own slate or builder slate is never changed.
-- **Take it back.** `POST /library/{itemId}/withdraw` takes back a waiting submission, or takes your published item out of the library. Copies people already made stay theirs.
+- **Take it back.** `POST /library/{itemId}/withdraw` takes back a waiting submission. On a published item with an update waiting, it takes back only the update: the published version stays, and the update is your draft again. On a published item with nothing waiting, it takes the item out of the library. An update a reviewer has open can't be taken back; write to them instead. Copies people already made stay theirs.
+- **What you see of the thread.** You see your messages, the reviewer's messages and every decision, and when a reviewer kept a change, what changed. You don't see the reviewer's own chat with the refine AI, or anyone's account id.
+- **Version numbers.** `publishedCount` says how many times an item has been published once it is more than one; absent means once. The app shows "Version 1" for the first publication.
 
 ### Rules set with the controls on the board
 
-On a builder slate, the controls drawn on the board (a lane's limit line, the arrows between lanes, a deadline, a freeze band) make the same rule edits that chat, exec and `workshop_edits` make. Each rule records who set it, when, and how: `set.via` is `"canvas"` for a control, beside `"chat"` and `"exec"`. A control's change is saved on its own, never in the same save as a card move or rename: "Change the rules on their own, then move cards."
+On a builder slate, the controls drawn on the board (a lane's limit line, its − and +, the arrows between lanes, a lane's bin, a plan's snap and a launch line's hard or soft) make the same rule edits that chat, exec and `workshop_edits` make. Each rule records who set it, when, and how: `set.via` is `"canvas"` for a control, beside `"chat"` and `"exec"`. A control's change is saved on its own, never in the same save as a card move or rename: "Change the rules on their own, then move cards."
 
 ## Review submissions (administrators)
 
 Reviewing needs an administrator of the Slatebox server and, for a token, the `library:review` scope (**Review library submissions (administrators)**). Anyone else gets `403 reviewer_required`.
 
+A second person reviews what someone publishes: an administrator can't open, refine, edit or approve their own submission (`403 self_review`). On a server with one administrator, add `selfReview: true` to those calls; the thread records that the author reviewed it.
+
 | Request | Does |
 | --- | --- |
 | `GET /library/review` | The queue, oldest first: `status` (`waiting` by default, `in_review`, `changes_requested`, `rejected`, `published`, `all`), `kind`, `source=migration` |
 | `POST /library/review/{itemId}/open` | Make your private review copy of the waiting version, a slate you can change on the canvas |
-| `POST /library/review/{itemId}/refine` | Ask for a change in plain words; `mode: "preview"` shows it, save keeps it |
+| `POST /library/review/{itemId}/refine` | Ask for a change in plain words; `mode: "preview"` shows it and answers a `previewId`; save with that `previewId` keeps exactly what was shown |
 | `PATCH /library/review/{itemId}` | Change the title, summary, description, category or search words |
 | `POST /library/review/{itemId}/approve` | Publish the review copy as it stands, as a new version |
 | `POST /library/review/{itemId}/changes` | Send it back with a message |
@@ -153,8 +161,13 @@ Reviewing needs an administrator of the Slatebox server and, for a token, the `l
 ```js exec
 const { items } = await slatebox.library.review.queue({})
 const { reviewShareId } = await slatebox.library.review.open({ itemId: items[0].id })
-await slatebox.library.review.refine({ itemId: items[0].id, message: 'rename it to Weekly retro' })
+const proposal = await slatebox.library.review.refine({ itemId: items[0].id, message: 'Write a clearer one-line summary', mode: 'preview' })
+await slatebox.library.review.refine({ itemId: items[0].id, message: 'Write a clearer one-line summary', previewId: proposal.previewId })
 return slatebox.library.review.approve({ itemId: items[0].id, message: 'Thanks' })
 ```
 
 "rename it to …", "put it in Decide" and "summary: …" are read without AI. Other requests use the AI connection chosen for **Library review and refinement** (`settings.ai.use.library`), which follows the conversation choice (`use.chat`) until you set one.
+
+A preview is kept for half an hour; keeping one that has gone answers `409 preview_expired` and asks nothing of the AI. The proposal's `check` lists what to look at before publishing, starting with any email address or long number the server finds in the item, whatever the AI says. The AI is given the item as data in the request, never as instructions.
+
+A slate moved from Community slates that its owner never sent again is published only while it is still public: if the owner has made it private or deleted it, opening or approving it answers `409 source_not_public`. Once the owner sends it again, it is their submission like any other.
