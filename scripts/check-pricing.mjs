@@ -12,6 +12,8 @@
 // APP_DIR is a checkout of the app (default: one beside the docs); the copy must equal what its scripts/pro-figures.mjs
 // computes. SITE_DIR is a checkout of the marketing site (default: one beside the docs); its pricing page must state the
 // same figures. Where either is missing, that comparison is skipped and says so, unless REQUIRE_APP=1 / REQUIRE_SITE=1.
+// APP_SETTINGS names Cloud's settings (or just their payments.business) for that comparison: the copy reports
+// businessCheckout as the app computes it for Slatebox Cloud.
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {existsSync, readFileSync, readdirSync, statSync} from 'node:fs'
@@ -74,7 +76,14 @@ test('scripts/pro-figures.json is the app\'s own figures', async t => {
     return t.skip('no app checkout beside the docs (set APP_DIR): the figures were not compared with the app')
   }
   const {figures} = await import(pathToFileURL(join(app, 'scripts/pro-figures.mjs')).href)
-  assert.deepEqual(FIGURES, figures(), 'scripts/pro-figures.json differs from the app at ' + app + ': copy its web/app/imports/api/pro/pro-figures.json and update the pages')
+  // Restated (owner, 2026-11-24: Business is sold in the app): businessCheckout is true only where Cloud's settings name
+  // both Business prices, so the copy is what the app computes with Cloud's settings (its
+  // `node scripts/pro-figures.mjs --settings <file>`). APP_SETTINGS names that file (Cloud's settings, or just their
+  // payments.business); without it the app computes with no settings. A copy that reports businessCheckout must be
+  // compared with settings: REQUIRE_APP=1 fails without APP_SETTINGS then.
+  const settings = process.env.APP_SETTINGS ? JSON.parse(readFileSync(resolve(process.env.APP_SETTINGS), 'utf8')) : null
+  assert.ok(!(FIGURES.business.businessCheckout && !settings && process.env.REQUIRE_APP === '1'), 'REQUIRE_APP=1: scripts/pro-figures.json reports businessCheckout, so set APP_SETTINGS to Cloud\'s settings (or their payments.business) to compare it with the app')
+  assert.deepEqual(FIGURES, figures(undefined, {settings}), 'scripts/pro-figures.json differs from the app at ' + app + (settings ? ' with the settings in ' + process.env.APP_SETTINGS : ' (no APP_SETTINGS)') + ': copy what its scripts/pro-figures.mjs prints (with --settings for Cloud) and update the pages')
 })
 test('Slatebox is free, Slatebox Pro and its credits are stated, and match the pricing page', () => {
   const pricing = read('Using-Slatebox/pricing.md'), pro = read('Using-Slatebox/slatebox-pro.md')

@@ -10,7 +10,7 @@ Slatebox Business is for a team on Slatebox Cloud, the same shared, fully manage
 ## What it includes
 
 - **A shared pool of AI and calls for the team.** Each member adds the same amount as Pro credits to the pool each month, with the same daily limit on drafts for each person. Anyone on the team draws on it. [Slatebox Pro](slatebox-pro.md)
-- **Inviting outside agents, for every member.** Business counts as Slatebox Pro for this: anyone on the team can invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate they can edit. [Invite an outside agent](invite-agents.md)
+- **Inviting outside agents, for every member.** Business counts as Slatebox Pro for this: anyone on the team can invite an outside agent, such as Linear, GitHub or Exa, onto a slate they can edit. [Invite an outside agent](invite-agents.md)
 - **Single sign-on and the audit log, free when they come.** They are not on Slatebox Cloud yet. When they come to Cloud, they will be free for every team, with or without Business.
 - **Hands-on help for large teams.**
 - **Moving in from a Slatebox you run yourself** is coming: slates, files, accounts and sign-in settings, in one step.
@@ -24,9 +24,9 @@ Slatebox Business is for a team on Slatebox Cloud, the same shared, fully manage
 ## How to start
 
 <!-- feature:business-checkout -->
-A team's owner or an admin buys Slatebox Business in the app: on your team's page, choose **Get Business monthly** or **Get Business yearly** and pay by card. The price is per member; as people join or leave the team, the number of members on the bill follows. Stop renewing, change the card or get receipts on the same page. [Get Business monthly](https://app.slatebox.com/business?plan=monthly) · [Get Business yearly](https://app.slatebox.com/business?plan=yearly)
+A team's owner or an admin buys Slatebox Business in the app: open your team's page (**Manage team** in the menu) and, under **Slatebox Business**, choose **Get Business monthly** or **Get Business yearly** and pay by card. The price is per member; as people join or leave the team, the number of members on the bill follows. Stop renewing, change the card or get receipts on the same page. [Get Business monthly](https://app.slatebox.com/business?plan=monthly) · [Get Business yearly](https://app.slatebox.com/business?plan=yearly)
 
-Need a contract or a hands-on rollout? [Talk to us about Business](https://slatebox.com/contact/?topic=business) · [See pricing](https://slatebox.com/plans/)
+Need a contract, an invoice or a hands-on rollout? Talk to us instead. [Talk to us about Business](https://slatebox.com/contact/?topic=business) · [See pricing](https://slatebox.com/plans/)
 <!-- /feature:business-checkout -->
 <!-- feature:!business-checkout -->
 Talk to us to choose Slatebox Business for your team, whether you want to start right away or need a contract and a hands-on rollout. We set your team up. [Talk to us about Business](https://slatebox.com/contact/?topic=business) · [See pricing](https://slatebox.com/plans/)
