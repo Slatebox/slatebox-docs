@@ -1,15 +1,17 @@
 ---
 title: Pricing
-description: Slatebox is free, MIT-licensed and open source. On Slatebox Cloud, AI and calls come with Slatebox Pro at $5 a month, or a top-up at cost plus 5%. Teams can choose Slatebox Business.
+description: Slatebox is free, MIT-licensed and open source, except Cloud-only outside-agent connections. On Slatebox Cloud, AI and calls come with Slatebox Pro at $5 a month, or a top-up at cost plus 5%. Teams can choose Slatebox Business.
 ---
 
 # Pricing
 
-Slatebox is free. It is MIT-licensed and open source, free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
+Slatebox is free. It is MIT-licensed and open source, except Cloud-only outside-agent connections. Free for individuals and companies alike. [See pricing](https://slatebox.com/plans/)
+
+The app's `enterprise/` folder, which holds the outside-agent connections that run only on Slatebox Cloud, is under the Slatebox Enterprise License: you can read, change and test it, but not run it in production without an agreement. Everything else in the app, the SlateboxJS engine and the relay is MIT licensed. [Licenses](../Developers/readme.md#licenses)
 
 ## Free for everyone
 
-On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. No feature is ever sold separately.
+On Slatebox Cloud, every feature is free, with no limit on people or slates: unlimited slates, live editing, guests, teams of any size, comments, smart components, presenting, publishing, the API, the CLI and the MCP server. <!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro. [Invite an outside agent](invite-agents.md)<!-- /feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately.<!-- /feature:!agents-invite -->
 
 Only AI and the calls you start cost money. On Slatebox Cloud they come with Slatebox Pro, or from a balance you top up. Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free. [Use your own keys](own-keys.md)
 

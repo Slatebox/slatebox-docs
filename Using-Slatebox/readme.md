@@ -17,6 +17,16 @@ Name your slate and keep its link. People opening a private link still need perm
 
 Choose **Mermaid** in the slate menu to copy or download any slate as Mermaid, or to paste Mermaid in as real notes and lines. It is free and uses no AI. [Export and import Mermaid](mermaid.md)
 
+## Keep or discard what agents suggest
+
+When an agent edits your slate, such as Claude through Slatebox's MCP server or a script, its changes appear as ghost notes everyone on the slate sees. Choose **Keep** or **Discard** on each, or **Keep all** on the agent's chip, and undo any agent action. [Keep or discard what agents suggest](agent-suggestions.md)
+<!-- feature:agents-invite -->
+Invite an outside agent, such as Excalidraw, Linear or GitHub, onto a slate with **+ Invite agent**. On Slatebox Cloud, with Slatebox Pro. [Invite an outside agent onto a slate](invite-agents.md)
+<!-- /feature:agents-invite -->
+## Add a video
+
+Paste a YouTube, Vimeo or Loom link onto a slate to get a video note with its picture and title. It plays in place when you press play, and inside a presentation. [Add a video to a slate](video-notes.md)
+
 ## Add a branch to an interactive map
 
 A map has stations, paths between them and a token the team moves. Send each change in the conversation, try it in the preview, and choose **Keep changes** or **Discard**. [Open a slate](https://app.slatebox.com/new)

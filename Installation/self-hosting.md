@@ -15,7 +15,7 @@ Until then, [use Slatebox Cloud](https://app.slatebox.com/start). It is free; AI
 
 ## What a self-hosted Slatebox will be
 
-- **The same app.** Every feature, the same as Slatebox Cloud. The app, the SlateboxJS engine and the relay are MIT licensed.
+- **The same app.** Every feature of Slatebox Cloud except outside-agent connections, which run only on Slatebox Cloud. The app, the SlateboxJS engine and the relay are MIT licensed; the self-hosted image leaves out the app's `enterprise/` folder, which is not.
 - **No meters.** No Slatebox Pro, no top-ups and no limits from us. AI is whatever you and your people connect, local or cloud, or none. [A self-hosted Slatebox has no meters](self-host-meters.md) · [Choose your AI](../Using-Slatebox/choose-your-ai.md)
 - **Your agents too.** The image runs exec, so agents work with your own slates the same way. [Exec: how agents work with Slatebox](../Developers/SlateboxAPI/exec.md)
 

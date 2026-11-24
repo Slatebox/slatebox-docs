@@ -1,4 +1,4 @@
-// Pricing in the docs: Slatebox is free (MIT, open source). On Slatebox Cloud, AI and calls come with Slatebox Pro ($5 a
+// Pricing in the docs: Slatebox is free (MIT, open source, except the app's Cloud-only enterprise/ folder: owner, 2026-11-23). On Slatebox Cloud, AI and calls come with Slatebox Pro ($5 a
 // month or $50 a year plus tax, Pro credits sized by the app, on sale now) and top-ups; own AI and call keys are for
 // self-hosted Slatebox only, where they are free (owner, 2026-11-22; the app's own-keys.mjs); top-ups work with or
 // without Pro; teams can choose Slatebox Business, sold by talking to us until its billing is built (owner, 2026-11-22).
@@ -37,8 +37,9 @@ test('the pricing pages exist, carry their titles and are in the built navigatio
   }
 })
 
-// The headline and subheading are the owner's words (2026-11-22), on the site's plans page and here.
-const HEADLINE = ['Slatebox is free', 'MIT-licensed and open source, free for individuals and companies alike']
+// The headline and subheading are the owner's words (2026-11-22), on the site's plans page and here, with the
+// license carve-out (owner, 2026-11-23): outside-agent connections are Cloud-only, under the Slatebox Enterprise License.
+const HEADLINE = ['Slatebox is free', 'MIT-licensed and open source, except Cloud-only outside-agent connections', 'free for individuals and companies alike']
 // What Slatebox Pro costs and includes: one price for one person, plus tax, with Pro credits as the app meters them
 // (scripts/pro-figures.json): separate allowances of AI, voice and video, sized to what full use costs Slatebox.
 const FIGURES = JSON.parse(read('scripts/pro-figures.json'))
@@ -77,6 +78,10 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.doesNotMatch(pricing, /## Three ways to pay|\*\*Your own key\.\*\*/, 'pricing.md: own keys are not a way to pay on Cloud')
   assert.match(section(pricing, 'Self-hosted Slatebox'), /own AI and call keys, for free/, 'pricing.md: a self-hosted Slatebox keeps own keys, free')
   assert.match(pricing, /every feature is free/i, 'pricing.md: every feature is free')
+  // The carve-out (owner, 2026-11-23): the app's enterprise/ folder is source-available, Cloud only; inviting outside
+  // agents comes with Slatebox Pro, said only while the agents-invite switch is on.
+  assert.match(pricing, /`enterprise\/` folder[^.]*Slatebox Enterprise License/, 'pricing.md: enterprise/ is under the Slatebox Enterprise License')
+  assert.match(pricing, /<!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro\.[\s\S]*?<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately\.<!-- \/feature:!agents-invite -->/, 'pricing.md: the Slatebox Pro exception is held by the agents-invite switch')
   // The subscription page: price, credits, cancelling, failed payments, refunds as the terms say, deleting the account.
   assert.doesNotMatch(pricing + pro, /in any mix/i, 'Pro credits are separate allowances, not one pool')
   for (const words of [...PRO, '(' + thousands(CREDITS.voiceMinutes) + ' participant-minutes)', '(' + thousands(CREDITS.videoMinutes) + ' participant-minutes)', 'the share of that month\'s Pro credits', 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])

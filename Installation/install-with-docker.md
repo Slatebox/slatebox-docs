@@ -595,7 +595,7 @@ With single sign-on on, also see [its troubleshooting](single-sign-on.md#trouble
 
 ## What is inside, and its licenses
 
-The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. The image also holds other projects under their own licenses, so the image as a whole is not MIT licensed:
+The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed. The image is built without the app's `enterprise/` folder (Slatebox Cloud's outside-agent connections, under the Slatebox Enterprise License). The image also holds other projects under their own licenses, so the image as a whole is not MIT licensed:
 
 | Part | License |
 | --- | --- |
