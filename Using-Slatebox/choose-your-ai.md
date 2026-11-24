@@ -73,10 +73,10 @@ Your choice always wins. On Slatebox Cloud, only the last two apply: nobody has 
 | AI | On Slatebox Cloud | On your own server |
 | --- | --- | --- |
 | Your connections and your team's | Not offered: own AI is for self-hosted Slatebox | Free, with no limit from Slatebox. Your provider bills you directly, or nobody does for your own model. |
-| **The AI this server provides** | Your Pro credits, then your balance | No meters |
-| Image search | Your Pro credits, then your balance | No meters |
+| **The AI this server provides** | Your Pro credits, then your balance | Free, with no limit from Slatebox |
+| Image search | Your Pro credits, then your balance | Free, with no limit from Slatebox |
 
-[Pricing](pricing.md) · [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+[Pricing](pricing.md) · [Who pays for what on your own server](../Installation/self-host-costs.md)
 
 ## Where a model may be
 

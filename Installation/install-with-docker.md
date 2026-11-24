@@ -25,7 +25,7 @@ npx slatebox@latest install
 
 <!-- /tabs -->
 
-You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox has no meters, and its AI is whatever you connect, or none. [No meters on your own server](self-host-meters.md)
+You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
 
 Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
 

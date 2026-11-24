@@ -81,7 +81,7 @@ test('personal and team connections are self-hosted only; on Cloud the AI tab sh
 test('the page says what is metered: only the AI Slatebox pays for', () => {
   const text = page()
   assert.match(text, /\(pricing\.md\)/, 'link the pricing page')
-  assert.match(text, /\(\.\.\/Installation\/self-host-meters\.md\)/, 'link the no-meters page')
+  assert.match(text, /\(\.\.\/Installation\/self-host-costs\.md\)/, 'link the who-pays page')
   assert.match(text, /Image search[^.]*Pro credits, then your balance/, 'image search is always the built-in service (BUILTIN_ONLY_FEATURES)')
   assert.doesNotMatch(text, /your own (AI|model|connection)[^.|]*(is|are) metered/i)
 })
@@ -129,7 +129,7 @@ test('no page names a model, favours a runner or ties AI to a bundled local mode
   // The installer's provider kinds are its interface (packages/slatebox/src/answers.mjs PROVIDER_KINDS): the self-host
   // page lists them as `kind` values, which names no model and favours no runner. Prose and model names stay banned.
   const installerKinds = /`(ollama|lmstudio|mistral)`|\bkind[=:] ?(ollama|lmstudio|mistral)\b/g
-  for (const file of [PAGE, 'Installation/install-with-docker.md', 'Installation/self-host-meters.md', 'Using-Slatebox/own-keys.md', 'Using-Slatebox/pricing.md']) {
+  for (const file of [PAGE, 'Installation/install-with-docker.md', 'Installation/self-host-costs.md', 'Using-Slatebox/own-keys.md', 'Using-Slatebox/pricing.md']) {
     const text = existsSync(file) ? read(file).replace(file === 'Installation/install-with-docker.md' ? installerKinds : /$^/, '') : ''
     assert.doesNotMatch(text, models, file + ' names a model; use a placeholder such as your-model-name')
     assert.doesNotMatch(text, runners, file + ' names a model runner; any OpenAI-compatible endpoint works')
@@ -151,9 +151,9 @@ test('the self-host guide says AI is whatever is connected, local or cloud, and 
   assert.doesNotMatch(text, /AI and calls use your own keys/, 'AI is not only keys: any endpoint works')
 })
 
-test('own keys and the no-meters page point to Choose your AI', () => {
+test('own keys and the who-pays page point to Choose your AI', () => {
   assert.match(read('Using-Slatebox/own-keys.md'), /\(choose-your-ai\.md(#[^)]*)?\)/)
-  assert.match(read('Installation/self-host-meters.md'), /\(\.\.\/Using-Slatebox\/choose-your-ai\.md(#[^)]*)?\)/)
+  assert.match(read('Installation/self-host-costs.md'), /\(\.\.\/Using-Slatebox\/choose-your-ai\.md(#[^)]*)?\)/)
   assert.match(read('Using-Slatebox/pricing.md'), /\(choose-your-ai\.md(#[^)]*)?\)/)
   assert.match(read('Using-Slatebox/own-keys.md'), /\*\*Profile → AI\*\*/, 'own AI is connected in Profile → AI')
 })

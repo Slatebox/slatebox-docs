@@ -81,7 +81,7 @@ We announce any change to the price of Slatebox Pro, or to what Pro credits incl
 
 ## Self-hosted Slatebox
 
-A Slatebox you run yourself is free, has no meters and needs no Slatebox Pro. People there can use their own AI and call keys, for free. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md) · [Choose your AI](choose-your-ai.md) · [Use your own keys](own-keys.md)
+A Slatebox you run yourself is free. People there use their own AI and call keys, for free: AI is whatever they connect, and calls use the server's own Daily account. Slatebox Pro and balances exist only on Slatebox Cloud. [Who pays for what on your own server](../Installation/self-host-costs.md) · [Choose your AI](choose-your-ai.md) · [Use your own keys](own-keys.md)
 
 ## Slatebox Business
 

@@ -1,5 +1,6 @@
 {
   "/developers/slateboxjs-api/": "/developers/javascriptlibrary/",
   "/developers/slateboxapi/organizations/": "/using-slatebox/#work-with-a-team",
-  "/using-slatebox/slatebox-private/": "/using-slatebox/slatebox-business/"
+  "/using-slatebox/slatebox-private/": "/using-slatebox/slatebox-business/",
+  "/installation/self-host-meters/": "/installation/self-host-costs/"
 }

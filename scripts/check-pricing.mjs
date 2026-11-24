@@ -21,7 +21,7 @@ const pages = {
   'Using-Slatebox/slatebox-pro.md': ['Slatebox Pro', '/using-slatebox/slatebox-pro/'],
   'Using-Slatebox/own-keys.md': ['Use your own keys on a self-hosted Slatebox', '/using-slatebox/own-keys/'],
   'Using-Slatebox/top-ups.md': ['Top-ups and refunds', '/using-slatebox/top-ups/'],
-  'Installation/self-host-meters.md': ['A self-hosted Slatebox has no meters', '/installation/self-host-meters/'],
+  'Installation/self-host-costs.md': ['Who pays for what on your own server', '/installation/self-host-costs/'],
   'Using-Slatebox/slatebox-business.md': ['Slatebox Business', '/using-slatebox/slatebox-business/'],
 }
 const walk = dir => readdirSync(dir).flatMap(name => statSync(join(dir, name)).isDirectory() ? walk(join(dir, name)) : [join(dir, name)])
@@ -143,16 +143,19 @@ test('Slatebox Business replaces Slatebox Private, and is sold by talking to us'
 })
 
 test('top-ups, own keys and self-host say what builder A built', () => {
-  const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
+  const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-costs.md')
   for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance', '**Credits**', 'You do not need Pro to top up', 'Your Pro credits are used first if you have Slatebox Pro, then your balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
   // own-keys.md is the self-hosted page: on Cloud, nothing is saved or used, and a key saved before stays, unused, removable.
   assert.match(keys, /^# Use your own keys on a self-hosted Slatebox$/m, 'own-keys.md: the title says self-hosted')
   assert.match(keys.split('\n## ')[0], /Own AI and call keys are for self-hosted Slatebox\.[\s\S]*On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups\./, 'own-keys.md: the intro says own keys are self-hosted and Cloud has Pro and top-ups')
   for (const words of [OWN_KEYS_CLOUD, 'before 22 November 2026 stays stored, unused', 'Slatebox never sends a request with it', 'can still remove it', 'remove: [']) assert.ok(section(keys, 'On Slatebox Cloud').includes(words), 'own-keys.md, On Slatebox Cloud, does not say ' + words)
-  for (const words of ['**Credits**', 'Team settings', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'last four characters', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
+  // A person's or team's own Daily key needs the meter (the Credits tab and team keys show only where metered), and a
+  // self-hosted Slatebox has none: its calls use the server's Daily account (owner, 2026-11-24).
+  for (const words of ['**Credits**', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
   // Restated (feat/any-ai-selfhost): the image writes the operator's AI to settings.ai (ai-config.mjs).
-  for (const words of ['no meters', 'settings.ai', '10,000', 'metering', 'nobody needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-meters.md does not say ' + words)
-  assert.match(read('Installation/install-with-docker.md'), /\(self-host-meters\.md\)/, 'the Docker guide links the no-meters page')
+  // Slatebox Pro and balances are Slatebox Cloud's only (owner, 2026-11-24): the self-host page says who pays, never how to meter.
+  for (const words of ['settings.ai', '10,000', 'Slatebox Pro and balances exist only on Slatebox Cloud', 'needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-costs.md does not say ' + words)
+  assert.match(read('Installation/install-with-docker.md'), /\(self-host-costs\.md\)/, 'the Docker guide links the who-pays page')
   assert.match(read('Using-Slatebox/readme.md'), /\(pricing\.md\)/, 'the user guide links the pricing page')
 })
 
@@ -195,14 +198,14 @@ test('Developers links to the app source on GitHub only when that repository ans
 // What the docs say about money must be what the app does (the metering in the app's feat/pricing branch).
 test('the money claims match the app: own keys, images, the card fee, refunds, call limits and self-host settings', () => {
   const pricing = read('Using-Slatebox/pricing.md'), top = read('Using-Slatebox/top-ups.md')
-  const keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-meters.md')
+  const keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-costs.md')
   // Restated (feat/any-ai, connections.mjs): image search is always the built-in service, so it uses Pro credits,
   // then the balance. Image generation does too, unless the person chose for Generating images an own connection that
   // makes images (capabilities.images true); an own key saved before choices existed never makes images (fromLegacy).
   const ai = keys.split('\n').find(line => line.startsWith('| Your own AI')) || ''
   assert.doesNotMatch(ai, /image search/i, 'own-keys.md: own AI does not pay for image search')
   assert.doesNotMatch(keys, /Your (free amount|Pro credits) and your balance are left untouched\./, 'own-keys.md: images still use Pro credits and the balance')
-  assert.match(keys, /Image search[^.]*(Pro credits|included amount), then your balance/, 'own-keys.md: say image search uses the included amount, then the balance')
+  assert.match(keys, /Image search always uses the server's own image service/, 'own-keys.md: say image search always uses the server\'s own service, never an own AI key')
   assert.match(keys, /Image generation[^.]*unless you choose[^.]*makes images[^.]*\*\*Generating images\*\*/, 'own-keys.md: image generation is yours only with a connection that makes images, chosen for Generating images')
   // Images are not drafts (holds.mjs: a draft is kind ai): they use the month's AI of Pro credits.
   assert.doesNotMatch(pricing, /each image search and each image generation is one draft/i, 'pricing.md: images are not drafts')
@@ -218,10 +221,9 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   // Call limits apply to calls we pay for; an own Daily key has Daily's limits (calls.mjs, own-keys.md).
   assert.doesNotMatch(pricing, /## Limits on every call/, 'pricing.md: the limits are not on every call: own Daily keys have none of ours')
   assert.doesNotMatch(pricing, /Everyone sees a notice 2 minutes before a call ends\./, 'pricing.md: the 3-hour end has no notice')
-  // Self-host: only metering.enabled is a setting; the free amounts are not set in the settings file.
-  assert.doesNotMatch(host, /with your own free amounts/, 'self-host-meters.md: the free amounts are not a server setting')
-  assert.match(host, /Admin → Budget and Pro/, 'self-host-meters.md: the budget is changed in Admin → Budget and Pro')
-  assert.match(host, /SLATEBOX_KEY_ENCRYPTION_KEY/, 'self-host-meters.md: own keys need the encryption key')
+  // Self-host: no meter to turn on, no budget page, no payments (owner, 2026-11-24); own keys need the encryption key.
+  assert.doesNotMatch(host, /metering|Budget and Pro|top-?ups?|Stripe/i, 'self-host-costs.md: a self-hosted Slatebox has no meter, budget or payments to set up')
+  assert.match(host, /SLATEBOX_KEY_ENCRYPTION_KEY/, 'self-host-costs.md: own keys need the encryption key')
 })
 
 // Every subscription was cancelled with no conversion and no balance, so there is nothing for a

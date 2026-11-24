@@ -27,6 +27,6 @@ Business is not on sale in the app yet. Until it is, write to us and we set your
 
 ## Run it yourself instead
 
-A Slatebox you run on your own server is free, with no meters and every feature except outside-agent connections, which need an on-prem license there. <!-- feature:self-host -->[Install with Docker](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host -->
+A Slatebox you run on your own server is free, with your own AI and calls and every feature except outside-agent connections, which need an on-prem license there. <!-- feature:self-host -->[Install with Docker](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host -->
 
 [Pricing](pricing.md) · [See pricing](https://slatebox.com/plans/)

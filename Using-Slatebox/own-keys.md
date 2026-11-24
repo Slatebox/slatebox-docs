@@ -1,11 +1,11 @@
 ---
 title: Use your own keys on a self-hosted Slatebox
-description: On a self-hosted Slatebox, connect your own AI, a cloud key or any OpenAI-compatible endpoint, or add your own Daily key, for free. On Slatebox Cloud, AI and calls come with Slatebox Pro and top-ups.
+description: On a self-hosted Slatebox, connect your own AI, a cloud key or any OpenAI-compatible endpoint, for free; calls use the server's own Daily account. On Slatebox Cloud, AI and calls come with Slatebox Pro.
 ---
 
 # Use your own keys on a self-hosted Slatebox
 
-Own AI and call keys are for self-hosted Slatebox. On a self-hosted Slatebox, your own AI connection or Daily key is free: the provider bills you directly, or nobody does for a model you run. Slatebox charges nothing and sets no limit on a self-hosted server.
+Own AI and call keys are for self-hosted Slatebox. On a self-hosted Slatebox, your own AI connection is free: the provider bills you directly, or nobody does for a model you run. Slatebox charges nothing and sets no limit on a self-hosted server.
 
 On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups. Nobody brings their own key there. [Slatebox Pro](slatebox-pro.md) · [Top-ups and refunds](top-ups.md)
 
@@ -22,31 +22,24 @@ On a self-hosted Slatebox, open **Profile → AI** and choose **Connect a model*
 
 A team admin connects AI for the whole team under **Your team's** in the same tab. Your own choice is used before your team's.
 
-## Add a Daily key
+## Calls
 
-On a self-hosted Slatebox with limits turned on, people can add their own Daily key. Without limits, every call uses the server's Daily account. [A self-hosted Slatebox has no meters](../Installation/self-host-meters.md)
+On a self-hosted Slatebox, every call uses the server's Daily account. The operator adds its key in `SLATEBOX_SETTINGS`, such as `{"daily":{"apiKey":"your-daily-key"}}`. Calls then run on that Daily domain, with Daily's limits and none of ours. [Who pays for what on your own server](../Installation/self-host-costs.md)
 
-1. Open your profile and choose **Credits**.
-2. Under **Your own keys**, choose **Add a Daily key**.
-3. Paste the key and save. Slatebox checks it once with Daily and shows any refusal under the key.
-
-A team admin adds a Daily key for the whole team in **Team settings → Team balance and keys**. Your own key is used before your team's.
-
-## What each covers
+## What your own AI covers
 
 | Yours | Pays for |
 | --- | --- |
 | Your own AI connection | Each AI feature you choose it for: conversation and edits, drafts and layouts, presentation planning, reading images and diagrams, and generating images when the model makes images. |
-| Daily key | Calls you start, on your Daily domain, with Daily's limits and none of ours. |
 
-Your own keys are free, and on a self-hosted Slatebox nobody needs Slatebox Pro. Image search always uses the included amount, then your balance, where limits are turned on. Image generation does too, unless you choose a connection that makes images for **Generating images**.
+Your own connections are free, and on a self-hosted Slatebox nobody needs Slatebox Pro. Image search always uses the server's own image service. Image generation does too, unless you choose a connection that makes images for **Generating images**.
 
 ## How keys are kept
 
 - Keys are encrypted at rest with AES-256-GCM and bound to their owner; a key copied to another account cannot be read.
-- A saved key is never shown again. An AI connection says "key saved"; a Daily key shows its last four characters, for example "Daily key ending 4f2a".
-- A server with no encryption key set hides **Your own keys** and refuses AI keys. An endpoint that needs no key still works.
+- A saved key is never shown again. An AI connection says "key saved".
+- A server with no encryption key set refuses AI keys. An endpoint that needs no key still works.
 
 ## Remove a key
 
-Choose **Remove** beside the AI connection in **Profile → AI**, or beside the Daily key in **Credits**. Slatebox stops using it and deletes it at once.
+Choose **Remove** beside the AI connection in **Profile → AI**. Slatebox stops using it and deletes it at once.
