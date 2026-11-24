@@ -14,7 +14,7 @@ A Slatebox you run yourself is free. Slatebox charges nothing for it and sets no
 | --- | --- |
 | The app, the relay and the database | Nobody. They run in your one container. |
 | AI | Whatever you and your people connect, local or cloud, or none. The provider bills you directly, or nobody does for a model you run. The server's AI is set with `SLATEBOX_AI_URL` or `SLATEBOX_AI_CONFIG` (the app's `settings.ai`); people add their own in **Profile → AI**. [Choose your AI](../Using-Slatebox/choose-your-ai.md) |
-| Calls | Your own Daily account, with its key in `SLATEBOX_SETTINGS`, such as `{"daily":{"apiKey":"your-daily-key"}}`. A free Daily account includes 10,000 participant-minutes a month. |
+| Calls | Your own Daily account, with its key in `SLATEBOX_SETTINGS`, such as `{"daily":{"apiKey":"your-daily-key"}}`. Daily bills you directly: [Daily's pricing](https://www.daily.co/pricing/). |
 | Single sign-on | Nobody. Keycloak is in the image and needs no license. |
 | Outside-agent connections | An on-prem license from Slatebox, a flat yearly fee per install. [Contact us](https://slatebox.com/contact/?topic=on-prem) |
 

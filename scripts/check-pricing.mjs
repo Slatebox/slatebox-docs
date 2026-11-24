@@ -1,9 +1,13 @@
-// Pricing in the docs: Slatebox is free (MIT, open source, except the app's enterprise/ folder: owner, 2026-11-23/24). On Slatebox Cloud, AI and calls come with Slatebox Pro ($5 a
-// month or $50 a year plus tax, Pro credits sized by the app, on sale now) and top-ups; own AI and call keys are for
+// Pricing in the docs: Slatebox is free (MIT, open source, except the app's enterprise/ folder: owner, 2026-11-23/24). On Slatebox Cloud, AI and calls come with Slatebox Pro (monthly
+// or yearly plus tax, Pro credits sized by the app, on sale now) and top-ups; own AI and call keys are for
 // self-hosted Slatebox only, where they are free (owner, 2026-11-22; the app's own-keys.mjs); top-ups work with or
-// without Pro; teams can choose Slatebox Business, sold by talking to us until its billing is built (owner, 2026-11-22).
+// without Pro; teams can choose Slatebox Business, priced per member, bought in the app once its checkout is on and by talking to us
+// until then (owner, 2026-11-24).
 //   node --test scripts/check-pricing.mjs        (after npm run build, so dist/ holds the built pages)
 //   npm run check:cross                          the same, and the app and the site must be found (REQUIRE_APP, REQUIRE_SITE)
+// No docs page states a price, a margin or a numbered allowance (owner, 2026-11-24: "link to the central pricing page instead
+// of hardcoding the prices all over because they will change over time"). The one page that states them is the site's
+// pricing page, https://slatebox.com/plans/ (and the terms); the docs say what things are and link "See pricing" there.
 // Every figure is the app's: scripts/pro-figures.json is a copy of the app's web/app/imports/api/pro/pro-figures.json.
 // APP_DIR is a checkout of the app (default: one beside the docs); the copy must equal what its scripts/pro-figures.mjs
 // computes. SITE_DIR is a checkout of the marketing site (default: one beside the docs); its pricing page must state the
@@ -42,16 +46,19 @@ test('the pricing pages exist, carry their titles and are in the built navigatio
 // with an on-prem license, on a self-hosted Slatebox (owner, 2026-11-24).
 const HEADLINE = ['Slatebox is free', 'MIT-licensed and open source, except outside-agent connections', 'free for individuals and companies alike']
 // What Slatebox Pro costs and includes: one price for one person, plus tax, with Pro credits as the app meters them
-// (scripts/pro-figures.json): separate allowances of AI, voice and video, sized to what full use costs Slatebox.
+// (scripts/pro-figures.json): separate allowances of AI, voice and video, sized to what full use costs Slatebox. These are
+// stated on the central pricing page (the site's /plans/), never on a docs page.
 const FIGURES = JSON.parse(read('scripts/pro-figures.json'))
 const CREDITS = FIGURES.pro.credits
 const half = hours => (hours % 1 ? (Math.floor(hours) || '') + '½' : String(hours))
 const hoursWords = hours => 'about ' + half(hours) + ' ' + (hours === 1 ? 'hour' : 'hours')
 const money = dollars => '$' + (Number.isInteger(dollars) ? dollars : dollars.toFixed(2))
-const thousands = n => n.toLocaleString('en-US')
 const PRO = ['$' + FIGURES.pro.monthCents / 100 + ' a month', '$' + FIGURES.pro.yearCents / 100 + ' a year', 'two months free', 'plus tax where applicable',
   'about ' + money(CREDITS.costDollars), 'about ' + CREDITS.draftsPerMonth + ' drafts a month', 'up to ' + CREDITS.draftsPerDay + ' a day',
   hoursWords(CREDITS.voiceHours), hoursWords(CREDITS.videoHours)]
+const BUSINESS = ['$' + FIGURES.business.monthCentsPerSeat / 100 + ' per member per month', '$' + FIGURES.business.yearCentsPerSeat / 100 + ' per member per year']
+const PRICING_URL = 'https://slatebox.com/plans/'
+const SEE_PRICING = '[See pricing](' + PRICING_URL + ')'
 const BUSINESS_LINK = '[Talk to us about Business](' + FIGURES.business.contactUrl + ')'
 const section = (source, heading) => source.split(/^## /m).find(s => s.startsWith(heading)) ?? ''
 // The app's refusal on Cloud (imports/api/common/own-keys.mjs OWN_KEYS_CLOUD) and its MCP listing line (the 0.3.4 package
@@ -71,8 +78,8 @@ test('scripts/pro-figures.json is the app\'s own figures', async t => {
 })
 test('Slatebox is free, Slatebox Pro and its credits are stated, and match the pricing page', () => {
   const pricing = read('Using-Slatebox/pricing.md'), pro = read('Using-Slatebox/slatebox-pro.md')
-  for (const words of [...HEADLINE, ...PRO, '5%', '$1,000']) assert.ok(pricing.toLowerCase().includes(words.toLowerCase()), 'pricing.md does not say ' + words)
-  for (const words of [thousands(CREDITS.voiceMinutes) + ' participant-minutes of voice', thousands(CREDITS.videoMinutes) + ' participant-minutes of video', 'Each row is its own amount for the month', 'the share of that month\'s Pro credits', 'carries on as voice', 'Joining a call', 'never pay', 'own key', 'top up', 'with or without Pro', 'Pro credits never shrink or pause', '5 a day for each person', 'do not carry over', 'Cancel any time', '30 days ahead', '(slatebox-business.md)', BUSINESS_LINK])
+  for (const words of [...HEADLINE, 'plus tax where applicable']) assert.ok(pricing.toLowerCase().includes(words.toLowerCase()), 'pricing.md does not say ' + words)
+  for (const words of ['participant-minutes', 'Each row is its own amount for the month', 'the share of that month\'s Pro credits', 'carries on as voice', 'Joining a call', 'never pay', 'own key', 'top up', 'with or without Pro', 'Pro credits never shrink or pause', 'a daily number for each person', 'do not carry over', 'Cancel any time', '30 days ahead', '(slatebox-business.md)', BUSINESS_LINK, SEE_PRICING])
     assert.ok(pricing.includes(words), 'pricing.md does not say ' + words)
   // Own keys are a self-hosted feature (owner, 2026-11-22): on Cloud, AI and calls come with Pro and top-ups.
   assert.match(pricing, /Nobody brings their own AI or call key on Cloud: own keys are for self-hosted Slatebox, where they are free/, 'pricing.md: own keys are for self-hosted Slatebox only')
@@ -86,7 +93,7 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
   assert.match(pricing, /<!-- feature:agents-invite -->The one exception is inviting outside agents onto your slates, which comes with Slatebox Pro or Slatebox Business\.[\s\S]*?<!-- \/feature:agents-invite --><!-- feature:!agents-invite -->No feature is ever sold separately\.<!-- \/feature:!agents-invite -->/, 'pricing.md: the Slatebox Pro exception is held by the agents-invite switch')
   // The subscription page: price, credits, canceling, failed payments, refunds as the terms say, deleting the account.
   assert.doesNotMatch(pricing + pro, /in any mix/i, 'Pro credits are separate allowances, not one pool')
-  for (const words of [...PRO, '(' + thousands(CREDITS.voiceMinutes) + ' participant-minutes)', '(' + thousands(CREDITS.videoMinutes) + ' participant-minutes)', 'the share of that month\'s Pro credits', 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])
+  for (const words of ['plus tax where applicable', 'monthly or yearly', SEE_PRICING, 'counted in participant-minutes', 'the share of that month\'s Pro credits', 'Cancel any time', 'Monthly to yearly', 'Yearly to monthly', 'end of the year', 'do not carry over', 'no cash value', 'Pro credits pause', 'pro rata', '30 days of your notice', 'Deleting your account ends Pro at once', 'Your unused top-up balance is refunded first; then Pro ends', 'Pro stays on and nothing is removed', 'Credits', 'confirm', '30 days\' notice'])
     assert.ok(pro.toLowerCase().includes(words.toLowerCase()), 'slatebox-pro.md does not say ' + words)
   // Buying Pro: the app sells it only once its Pro date is set, so the steps are held by the pro-checkout switch.
   const proCheckoutOn = JSON.parse(read('scripts/features.json'))['pro-checkout'] === true
@@ -101,13 +108,58 @@ test('Slatebox is free, Slatebox Pro and its credits are stated, and match the p
     assert.notEqual(process.env.REQUIRE_SITE, '1', 'REQUIRE_SITE=1 and no marketing site found: set SITE_DIR')
     return console.log('SKIPPED: no marketing site beside the docs (set SITE_DIR)')
   }
+  // The central pricing page holds the amounts the docs leave out: Pro, its credits, Business and the top-up margin.
   const text = read(join(site, 'plans/index.html')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toLowerCase()
-  for (const words of [...HEADLINE, ...PRO]) assert.ok(text.includes(words.toLowerCase()), 'the site pricing page at ' + site + ' does not say ' + words)
+  for (const words of [...HEADLINE, ...PRO, ...BUSINESS]) assert.ok(text.includes(words.toLowerCase()), 'the site pricing page at ' + site + ' does not say ' + words)
   // the site keeps its own copy of the figures: it must be the same file
   const siteFigures = join(site, 'site/pro-figures.json')
   assert.ok(existsSync(siteFigures), 'the site has no site/pro-figures.json')
   assert.deepEqual(JSON.parse(read(siteFigures)), FIGURES, 'the site\'s pro-figures.json differs from the docs\'')
-  assert.ok(text.includes('plus 5%') && pricing.includes('plus 5%'), 'both say "plus 5%"')
+  assert.ok(text.includes('plus 5%'), 'the site pricing page states the top-up margin ("plus 5%")')
+  assert.ok(existsSync(join(site, '_redirects')) && /^\/pricing\/? \/plans\/ 301$/m.test(read(join(site, '_redirects'))), 'the site sends /pricing to /plans/, the page the docs link')
+})
+
+// No docs page states a price (owner, 2026-11-24): the amounts live on the central pricing page only, and the pages about
+// money link it. A money amount, a percentage or a numbered allowance of Pro credits on any page fails. Money in a worked
+// example (the $600 pilot budget a team splits) is the example's, not a price, and may stay where it says nothing of Slatebox.
+const EXAMPLE_MONEY = new Set(['Examples/startup-experiments.md', 'Using-Slatebox/readme.md'])
+// A worked example's money says nothing of Slatebox: a line that also names Pro (bare or not), credits, top-ups, Business,
+// a balance, a price, a subscription, or a period (a month, a year, monthly, per person, /mo) is a price, example file or not.
+const MONEY_WORDS = /\bPro\b|credits|top.?up|Business|balance|price|subscri|\b(a|per|each|every) (month|year|person|member|user|seat)\b|\bmonthly\b|\byearly\b|\bannual|\/\s?(mo|month|yr|year)\b/i
+const NUMBER_WORDS = '(?:\\d[\\d,.]*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|hundred|thousand|half a)'
+const priceFigures = [
+  [/[$€£¥]\s?\d/, 'a money amount', (file, line) => !(EXAMPLE_MONEY.has(file) && /\$\s?\d/.test(line) && !/[€£¥]\s?\d/.test(line) && !MONEY_WORDS.test(line))],
+  [/\b(USD|EUR|GBP|CAD|AUD|NZD|CHF|JPY|INR)\s?\d|\d\s?(USD|EUR|GBP|CAD|AUD|NZD|CHF|JPY|INR)\b/, 'a money amount in a currency code'],
+  [new RegExp('\\b' + NUMBER_WORDS + '\\s+(US |American |Canadian |Australian )?(dollars?|bucks|euros?|pounds?( sterling)?|cents?|pence)\\b', 'i'), 'a money amount in words'],
+  [/\b\d+(\.\d+)?\s?%/, 'a percentage', (file, line) => !/zoom/i.test(line)],
+  [new RegExp('\\b' + NUMBER_WORDS + '[\\s-]*(percent|per cent|pct)\\b', 'i'), 'a percentage in words'],
+  [/\b\d[\d,]*\s+(AI\s+)?drafts\b|\bup to \d+ a day|\b\d+ a day for each/i, 'a number of drafts'],
+  [/\b[\d,½]+\s+(participant-)?minutes of (voice|video)|[\d,]+ participant-minutes|\b[\d½]+ hours? of four-person/i, 'call hours or minutes'],
+  [/two months free|\b(a|per|each) (person|member|user|seat|head),? (a|per|each) (month|year)\b|a member a (month|year)/i, 'a price'],
+]
+const prose = line => line.replace(/\]\([^)]*\)/g, '] ').replace(/https?:\/\/\S+/g, ' ') // a link's address is not prose (%20)
+const priceHits = (file, text) => text.split('\n').map(prose).flatMap((line, index) => priceFigures
+  .filter(([pattern, , allowed]) => pattern.test(line) && (!allowed || allowed(file, line)))
+  .map(([, what]) => file + ':' + (index + 1) + ' ' + what + ': ' + line.trim().slice(0, 100)))
+test('no docs page hardcodes a price, a margin or an allowance; the pages about money link the pricing page', () => {
+  const found = [...docs, 'STYLE.md', 'readme.md'].flatMap(file => priceHits(file, read(file)))
+  assert.deepEqual(found, [], 'state prices only on ' + PRICING_URL + ' and link it: "' + SEE_PRICING + '"')
+  // the built pages, the search index and the agent index carry none either
+  const built = ['dist/using-slatebox/pricing/index.html', 'dist/using-slatebox/slatebox-pro/index.html', 'dist/using-slatebox/top-ups/index.html', 'dist/using-slatebox/slatebox-business/index.html', 'dist/llms.txt'].map(read).join('\n')
+  for (const words of [...PRO.slice(0, 2), ...BUSINESS, 'plus 5%', money(CREDITS.costDollars)]) assert.ok(!built.includes(words), 'a built page or the agent index states ' + words)
+  for (const file of Object.keys(pages).filter(file => file.startsWith('Using-Slatebox/'))) if (file !== 'Using-Slatebox/own-keys.md') assert.ok(read(file).includes(SEE_PRICING), file + ' does not link ' + SEE_PRICING)
+  // the guard itself catches the old words
+  for (const old of ['Slatebox Pro is $5 a month or $50 a year (two months free).', '| AI drafting | About 180 drafts a month, up to 30 a day |', 'Pro credits hold 1,380 participant-minutes of voice.', 'at what the provider charges us plus 5%.', 'It costs $6 a person a month.', 'From $10, with or without Pro, a top-up.', '| Voice calls you start | About 5½ hours of four-person calls a month |', '5 a day for each person.',
+    // round-1 review: words, currency codes, other currencies, percent words, per-user prices, /mo, a bare "Pro is $5"
+    '5 dollars a month.', 'Five dollars a month.', 'USD 5 a month.', '10 USD a month.', '€6 per person per month.', '£6 a member a month.', 'plus five percent.', 'plus 5 percent.',
+    'It costs $6 per user per month.', '$5/mo.', '$5/month.', '$5 monthly.', 'Slatebox Business is priced per member per month.'])
+    assert.notDeepEqual(priceHits('Using-Slatebox/pricing.md', old), [], 'the guard misses: ' + old)
+  // the worked-example files are no shelter for a price: a line that names Pro, a period or a price fails there too
+  for (const old of ['Pro is $5 a month.', 'Slatebox Pro is $5.', 'The pilot costs $5/mo.', 'A team pays €6.'])
+    assert.notDeepEqual(priceHits('Using-Slatebox/readme.md', old), [], 'the guard misses, in a worked-example file: ' + old)
+  assert.deepEqual(priceHits('Examples/startup-experiments.md', 'Drag **Second $200** to **Concierge onboarding**.'), [], 'a worked example\'s budget is not a price')
+  assert.deepEqual(priceHits('Using-Slatebox/readme.md', 'For a budget, try moving $200 of the $600 pilot from a newsletter placement to concierge onboarding.'), [], 'a worked example\'s budget is not a price')
+  assert.deepEqual(priceHits('Using-Slatebox/pricing.md', 'Each member adds the same amount as Pro credits to the pool each month.'), [], 'plain words about Pro credits are not a price')
 })
 
 // The old promise is gone everywhere: Slatebox Pro is a subscription, so no page may say there are none. Pro is on sale
@@ -121,17 +173,33 @@ test('no docs page promises "no subscriptions", a free monthly amount for everyo
 })
 
 // Slatebox Private (a dedicated server billed yearly by size) is replaced by Slatebox Business (owner, 2026-11-22): a team
-// inside the shared Cloud at $6 a person a month or $60 a person a year, sold through the contact form until its billing ships.
-test('Slatebox Business replaces Slatebox Private, and is sold by talking to us', () => {
+// inside the shared Cloud, priced per member (owner, 2026-11-24), bought in the app once its checkout is on, by talking to us until then.
+test('Slatebox Business replaces Slatebox Private, and is sold in the app or by talking to us', () => {
   const biz = read('Using-Slatebox/slatebox-business.md')
-  for (const words of ['$6 a person a month', '$60 a person a year', 'plus tax where applicable', 'shared, fully managed', 'shared pool of AI and calls', 'same amount as Pro credits', 'about ' + money(CREDITS.costDollars), 'Single sign-on and the audit log', 'not on Slatebox Cloud yet', 'Hands-on help for large teams', 'is coming', 'No own keys on Cloud', 'not on sale in the app yet', BUSINESS_LINK])
+  for (const words of ['priced per member', 'plus tax where applicable', 'shared, fully managed', 'shared pool of AI and calls', 'same amount as Pro credits', 'Single sign-on and the audit log', 'not on Slatebox Cloud yet', 'Hands-on help for large teams', 'is coming', 'No own keys on Cloud', BUSINESS_LINK, SEE_PRICING])
     assert.ok(biz.includes(words), 'slatebox-business.md does not say ' + words)
+  // How to start (owner, 2026-11-24: Business is sold in the app). The steps to buy in the app are held by the
+  // business-checkout switch, which may be on only once the app reports businessCheckout (its Business price IDs are set);
+  // until then, and after, talking to us is a way in, with no "not on sale" and a link to the pricing page.
+  const start = section(biz, 'How to start')
+  const checkoutOn = JSON.parse(read('scripts/features.json'))['business-checkout']
+  assert.equal(typeof checkoutOn, 'boolean', 'scripts/features.json switches business-checkout')
+  assert.ok(!checkoutOn || FIGURES.business.businessCheckout === true, 'business-checkout is on, but the app does not report businessCheckout: its Business price IDs are not set')
+  assert.match(start, /^How to start\n\n<!-- feature:business-checkout -->\nA team's owner or an admin buys Slatebox Business in the app[\s\S]*?\(https:\/\/app\.slatebox\.com\/business\?plan=monthly\)[\s\S]*?<!-- \/feature:business-checkout -->/, 'slatebox-business.md, How to start: the steps to buy in the app are held by the business-checkout switch')
+  assert.match(start, /<!-- feature:!business-checkout -->\nTalk to us to choose Slatebox Business for your team/, 'slatebox-business.md, How to start: while the switch is off, talking to us is the action')
+  assert.ok(start.includes(BUSINESS_LINK) && start.includes(SEE_PRICING), 'slatebox-business.md, How to start: links Talk to us about Business and See pricing')
+  const builtBiz = read('dist/using-slatebox/slatebox-business/index.html')
+  assert.equal(builtBiz.includes('app.slatebox.com/business?plan='), checkoutOn, 'the built Business page links the app\'s Business sheet only while business-checkout is on')
+  for (const file of docs) assert.doesNotMatch(read(file), /not on sale in the app|Until it is, write to us|sold by talking to us for now/i, file + ': Business is for sale: say "Talk to us", not that it is not on sale')
   // single sign-on and the audit log are not on Cloud: promised for when they come, never stated as there today
   for (const file of docs) assert.doesNotMatch(read(file), /Enterprise features, free for every team on Cloud anyway|audit log are not sold separately/i, file + ' says single sign-on and the audit log are on Cloud today')
   // the Business link is the app's (an email while the site's contact form is off), never a page that does not exist yet
-  assert.equal(FIGURES.business.billingBuilt, false, 'the app sells Business: these pages still say to talk to us')
   for (const file of docs) if (FIGURES.business.contactUrl.startsWith('mailto:')) assert.doesNotMatch(read(file), /slatebox\.com\/contact\//, file + ' links the contact form, which is not live')
-  assert.doesNotMatch(biz, /app\.slatebox\.com\/buy|stripe|checkout/i, 'slatebox-business.md: no Business checkout or payment link')
+  // Restated (owner, 2026-11-24: Business is sold in the app): the one buying link is the app's Business sheet, inside the
+  // business-checkout switch; no page links Stripe or any other payment page.
+  const outsideSwitch = biz.replace(/<!-- feature:business-checkout -->[\s\S]*?<!-- \/feature:business-checkout -->/g, '').replace(/<!--[\s\S]*?-->/g, '')
+  assert.doesNotMatch(outsideSwitch, /app\.slatebox\.com\/(buy|business)|checkout/i, 'slatebox-business.md: the app\'s Business sheet is linked only inside the business-checkout switch')
+  assert.doesNotMatch(biz, /stripe|app\.slatebox\.com\/buy/i, 'slatebox-business.md: no Stripe or other payment link')
   assert.equal(JSON.parse(read('scripts/redirects.json'))['/using-slatebox/slatebox-private/'], '/using-slatebox/slatebox-business/', 'the old Private address redirects to Business')
   const built = ['dist/using-slatebox/index.html', 'dist/using-slatebox/pricing/index.html', 'dist/search.json', 'dist/sitemap.xml', 'dist/llms.txt'].map(read).join('\n')
   assert.doesNotMatch(built, /Slatebox Private|\$6,000|\$24,000|\$60,000|dedicated server/i, 'a built page, the search index, the sitemap or the agent index still mentions Private')
@@ -144,7 +212,7 @@ test('Slatebox Business replaces Slatebox Private, and is sold by talking to us'
 
 test('top-ups, own keys and self-host say what builder A built', () => {
   const top = read('Using-Slatebox/top-ups.md'), keys = read('Using-Slatebox/own-keys.md'), host = read('Installation/self-host-costs.md')
-  for (const words of ['$10', '$25', 'card fee', 'plus 5%', 'never expires', 'Refund my balance', '**Credits**', 'You do not need Pro to top up', 'Your Pro credits are used first if you have Slatebox Pro, then your balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
+  for (const words of ['card fee', 'a small margin', SEE_PRICING, 'smallest top-up', 'never expires', 'Refund my balance', '**Credits**', 'You do not need Pro to top up', 'Your Pro credits are used first if you have Slatebox Pro, then your balance']) assert.ok(top.includes(words), 'top-ups.md does not say ' + words)
   // own-keys.md is the self-hosted page: on Cloud, nothing is saved or used, and a key saved before stays, unused, removable.
   assert.match(keys, /^# Use your own keys on a self-hosted Slatebox$/m, 'own-keys.md: the title says self-hosted')
   assert.match(keys.split('\n## ')[0], /Own AI and call keys are for self-hosted Slatebox\.[\s\S]*On Slatebox Cloud, AI and calls come with Slatebox Pro credits and top-ups\./, 'own-keys.md: the intro says own keys are self-hosted and Cloud has Pro and top-ups')
@@ -154,7 +222,9 @@ test('top-ups, own keys and self-host say what builder A built', () => {
   for (const words of ['**Credits**', 'DeepInfra', 'OpenAI-compatible', 'Daily', 'Remove', 'encrypted']) assert.ok(keys.includes(words), 'own-keys.md does not say ' + words)
   // Restated (feat/any-ai-selfhost): the image writes the operator's AI to settings.ai (ai-config.mjs).
   // Slatebox Pro and balances are Slatebox Cloud's only (owner, 2026-11-24): the self-host page says who pays, never how to meter.
-  for (const words of ['settings.ai', '10,000', 'Slatebox Pro and balances exist only on Slatebox Cloud', 'needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-costs.md does not say ' + words)
+  // Restated (owner, 2026-11-24, prices in one place): Daily's free allowance is Daily's figure and drifts, so the page links
+  // Daily's pricing instead of stating "10,000" participant-minutes.
+  for (const words of ['settings.ai', "[Daily's pricing](https://www.daily.co/pricing/)", 'Slatebox Pro and balances exist only on Slatebox Cloud', 'needs Slatebox Pro']) assert.ok(host.includes(words), 'self-host-costs.md does not say ' + words)
   assert.match(read('Installation/install-with-docker.md'), /\(self-host-costs\.md\)/, 'the Docker guide links the who-pays page')
   assert.match(read('Using-Slatebox/readme.md'), /\(pricing\.md\)/, 'the user guide links the pricing page')
 })
@@ -211,9 +281,8 @@ test('the money claims match the app: own keys, images, the card fee, refunds, c
   assert.doesNotMatch(pricing, /each image search and each image generation is one draft/i, 'pricing.md: images are not drafts')
   assert.doesNotMatch(pricing, /\| AI drafting and image search \|/, 'pricing.md: image search is not in the 30 drafts a day')
   assert.match(pricing, /Image search and image generation use the month's AI from your Pro credits, not the daily count/, 'pricing.md: images use the month\'s AI of Pro credits')
-  // The card fee on a $10 top-up (ledger.mjs cardFeeCents(1000) = 61).
-  assert.match(top, /You pay \$10\.61: \$10\.00 of balance and a \$0\.61 card fee/, 'top-ups.md: the dialog example is $10.61 with a $0.61 fee')
-  assert.doesNotMatch(top, /\$10\.59|\$0\.59/, 'top-ups.md: no $10.59 example')
+  // The dialog shows the card fee on its own line (ledger.mjs cardFeeCents); the docs give no example amounts.
+  assert.match(top, /the dialog shows the whole amount: the balance you add, and the card fee on its own line/, 'top-ups.md: the dialog shows the card fee on its own line')
   // A refund waits while the balance is in use. The docs carry no former-subscriber notice (greenfield).
   assert.doesNotMatch(top, /refunded to your card at any time/, 'top-ups.md: the refundable part is not fixed')
   assert.doesNotMatch(top, /former subscriber|1\.5 times/i, 'top-ups.md: no former-subscriber notice')
