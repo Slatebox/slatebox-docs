@@ -1210,7 +1210,7 @@ Pick the interface that owns the data you want to change.
 | Work on the app, engine or relay | [Development](development.md) |
 | Run your own Slatebox | [One command, `npx slatebox install`](../Installation/self-hosting.md): your own Slatebox at `https://<name>.slatebox.team` |
 
-The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed, except the app's `enterprise/` folder (see [Licenses](#licenses)). One Docker image runs all three with a database. [What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · [App source](https://github.com/Slatebox/slatebox) · [Relay source](https://github.com/Slatebox/y-websocket)
+The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed, except the app's `enterprise/` folder (see [Licenses](#licenses)). One Docker image runs all three with a database. [What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · [App source](https://github.com/Slatebox/slatebox) · [Engine source](https://github.com/Slatebox/slateboxjs) · [Relay source](https://github.com/Slatebox/y-websocket)
 
 ## Licenses
 
@@ -1233,7 +1233,7 @@ Source: https://docs.slatebox.com/Developers/development.md · Page: https://doc
 
 To run Slatebox, start the image: one container runs the app, the relay and MongoDB. To run your own, use `npx slatebox install`. [Run your own Slatebox](../Installation/self-hosting.md)
 
-To work on the engine, run this in a SlateboxJS checkout:
+To work on the engine, run this in a checkout of [SlateboxJS](https://github.com/Slatebox/slateboxjs):
 
 <!-- tabs -->
 
@@ -1633,7 +1633,7 @@ You get two notes joined by an arrow, framed in the view. To add notes with the 
 
 ### Install the package
 
-1. In a clone of the SlateboxJS repository, build and pack the engine:
+1. In a clone of the [SlateboxJS repository](https://github.com/Slatebox/slateboxjs), build and pack the engine:
 
    ```sh
    npm ci

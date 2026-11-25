@@ -39,7 +39,7 @@ await Promise.all([evidence.ready, decision.ready])
 const edge: Association = evidence.relationships.addAssociation(decision, { showChildArrow: true })
 slate.fitToContent()</code></pre></div></div><p>You get two notes joined by an arrow, framed in the view. To add notes with the pointer or keyboard, try <a href="/examples/connected-notes/">connected notes</a>. To make a move change what an audience sees, try the <a href="/examples/theatre-cues/">entrance rehearsal</a>.</p>
 <h3 id="install-the-package">Install the package</h3><ol>
-<li><p>In a clone of the SlateboxJS repository, build and pack the engine:</p>
+<li><p>In a clone of the <a href="https://github.com/Slatebox/slateboxjs">SlateboxJS repository</a>, build and pack the engine:</p>
 <div class="code" data-label="Shell"><div class="code-label">Shell</div><pre><code class="language-sh">npm ci
 npm run build
 npm pack</code></pre></div></li>

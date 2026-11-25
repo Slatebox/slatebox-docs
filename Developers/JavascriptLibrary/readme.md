@@ -82,7 +82,7 @@ You get two notes joined by an arrow, framed in the view. To add notes with the 
 
 ### Install the package
 
-1. In a clone of the SlateboxJS repository, build and pack the engine:
+1. In a clone of the [SlateboxJS repository](https://github.com/Slatebox/slateboxjs), build and pack the engine:
 
    ```sh
    npm ci

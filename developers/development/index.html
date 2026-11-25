@@ -3,7 +3,7 @@
 Read https://docs.slatebox.com/Developers/development.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
 
 If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Developers/development.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><h2 id="quickstart">Quickstart</h2><p>To run Slatebox, start the image: one container runs the app, the relay and MongoDB. To run your own, use <code>npx slatebox install</code>. <a href="/installation/self-hosting/">Run your own Slatebox</a></p>
-<p>To work on the engine, run this in a SlateboxJS checkout:</p>
+<p>To work on the engine, run this in a checkout of <a href="https://github.com/Slatebox/slateboxjs">SlateboxJS</a>:</p>
 <div class="code-tabs" data-tabs><div class="code" data-label="Node.js"><div class="code-label">Node.js</div><pre><code class="language-sh">npm ci
 npm run build
 npm run dev</code></pre></div></div><p>You get ESM, CommonJS, CSS and TypeScript declarations in <code>dist/</code>, and a local Vite URL to open. Run one unit suite with <code>npm test -- tests/unit/Node.test.ts</code>. <a href="/developers/javascriptlibrary/">Add a slate to a web page</a></p>
