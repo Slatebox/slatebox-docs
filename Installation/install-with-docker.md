@@ -70,6 +70,7 @@ npx slatebox@latest install export --format helm --out ./slatebox-deploy
 - Nothing changes before the plan is shown. On a server or a cluster nothing changes without a yes.
 - The install waits for health. If it fails, the previous state is put back (exit 5).
 - Running it again with the same answers changes nothing. `--name <id>` keeps several installs side by side.
+- No questions, from a script or a coding agent: `npx slatebox install --team-address acme --yes`.
 - Flags for every question: `npx slatebox@latest --help`.
 
 ## Let an agent install it
@@ -583,6 +584,8 @@ Give the new install its own name, such as `boards`, so both stay listed in `npx
 5. Point DNS at the new address. Then `npx slatebox uninstall` removes the old install and keeps its data until you add `--delete-data --confirm slatebox`.
 
 Skip step 2 and everything else still moves: people add their saved AI and call keys again.
+
+To move your team to Slatebox Cloud, or from Cloud to your own server, use `npx slatebox migrate --to cloud` or `npx slatebox import --from cloud`. [Move to Cloud or to your own server](move-your-team.md)
 
 ## Forgotten passwords
 

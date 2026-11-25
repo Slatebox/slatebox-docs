@@ -31,47 +31,47 @@ npx slatebox install
 
 <!-- /tabs -->
 
-Pick a team address and approve a short code in your browser. Slatebox then runs at `https://<name>.slatebox.team`, with no DNS, ports or certificates to set up.
+Pick a team address and approve a code in your browser. Slatebox runs at `https://<name>.slatebox.team`, with no DNS, ports or certificates.
 
 ## What you get
 
-- **A team address with HTTPS.** The container opens a secure tunnel itself: nothing is opened on your machine or router. [Team addresses](team-addresses.md)
-- **Live collaboration** over the same address.
-- **Starts on boot**, on the same address.
-- **One container.** The app, live collaboration, its database and Keycloak, in `ghcr.io/slatebox/slatebox`. Your data stays in one volume.
-- **Free.** No limits from us. AI is whatever you connect, or none. [Who pays for what](self-host-costs.md)
+- **A team address with HTTPS**, through a secure tunnel: nothing is opened on your router. [Team addresses](team-addresses.md)
+- **Live collaboration** over the same address. **Starts on boot.**
+- **One container**, `ghcr.io/slatebox/slatebox`: the app, live collaboration, database and Keycloak, with your data in one volume.
+- **Free**, with no limits from us. AI is whatever you connect. [Who pays for what](self-host-costs.md)
 - **Single sign-on, free.** [Single sign-on](single-sign-on.md)
+- **Move to Cloud and back** with `npx slatebox migrate`. [Move your team](move-your-team.md)
 - **Outside agents** (GitHub, Linear, Exa) unlock with an on-prem license. [Contact Slatebox](https://slatebox.com/contact/)
 
 ## Install
 
-It asks a few short questions, shows a plan of everything it will write, run and create, and installs once you say yes. Add `--dry-run` to see the plan only.
+It asks where Slatebox answers: a free team address, your own domain, or this computer only. It shows a plan of everything it will write and run, and installs once you say yes. `--dry-run` shows the plan only. No questions, for scripts and agents: `npx slatebox install --team-address acme --yes`.
 
-It ends with a one-time setup link. Open it to create the first account, the server administrator. Nobody can sign up before that. The link works once, for 24 hours; `slatebox setup-link` prints a new one.
+It ends with a one-time setup link: open it to create the first account, the server administrator. Nobody can sign up before that. It works once, for 24 hours; `slatebox setup-link` prints a new one.
 
 ## Your own domain
 
+For a company: your own domain and single sign-on.
+
 - `--domain boards.example.com`: HTTPS certificates renewed automatically, or your own proxy.
+- `--sso`: company sign-in through the Keycloak in the image.
 - `--local` for this computer only, or a tunnel from your own Cloudflare account.
 - A Linux server over SSH, Kubernetes, or files for GitOps.
-- `--sso` turns on single sign-on.
-
-[The full install guide](install-with-docker.md)
 
 ## Or ask your agent
 
-Connect the Slatebox MCP server to Claude, ChatGPT or another agent and say "install Slatebox on my server". It asks the same questions, gives you the exact `npx slatebox install` command, and checks the address once you have run it. It never runs commands on your machine. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
+Connect the Slatebox MCP server to your agent and say "install Slatebox on my server". It asks the same questions, gives you the exact command, and checks the address once you have run it. It never runs commands on your machine. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
 
 ## What you need
 
 | | |
 | --- | --- |
 | Where you run `npx slatebox install` | Node.js 22.13 or newer. On Windows, use WSL 2. |
-| Where Slatebox runs | Docker or Podman. That is all for a team address. Or Kubernetes with kubectl access. |
+| Where Slatebox runs | Docker or Podman, all a team address needs. Or Kubernetes with kubectl. |
 | Machine | 1 GB of memory (2 GB for a team), 3 GB of disk plus your slates, and a processor with AVX or ARMv8.2-A. |
 | Your own domain | DNS pointed at the server and ports 80 and 443 open, or your own proxy. |
 
-Something went wrong? [Troubleshooting](install-with-docker.md#troubleshooting) · Every option, upgrades and backups: [the full install guide](install-with-docker.md)
+[Troubleshooting](install-with-docker.md#troubleshooting) · Every option, upgrades and backups: [the full install guide](install-with-docker.md)
 <!-- /feature:self-host -->
 <!-- feature:!self-host -->
 The installer is being published. One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster: the app, the collaboration relay and the database in one container. This page gives that command as soon as the installer and its image are out.
