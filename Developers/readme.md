@@ -11,7 +11,7 @@ Pick the interface that owns the data you want to change.
 | Run exec from a terminal or an MCP client | [Install the CLI and MCP server](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
-| Run your own Slatebox | <!-- feature:self-host -->[One Docker command](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Being published: use Slatebox Cloud until then](../Installation/self-hosting.md)<!-- /feature:!self-host --> |
+| Run your own Slatebox | <!-- feature:self-host -->[One command, `npx slatebox install`](../Installation/self-hosting.md): your own Slatebox at `https://<name>.slatebox.team`<!-- /feature:self-host --><!-- feature:!self-host -->[Being published: use Slatebox Cloud until then](../Installation/self-hosting.md)<!-- /feature:!self-host --> |
 
 The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed, except the app's `enterprise/` folder (see [Licenses](#licenses)). One Docker image runs all three with a database. <!-- feature:self-host -->[What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · <!-- /feature:self-host -->[App source](https://github.com/Slatebox/slatebox) · [Relay source](https://github.com/Slatebox/y-websocket)
 

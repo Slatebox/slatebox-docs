@@ -161,6 +161,36 @@ You get the run's `status`, the script's returned `result`, its `logs` and each 
 - **Keep the key.** Rerun with the same key to retry: writes that already saved replay instead of repeating.
 - **Confirm when held.** If `status` is `confirmation_required`, read `confirmation.reasons`. To go ahead, rerun the same file with `--confirm` set to `confirmation.id` and `--key` set to the result's `idempotencyKey` (the CLI asks instead). [Saves that wait for confirmation](exec.md#saves-that-wait-for-confirmation)
 
+## The slatebox command
+
+`npx slatebox` runs the `slatebox` package from npm: one command for running your own Slatebox and for working with any Slatebox from a script. Run it with no arguments to list its commands. In a project where you installed the archive above, run `npx -y slatebox@latest install` instead.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox install
+```
+
+<!-- /tabs -->
+
+| Command | What it does |
+| --- | --- |
+| `slatebox install` | Install, or change, your own Slatebox: a team address at `https://<name>.slatebox.team`, `--domain` for your own, or `--local`. Safe to run again. [Run your own Slatebox](../../Installation/self-hosting.md) |
+| `slatebox status` | Health, address, tunnel, version, AI, single sign-on and the last backup |
+| `slatebox logs` | The container's log, with `-f`, `--service` and `--since` |
+| `slatebox upgrade` | Back up, upgrade, check health, and roll back on a failure |
+| `slatebox rename <name>` | Move the team address to `https://<name>.slatebox.team` |
+| `slatebox address` | Show the team address; `release` gives it back, `rotate` gets a new tunnel token |
+| `slatebox uninstall` | Stop and remove (also `remove`); data is kept unless you add `--delete-data --confirm <name>` |
+| `slatebox backup`, `slatebox restore <file>` | A complete backup now, or replace everything with one |
+| `slatebox ai` | The install's agent providers: `list`, `add`, `remove`, `use`, `off`, `test` |
+| `slatebox secrets` | Where the install's secrets are kept; `reveal` prints one to a terminal |
+| `slatebox installs` | The installs this computer made |
+| `slatebox plan` | The install plan only; changes nothing |
+| `slatebox agent-prompt` | Instructions for a coding agent to install it for you |
+| `slatebox exec`, `slatebox describe` | Run a script against your slates, and list the methods it can call: [Run a script from the terminal](#run-a-script-from-the-terminal) |
+| `slatebox mcp` | Start the MCP server, the same as `slatebox-mcp` |
+
 ## Run a script from the terminal
 
 `slatebox exec` takes a file, `-` for standard input, or `-e` with one line. It prints the returned value as JSON on standard output and a one-line summary of the calls on standard error.

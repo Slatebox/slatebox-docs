@@ -37,6 +37,9 @@ async function pullable() {
   if (!/index|manifest\.list/.test(manifest.headers.get('content-type') || '')) {
     return 'latest is a single-architecture image; publish linux/amd64 and linux/arm64 together'
   }
+  // Team addresses (Installation/team-addresses.md) need the tunnel, which the image has from 0.2.0.
+  const tunnel = await fetch(`https://ghcr.io/v2/${repository}/manifests/0.2.0`, {method: 'HEAD', headers: {authorization: `Bearer ${token}`, accept: manifest.headers.get('content-type')}})
+  if (!tunnel.ok) return `no pullable 0.2.0 image, which team addresses need (${tunnel.status})`
   return null
 }
 

@@ -1,0 +1,72 @@
+---
+feature: self-host
+whileHeld: /installation/self-hosting/
+title: Team addresses
+description: npx slatebox install gives your own Slatebox a free address at https://<name>.slatebox.team, with HTTPS and live collaboration through a secure tunnel, and no DNS, ports or certificates.
+agentPrompt: >-
+  Help me give my own Slatebox a team address at https://<name>.slatebox.team.
+  Ask me for the name (3 to 32 characters: a-z, 0-9 and hyphens) and where Slatebox runs, then give me the exact npx slatebox install --team-address command.
+  Tell me I approve a short code in my browser to claim the name, and that I should open the address and create my account right away.
+  Never ask me to paste a token or a credential into this conversation.
+---
+# Team addresses
+
+A team address is a free name for your own Slatebox, `https://<name>.slatebox.team`. You get HTTPS and live collaboration with no DNS, ports or certificates to set up.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox install --team-address acme
+```
+
+<!-- /tabs -->
+
+The installer prints a short code and offers to open your browser. Sign in to your Slatebox account, approve the code, and `acme.slatebox.team` is claimed for you. Slatebox starts and the installer prints the address once it answers. Open it and create your account right away: until the first account exists, anyone who has the address can sign up.
+
+## How it works
+
+- The container connects out to Cloudflare through a secure tunnel. Cloudflare ends HTTPS and carries the app and live editing to it.
+- Nothing is opened on your machine or router. Only `127.0.0.1` is published on the host.
+- The container starts again when the machine does, and reconnects on the same address.
+- Your address is public; your slates are not. People still sign in or open a share link.
+- The tunnel takes uploads of up to 100 MB, more than Slatebox itself accepts, so uploads work as they do anywhere else.
+
+The install keeps one credential for the address, on the computer that installed: `~/.slatebox/installs/<name>/credentials.json`, mode 0600. It can fetch the tunnel token again and give the address back, and nothing else.
+
+## Names
+
+- 3 to 32 characters: a-z, 0-9 and hyphens. Case does not matter.
+- An account holds up to 3 team addresses.
+- Claiming a name needs a Slatebox account with a verified email.
+
+## Rename, rotate and release
+
+<!-- tabs -->
+
+```sh Shell
+slatebox status                 # the address and the tunnel's connections
+slatebox rename acme-boards     # move to https://acme-boards.slatebox.team
+slatebox address rotate         # a new tunnel token; the old one stops working
+slatebox address release        # give the address back; Slatebox keeps running on this computer
+slatebox uninstall              # also gives the address back, unless --keep-address
+```
+
+<!-- /tabs -->
+
+Each claim, rename or reconnect is approved in your browser.
+
+## When an address is released
+
+| When | What happens |
+| --- | --- |
+| It never connects within 24 hours of the claim | It is released |
+| It has not connected for 60 days | The owner gets an email |
+| It has not connected for 90 days | It is released |
+| You release it | The name is held for your account for 30 days |
+
+Report abuse of a team address to abuse@slatebox.com.
+
+## Leave for your own domain
+
+- `npx slatebox install --domain boards.example.com` moves the install to your own domain, with HTTPS certificates renewed automatically or your own proxy. [Your own domain](install-with-docker.md#your-own-domain)
+- A tunnel in your own Cloudflare account works the same way. [Your own tunnel](install-with-docker.md#your-own-tunnel)

@@ -1,13 +1,14 @@
 ---
 title: Run your own Slatebox
 <!-- feature:self-host -->
-description: Install your own Slatebox with one command, npx slatebox, on the machine of your choice. Or ask your agent to walk you through it.
+description: Run your own Slatebox with one command, npx slatebox install. It answers at https://<name>.slatebox.team with HTTPS and live collaboration, and nothing else to set up. Or ask your agent to walk you through it.
 agentPrompt: >-
-  Help me install my own Slatebox on the machine I choose. The installer is the npm package slatebox: I run npx slatebox in a terminal there.
-  Ask me, one question at a time and without guessing: where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes with which context and namespace, or files only),
-  a domain name for HTTPS or a port, the admin email, the AI (none for now, or which providers; Slatebox has no default AI provider) and whether to turn on single sign-on.
+  Help me install my own Slatebox. The installer is the npm package slatebox: I run npx slatebox install in a terminal on the machine where it should run.
+  By default it gives my Slatebox a free team address, https://<name>.slatebox.team, with HTTPS and no DNS, ports or certificates; I approve a short code in my browser to claim the name.
+  Ask me, one question at a time and without guessing: the team address name, or my own domain instead, where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes, or files only),
+  the AI (none for now, or which providers; Slatebox has no default AI provider) and whether to turn on single sign-on.
   Never ask me to paste a key or password into this conversation: keys stay in environment variables on my machine.
-  Give me the exact npx slatebox command for my answers, suggest --dry-run first, and once it finishes, check that the address it printed answers at /readyz.
+  Give me the exact npx slatebox install command for my answers, suggest --dry-run first, and once it finishes, tell me to open the address and create my account right away, then check that the address answers at /readyz.
 <!-- /feature:self-host -->
 <!-- feature:!self-host -->
 description: Slatebox runs on your own server with one command. The installer is being published; until then, use Slatebox Cloud.
@@ -20,41 +21,55 @@ agentPrompt: >-
 # Run your own Slatebox
 
 <!-- feature:self-host -->
-Install Slatebox on the machine of your choice with one command: a laptop, a Linux server or a Kubernetes cluster.
-
-## What you get
-
-- **One container.** The app, live collaboration, its database and Keycloak for single sign-on, in `ghcr.io/slatebox/slatebox`. Your data stays in one volume.
-- **Free.** No limits from us. AI is whatever you and your people connect, or none. [Who pays for what on your own server](self-host-costs.md)
-- **Single sign-on, free.** Keycloak is built in and needs no license. [Single sign-on](single-sign-on.md)
-- **Outside agents with an on-prem license.** Inviting agents such as GitHub, Linear or Exa onto a slate is in the image, locked, until an on-prem license from Slatebox unlocks it on your install. [Contact Slatebox](https://slatebox.com/contact/)
-
-## Install
-
-Run this in a terminal on the machine you install from:
+Run this in a terminal on the machine where Slatebox should run:
 
 <!-- tabs -->
 
 ```sh Shell
-npx slatebox
+npx slatebox install
 ```
 
 <!-- /tabs -->
 
-It asks where Slatebox runs, its address, the admin email, the AI and single sign-on. It shows a plan of everything it will write and run, and installs once you say yes. You get the address and the command that gives the admin a sign-in link. Add `--dry-run` to see the plan without changing anything.
+Pick a team address and approve a short code in your browser. Slatebox then runs at `https://<name>.slatebox.team`, with no DNS, ports or certificates to set up.
+
+## What you get
+
+- **A team address with HTTPS.** The container opens a secure tunnel itself: nothing is opened on your machine or router. [Team addresses](team-addresses.md)
+- **Live collaboration** over the same address.
+- **Starts on boot**, on the same address.
+- **One container.** The app, live collaboration, its database and Keycloak, in `ghcr.io/slatebox/slatebox`. Your data stays in one volume.
+- **Free.** No limits from us. AI is whatever you connect, or none. [Who pays for what](self-host-costs.md)
+- **Single sign-on, free.** [Single sign-on](single-sign-on.md)
+- **Outside agents** (GitHub, Linear, Exa) unlock with an on-prem license. [Contact Slatebox](https://slatebox.com/contact/)
+
+## Install
+
+It asks a few short questions, shows a plan of everything it will write, run and create, and installs once you say yes. Add `--dry-run` to see the plan only.
+
+Open the address and create your account right away: until the first account exists, anyone who has the address can sign up.
+
+## Your own domain
+
+- `--domain boards.example.com`: HTTPS certificates renewed automatically, or your own proxy.
+- `--local` for this computer only, or a tunnel from your own Cloudflare account.
+- A Linux server over SSH, Kubernetes, or files for GitOps.
+- `--sso` turns on single sign-on.
+
+[The full install guide](install-with-docker.md)
 
 ## Or ask your agent
 
-Connect the Slatebox MCP server to Claude, ChatGPT, Claude Code or another agent, and say "install Slatebox on my server". It asks the same questions, gives you the exact `npx slatebox` command to run on that machine, and checks the address once you have run it. It never runs commands on your machine itself. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
+Connect the Slatebox MCP server to Claude, ChatGPT or another agent and say "install Slatebox on my server". It asks the same questions, gives you the exact `npx slatebox install` command, and checks the address once you have run it. It never runs commands on your machine. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
 
 ## What you need
 
 | | |
 | --- | --- |
-| Where you run `npx slatebox` | Node.js 22.13 or newer. On Windows, use WSL 2. |
-| Where Slatebox runs | Docker, or Podman with its Docker compatibility on. Or a Kubernetes cluster with kubectl access. |
-| Machine | 1 GB of memory (2 GB for a team, about 0.5 GB more with single sign-on), 3 GB of disk plus your slates, and an Intel or AMD processor with AVX or an ARMv8.2-A processor. |
-| Address | A free port, 7070 by default. For HTTPS, a domain pointed at the server with ports 80 and 443 open. |
+| Where you run `npx slatebox install` | Node.js 22.13 or newer. On Windows, use WSL 2. |
+| Where Slatebox runs | Docker or Podman. That is all for a team address. Or Kubernetes with kubectl access. |
+| Machine | 1 GB of memory (2 GB for a team), 3 GB of disk plus your slates, and a processor with AVX or ARMv8.2-A. |
+| Your own domain | DNS pointed at the server and ports 80 and 443 open, or your own proxy. |
 
 Something went wrong? [Troubleshooting](install-with-docker.md#troubleshooting) · Every option, upgrades and backups: [the full install guide](install-with-docker.md)
 <!-- /feature:self-host -->

@@ -1,31 +1,33 @@
 ---
 feature: self-host
 whileHeld: /installation/self-hosting/
-description: Run your own Slatebox with one command, on this computer, a server or Kubernetes, with any AI or none.
+description: Run your own Slatebox with one command, npx slatebox install, at a free team address or your own domain, on this computer, a server or Kubernetes, with any AI or none.
 agentPrompt: >-
   Help me install my own Slatebox with the slatebox installer from npm (npx -y slatebox@latest).
   First run npx -y slatebox@latest agent-prompt and follow the brief it prints exactly.
   Ask me, do not guess: where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes with which context and namespace, or files only),
-  the domain name for HTTPS or the port, the admin email, and the AI: none for now, or which providers and models.
+  the address (a free team address https://<name>.slatebox.team, which I claim by approving a code in my browser; my own domain for HTTPS; or this computer only), the admin email, and the AI: none for now, or which providers and models.
   Slatebox has no default AI provider: any cloud provider the installer lists, or any OpenAI-compatible endpoint I run, on this computer or in my company.
   Never write a key into a file or a flag: ask me to export each key in an environment variable and pass key=env:NAME.
   Write slatebox.yaml, run npx -y slatebox@latest plan --answers slatebox.yaml --json, and show me the whole plan.
   Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them.
-  Report the address, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
+  Report the address, tell me to open it and create my account right away, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
 ---
 # Install guide: every option
 
-One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
+One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster:
 
 <!-- tabs -->
 
 ```sh Shell
-npx slatebox
+npx slatebox install
 ```
 
 <!-- /tabs -->
 
-You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
+Pick a team address and sign in; Slatebox runs at `https://<name>.slatebox.team` with no DNS, ports or certificates. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
+
+You get the address with HTTPS and live collaboration, a Slatebox that starts on boot, daily backups, and your key encryption key kept in one private place. Open the address and create your account right away: until the first account exists, anyone who has the address can sign up. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
 
 Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
 
@@ -37,12 +39,12 @@ Pick where Slatebox runs. You need Node.js 22.13 or newer where you type the com
 
 ```sh Docker
 # This computer
-npx slatebox
+npx slatebox install
 ```
 
 ```sh Remote server
 # A Linux server over SSH
-npx slatebox@latest install ssh root@203.0.113.5 --domain boards.example.com
+npx slatebox@latest install ssh root@203.0.113.5 --team-address acme
 ```
 
 ```sh Kubernetes
@@ -60,8 +62,8 @@ npx slatebox@latest install export --format helm --out ./slatebox-deploy
 
 | Where | What you get |
 | --- | --- |
-| This computer (Docker) | The first free port from 7070, published on `127.0.0.1` only. `--listen 0.0.0.0` opens it to your network. Files in `~/.slatebox/installs/<name>/`. |
-| Remote server | Root or passwordless sudo over SSH. With `--domain`, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without it, `http://<server>:7070`. Files in `/opt/slatebox`, owned by root. Docker is installed only with `--install-docker`. |
+| This computer (Docker) | A team address, `https://<name>.slatebox.team`, or your own domain. `--local` keeps it on `http://localhost`, the first free port from 7070. The port is published on `127.0.0.1` only; `--listen 0.0.0.0` opens it to your network. Files in `~/.slatebox/installs/<name>/`. |
+| Remote server | Root or passwordless sudo over SSH. A team address with `--team-address`, or with `--domain`, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without either, `http://<server>:7070`. Files in `/opt/slatebox`, owned by root. Docker is installed only with `--install-docker`. |
 | Kubernetes | kubectl and your current context; a context whose name looks like production must be named with `--k8s-context`. Namespace `slatebox`. One StatefulSet with a volume, a Service, the Secret `<name>-env`, a backups sidecar, and an Ingress or Gateway API HTTPRoute with `--route ingress` or `--route gateway`. |
 | Files only | A compose file, Kubernetes manifests or a Helm chart for GitOps, with placeholders where secrets go. |
 
@@ -125,6 +127,38 @@ With `--json`, each line is one event (`plan`, `step`, `done`, `error`). The las
 | 7 | Canceled |
 
 `--yes`, `--install-docker`, `--new-encryption-key`, `--delete-data` and `--confirm` count only when typed on the command line, never from the environment or an answers file.
+
+## Your own domain
+
+A team address needs nothing but Docker. For a company install, keep the address on your own infrastructure instead:
+
+| Address | Command | What you need |
+| --- | --- | --- |
+| A team address | `npx slatebox install --team-address acme` | Docker. A Slatebox account to approve the claim. [Team addresses](team-addresses.md) |
+| Your own domain | `npx slatebox install --domain boards.example.com` | DNS pointed at the server and ports 80 and 443 open. Slatebox gets and renews the certificate. |
+| Your own proxy | `npx slatebox install --url https://boards.example.com` | A proxy that ends HTTPS and forwards WebSocket upgrades to port 7070. [Behind your own proxy](#behind-your-own-proxy) |
+| This computer only | `npx slatebox install --local` | Nothing more: `http://localhost` on a free port from 7070. |
+
+To leave a team address for your own domain, run the installer again with `--domain`; your data stays. Turn on [single sign-on](single-sign-on.md) with `--sso`.
+
+### Your own tunnel
+
+A tunnel in your own Cloudflare account works the same way as a team address. Create a tunnel there, route its public hostname to `http://localhost:7070`, and give the container its token and address in a file only you can read:
+
+<!-- tabs -->
+
+```sh Docker
+# slatebox.env, mode 0600:
+#   SLATEBOX_URL=https://boards.example.com
+#   SLATEBOX_TUNNEL_TOKEN=your-tunnel-token
+docker run -d --name slatebox --restart unless-stopped \
+  -p 127.0.0.1:7070:7070 --env-file slatebox.env \
+  -v slatebox-data:/data ghcr.io/slatebox/slatebox
+```
+
+<!-- /tabs -->
+
+The token goes to the tunnel only, never to the app or the log.
 
 ## Choose the AI when you install
 
@@ -237,6 +271,7 @@ You get a new slate of your own. There is nothing to configure: the first start 
 | Processor | Intel or AMD with AVX (Sandy Bridge or Bulldozer and later), or ARMv8.2-A (Apple silicon, Raspberry Pi 5). A Raspberry Pi 4 cannot run it. In a virtual machine, give the guest the host's CPU type so AVX is passed through. |
 | Memory | 1 GB free, 2 GB for a team. [Single sign-on](single-sign-on.md) adds about 0.5 GB while it is on. |
 | Disk | About 585 MB to download and 2.5 GB unpacked, plus your slates. |
+| Address | Nothing for a team address. For your own domain: DNS pointed at the server and ports 80 and 443 open, or your own proxy. |
 
 On a processor without AVX or ARMv8.2-A, the container stops at once and its log says why:
 
@@ -402,6 +437,7 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 | --- | --- |
 | `SLATEBOX_URL` | The address people type. Default `http://localhost:7070`. |
 | `SLATEBOX_HTTPS` | `off` when your own proxy terminates HTTPS. Otherwise an `https://` address turns on built-in HTTPS on ports 80 and 443. |
+| `SLATEBOX_TUNNEL_TOKEN` | A tunnel token, from a team address or [your own tunnel](#your-own-tunnel). The container connects out with it and the tunnel ends HTTPS for the `https://` `SLATEBOX_URL`. Built-in HTTPS is off with it. |
 | `SLATEBOX_ACME_CA` | The ACME directory URL of your own certificate authority. |
 | `SLATEBOX_MAIL_URL` | An `smtp://` or `smtps://` URL, such as `smtp://user:password@mail.example.com:587`. Turns on invitations, email verification and password-reset mail. |
 | `SLATEBOX_MAIL_FROM` | The sender, such as `Slatebox <boards@example.com>`. Needed unless the user name in `SLATEBOX_MAIL_URL` is itself an address. |
@@ -589,6 +625,7 @@ docker compose exec slatebox slatebox version
 | `port is already allocated` | Port 7070 is taken. Publish another, such as `-p 8080:7070 -e SLATEBOX_URL=http://localhost:8080`. |
 | Certificate error with built-in HTTPS | The certificate is not issued yet. Check that DNS points here and ports 80 and 443 reach the container. `[proxy]` log lines give the reason. |
 | Edits do not reach a second browser | Your proxy must forward WebSocket upgrades. |
+| A team address does not answer | `npx slatebox status` shows the tunnel and its connections; `npx slatebox logs --service tunnel` says why. |
 | A restore says the file is not a complete backup | The file is empty or cut short. Back up again and check for `Backup complete`. |
 
 With single sign-on on, also see [its troubleshooting](single-sign-on.md#troubleshooting).
@@ -601,7 +638,7 @@ The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT lice
 | --- | --- |
 | Slatebox app, SlateboxJS, collaboration relay | MIT |
 | MongoDB Community Server | Server Side Public License (SSPL) v1 |
-| MongoDB Database Tools, Caddy, Keycloak | Apache License 2.0 |
+| MongoDB Database Tools, Caddy, Keycloak, cloudflared | Apache License 2.0 |
 | Eclipse Temurin Java runtime (runs Keycloak) | GPL 2.0 with the Classpath Exception |
 | Node.js, Meteor, tini | MIT |
 | Interface and slate-image fonts | SIL Open Font License 1.1 or Apache License 2.0, per family |

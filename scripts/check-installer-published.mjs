@@ -1,4 +1,4 @@
-// The install guide's first command is `npx slatebox`. Publishing the guide before
+// The install guide's first command is `npx slatebox install`. Publishing the guide before
 // the package would send every reader into a failing first command, so the publish workflow runs
 // this check first: it passes only when the npm package `slatebox` exists and its latest version
 // has the slatebox command and the install subcommand's agent brief.
@@ -28,4 +28,11 @@ if (!/install/i.test(manifest.description || '')) {
   console.error(`npm: slatebox@${manifest.version} does not describe itself as the installer. Check the package name before publishing the guide.`)
   process.exit(1)
 }
-console.log(`npm: slatebox@${manifest.version} is published with the slatebox command.`)
+// The guides lead with `npx slatebox install` and a team address (https://<name>.slatebox.team): the published
+// installer must be the one that claims team addresses (slatebox 0.2.0 or newer), or the first command fails.
+const [major, minor] = String(manifest.version).split('.').map(Number)
+if (!(major > 0 || minor >= 2) || !/slatebox\.team/.test(manifest.description || '')) {
+  console.error(`npm: slatebox@${manifest.version} does not give team addresses (needs 0.2.0 or newer). Publish the installer before the guides that use npx slatebox install.`)
+  process.exit(1)
+}
+console.log(`npm: slatebox@${manifest.version} is published with the slatebox command and team addresses.`)
