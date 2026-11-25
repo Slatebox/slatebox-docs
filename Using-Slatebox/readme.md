@@ -1,5 +1,7 @@
 # Slatebox user guide
 
+Slatebox is free and open source: one live canvas for you, your team and your agents. To have your agent draw for you, start with [Use Slatebox from your agent](use-from-your-agent.md).
+
 ## Start your first slate
 
 1. Choose **Create slate**. [Create a slate](https://app.slatebox.com/new)
@@ -116,3 +118,21 @@ Choose **Publish presentation** on a saved workshop. Readers step through its sc
 ## Choose where to work
 
 Slatebox Cloud is free. AI and calls come with Slatebox Pro, or a balance you top up. [Pricing](pricing.md) · [Slatebox Pro](slatebox-pro.md) · <!-- feature:self-host -->[Run your own Slatebox](../Installation/install-with-docker.md)<!-- /feature:self-host --><!-- feature:!self-host -->[Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host --> · [Slatebox Business for teams](slatebox-business.md)
+
+## Questions
+
+### Is Slatebox free?
+
+Yes. Slatebox Cloud is free for individuals and companies alike: unlimited slates, live editing, guests without an account, smart components, presenting, publishing, the API and the MCP server. AI drafts and calls you start come with Slatebox Pro, or from a balance. [See pricing](https://slatebox.com/plans/)
+
+### Is Slatebox open source?
+
+Yes. The app, the SlateboxJS engine and the relay are MIT licensed, except the app's `enterprise/` folder of outside-agent connections. [Licenses](../Developers/readme.md#licenses)
+
+### Do teammates need an account to edit with me?
+
+No. Anyone with an edit link can edit; a guest joins without an account. Register before you rely on a slate from another device.
+
+### Can my agent draw on my slates?
+
+Yes. Add `https://app.slatebox.com/mcp` to Claude, ChatGPT, Cursor or any MCP client and sign in. [Use Slatebox from your agent](use-from-your-agent.md)

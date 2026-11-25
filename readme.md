@@ -10,6 +10,8 @@ Source for https://docs.slatebox.com. Guides live in `Using-Slatebox`, `Installa
 | List examples outside a language picker | `node scripts/check-style.mjs --strict` |
 | Preview locally | `npx --yes http-server dist -p 8000 -a 127.0.0.1` |
 
+The build also writes `llms.txt` (the agent index: free and open-source positioning first, every guide, what Slatebox Cloud sells last), `llms-full.txt` (every guide in one file), `robots.txt` (every crawler welcome, the AI crawlers named) and schema.org JSON-LD on every page (a page with a `## Questions` section of `### …?` headings is also a FAQPage). `scripts/check.mjs` checks all four.
+
 Pushing `main` publishes the site: a GitHub Action builds `dist/` and pushes it to the `retype` branch.
 
 Features written before they can be published are switched in `scripts/features.json`, one `true` or `false` each:

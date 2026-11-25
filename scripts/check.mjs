@@ -47,6 +47,19 @@ for(const file of files){
   }
 }
 if(guideLinks.size) errors.push('Agent index points to missing pages: '+[...guideLinks].join(', '))
+// Agents and crawlers: llms-full.txt holds every guide the index lists, robots.txt welcomes the AI crawlers by name,
+// and every page's JSON-LD parses (a page with a "## Questions" section is a FAQPage of those questions).
+const full=await readFile(join(root,'llms-full.txt'),'utf8').catch(()=>'')
+for (const link of publishedGuides) if(!full.includes('Source: '+link)) errors.push('llms-full.txt lacks '+link)
+const robots=await readFile(join(root,'robots.txt'),'utf8')
+for (const bot of ['GPTBot','OAI-SearchBot','ChatGPT-User','ClaudeBot','Claude-User','PerplexityBot','Google-Extended','Applebot-Extended','CCBot','meta-externalagent']) if(!new RegExp('^User-agent: '+bot+'$','m').test(robots)) errors.push('robots.txt does not name '+bot)
+if(/^Disallow:\s*\/\S*/m.test(robots) || !robots.includes('Sitemap: https://docs.slatebox.com/sitemap.xml')) errors.push('robots.txt disallows something or lacks the sitemap')
+for(const file of files){
+  for(const [,body] of (await readFile(file,'utf8')).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
+    try{JSON.parse(body)}catch(error){errors.push(file+' JSON-LD does not parse: '+error.message)}
+  }
+}
+for(const page of ['using-slatebox/use-from-your-agent','using-slatebox']) if(!(await readFile(join(root,page,'index.html'),'utf8')).includes('"@type":"FAQPage"')) errors.push(page+' has no FAQPage')
 const legacy=JSON.parse(await readFile('scripts/legacy-routes.json','utf8'))
 for (const [url, ids] of Object.entries(legacy)){
   const doc=await readFile(join(root,url,'index.html'),'utf8')
