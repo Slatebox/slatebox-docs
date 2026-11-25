@@ -25,6 +25,7 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Add a video to a slate](https://docs.slatebox.com/Using-Slatebox/video-notes.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/video-notes.md)
 - [Choose your AI](https://docs.slatebox.com/Using-Slatebox/choose-your-ai.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/choose-your-ai.md)
 - [Export and import Mermaid](https://docs.slatebox.com/Using-Slatebox/mermaid.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/mermaid.md)
+- [Getting help](https://docs.slatebox.com/Using-Slatebox/getting-help.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/getting-help.md)
 - [Invite an outside agent onto a slate](https://docs.slatebox.com/Using-Slatebox/invite-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/invite-agents.md)
 - [Keep or discard what agents suggest](https://docs.slatebox.com/Using-Slatebox/agent-suggestions.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/agent-suggestions.md)
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
