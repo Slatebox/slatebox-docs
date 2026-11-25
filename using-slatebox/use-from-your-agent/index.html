@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Use Slatebox from your agent · Slatebox Docs</title><meta name="description" content="Add https://app.slatebox.com/mcp to Claude, ChatGPT, Cursor or any MCP client, sign in, and ask for a mind map, a flowchart or a project plan. Your team edits the slate with you, live. Free."><link rel="canonical" href="https://docs.slatebox.com/using-slatebox/use-from-your-agent/"><link rel="icon" href="/assets/slatebox.svg"><link rel="alternate" type="text/markdown" href="https://docs.slatebox.com/Using-Slatebox/use-from-your-agent.md"><link rel="stylesheet" href="/assets/docs.css"><script defer src="/assets/docs.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://docs.slatebox.com/#website","name":"Slatebox documentation","url":"https://docs.slatebox.com/","publisher":{"@type":"Organization","@id":"https://slatebox.com/#organization","name":"Slatebox","url":"https://slatebox.com/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Docs","item":"https://docs.slatebox.com/"},{"@type":"ListItem","position":2,"name":"Use Slatebox from your agent","item":"https://docs.slatebox.com/using-slatebox/use-from-your-agent/"}]},{"@type":"TechArticle","headline":"Use Slatebox from your agent","description":"Add https://app.slatebox.com/mcp to Claude, ChatGPT, Cursor or any MCP client, sign in, and ask for a mind map, a flowchart or a project plan. Your team edits the slate with you, live. Free.","url":"https://docs.slatebox.com/using-slatebox/use-from-your-agent/","inLanguage":"en","isPartOf":{"@id":"https://docs.slatebox.com/#website"},"publisher":{"@id":"https://slatebox.com/#organization"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the Slatebox MCP server free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The MCP server, the command line and the HTTP API are free on Slatebox Cloud and on a self-hosted Slatebox. Tools that use Slatebox's own AI, such as create_presentation and generate_shape, come with Slatebox Pro or a balance on Slatebox Cloud. See pricing"}},{"@type":"Question","name":"Which agents work with Slatebox?","acceptedAnswer":{"@type":"Answer","text":"Any MCP client that supports remote servers, such as Claude, Claude Code, ChatGPT and Cursor. A client without OAuth sign-in can send a personal token from Profile → Developer access."}},{"@type":"Question","name":"Is Slatebox open source?","acceptedAnswer":{"@type":"Answer","text":"Yes. The app, the SlateboxJS engine and the relay are MIT licensed, except the app's enterprise/ folder of outside-agent connections. Licenses"}},{"@type":"Question","name":"How do I disconnect an agent?","acceptedAnswer":{"@type":"Answer","text":"Open Profile → Developer access and choose Disconnect beside the app under Connected apps. Its next request is refused."}}]}]}</script></head><body><a class="skip" href="#content">Skip to content</a><header class="mast"><a class="brand" href="/"><img src="/assets/slatebox.svg" alt="" width="31" height="31">Slatebox <small>Docs</small></a><nav aria-label="Main"><a href="/examples/">Examples</a><button data-search>Search <kbd>/</kbd></button><a class="app" href="https://app.slatebox.com/new">Open app ↗</a></nav></header><main id="content"><div class="manual"><details class="toc"><summary>Browse documentation</summary><nav aria-label="Documentation sections"><details open><summary>Using Slatebox</summary><a href="/using-slatebox/" >Slatebox user guide</a><a href="/using-slatebox/video-notes/" >Add a video to a slate</a><a href="/using-slatebox/choose-your-ai/" >Choose your AI</a><a href="/using-slatebox/mermaid/" >Export and import Mermaid</a><a href="/using-slatebox/invite-agents/" >Invite an outside agent onto a slate</a><a href="/using-slatebox/agent-suggestions/" >Keep or discard what agents suggest</a><a href="/using-slatebox/pricing/" >Pricing</a><a href="/using-slatebox/slatebox-business/" >Slatebox Business</a><a href="/using-slatebox/slatebox-pro/" >Slatebox Pro</a><a href="/using-slatebox/library/" >The shared library</a><a href="/using-slatebox/top-ups/" >Top-ups and refunds</a><a href="/using-slatebox/use-from-your-agent/" aria-current="page">Use Slatebox from your agent</a><a href="/using-slatebox/own-keys/" >Use your own keys on a self-hosted Slatebox</a></details><details ><summary>SlateboxJS</summary><a href="/developers/" >Build with Slatebox</a><a href="/developers/development/" >Local development</a><a href="/developers/javascriptlibrary/" >SlateboxJS</a><a href="/developers/javascriptlibrary/themeexample/" >Apply a canvas theme</a><a href="/developers/javascriptlibrary/association-properties/" >Association properties</a><a href="/developers/javascriptlibrary/easing/" >Motion and easing</a><a href="/developers/javascriptlibrary/node-methods/" >Node methods</a><a href="/developers/javascriptlibrary/node-properties/" >Node properties</a><a href="/developers/javascriptlibrary/association-methods/" >Relationship methods</a><a href="/developers/javascriptlibrary/slate-methods/" >Slate methods</a><a href="/developers/javascriptlibrary/slate-properties/" >Slate options</a><a href="/developers/javascriptlibrary/creative-slates/" >Use the interactive boards</a></details><details ><summary>HTTP API</summary><a href="/developers/slateboxapi/" >Slatebox HTTP API</a><a href="/developers/slateboxapi/agents-on-the-canvas/" >Agents on the canvas: suggestions, video notes and invited agents</a><a href="/developers/slateboxapi/mcp/" >Connect an assistant: Agents and MCP</a><a href="/developers/slateboxapi/terminal-and-agents/" >Edit a shared slate from a terminal or an agent</a><a href="/developers/slateboxapi/exec/" >Exec: how agents work with Slatebox</a><a href="/developers/slateboxapi/slates/" >Read and edit a slate</a><a href="/developers/slateboxapi/library/" >The shared library</a></details><details ><summary>Self-hosting</summary><a href="/installation/install-with-docker/" >Install guide: every option</a><a href="/installation/self-hosting/" >Run your own Slatebox</a><a href="/installation/single-sign-on/" >Single sign-on</a><a href="/installation/self-host-costs/" >Who pays for what on your own server</a></details><details ><summary>Examples</summary><a href="/examples/research-cue-sheet/" >Build a community radio cue sheet</a><a href="/examples/museum-loans/" >Choose two objects for a loan case</a><a href="/examples/review-a-backfill/" >Decide what a reviewer needs before a backfill</a><a href="/examples/agent-spend-cap/" >Decide what happens when an agent hits its budget</a><a href="/examples/telescope-retest/" >Give the planetarium crew a second try</a><a href="/examples/incident-handoff/" >Hand an incident timeline to the next shift</a><a href="/examples/gallery-prerequisite/" >Hang the coast before the moon</a><a href="/examples/connected-notes/" >Keep a connection when you reopen a slate</a><a href="/examples/listening-room/" >Mix two sound sculptures</a><a href="/examples/refund-approval/" >Move a refund decision from a terminal</a><a href="/examples/startup-experiments/" >Plan a design partner experiment</a><a href="/examples/preview-api-edit/" >Preview a triangle before editing the slate</a><a href="/examples/embed-a-walkthrough/" >Put a walkthrough in your team handbook</a><a href="/examples/focus-return/" >Return focus to the print that opened the viewer</a><a href="/examples/field-note-handoff/" >Review two conflicting field notes</a><a href="/examples/theatre-cues/" >Show what changes when a cue moves</a><a href="/examples/sign-in-outage/" >Trace who can still use your product during a sign-in outage</a><a href="/examples/present-the-evidence/" >Walk through evidence in a chosen order</a></details></nav></details><article><div class="crumb"><a href="/" >Docs</a> / Using Slatebox</div><h1>Use Slatebox from your agent</h1><section class="agent-tools" id="agent-prompt" aria-label="Use this guide with an agent"><div><button type="button" data-copy-agent hidden>Copy agent prompt</button><a href="/Using-Slatebox/use-from-your-agent.md" >Read Markdown</a></div><details><summary>View agent prompt</summary><pre tabindex="0" data-agent-prompt>Help me use Slatebox from the agent I am talking to. Find out which client I use (Claude, Claude Code, ChatGPT, Cursor or another MCP client), give me the exact steps to add https://app.slatebox.com/mcp, and tell me what the Slatebox consent page will ask. Once connected, make one small mind map of a topic I choose and give me the slate link. Never ask me to paste a token into chat.
+
+Read https://docs.slatebox.com/Using-Slatebox/use-from-your-agent.md first. Ask for the inputs you need. Tell me what you verified and which steps I still need to do.
+
+If your client cannot fetch the documentation, read the same published file at https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/use-from-your-agent.md.</pre></details><span class="agent-status" role="status"></span></section><div class="prose"><p>Give your agent one address, <code>https://app.slatebox.com/mcp</code>, and sign in to Slatebox. Then ask it for a mind map, a flowchart, a project plan or a presentation: it draws on a slate and replies with the link, and your team edits the slate with you, live. Slatebox is free and open source, and so is its MCP server.</p>
+<h2 id="connect-your-agent">Connect your agent</h2><table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Steps</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Claude</td>
+<td><strong>Settings → Connectors → Add custom connector</strong>. Name it Slatebox, enter <code>https://app.slatebox.com/mcp</code>, choose <strong>Add</strong>, then <strong>Connect</strong>.</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>Run <code>claude mcp add --transport http slatebox https://app.slatebox.com/mcp</code>, then sign in from the <code>/mcp</code> menu.</td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>In settings, turn on developer mode for apps and connectors. Create an app named Slatebox with the MCP server URL <code>https://app.slatebox.com/mcp</code> and OAuth authentication.</td>
+</tr>
+<tr>
+<td>Cursor</td>
+<td>Add a server named <code>slatebox</code> with the URL <code>https://app.slatebox.com/mcp</code> to your MCP settings (<code>mcp.json</code>), then sign in when Cursor asks.</td>
+</tr>
+<tr>
+<td>Any other MCP client</td>
+<td>Add <code>https://app.slatebox.com/mcp</code> as a remote server (Streamable HTTP, OAuth). A client without sign-in sends a personal token instead.</td>
+</tr>
+</tbody></table>
+<p>Each client opens Slatebox in your browser. Sign in, check the permissions and choose <strong>Allow</strong>. A guest account cannot connect apps, so register first. <a href="/developers/slateboxapi/mcp/#what-happens-when-you-connect">What happens when you connect</a></p>
+<div class="code-tabs" data-tabs><div class="code" data-label="JSON"><div class="code-label">JSON</div><pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;slatebox&quot;: {
+      &quot;url&quot;: &quot;https://app.slatebox.com/mcp&quot;
+    }
+  }
+}</code></pre></div></div><h2 id="ask-for-a-drawing">Ask for a drawing</h2><table>
+<thead>
+<tr>
+<th>Ask</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“Make a mind map of our Q1 launch ideas.”</td>
+<td>A mind map on a new private slate, and its link.</td>
+</tr>
+<tr>
+<td>“Draw a flowchart of our refund process: request, review, approve or decline.”</td>
+<td>Connected notes, with the decision as a branch.</td>
+</tr>
+<tr>
+<td>“Turn this Mermaid into a slate.”</td>
+<td>Real notes and lines from a flowchart, mind map or Gantt chart.</td>
+</tr>
+<tr>
+<td>“Plan a launch as a Gantt chart.”</td>
+<td>A project plan you can move and present.</td>
+</tr>
+<tr>
+<td>“Add a retro board to this slate.”</td>
+<td>Lanes for Went well, Change and Try.</td>
+</tr>
+</tbody></table>
+<p>Open the link and share it: your teammates edit the slate with you, live. When your agent changes a slate someone else is on, its edits arrive as suggestions anyone who can edit keeps or discards. <a href="/using-slatebox/agent-suggestions/">Keep or discard what agents suggest</a></p>
+<h2 id="what-your-agent-can-do">What your agent can do</h2><p><code>exec</code> runs a short script against the typed Slatebox client, and one typed tool per method sits beside it: <code>create_slate</code>, <code>import_mermaid</code>, <code>edit_slate</code>, <code>export_mermaid</code>, <code>create_presentation</code> and more. The prompts <code>mind_map</code>, <code>flowchart</code>, <code>project_plan</code> and <code>presentation</code> start a drawing from a topic. <a href="/developers/slateboxapi/mcp/#what-your-assistant-gets">Every tool</a></p>
+<p>Your agent acts as you: it reaches only the slates you can open, and deletes, large rewrites and wider sharing wait for your confirmation. On the slate it shows up as a named pointer with its plan as a checklist.</p>
+<h2 id="run-it-on-your-own-slatebox">Run it on your own Slatebox</h2><p>A self-hosted Slatebox serves the same endpoint at <code>/mcp</code> on its own address. Give your agent that address instead. <a href="/installation/install-with-docker/">Run your own Slatebox</a></p>
+<h2 id="questions">Questions</h2><h3 id="is-the-slatebox-mcp-server-free">Is the Slatebox MCP server free?</h3><p>Yes. The MCP server, the command line and the HTTP API are free on Slatebox Cloud and on a self-hosted Slatebox. Tools that use Slatebox&#39;s own AI, such as <code>create_presentation</code> and <code>generate_shape</code>, come with Slatebox Pro or a balance on Slatebox Cloud. <a href="https://slatebox.com/plans/">See pricing</a></p>
+<h3 id="which-agents-work-with-slatebox">Which agents work with Slatebox?</h3><p>Any MCP client that supports remote servers, such as Claude, Claude Code, ChatGPT and Cursor. A client without OAuth sign-in can send a personal token from <strong>Profile → Developer access</strong>.</p>
+<h3 id="is-slatebox-open-source">Is Slatebox open source?</h3><p>Yes. The app, the SlateboxJS engine and the relay are MIT licensed, except the app&#39;s <code>enterprise/</code> folder of outside-agent connections. <a href="/developers/#licenses">Licenses</a></p>
+<h3 id="how-do-i-disconnect-an-agent">How do I disconnect an agent?</h3><p>Open <strong>Profile → Developer access</strong> and choose <strong>Disconnect</strong> beside the app under <strong>Connected apps</strong>. Its next request is refused.</p>
+</div></article><nav class="on-page" aria-label="On this page"><strong>On this page</strong><a href="#agent-prompt" >Agent prompt</a><a href="#connect-your-agent" >Connect your agent</a><a href="#ask-for-a-drawing" >Ask for a drawing</a><a href="#what-your-agent-can-do" >What your agent can do</a><a href="#run-it-on-your-own-slatebox" >Run it on your own Slatebox</a><a href="#questions" >Questions</a></nav></div></main><footer class="foot"><a href="https://slatebox.com">Slatebox</a><a href="/examples/">Examples</a><a href="https://slatebox.com/developers/">Developer tools ↗</a><a href="/llms.txt">Agent index</a></footer><dialog id="search"><div><label for="query">Search the documentation</label><button data-close>Close</button></div><input type="search" id="query" placeholder="Try canvas, sound or API"><ul id="results"></ul></dialog></body></html>

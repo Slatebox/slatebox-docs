@@ -1,8 +1,10 @@
 # Slatebox documentation
 
-Slatebox is an open source visual intelligence platform where you can invite any AI via MCP to collaborate with you and your team. Mind maps, diagrams, project plans and presentations, drawn by your assistant and edited live with your team.
+> Slatebox is the free, open-source (MIT) visual intelligence platform for your team and agents. Invite any agent through MCP to work with you and your team on one live canvas: mind maps, flowcharts, diagrams, Gantt project plans, smart boards that keep rules, and presentations that compose themselves, edited live together. Run it on Slatebox Cloud or on your own server.
 
 Official guides for using the app, building with SlateboxJS, calling the HTTP API, and self-hosting.
+
+Start here: [Use Slatebox from your agent](https://docs.slatebox.com/Using-Slatebox/use-from-your-agent.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/use-from-your-agent.md)
 
 Each guide has a GitHub mirror for command-line clients. You can also read [this index on GitHub](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/llms.txt).
 
@@ -25,12 +27,9 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Export and import Mermaid](https://docs.slatebox.com/Using-Slatebox/mermaid.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/mermaid.md)
 - [Invite an outside agent onto a slate](https://docs.slatebox.com/Using-Slatebox/invite-agents.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/invite-agents.md)
 - [Keep or discard what agents suggest](https://docs.slatebox.com/Using-Slatebox/agent-suggestions.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/agent-suggestions.md)
-- [Pricing](https://docs.slatebox.com/Using-Slatebox/pricing.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/pricing.md)
-- [Slatebox Business](https://docs.slatebox.com/Using-Slatebox/slatebox-business.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-business.md)
-- [Slatebox Pro](https://docs.slatebox.com/Using-Slatebox/slatebox-pro.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-pro.md)
 - [Slatebox user guide](https://docs.slatebox.com/Using-Slatebox/readme.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/readme.md)
 - [The shared library](https://docs.slatebox.com/Using-Slatebox/library.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/library.md)
-- [Top-ups and refunds](https://docs.slatebox.com/Using-Slatebox/top-ups.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md)
+- [Use Slatebox from your agent](https://docs.slatebox.com/Using-Slatebox/use-from-your-agent.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/use-from-your-agent.md)
 - [Use your own keys on a self-hosted Slatebox](https://docs.slatebox.com/Using-Slatebox/own-keys.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/own-keys.md)
 
 ## SlateboxJS
@@ -85,3 +84,17 @@ For a self-hosted instance, read /api/v1/openapi.json on that instance to discov
 - [Show what changes when a cue moves](https://docs.slatebox.com/Examples/theatre-cues.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/theatre-cues.md)
 - [Trace who can still use your product during a sign-in outage](https://docs.slatebox.com/Examples/sign-in-outage.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/sign-in-outage.md)
 - [Walk through evidence in a chosen order](https://docs.slatebox.com/Examples/present-the-evidence.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Examples/present-the-evidence.md)
+
+## Paying for AI and calls on Slatebox Cloud
+
+Everything above is free. On Slatebox Cloud, AI drafts and calls you start come with Slatebox Pro, or from a balance; a team can choose Slatebox Business. Current prices are on https://slatebox.com/plans/ only.
+
+- [Pricing](https://docs.slatebox.com/Using-Slatebox/pricing.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/pricing.md)
+- [Slatebox Business](https://docs.slatebox.com/Using-Slatebox/slatebox-business.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-business.md)
+- [Slatebox Pro](https://docs.slatebox.com/Using-Slatebox/slatebox-pro.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/slatebox-pro.md)
+- [Top-ups and refunds](https://docs.slatebox.com/Using-Slatebox/top-ups.md) · [GitHub mirror](https://raw.githubusercontent.com/Slatebox/slatebox-docs/retype/Using-Slatebox/top-ups.md)
+
+## Optional
+
+- [Every guide in full, in one file](https://docs.slatebox.com/llms-full.txt)
+- [slatebox.com for agents](https://slatebox.com/llms.txt)
