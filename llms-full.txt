@@ -1171,7 +1171,7 @@ Pick the interface that owns the data you want to change.
 | Run exec from a terminal or an MCP client | [Install the CLI and MCP server](SlateboxAPI/terminal-and-agents.md) |
 | Show a published board on another site | [Presentation embed](SlateboxAPI/readme.md#embed-a-published-board) |
 | Work on the app, engine or relay | [Development](development.md) |
-| Run your own Slatebox | [One Docker command](../Installation/install-with-docker.md) |
+| Run your own Slatebox | [One command, `npx slatebox install`](../Installation/self-hosting.md): your own Slatebox at `https://<name>.slatebox.team` |
 
 The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT licensed, except the app's `enterprise/` folder (see [Licenses](#licenses)). One Docker image runs all three with a database. [What the image contains](../Installation/install-with-docker.md#what-is-inside-and-its-licenses) · [App source](https://github.com/Slatebox/slatebox) · [Relay source](https://github.com/Slatebox/y-websocket)
 
@@ -1194,7 +1194,7 @@ Source: https://docs.slatebox.com/Developers/development.md · Page: https://doc
 
 ## Quickstart
 
-To run Slatebox, start the image: one container runs the app, the relay and MongoDB. [Run your own Slatebox](../Installation/install-with-docker.md)
+To run Slatebox, start the image: one container runs the app, the relay and MongoDB. To run your own, use `npx slatebox install`. [Run your own Slatebox](../Installation/self-hosting.md)
 
 To work on the engine, run this in a SlateboxJS checkout:
 
@@ -2131,7 +2131,7 @@ Every tool has a title and says whether it reads, deletes, repeats safely and re
 
 **Needs** is the permission the tool uses ([permissions](#what-happens-when-you-connect)). An app that asks for nothing in particular gets `slates:read` and `slates:write`; a tool whose permission your connection lacks is refused at once with `insufficient_scope`, before anything waits for your confirmation. A signed-in app gets that refusal as HTTP 403 naming the permission to ask for, so it can send you back to the consent page for it; the refusal text asks you to reconnect the app and allow that permission. The 401 that starts sign-in asks for `slates:read` and `slates:write` only, so a new connection never carries more. The server's sign-in metadata lists every permission a tool can need: `slates:read`, `slates:write`, `slates:share`, `slates:delete`, `ai:settings`, `ai:admin`, `team:export`, `team:import` and `library:review`. A tool that needs one of the others asks for it when you first use it. Deleting is its own permission: `slates:delete` is never part of `slates:write`. A personal token gets the refusal in the tool's result. `exec` uses the permissions of the calls its script makes.
 
-**Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic. `install_slatebox` walks you through installing your own Slatebox on a machine you choose and ends with the `npx slatebox` command to run there; the local server offers it even before you have a token. [Run your own Slatebox](../../Installation/self-hosting.md)
+**Prompts.** `mind_map`, `flowchart`, `project_plan` and `presentation` start the matching drawing from a topic. `install_slatebox` walks you through installing your own Slatebox on a machine you choose and ends with the `npx slatebox install` command to run there, which gives it a team address at `https://<name>.slatebox.team`; the local server offers it even before you have a token. [Run your own Slatebox](../../Installation/self-hosting.md)
 
 **Resources.** `slatebox://client/slatebox.d.ts` (the client's types), `slatebox://client/guide.md` (its rules, errors, limits and examples), and any slate you can open as `slatebox://slates/{shareId}` (JSON) or `slatebox://slates/{shareId}/mermaid`.
 
@@ -2253,6 +2253,8 @@ An account can have 25 connected apps; they do not count against your personal t
 ## Run it on your machine
 
 Install `slatebox-mcp` when you want the server, or the `slatebox` command, on your own computer. It lists the same tools, prompts and resources, but scripts run in your own process with your rights and no sandbox. Download `slatebox-mcp-0.3.5.tgz` and its checksum, then point your client at the executable. [Install the package and CLI](terminal-and-agents.md#install-the-package)
+
+To run Slatebox itself on your own machine, with its own address, use `npx slatebox install`. [Run your own Slatebox](../../Installation/self-hosting.md) · [The `slatebox` command](terminal-and-agents.md#the-slatebox-command)
 
 ---
 
@@ -2408,6 +2410,37 @@ You get the run's `status`, the script's returned `result`, its `logs` and each 
 - **Preview first.** A preview run saves nothing.
 - **Keep the key.** Rerun with the same key to retry: writes that already saved replay instead of repeating.
 - **Confirm when held.** If `status` is `confirmation_required`, read `confirmation.reasons`. To go ahead, rerun the same file with `--confirm` set to `confirmation.id` and `--key` set to the result's `idempotencyKey` (the CLI asks instead). [Saves that wait for confirmation](exec.md#saves-that-wait-for-confirmation)
+
+## The slatebox command
+
+`npx slatebox` runs the `slatebox` package from npm: one command for running your own Slatebox and for working with any Slatebox from a script. Run it with no arguments to list its commands. In a project where you installed the archive above, run `npx -y slatebox@latest install` instead.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox install
+```
+
+<!-- /tabs -->
+
+| Command | What it does |
+| --- | --- |
+| `slatebox install` | Install, or change, your own Slatebox: a team address at `https://<name>.slatebox.team`, `--domain` for your own, or `--local`. Safe to run again. [Run your own Slatebox](../../Installation/self-hosting.md) |
+| `slatebox status` | Health, address, tunnel, setup, version, AI, single sign-on and the last backup |
+| `slatebox setup-link` | A new one-time link that creates the first account, the server administrator; the old link stops working |
+| `slatebox logs` | The container's log, with `-f`, `--service` and `--since` |
+| `slatebox upgrade` | Back up, upgrade, check health, and roll back on a failure |
+| `slatebox rename <name>` | Move the team address to `https://<name>.slatebox.team` |
+| `slatebox address` | Show the team address; `release` gives it back, `rotate` gets a new tunnel token |
+| `slatebox uninstall` | Stop and remove (also `remove`); data is kept unless you add `--delete-data --confirm <name>` |
+| `slatebox backup`, `slatebox restore <file>` | A complete backup now, or replace everything with one |
+| `slatebox ai` | The install's agent providers: `list`, `add`, `remove`, `use`, `off`, `test` |
+| `slatebox secrets` | Where the install's secrets are kept; `reveal` prints one to a terminal |
+| `slatebox installs` | The installs this computer made |
+| `slatebox plan` | The install plan only; changes nothing |
+| `slatebox agent-prompt` | Instructions for a coding agent to install it for you |
+| `slatebox exec`, `slatebox describe` | Run a script against your slates, and list the methods it can call: [Run a script from the terminal](#run-a-script-from-the-terminal) |
+| `slatebox mcp` | Start the MCP server, the same as `slatebox-mcp` |
 
 ## Run a script from the terminal
 
@@ -4082,17 +4115,19 @@ A slate moved from Community slates that its owner never sent again is published
 
 Source: https://docs.slatebox.com/Installation/install-with-docker.md · Page: https://docs.slatebox.com/installation/install-with-docker/
 
-One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
+One command installs Slatebox on this computer, a Linux server or a Kubernetes cluster:
 
 <!-- tabs -->
 
 ```sh Shell
-npx slatebox
+npx slatebox install
 ```
 
 <!-- /tabs -->
 
-You get the address, a healthy Slatebox, daily backups, and your key encryption key kept in one private place. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
+Pick a team address and sign in; Slatebox runs at `https://<name>.slatebox.team` with no DNS, ports or certificates. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
+
+You get the address with HTTPS and live collaboration, a Slatebox that starts on boot, daily backups, and your key encryption key kept in one private place. The installer ends with a one-time setup link: open it to create the first account, the server administrator. Nobody can sign up before that. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
 
 Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
 
@@ -4104,12 +4139,12 @@ Pick where Slatebox runs. You need Node.js 22.13 or newer where you type the com
 
 ```sh Docker
 # This computer
-npx slatebox
+npx slatebox install
 ```
 
 ```sh Remote server
 # A Linux server over SSH
-npx slatebox@latest install ssh root@203.0.113.5 --domain boards.example.com
+npx slatebox@latest install ssh root@203.0.113.5 --team-address acme
 ```
 
 ```sh Kubernetes
@@ -4127,14 +4162,15 @@ npx slatebox@latest install export --format helm --out ./slatebox-deploy
 
 | Where | What you get |
 | --- | --- |
-| This computer (Docker) | The first free port from 7070, published on `127.0.0.1` only. `--listen 0.0.0.0` opens it to your network. Files in `~/.slatebox/installs/<name>/`. |
-| Remote server | Root or passwordless sudo over SSH. With `--domain`, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without it, `http://<server>:7070`. Files in `/opt/slatebox`, owned by root. Docker is installed only with `--install-docker`. |
+| This computer (Docker) | A team address, `https://<name>.slatebox.team`, or your own domain. `--local` keeps it on `http://localhost`, the first free port from 7070. The port is published on `127.0.0.1` only; `--listen 0.0.0.0` opens it to your network. Files in `~/.slatebox/installs/<name>/`. |
+| Remote server | Root or passwordless sudo over SSH. A team address with `--team-address`, or with `--domain`, HTTPS with automatic certificates (point DNS at the server, open ports 80 and 443). Without either, `http://<server>:7070`. Files in `/opt/slatebox`, owned by root. Docker is installed only with `--install-docker`. |
 | Kubernetes | kubectl and your current context; a context whose name looks like production must be named with `--k8s-context`. Namespace `slatebox`. One StatefulSet with a volume, a Service, the Secret `<name>-env`, a backups sidecar, and an Ingress or Gateway API HTTPRoute with `--route ingress` or `--route gateway`. |
 | Files only | A compose file, Kubernetes manifests or a Helm chart for GitOps, with placeholders where secrets go. |
 
 - Nothing changes before the plan is shown. On a server or a cluster nothing changes without a yes.
 - The install waits for health. If it fails, the previous state is put back (exit 5).
 - Running it again with the same answers changes nothing. `--name <id>` keeps several installs side by side.
+- No questions, from a script or a coding agent: `npx slatebox install --team-address acme --yes`.
 - Flags for every question: `npx slatebox@latest --help`.
 
 ## Let an agent install it
@@ -4192,6 +4228,38 @@ With `--json`, each line is one event (`plan`, `step`, `done`, `error`). The las
 | 7 | Canceled |
 
 `--yes`, `--install-docker`, `--new-encryption-key`, `--delete-data` and `--confirm` count only when typed on the command line, never from the environment or an answers file.
+
+## Your own domain
+
+A team address needs nothing but Docker. For a company install, keep the address on your own infrastructure instead:
+
+| Address | Command | What you need |
+| --- | --- | --- |
+| A team address | `npx slatebox install --team-address acme` | Docker. A Slatebox account to approve the claim. [Team addresses](team-addresses.md) |
+| Your own domain | `npx slatebox install --domain boards.example.com` | DNS pointed at the server and ports 80 and 443 open. Slatebox gets and renews the certificate. |
+| Your own proxy | `npx slatebox install --url https://boards.example.com` | A proxy that ends HTTPS and forwards WebSocket upgrades to port 7070. [Behind your own proxy](#behind-your-own-proxy) |
+| This computer only | `npx slatebox install --local` | Nothing more: `http://localhost` on a free port from 7070. |
+
+To leave a team address for your own domain, run the installer again with `--domain`; your data stays. Turn on [single sign-on](single-sign-on.md) with `--sso`.
+
+### Your own tunnel
+
+A tunnel in your own Cloudflare account works the same way as a team address. Create a tunnel there, route its public hostname to `http://localhost:7070`, and give the container its token and address in a file only you can read:
+
+<!-- tabs -->
+
+```sh Docker
+# slatebox.env, mode 0600:
+#   SLATEBOX_URL=https://boards.example.com
+#   SLATEBOX_TUNNEL_TOKEN=your-tunnel-token
+docker run -d --name slatebox --restart unless-stopped \
+  -p 127.0.0.1:7070:7070 --env-file slatebox.env \
+  -v slatebox-data:/data ghcr.io/slatebox/slatebox
+```
+
+<!-- /tabs -->
+
+The token goes to the tunnel only, never to the app or the log.
 
 ## Choose the AI when you install
 
@@ -4292,7 +4360,21 @@ volumes:
 
 <!-- /tabs -->
 
-You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. Add AI, mail and HTTPS with [options](#options).
+There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Once it is healthy, make the one-time setup link and open it to create the first account, the server administrator:
+
+<!-- tabs -->
+
+```sh Docker
+docker exec slatebox slatebox setup-link
+```
+
+```sh Docker Compose
+docker compose exec slatebox slatebox setup-link
+```
+
+<!-- /tabs -->
+
+Nobody can sign up before that; until then the address says "This Slatebox isn't set up yet". The link works once and expires in 24 hours, and running the command again prints a new one and ends the old one. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. Add AI, mail and HTTPS with [options](#options).
 
 ## What you need
 
@@ -4304,6 +4386,7 @@ You get a new slate of your own. There is nothing to configure: the first start 
 | Processor | Intel or AMD with AVX (Sandy Bridge or Bulldozer and later), or ARMv8.2-A (Apple silicon, Raspberry Pi 5). A Raspberry Pi 4 cannot run it. In a virtual machine, give the guest the host's CPU type so AVX is passed through. |
 | Memory | 1 GB free, 2 GB for a team. [Single sign-on](single-sign-on.md) adds about 0.5 GB while it is on. |
 | Disk | About 585 MB to download and 2.5 GB unpacked, plus your slates. |
+| Address | Nothing for a team address. For your own domain: DNS pointed at the server and ports 80 and 443 open, or your own proxy. |
 
 On a processor without AVX or ARMv8.2-A, the container stops at once and its log says why:
 
@@ -4328,8 +4411,9 @@ docker compose ps
 
 <!-- /tabs -->
 
-1. Open the address, double-click the note, type, and reload. Your text is still there.
-2. To see live editing, choose **Share**, create an edit link under **Unlisted** and open it in a second browser. Typing in one shows in the other.
+1. Open the setup link from the installer (or `slatebox setup-link`) and create the first account. With [single sign-on](single-sign-on.md) on, the link's page also offers **Continue with single sign-on**: the first account to sign in through it becomes the administrator.
+2. Open a slate, double-click the note, type, and reload. Your text is still there.
+3. To see live editing, choose **Share**, create an edit link under **Unlisted** and open it in a second browser. Typing in one shows in the other.
 
 ## Where your data lives
 
@@ -4469,6 +4553,7 @@ Every option is optional. Add it with `-e NAME=value`, or under `environment:` i
 | --- | --- |
 | `SLATEBOX_URL` | The address people type. Default `http://localhost:7070`. |
 | `SLATEBOX_HTTPS` | `off` when your own proxy terminates HTTPS. Otherwise an `https://` address turns on built-in HTTPS on ports 80 and 443. |
+| `SLATEBOX_TUNNEL_TOKEN` | A tunnel token, from a team address or [your own tunnel](#your-own-tunnel). The container connects out with it and the tunnel ends HTTPS for the `https://` `SLATEBOX_URL`. Built-in HTTPS is off with it. |
 | `SLATEBOX_ACME_CA` | The ACME directory URL of your own certificate authority. |
 | `SLATEBOX_MAIL_URL` | An `smtp://` or `smtps://` URL, such as `smtp://user:password@mail.example.com:587`. Turns on invitations, email verification and password-reset mail. |
 | `SLATEBOX_MAIL_FROM` | The sender, such as `Slatebox <boards@example.com>`. Needed unless the user name in `SLATEBOX_MAIL_URL` is itself an address. |
@@ -4600,6 +4685,8 @@ Give the new install its own name, such as `boards`, so both stay listed in `npx
 
 Skip step 2 and everything else still moves: people add their saved AI and call keys again.
 
+To move your team to Slatebox Cloud, or from Cloud to your own server, use `npx slatebox migrate --to cloud` or `npx slatebox import --from cloud`. [Move to Cloud or to your own server](move-your-team.md)
+
 ## Forgotten passwords
 
 With mail on, **Forgot password** on the sign-in page sends a reset link. With or without mail, you can make one:
@@ -4656,6 +4743,7 @@ docker compose exec slatebox slatebox version
 | `port is already allocated` | Port 7070 is taken. Publish another, such as `-p 8080:7070 -e SLATEBOX_URL=http://localhost:8080`. |
 | Certificate error with built-in HTTPS | The certificate is not issued yet. Check that DNS points here and ports 80 and 443 reach the container. `[proxy]` log lines give the reason. |
 | Edits do not reach a second browser | Your proxy must forward WebSocket upgrades. |
+| A team address does not answer | `npx slatebox status` shows the tunnel and its connections; `npx slatebox logs --service tunnel` says why. |
 | A restore says the file is not a complete backup | The file is empty or cut short. Back up again and check for `Backup complete`. |
 
 With single sign-on on, also see [its troubleshooting](single-sign-on.md#troubleshooting).
@@ -4668,7 +4756,7 @@ The Slatebox app, the SlateboxJS engine and the collaboration relay are MIT lice
 | --- | --- |
 | Slatebox app, SlateboxJS, collaboration relay | MIT |
 | MongoDB Community Server | Server Side Public License (SSPL) v1 |
-| MongoDB Database Tools, Caddy, Keycloak | Apache License 2.0 |
+| MongoDB Database Tools, Caddy, Keycloak, cloudflared | Apache License 2.0 |
 | Eclipse Temurin Java runtime (runs Keycloak) | GPL 2.0 with the Classpath Exception |
 | Node.js, Meteor, tini | MIT |
 | Interface and slate-image fonts | SIL Open Font License 1.1 or Apache License 2.0, per family |
@@ -4704,47 +4792,158 @@ It builds from committed files only, labels the image with the three source revi
 
 ---
 
-# Run your own Slatebox
+# Move to Cloud or to your own server
 
-Source: https://docs.slatebox.com/Installation/self-hosting.md · Page: https://docs.slatebox.com/installation/self-hosting/
+Source: https://docs.slatebox.com/Installation/move-your-team.md · Page: https://docs.slatebox.com/installation/move-your-team/
 
-Install Slatebox on the machine of your choice with one command: a laptop, a Linux server or a Kubernetes cluster.
-
-## What you get
-
-- **One container.** The app, live collaboration, its database and Keycloak for single sign-on, in `ghcr.io/slatebox/slatebox`. Your data stays in one volume.
-- **Free.** No limits from us. AI is whatever you and your people connect, or none. [Who pays for what on your own server](self-host-costs.md)
-- **Single sign-on, free.** Keycloak is built in and needs no license. [Single sign-on](single-sign-on.md)
-- **Outside agents with an on-prem license.** Inviting agents such as GitHub, Linear or Exa onto a slate is in the image, locked, until an on-prem license from Slatebox unlocks it on your install. [Contact Slatebox](https://slatebox.com/contact/)
-
-## Install
-
-Run this in a terminal on the machine you install from:
+Move your whole team between your own Slatebox and Slatebox Cloud with one command. You see a report of what arrives, and nothing is visible on the other side until you confirm.
 
 <!-- tabs -->
 
-```sh Shell
-npx slatebox
+```sh To Cloud
+npx slatebox migrate --to cloud
+```
+
+```sh To your own server
+npx slatebox import --from cloud
 ```
 
 <!-- /tabs -->
 
-It asks where Slatebox runs, its address, the admin email, the AI and single sign-on. It shows a plan of everything it will write and run, and installs once you say yes. You get the address and the command that gives the admin a sign-in link. Add `--dry-run` to see the plan without changing anything.
+## What you need
+
+| Side | You need to be | Sign-in |
+| --- | --- | --- |
+| The side you move from | A team admin | Its access token, or the browser code for Cloud |
+| The side you move to | The owner of your team there, or in no team yet | Its access token, or the browser code for Cloud |
+
+- **Your own server:** make an access token in **Profile** → **Developer** with **Export everything my team owns** and **Move a team here**. Put it in `SLATEBOX_API_TOKEN`, or paste it when the command asks (nothing shows while you type). Its address comes from the install this computer made, `SLATEBOX_BASE_URL`, or `--from`/`--to <url>`.
+- **Slatebox Cloud:** the command prints a short code and opens your browser. Sign in and approve it on the page titled **Move your team**. The sign-in can only export your team and move a team in, and it ends after an hour. In a script, set `SLATEBOX_CLOUD_TOKEN` instead (an access token with the same two permissions).
+
+## What happens
+
+1. The command checks both sides first. If one says no, nothing is copied.
+2. It shows the plan: the team, how many slates and people, and where it lands. You agree.
+3. It exports everything your team owns, encrypted with a passphrase made for this move.
+4. The other side reads it into a hidden team and answers with a report: slates, files, people, library items, and anything left out.
+5. You confirm. The team goes live:
+   - **In no team yet:** it becomes your team, and you are its owner.
+   - **As a team owner:** it joins your team. Your brand kit and agent choices stay.
+6. The command asks once: **Send invitations to the other members now?** Press Enter for yes. In a script, nobody is invited unless you add `--invite` (or `--no-invite` to say no ahead).
+7. It asks whether to delete the archive from this computer. Press Enter to keep it. The command prints how to delete it later.
+
+The team stays where it was. Remove it there when you are ready.
+
+## Invitations
+
+- Each person gets an email to set a password and claim their account. Nobody can sign in without that email.
+- Someone who already has an account on the other side gets an invitation to join instead. They sign in with that account and accept. Nothing changes for them until they do. If they are in another team there, they leave it first.
+- Addresses the old server never verified are not invited. Check each one, then invite it.
+- To invite later, use the move id the command printed:
+
+```sh
+npx slatebox migrate invite <move id> --to cloud
+npx slatebox migrate invite <move id> --email carol@example.com --to cloud
+```
+
+## Limits and checks
+
+Nobody at Slatebox reviews a move into Slatebox Cloud. Instead:
+
+- A move holds up to 2 GB.
+- Each archive is checked as untrusted: new addresses for everything, private until you confirm, board rules off, no keys.
+- You can start up to 3 moves a day.
+- Each move is recorded for the server's administrators.
+
+## What moves
+
+| Moves | Does not move |
+| --- | --- |
+| Slates, boards and smart components | Passwords |
+| Recent versions and comments | Agent and call keys (add them again) |
+| Presentations and uploaded files | Access tokens (make them again) |
+| The brand kit, with its logos | Connected agents and integrations (connect them again) |
+| Your library items, sent to the other side's review queue | |
+| People, as placeholders until they accept the invitation | |
+
+Board rules arrive switched off until a team admin reviews them. Published links get new addresses. Library items show in the library only after that server's administrators approve them.
+
+## Other ways
+
+| Command | Does |
+| --- | --- |
+| `npx slatebox install --from cloud` | Installs a new server, then prints the steps to bring your Cloud team over after you create the first account |
+| `npx slatebox export --out acme.sbxteam --passphrase prompt` | Writes a team export file |
+| `npx slatebox import acme.sbxteam --to cloud --passphrase prompt` | Moves a team export file in |
+| `--invite`, `--no-invite` | Answers the invitations question ahead |
+| `--delete-archive`, `--keep-archive` | Deletes the encrypted archive in `~/.slatebox/moves/` after the move, or keeps it without asking |
+| `--replace-waiting` | Discards a move already waiting on the other side, then starts again |
+
+A move waiting for your confirmation is removed after 14 days. Moving the same archive twice keeps the first move.
+
+## Versions
+
+Slatebox Cloud is updated first, so it reads exports from any older server. If your own server is older than the export, the move stops with **update this server**. Update it, then run the same command again. The archive is kept, so nothing is exported twice.
+
+The file format is open: see [Team export format](https://github.com/Slatebox/slatebox/blob/main/docs/team-export.md).
+
+---
+
+# Run your own Slatebox
+
+Source: https://docs.slatebox.com/Installation/self-hosting.md · Page: https://docs.slatebox.com/installation/self-hosting/
+
+Run this in a terminal on the machine where Slatebox should run:
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox install
+```
+
+<!-- /tabs -->
+
+Pick a team address and approve a code in your browser. Slatebox runs at `https://<name>.slatebox.team`, with no DNS, ports or certificates.
+
+## What you get
+
+- **A team address with HTTPS**, through a secure tunnel: nothing is opened on your router. [Team addresses](team-addresses.md)
+- **Live collaboration** over the same address. **Starts on boot.**
+- **One container**, `ghcr.io/slatebox/slatebox`: the app, live collaboration, database and Keycloak, with your data in one volume.
+- **Free**, with no limits from us. AI is whatever you connect. [Who pays for what](self-host-costs.md)
+- **Single sign-on, free.** [Single sign-on](single-sign-on.md)
+- **Move to Cloud and back** with `npx slatebox migrate`. [Move your team](move-your-team.md)
+- **Outside agents** (GitHub, Linear, Exa) unlock with an on-prem license. [Contact Slatebox](https://slatebox.com/contact/)
+
+## Install
+
+It asks where Slatebox answers: a free team address, your own domain, or this computer only. It shows a plan of everything it will write and run, and installs once you say yes. `--dry-run` shows the plan only. No questions, for scripts and agents: `npx slatebox install --team-address acme --yes`.
+
+It ends with a one-time setup link: open it to create the first account, the server administrator. Nobody can sign up before that. It works once, for 24 hours; `slatebox setup-link` prints a new one.
+
+## Your own domain
+
+For a company: your own domain and single sign-on.
+
+- `--domain boards.example.com`: HTTPS certificates renewed automatically, or your own proxy.
+- `--sso`: company sign-in through the Keycloak in the image.
+- `--local` for this computer only, or a tunnel from your own Cloudflare account.
+- A Linux server over SSH, Kubernetes, or files for GitOps.
 
 ## Or ask your agent
 
-Connect the Slatebox MCP server to Claude, ChatGPT, Claude Code or another agent, and say "install Slatebox on my server". It asks the same questions, gives you the exact `npx slatebox` command to run on that machine, and checks the address once you have run it. It never runs commands on your machine itself. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
+Connect the Slatebox MCP server to your agent and say "install Slatebox on my server". It asks the same questions, gives you the exact command, and checks the address once you have run it. It never runs commands on your machine. [Connect an assistant](../Developers/SlateboxAPI/mcp.md)
 
 ## What you need
 
 | | |
 | --- | --- |
-| Where you run `npx slatebox` | Node.js 22.13 or newer. On Windows, use WSL 2. |
-| Where Slatebox runs | Docker, or Podman with its Docker compatibility on. Or a Kubernetes cluster with kubectl access. |
-| Machine | 1 GB of memory (2 GB for a team, about 0.5 GB more with single sign-on), 3 GB of disk plus your slates, and an Intel or AMD processor with AVX or an ARMv8.2-A processor. |
-| Address | A free port, 7070 by default. For HTTPS, a domain pointed at the server with ports 80 and 443 open. |
+| Where you run `npx slatebox install` | Node.js 22.13 or newer. On Windows, use WSL 2. |
+| Where Slatebox runs | Docker or Podman, all a team address needs. Or Kubernetes with kubectl. |
+| Machine | 1 GB of memory (2 GB for a team), 3 GB of disk plus your slates, and a processor with AVX or ARMv8.2-A. |
+| Your own domain | DNS pointed at the server and ports 80 and 443 open, or your own proxy. |
 
-Something went wrong? [Troubleshooting](install-with-docker.md#troubleshooting) · Every option, upgrades and backups: [the full install guide](install-with-docker.md)
+[Troubleshooting](install-with-docker.md#troubleshooting) · Every option, upgrades and backups: [the full install guide](install-with-docker.md)
 
 ---
 
@@ -4993,6 +5192,73 @@ Single sign-on adds about 0.5 GB of memory while idle and a few seconds to each 
 | `Single sign-on could not be set up` | The lines before it give the reason. Slatebox sets up single sign-on through the `slatebox-init` client in the `master` realm; do not delete it. |
 
 `slatebox health` includes Keycloak when single sign-on is on.
+
+---
+
+# Team addresses
+
+Source: https://docs.slatebox.com/Installation/team-addresses.md · Page: https://docs.slatebox.com/installation/team-addresses/
+
+A team address is a free name for your own Slatebox, `https://<name>.slatebox.team`. You get HTTPS and live collaboration with no DNS, ports or certificates to set up.
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox install --team-address acme
+```
+
+<!-- /tabs -->
+
+The installer prints a short code and offers to open your browser. Sign in to your Slatebox account, approve the code, and `acme.slatebox.team` is claimed for you. Slatebox starts and the installer prints the address once it answers, with a one-time setup link, `https://acme.slatebox.team/setup/…`. Open it to create the first account: you become the server administrator. Nobody can sign up before that, so the public address is safe to share from the start. The link works once and expires in 24 hours; `slatebox setup-link` prints a new one.
+
+## How it works
+
+- The container connects out to Cloudflare through a secure tunnel. Cloudflare ends HTTPS and carries the app and live editing to it.
+- Nothing is opened on your machine or router. Only `127.0.0.1` is published on the host.
+- The container starts again when the machine does, and reconnects on the same address.
+- Your address is public; your slates are not. People still sign in or open a share link.
+- The tunnel takes uploads of up to 100 MB, more than Slatebox itself accepts, so uploads work as they do anywhere else.
+
+The install keeps one credential for the address, on the computer that installed: `~/.slatebox/installs/<name>/credentials.json`, mode 0600. It can fetch the tunnel token again and give the address back, and nothing else.
+
+## Names
+
+- 3 to 32 characters: a-z, 0-9 and hyphens. Case does not matter.
+- An account holds up to 3 team addresses.
+- Claiming a name needs a Slatebox account with a verified email.
+
+## Rename, rotate and release
+
+<!-- tabs -->
+
+```sh Shell
+slatebox status                 # the address and the tunnel's connections
+slatebox setup-link             # before the first account: a new one-time setup link
+slatebox rename acme-boards     # move to https://acme-boards.slatebox.team
+slatebox address rotate         # a new tunnel token; the old one stops working
+slatebox address release        # give the address back; Slatebox keeps running on this computer
+slatebox uninstall              # also gives the address back, unless --keep-address
+```
+
+<!-- /tabs -->
+
+Each claim, rename or reconnect is approved in your browser.
+
+## When an address is released
+
+| When | What happens |
+| --- | --- |
+| It never connects within 24 hours of the claim | It is released |
+| It has not connected for 60 days | The owner gets an email |
+| It has not connected for 90 days | It is released |
+| You release it | The name is held for your account for 30 days |
+
+Report abuse of a team address to abuse@slatebox.com.
+
+## Leave for your own domain
+
+- `npx slatebox install --domain boards.example.com` moves the install to your own domain, with HTTPS certificates renewed automatically or your own proxy. [Your own domain](install-with-docker.md#your-own-domain)
+- A tunnel in your own Cloudflare account works the same way. [Your own tunnel](install-with-docker.md#your-own-tunnel)
 
 ---
 
