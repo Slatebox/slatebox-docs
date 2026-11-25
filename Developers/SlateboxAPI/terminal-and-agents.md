@@ -176,7 +176,8 @@ npx slatebox install
 | Command | What it does |
 | --- | --- |
 | `slatebox install` | Install, or change, your own Slatebox: a team address at `https://<name>.slatebox.team`, `--domain` for your own, or `--local`. Safe to run again. [Run your own Slatebox](../../Installation/self-hosting.md) |
-| `slatebox status` | Health, address, tunnel, version, AI, single sign-on and the last backup |
+| `slatebox status` | Health, address, tunnel, setup, version, AI, single sign-on and the last backup |
+| `slatebox setup-link` | A new one-time link that creates the first account, the server administrator; the old link stops working |
 | `slatebox logs` | The container's log, with `-f`, `--service` and `--since` |
 | `slatebox upgrade` | Back up, upgrade, check health, and roll back on a failure |
 | `slatebox rename <name>` | Move the team address to `https://<name>.slatebox.team` |

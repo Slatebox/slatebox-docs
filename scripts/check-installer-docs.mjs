@@ -20,7 +20,12 @@ test('the first command on the page is the installer', () => {
   assert.equal(headings[1], 'Let an agent install it')
   assert.equal(headings[2], 'Your own domain')
   assert.match(body, /https:\/\/<name>\.slatebox\.team/)
-  assert.match(body, /create your account right away/, 'the guide tells the operator to create the first account at once')
+  // Restated (owner decision 2026-11-24): nobody can sign up on a new self-hosted Slatebox until its first admin uses the
+  // one-time setup link the installer prints; the old "create your account right away" race is gone.
+  assert.match(body, /one-time setup link/, 'the guide says the first account comes from the setup link')
+  assert.match(body, /Nobody can sign up before that/)
+  assert.match(body, /slatebox setup-link/)
+  assert.doesNotMatch(body, /create your account right away|anyone who has the address can sign up/)
 })
 
 test('your own domain is the upgrade: --domain, your own proxy, --local and your own tunnel', () => {
@@ -36,7 +41,8 @@ test('Team addresses: how the tunnel works, the release numbers, rename, rotate,
   const page = readFileSync(new URL('../Installation/team-addresses.md', import.meta.url), 'utf8')
   assert.match(page, /^feature: self-host$/m)
   assert.equal(page.replace(/^---\n[\s\S]*?\n---\n/, '').match(/```[^\n]*\n([\s\S]*?)```/)?.[1].trim(), 'npx slatebox install --team-address acme')
-  for (const words of ['connects out to Cloudflare', 'Your address is public; your slates are not', '24 hours', '60 days', '90 days', '30 days', 'up to 3', '100 MB', 'abuse@slatebox.com', 'slatebox rename', 'slatebox address rotate', 'slatebox address release', '--domain', 'your own Cloudflare account', 'create your account right away']) assert.ok(page.includes(words), words)
+  for (const words of ['connects out to Cloudflare', 'Your address is public; your slates are not', '24 hours', '60 days', '90 days', '30 days', 'up to 3', '100 MB', 'abuse@slatebox.com', 'slatebox rename', 'slatebox address rotate', 'slatebox address release', '--domain', 'your own Cloudflare account', 'one-time setup link', 'Nobody can sign up before that', 'slatebox setup-link']) assert.ok(page.includes(words), words)
+  assert.doesNotMatch(page, /create your account right away|anyone who has the address can sign up/)
   assert.match(readFileSync(new URL('../Installation/self-hosting.md', import.meta.url), 'utf8'), /\(team-addresses\.md\)/, 'the short page links Team addresses')
 })
 
@@ -130,7 +136,8 @@ test('Run your own Slatebox, published: short, npx slatebox first, the MCP route
   // own domain is the upgrade path.
   assert.equal(body.match(/```[^\n]*\n([\s\S]*?)```/)?.[1].trim(), 'npx slatebox install')
   assert.deepEqual([...body.matchAll(/^## (.+)$/gm)].map(m => m[1]), ['What you get', 'Install', 'Your own domain', 'Or ask your agent', 'What you need'])
-  for (const words of ['https://<name>.slatebox.team', 'HTTPS', 'Live collaboration', 'Starts on boot', 'create your account right away', '--domain']) assert.ok(body.includes(words), words)
+  for (const words of ['https://<name>.slatebox.team', 'HTTPS', 'Live collaboration', 'Starts on boot', 'one-time setup link', 'Nobody can sign up before that', 'slatebox setup-link', '--domain']) assert.ok(body.includes(words), words)
+  assert.doesNotMatch(body, /create your account right away|anyone who has the address can sign up/)
   assert.ok(body.split(/\s+/).filter(Boolean).length < 450, 'short: under 450 words')
   assert.match(body, /--dry-run/)
   assert.match(body, /Connect an assistant\]\(\.\.\/Developers\/SlateboxAPI\/mcp\.md\)/)

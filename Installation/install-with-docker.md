@@ -11,7 +11,7 @@ agentPrompt: >-
   Never write a key into a file or a flag: ask me to export each key in an environment variable and pass key=env:NAME.
   Write slatebox.yaml, run npx -y slatebox@latest plan --answers slatebox.yaml --json, and show me the whole plan.
   Run install with --yes only after I say yes to that plan. Never add --install-docker, --new-encryption-key or --delete-data unless I ask for them.
-  Report the address, tell me to open it and create my account right away, and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
+  Report the address, tell me to run slatebox setup-link in my own terminal and open the one-time link it prints to create the first account (never run it yourself or ask me for the link), and tell me where SLATEBOX_KEY_ENCRYPTION_KEY is stored so I can back it up.
 ---
 # Install guide: every option
 
@@ -27,7 +27,7 @@ npx slatebox install
 
 Pick a team address and sign in; Slatebox runs at `https://<name>.slatebox.team` with no DNS, ports or certificates. It asks a few questions, shows a plan of everything it will write and run, and installs once you say yes. The short version: [Run your own Slatebox](self-hosting.md)
 
-You get the address with HTTPS and live collaboration, a Slatebox that starts on boot, daily backups, and your key encryption key kept in one private place. Open the address and create your account right away: until the first account exists, anyone who has the address can sign up. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
+You get the address with HTTPS and live collaboration, a Slatebox that starts on boot, daily backups, and your key encryption key kept in one private place. The installer ends with a one-time setup link: open it to create the first account, the server administrator. Nobody can sign up before that. Your own Slatebox is free, and its AI is whatever you connect, or none. [Who pays for what on your own server](self-host-costs.md)
 
 Would rather not run anything? [Use Slatebox Cloud](https://app.slatebox.com/start).
 
@@ -259,7 +259,21 @@ volumes:
 
 <!-- /tabs -->
 
-You get a new slate of your own. There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. Add AI, mail and HTTPS with [options](#options).
+There is nothing to configure: the first start creates the secrets this installation needs and keeps them with your data. Once it is healthy, make the one-time setup link and open it to create the first account, the server administrator:
+
+<!-- tabs -->
+
+```sh Docker
+docker exec slatebox slatebox setup-link
+```
+
+```sh Docker Compose
+docker compose exec slatebox slatebox setup-link
+```
+
+<!-- /tabs -->
+
+Nobody can sign up before that; until then the address says "This Slatebox isn't set up yet". The link works once and expires in 24 hours, and running the command again prints a new one and ends the old one. Its AI is whatever you and your people connect, local or cloud, and calls use your own Daily key. Add AI, mail and HTTPS with [options](#options).
 
 ## What you need
 
@@ -296,8 +310,9 @@ docker compose ps
 
 <!-- /tabs -->
 
-1. Open the address, double-click the note, type, and reload. Your text is still there.
-2. To see live editing, choose **Share**, create an edit link under **Unlisted** and open it in a second browser. Typing in one shows in the other.
+1. Open the setup link from the installer (or `slatebox setup-link`) and create the first account. With [single sign-on](single-sign-on.md) on, the link's page also offers **Continue with single sign-on**: the first account to sign in through it becomes the administrator.
+2. Open a slate, double-click the note, type, and reload. Your text is still there.
+3. To see live editing, choose **Share**, create an edit link under **Unlisted** and open it in a second browser. Typing in one shows in the other.
 
 ## Where your data lives
 

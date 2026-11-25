@@ -8,7 +8,7 @@ agentPrompt: >-
   Ask me, one question at a time and without guessing: the team address name, or my own domain instead, where it runs (this computer with Docker, a Linux server over SSH as user@host, Kubernetes, or files only),
   the AI (none for now, or which providers; Slatebox has no default AI provider) and whether to turn on single sign-on.
   Never ask me to paste a key or password into this conversation: keys stay in environment variables on my machine.
-  Give me the exact npx slatebox install command for my answers, suggest --dry-run first, and once it finishes, tell me to open the address and create my account right away, then check that the address answers at /readyz.
+  Give me the exact npx slatebox install command for my answers, suggest --dry-run first, and once it finishes, tell me to open the one-time setup link it printed in my terminal to create the first account (I can run slatebox setup-link for a new one; never ask me for the link), then check that the address answers at /readyz.
 <!-- /feature:self-host -->
 <!-- feature:!self-host -->
 description: Slatebox runs on your own server with one command. The installer is being published; until then, use Slatebox Cloud.
@@ -47,7 +47,7 @@ Pick a team address and approve a short code in your browser. Slatebox then runs
 
 It asks a few short questions, shows a plan of everything it will write, run and create, and installs once you say yes. Add `--dry-run` to see the plan only.
 
-Open the address and create your account right away: until the first account exists, anyone who has the address can sign up.
+It ends with a one-time setup link. Open it to create the first account, the server administrator. Nobody can sign up before that. The link works once, for 24 hours; `slatebox setup-link` prints a new one.
 
 ## Your own domain
 
