@@ -4,7 +4,7 @@
 
 To run Slatebox, start the image: one container runs the app, the relay and MongoDB. <!-- feature:self-host -->To run your own, use `npx slatebox install`. [Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:self-host --><!-- feature:!self-host -->The installer and the image are being published. [Run your own Slatebox](../Installation/self-hosting.md)<!-- /feature:!self-host -->
 
-To work on the engine, run this in a SlateboxJS checkout:
+To work on the engine, run this in a checkout of [SlateboxJS](https://github.com/Slatebox/slateboxjs):
 
 <!-- tabs -->
 
