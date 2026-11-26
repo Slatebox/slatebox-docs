@@ -4642,7 +4642,7 @@ npx slatebox upgrade --to ghcr.io/slatebox/slatebox:latest
 
 <!-- /tabs -->
 
-The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret.
+The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret. [Versions and updates](versions-and-updates.md) lists what each version number means and which image you run.
 
 Without the installer, take a [backup](#back-up-and-restore), then pull the new image and start it with the same options:
 
@@ -5296,6 +5296,59 @@ Report abuse of a team address to abuse@slatebox.com.
 
 - `npx slatebox install --domain boards.example.com` moves the install to your own domain, with HTTPS certificates renewed automatically or your own proxy. [Your own domain](install-with-docker.md#your-own-domain)
 - A tunnel in your own Cloudflare account works the same way. [Your own tunnel](install-with-docker.md#your-own-tunnel)
+
+---
+
+# Versions and updates
+
+Source: https://docs.slatebox.com/Installation/versions-and-updates.md · Page: https://docs.slatebox.com/installation/versions-and-updates/
+
+Every part of Slatebox has its own version number, its own changelog and release notes for each version. A self-hosted Slatebox moves to a new version only when its admin chooses, after a backup, and goes back if the new version fails its health check.
+
+## What has a version
+
+| Part | Published as | Tag | Notes |
+| --- | --- | --- | --- |
+| The app and the self-host image | `ghcr.io/slatebox/slatebox:X.Y.Z` | `vX.Y.Z` | [Releases](https://github.com/Slatebox/slatebox/releases) |
+| The installer and CLI | npm [`slatebox`](https://www.npmjs.com/package/slatebox) | `slatebox@X.Y.Z` | [Changelog](https://github.com/Slatebox/slatebox/blob/main/packages/slatebox/CHANGELOG.md) |
+| The MCP server and its CLI | npm [`slatebox-mcp`](https://www.npmjs.com/package/slatebox-mcp) | `slatebox-mcp@X.Y.Z` | [Changelog](https://github.com/Slatebox/slatebox/blob/main/packages/slatebox-mcp/CHANGELOG.md) |
+| The SlateboxJS engine | npm [`slateboxjs`](https://www.npmjs.com/package/slateboxjs) | `vX.Y.Z` in [Slatebox/slateboxjs](https://github.com/Slatebox/slateboxjs) | [Changelog](https://github.com/Slatebox/slateboxjs/blob/main/CHANGELOG.md) |
+
+All of them follow [Semantic Versioning](https://semver.org/): a major version changes or removes something people rely on, a minor version adds features, a patch fixes. Changelogs are written from the commit messages ([Conventional Commits](https://www.conventionalcommits.org/)), one section per version.
+
+Each image is built and signed by GitHub from its release tag (cosign, with build provenance), for `linux/amd64` and `linux/arm64`. Slatebox Cloud always runs the newest build.
+
+## Which version you run
+
+Installer 0.3.0 and later pin the newest published image by its digest, so every install of the same installer version runs the same bytes. To see the version:
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox status                    # address, version, health, AI, single sign-on, last backup
+docker exec slatebox slatebox version  # on a container you run yourself
+```
+
+<!-- /tabs -->
+
+A server on 2.1.0 or later also shows it in **Admin › Updates**, with the newest release for your channel, and can update itself. An older install runs `npx slatebox@latest upgrade` once, after installer 0.3.0 is on npm, to get there.
+
+## Move to a new version
+
+<!-- tabs -->
+
+```sh Shell
+npx slatebox@latest upgrade
+```
+
+<!-- /tabs -->
+
+It takes a backup, starts the new image, waits for it to be healthy, and on a failure puts the previous image and the backup back. The plan shows the new image and the backup before anything changes. [Upgrade without the installer](install-with-docker.md#upgrade)
+
+
+## Security fixes
+
+Security fixes go into the newest release of each part. Staying on the newest image is how you get them. Report a problem privately, as described in the [security policy](https://github.com/Slatebox/slatebox/blob/main/SECURITY.md).
 
 ---
 
