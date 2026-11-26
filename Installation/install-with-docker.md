@@ -505,7 +505,7 @@ npx slatebox upgrade --to ghcr.io/slatebox/slatebox:latest
 
 <!-- /tabs -->
 
-The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret.
+The plan shows the new image and the backup it takes first. On Kubernetes the rollback also puts back the previous settings and Secret. [Versions and updates](versions-and-updates.md) lists what each version number means and which image you run.
 
 Without the installer, take a [backup](#back-up-and-restore), then pull the new image and start it with the same options:
 
