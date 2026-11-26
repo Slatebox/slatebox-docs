@@ -28,7 +28,7 @@ Each image is built and signed by GitHub from its release tag (cosign, with buil
 
 ## Which version you run
 
-The installer pins the newest published image by its digest, so every install of the same installer version runs the same bytes:
+Installer 0.3.0 and later pin the newest published image by its digest, so every install of the same installer version runs the same bytes. To see the version:
 
 <!-- tabs -->
 
@@ -39,7 +39,7 @@ docker exec slatebox slatebox version  # on a container you run yourself
 
 <!-- /tabs -->
 
-**Admin › Updates** shows it too, with the newest release for your channel.
+A server on 2.1.0 or later also shows it in **Admin › Updates**, with the newest release for your channel, and can update itself. An older install runs `npx slatebox@latest upgrade` once, after installer 0.3.0 is on npm, to get there.
 
 ## Move to a new version
 
@@ -56,7 +56,7 @@ It takes a backup, starts the new image, waits for it to be healthy, and on a fa
 
 ## Automatic updates
 
-`npx slatebox install` and `npx slatebox upgrade` set up a small updater on the host (a launchd agent, a systemd timer or a cron line that runs every five minutes). It applies only a release Slatebox signed, pulled by its digest, through the same backup, health check and rollback as `npx slatebox upgrade`.
+From installer 0.3.0, `npx slatebox install` and `npx slatebox upgrade` set up a small updater on the host (a launchd agent, a systemd timer or a cron line that runs every five minutes). It applies only a release Slatebox signed, pulled by its digest, through the same backup, health check and rollback as `npx slatebox upgrade`.
 
 Choose in **Admin › Updates**:
 
